@@ -43,7 +43,7 @@ const letterVariants = {
 
 function AnimatedText({ text, className }: { text: string; className?: string }) {
   return (
-    <span className={className}>
+    <span className={`${className} name-shimmer`}>
       {text.split('').map((char, i) => (
         <motion.span
           key={i}
@@ -89,12 +89,12 @@ export default function Home() {
             <Image
               src="/jamey-mcelveen.jpg"
               alt="Jamey McElveen"
-              width={120}
+              width={150}
               height={150}
               className="h-full w-full object-cover"
               style={{
-                // Lower photo by 10px - adjust vertical position
-                objectPosition: 'center 50%',
+                // Photo is now 150x150px with face centered - use center positioning
+                objectPosition: 'center center',
               }}
               priority
             />
@@ -201,7 +201,7 @@ export default function Home() {
           className="text-foreground-muted/60 mt-8 flex flex-wrap items-center justify-center gap-4 text-xs sm:mt-12"
         >
           <a
-            href="https://github.com/jameymelveen/jamey.mcelveen.us"
+            href="https://github.com/jameymcelveen/jameymcelveen.com"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-accent flex items-center gap-1.5 transition-colors"

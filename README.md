@@ -149,8 +149,8 @@ Private project - All rights reserved.
 
 <div align="center">
 
-**Built with ❤️ by Jamey McElveen**
+**© 2026 Jamey McElveen. All rights reserved.**
 
-[Portfolio](https://jameymcelveen.com) • [GitHub](https://github.com/jameymelveen) • [Email](mailto:jamey@mcelveen.us)
+[Portfolio](https://jameymcelveen.com) • [GitHub](https://github.com/jameymcelveen/jameymcelveen.com) • [Email](mailto:jamey@mcelveen.us)
 
 </div>
