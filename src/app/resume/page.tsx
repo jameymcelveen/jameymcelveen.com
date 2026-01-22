@@ -68,43 +68,47 @@ const skills = {
 
 export default function ResumePage() {
   return (
-    <div className="mx-auto max-w-6xl px-6 py-12">
+    <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12">
       <motion.div variants={containerVariants} initial="hidden" animate="visible">
         {/* Header */}
-        <motion.div variants={itemVariants} className="mb-12 text-center">
-          <h1 className="text-gradient mb-2 text-4xl font-bold sm:text-5xl">Resume</h1>
-          <p className="text-foreground-muted">25+ years of engineering excellence</p>
+        <motion.div variants={itemVariants} className="mb-8 text-center sm:mb-12">
+          <h1 className="text-gradient mb-2 text-3xl font-bold sm:text-4xl md:text-5xl">Resume</h1>
+          <p className="text-foreground-muted text-sm sm:text-base">
+            25+ years of engineering excellence
+          </p>
         </motion.div>
 
         {/* Bento Grid */}
-        <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4">
+        <div className="grid gap-3 sm:gap-4 md:grid-cols-2 lg:grid-cols-4">
           {/* Summary - spans 2 cols */}
-          <motion.div variants={itemVariants} className="glass-card p-6 md:col-span-2">
+          <motion.div variants={itemVariants} className="glass-card p-4 sm:p-6 md:col-span-2">
             <h2 className="text-accent mb-3 font-mono text-xs tracking-widest uppercase">
               Summary
             </h2>
-            <p className="text-foreground-muted leading-relaxed">
+            <p className="text-foreground-muted text-sm leading-relaxed sm:text-base">
               Senior Software Architect with 25+ years of experience in{' '}
               <span className="text-foreground">Christian tech</span> and{' '}
               <span className="text-foreground">fintech</span>. Expert in architecting scalable
               solutions for platforms serving 50,000+ organizations. Specialist in{' '}
-              <span className="text-accent">AI-augmented engineering workflows</span> to maximize
-              developer velocity and code quality.
+              <span className="text-clemson-orange">AI-augmented engineering workflows</span> to
+              maximize developer velocity and code quality.
             </p>
           </motion.div>
 
           {/* Education */}
-          <motion.div variants={itemVariants} className="glass-card p-6">
+          <motion.div variants={itemVariants} className="glass-card p-4 sm:p-6">
             <h2 className="text-accent mb-3 font-mono text-xs tracking-widest uppercase">
               Education
             </h2>
-            <p className="text-foreground font-medium">B.S. Computer Engineering</p>
-            <p className="text-foreground-muted">Clemson University</p>
-            <p className="text-accent mt-1 text-xs">🐅 Go Tigers!</p>
+            <p className="text-foreground text-sm font-medium sm:text-base">
+              B.S. Computer Engineering
+            </p>
+            <p className="text-foreground-muted text-sm">Clemson University</p>
+            <p className="text-clemson-orange mt-1 text-xs">🐅 Go Tigers!</p>
           </motion.div>
 
           {/* Contact - obfuscated */}
-          <motion.div variants={itemVariants} className="glass-card p-6">
+          <motion.div variants={itemVariants} className="glass-card p-4 sm:p-6">
             <h2 className="text-accent mb-3 font-mono text-xs tracking-widest uppercase">
               Contact
             </h2>
@@ -118,19 +122,19 @@ export default function ResumePage() {
           {/* Technical Skills - spans full width */}
           <motion.div
             variants={itemVariants}
-            className="glass-card p-6 md:col-span-3 lg:col-span-4"
+            className="glass-card p-4 sm:p-6 md:col-span-2 lg:col-span-4"
           >
             <h2 className="text-accent mb-4 font-mono text-xs tracking-widest uppercase">
               Technical Stack
             </h2>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
               <div>
-                <h3 className="text-foreground mb-2 text-sm font-medium">Languages</h3>
-                <div className="flex flex-wrap gap-2">
+                <h3 className="text-foreground mb-2 text-xs font-medium sm:text-sm">Languages</h3>
+                <div className="flex flex-wrap gap-1.5 sm:gap-2">
                   {skills.languages.map((skill) => (
                     <span
                       key={skill}
-                      className="bg-accent/10 text-accent rounded-md px-2 py-1 font-mono text-xs"
+                      className="bg-accent/10 text-accent rounded-md px-2 py-0.5 font-mono text-xs"
                     >
                       {skill}
                     </span>
@@ -138,12 +142,12 @@ export default function ResumePage() {
                 </div>
               </div>
               <div>
-                <h3 className="text-foreground mb-2 text-sm font-medium">Frameworks</h3>
-                <div className="flex flex-wrap gap-2">
+                <h3 className="text-foreground mb-2 text-xs font-medium sm:text-sm">Frameworks</h3>
+                <div className="flex flex-wrap gap-1.5 sm:gap-2">
                   {skills.frameworks.map((skill) => (
                     <span
                       key={skill}
-                      className="bg-accent-secondary/10 text-accent-secondary rounded-md px-2 py-1 font-mono text-xs"
+                      className="bg-accent-secondary/10 text-accent-secondary rounded-md px-2 py-0.5 font-mono text-xs"
                     >
                       {skill}
                     </span>
@@ -151,12 +155,12 @@ export default function ResumePage() {
                 </div>
               </div>
               <div>
-                <h3 className="text-foreground mb-2 text-sm font-medium">Data</h3>
-                <div className="flex flex-wrap gap-2">
+                <h3 className="text-foreground mb-2 text-xs font-medium sm:text-sm">Data</h3>
+                <div className="flex flex-wrap gap-1.5 sm:gap-2">
                   {skills.data.map((skill) => (
                     <span
                       key={skill}
-                      className="rounded-md bg-orange-500/10 px-2 py-1 font-mono text-xs text-orange-300"
+                      className="rounded-md bg-purple-500/10 px-2 py-0.5 font-mono text-xs text-purple-300"
                     >
                       {skill}
                     </span>
@@ -164,12 +168,14 @@ export default function ResumePage() {
                 </div>
               </div>
               <div>
-                <h3 className="text-foreground mb-2 text-sm font-medium">Tools & Methods</h3>
-                <div className="flex flex-wrap gap-2">
+                <h3 className="text-foreground mb-2 text-xs font-medium sm:text-sm">
+                  Tools &amp; Methods
+                </h3>
+                <div className="flex flex-wrap gap-1.5 sm:gap-2">
                   {skills.tools.map((skill) => (
                     <span
                       key={skill}
-                      className="rounded-md bg-emerald-500/10 px-2 py-1 font-mono text-xs text-emerald-400"
+                      className="rounded-md bg-emerald-500/10 px-2 py-0.5 font-mono text-xs text-emerald-400"
                     >
                       {skill}
                     </span>
@@ -182,39 +188,46 @@ export default function ResumePage() {
           {/* Work Experience - individual cards */}
           <motion.div
             variants={itemVariants}
-            className="glass-card p-6 md:col-span-3 lg:col-span-4"
+            className="glass-card p-4 sm:p-6 md:col-span-2 lg:col-span-4"
           >
-            <h2 className="text-accent mb-6 font-mono text-xs tracking-widest uppercase">
+            <h2 className="text-accent mb-4 font-mono text-xs tracking-widest uppercase sm:mb-6">
               Work History
             </h2>
-            <div className="space-y-8">
+            <div className="space-y-6 sm:space-y-8">
               {jobs.map((job, idx) => (
                 <motion.div
                   key={idx}
                   variants={itemVariants}
-                  className={`relative border-l-2 pl-6 ${
-                    job.isLongTenure ? 'border-accent' : 'border-glass-border'
+                  className={`relative border-l-2 pl-4 sm:pl-6 ${
+                    job.isLongTenure ? 'border-clemson-orange' : 'border-glass-border'
                   }`}
                 >
                   <div className="bg-background absolute top-0 -left-[9px] h-4 w-4 rounded-full border-2 border-current" />
-                  <div className="mb-2 flex flex-wrap items-baseline justify-between gap-2">
+                  <div className="mb-2 flex flex-col gap-1 sm:flex-row sm:flex-wrap sm:items-baseline sm:justify-between sm:gap-2">
                     <div>
-                      <h3 className="text-foreground text-lg font-semibold">{job.title}</h3>
-                      <p className="text-accent">{job.company}</p>
+                      <h3 className="text-foreground text-base font-semibold sm:text-lg">
+                        {job.title}
+                      </h3>
+                      <p className="text-accent text-sm">{job.company}</p>
                     </div>
-                    <span className="text-foreground-muted font-mono text-sm">{job.period}</span>
+                    <span className="text-foreground-muted font-mono text-xs sm:text-sm">
+                      {job.period}
+                    </span>
                   </div>
                   <ul className="mt-3 space-y-2">
                     {job.bullets.map((bullet, bulletIdx) => (
-                      <li key={bulletIdx} className="text-foreground-muted flex gap-3 text-sm">
-                        <span className="bg-foreground-muted mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full" />
+                      <li
+                        key={bulletIdx}
+                        className="text-foreground-muted flex gap-2 text-xs sm:gap-3 sm:text-sm"
+                      >
+                        <span className="bg-foreground-muted mt-1.5 h-1 w-1 shrink-0 rounded-full sm:h-1.5 sm:w-1.5" />
                         {bullet}
                       </li>
                     ))}
                   </ul>
                   {job.highlight && (
-                    <div className="border-accent bg-accent/5 mt-4 rounded-lg border-l-4 p-3 text-sm">
-                      <span className="text-accent font-medium">✨ {job.highlight}</span>
+                    <div className="border-clemson-orange bg-clemson-orange/5 mt-3 rounded-lg border-l-4 p-2 text-xs sm:mt-4 sm:p-3 sm:text-sm">
+                      <span className="text-clemson-orange font-medium">✨ {job.highlight}</span>
                     </div>
                   )}
                 </motion.div>
@@ -223,12 +236,14 @@ export default function ResumePage() {
           </motion.div>
 
           {/* Publication */}
-          <motion.div variants={itemVariants} className="glass-card p-6 md:col-span-2">
+          <motion.div variants={itemVariants} className="glass-card p-4 sm:p-6 md:col-span-2">
             <h2 className="text-accent mb-3 font-mono text-xs tracking-widest uppercase">
               Publications
             </h2>
-            <p className="text-foreground font-medium">iPhone Game Development</p>
-            <p className="text-foreground-muted text-sm">
+            <p className="text-foreground text-sm font-medium sm:text-base">
+              iPhone Game Development
+            </p>
+            <p className="text-foreground-muted text-xs sm:text-sm">
               A technical and business guide to creating and selling iPhone games
             </p>
           </motion.div>
@@ -236,11 +251,11 @@ export default function ResumePage() {
           {/* Download / Print */}
           <motion.div
             variants={itemVariants}
-            className="glass-card flex items-center justify-center p-6 md:col-span-1 lg:col-span-2"
+            className="glass-card no-print flex items-center justify-center p-4 sm:p-6 md:col-span-2"
           >
             <button
               onClick={() => window.print()}
-              className="bg-accent/10 text-accent hover:bg-accent/20 flex items-center gap-2 rounded-full px-6 py-2 font-medium transition-colors"
+              className="bg-accent/10 text-accent hover:bg-accent/20 flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-colors sm:px-6"
             >
               <span>📄</span> Print Resume
             </button>

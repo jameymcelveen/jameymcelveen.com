@@ -72,7 +72,7 @@ Jamey McElveen`,
     title: 'Healthcare Tech',
     icon: '🏥',
     description: 'For healthcare systems and medical technology companies',
-    color: 'pink',
+    color: 'purple',
     content: `Dear [Hiring Manager],
 
 I am eager to apply for the [Position] role at [Company]. My experience modernizing healthcare infrastructure at McLeod Health has prepared me well for this opportunity.
@@ -93,7 +93,7 @@ Jamey McElveen`,
     title: 'General Tech',
     icon: '💻',
     description: 'Adaptable template for any technology company',
-    color: 'violet',
+    color: 'slate',
     content: `Dear [Hiring Manager],
 
 I am excited to apply for the [Position] role at [Company]. With 25+ years of experience as a software architect and engineering leader, I am confident in my ability to contribute to your team.
@@ -134,30 +134,34 @@ function CoverLettersContent() {
     const colors: Record<string, { bg: string; text: string; border: string }> = {
       accent: { bg: 'bg-accent/10', text: 'text-accent', border: 'border-accent' },
       emerald: { bg: 'bg-emerald-500/10', text: 'text-emerald-400', border: 'border-emerald-500' },
-      pink: { bg: 'bg-pink-500/10', text: 'text-pink-400', border: 'border-pink-500' },
-      violet: { bg: 'bg-violet-500/10', text: 'text-violet-400', border: 'border-violet-500' },
+      purple: { bg: 'bg-purple-500/10', text: 'text-purple-300', border: 'border-purple-500' },
+      slate: { bg: 'bg-slate-500/10', text: 'text-slate-300', border: 'border-slate-500' },
     };
     return colors[color] || colors.accent;
   };
 
   return (
-    <div className="mx-auto max-w-6xl px-6 py-12">
+    <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12">
       <motion.div variants={containerVariants} initial="hidden" animate="visible">
         {/* Header */}
-        <motion.div variants={itemVariants} className="mb-8 text-center">
-          <h1 className="text-gradient mb-2 text-4xl font-bold sm:text-5xl">Cover Letters</h1>
-          <p className="text-foreground-muted">Industry-tailored templates ready to customize</p>
+        <motion.div variants={itemVariants} className="mb-6 text-center sm:mb-8">
+          <h1 className="text-gradient mb-2 text-3xl font-bold sm:text-4xl md:text-5xl">
+            Cover Letters
+          </h1>
+          <p className="text-foreground-muted text-sm sm:text-base">
+            Industry-tailored templates ready to customize
+          </p>
         </motion.div>
 
         {/* AI Tip */}
         <motion.div
           variants={itemVariants}
-          className="glass-card border-accent mb-8 border-l-4 p-4"
+          className="glass-card border-accent mb-6 border-l-4 p-3 sm:mb-8 sm:p-4"
         >
-          <p className="text-foreground-muted text-sm">
+          <p className="text-foreground-muted text-xs sm:text-sm">
             <span className="text-accent font-medium">💡 Pro Tip:</span> Use these templates as a
             starting point. For AI-powered customization with specific job descriptions, see the{' '}
-            <code className="bg-accent/10 text-accent rounded px-1.5 py-0.5 font-mono text-xs">
+            <code className="bg-accent/10 text-accent rounded px-1 py-0.5 font-mono text-xs">
               /tools
             </code>{' '}
             folder in the repo for Cursor-based generation scripts.
@@ -165,7 +169,7 @@ function CoverLettersContent() {
         </motion.div>
 
         {/* Template Grid */}
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className="grid gap-3 sm:gap-4 md:grid-cols-2">
           {templates.map((template) => {
             const colors = getColorClasses(template.color);
             const isSelected = selectedTemplate === template.id;
@@ -174,19 +178,21 @@ function CoverLettersContent() {
                 key={template.id}
                 variants={itemVariants}
                 onClick={() => setSelectedTemplate(isSelected ? null : template.id)}
-                className={`glass-card p-6 text-left transition-all hover:scale-[1.02] ${
+                className={`glass-card p-4 text-left transition-all hover:scale-[1.01] sm:p-6 sm:hover:scale-[1.02] ${
                   isSelected ? `border-2 ${colors.border}` : ''
                 }`}
               >
-                <div className="mb-3 flex items-center gap-3">
+                <div className="mb-2 flex items-center gap-2 sm:mb-3 sm:gap-3">
                   <span
-                    className={`flex h-10 w-10 items-center justify-center rounded-lg text-xl ${colors.bg}`}
+                    className={`flex h-8 w-8 items-center justify-center rounded-lg text-base sm:h-10 sm:w-10 sm:text-xl ${colors.bg}`}
                   >
                     {template.icon}
                   </span>
-                  <h3 className="text-foreground text-lg font-semibold">{template.title}</h3>
+                  <h3 className="text-foreground text-base font-semibold sm:text-lg">
+                    {template.title}
+                  </h3>
                 </div>
-                <p className="text-foreground-muted text-sm">{template.description}</p>
+                <p className="text-foreground-muted text-xs sm:text-sm">{template.description}</p>
               </motion.button>
             );
           })}
@@ -198,16 +204,16 @@ function CoverLettersContent() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="mt-8"
+            className="mt-6 sm:mt-8"
           >
             <div className="glass-card overflow-hidden">
-              <div className="border-glass-border flex items-center justify-between border-b p-4">
-                <h3 className="text-foreground font-medium">
+              <div className="border-glass-border flex items-center justify-between border-b p-3 sm:p-4">
+                <h3 className="text-foreground text-sm font-medium sm:text-base">
                   {activeTemplate.icon} {activeTemplate.title} Template
                 </h3>
                 <button
                   onClick={copyToClipboard}
-                  className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
+                  className={`rounded-full px-3 py-1 text-xs font-medium transition-colors sm:px-4 sm:py-1.5 sm:text-sm ${
                     copied
                       ? 'bg-emerald-500/20 text-emerald-400'
                       : 'bg-accent/10 text-accent hover:bg-accent/20'
@@ -216,7 +222,7 @@ function CoverLettersContent() {
                   {copied ? '✓ Copied!' : '📋 Copy'}
                 </button>
               </div>
-              <pre className="text-foreground-muted max-h-96 overflow-auto p-6 font-sans text-sm leading-relaxed whitespace-pre-wrap">
+              <pre className="text-foreground-muted max-h-72 overflow-auto p-4 font-sans text-xs leading-relaxed whitespace-pre-wrap sm:max-h-96 sm:p-6 sm:text-sm">
                 {activeTemplate.content}
               </pre>
             </div>
@@ -224,29 +230,29 @@ function CoverLettersContent() {
         )}
 
         {/* Instructions */}
-        <motion.div variants={itemVariants} className="mt-12">
-          <h2 className="text-accent mb-4 font-mono text-xs tracking-widest uppercase">
+        <motion.div variants={itemVariants} className="mt-8 sm:mt-12">
+          <h2 className="text-accent mb-3 font-mono text-xs tracking-widest uppercase sm:mb-4">
             How to Use
           </h2>
-          <div className="grid gap-4 md:grid-cols-3">
-            <div className="glass-card p-4">
-              <div className="mb-2 text-2xl">1️⃣</div>
-              <h3 className="text-foreground mb-1 font-medium">Select Template</h3>
-              <p className="text-foreground-muted text-sm">
+          <div className="grid gap-3 sm:gap-4 md:grid-cols-3">
+            <div className="glass-card p-3 sm:p-4">
+              <div className="mb-1 text-xl sm:mb-2 sm:text-2xl">1️⃣</div>
+              <h3 className="text-foreground mb-1 text-sm font-medium">Select Template</h3>
+              <p className="text-foreground-muted text-xs sm:text-sm">
                 Choose the industry that best matches the role
               </p>
             </div>
-            <div className="glass-card p-4">
-              <div className="mb-2 text-2xl">2️⃣</div>
-              <h3 className="text-foreground mb-1 font-medium">Customize</h3>
-              <p className="text-foreground-muted text-sm">
+            <div className="glass-card p-3 sm:p-4">
+              <div className="mb-1 text-xl sm:mb-2 sm:text-2xl">2️⃣</div>
+              <h3 className="text-foreground mb-1 text-sm font-medium">Customize</h3>
+              <p className="text-foreground-muted text-xs sm:text-sm">
                 Replace [bracketed] placeholders with specifics
               </p>
             </div>
-            <div className="glass-card p-4">
-              <div className="mb-2 text-2xl">3️⃣</div>
-              <h3 className="text-foreground mb-1 font-medium">AI Polish</h3>
-              <p className="text-foreground-muted text-sm">
+            <div className="glass-card p-3 sm:p-4">
+              <div className="mb-1 text-xl sm:mb-2 sm:text-2xl">3️⃣</div>
+              <h3 className="text-foreground mb-1 text-sm font-medium">AI Polish</h3>
+              <p className="text-foreground-muted text-xs sm:text-sm">
                 Use Cursor to tailor for specific job descriptions
               </p>
             </div>

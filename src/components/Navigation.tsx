@@ -3,38 +3,61 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
-
-const navItems = [
-  { href: '/', label: 'Home' },
-  { href: '/resume', label: 'Resume' },
-  { href: '/cover-letters', label: 'Cover Letters' },
-];
+import { useEffect, useState } from 'react';
 
 export function Navigation() {
   const pathname = usePathname();
+  const [showCoverLetters, setShowCoverLetters] = useState(false);
+
+  useEffect(() => {
+    // Check authentication status
+    const stored = sessionStorage.getItem('cover-letters-auth');
+    setShowCoverLetters(stored === 'true');
+
+    // Listen for storage changes (in case user unlocks in another tab)
+    const handleStorage = () => {
+      const stored = sessionStorage.getItem('cover-letters-auth');
+      setShowCoverLetters(stored === 'true');
+    };
+
+    window.addEventListener('storage', handleStorage);
+    return () => window.removeEventListener('storage', handleStorage);
+  }, []);
+
+  // Re-check on pathname change (user might have just unlocked)
+  useEffect(() => {
+    const stored = sessionStorage.getItem('cover-letters-auth');
+    setShowCoverLetters(stored === 'true');
+  }, [pathname]);
+
+  const navItems = [
+    { href: '/', label: 'Home' },
+    { href: '/resume', label: 'Resume' },
+    ...(showCoverLetters ? [{ href: '/cover-letters', label: 'Cover Letters' }] : []),
+  ];
 
   return (
     <motion.nav
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5, ease: 'easeOut' }}
-      className="glass-card fixed top-6 left-1/2 z-50 -translate-x-1/2 px-2 py-2"
+      className="glass-card fixed top-4 left-1/2 z-50 -translate-x-1/2 px-1.5 py-1.5 sm:top-6 sm:px-2 sm:py-2"
     >
-      <ul className="flex items-center gap-1">
+      <ul className="flex items-center gap-0.5 sm:gap-1">
         {navItems.map((item) => {
           const isActive = pathname === item.href;
           return (
             <li key={item.href}>
               <Link
                 href={item.href}
-                className={`relative block rounded-xl px-4 py-2 text-sm font-medium transition-colors ${
+                className={`relative block rounded-lg px-3 py-1.5 text-xs font-medium transition-colors sm:rounded-xl sm:px-4 sm:py-2 sm:text-sm ${
                   isActive ? 'text-accent' : 'text-foreground-muted hover:text-foreground'
                 }`}
               >
                 {isActive && (
                   <motion.span
                     layoutId="nav-indicator"
-                    className="bg-accent/10 absolute inset-0 rounded-xl"
+                    className="bg-accent/10 absolute inset-0 rounded-lg sm:rounded-xl"
                     transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
                   />
                 )}
