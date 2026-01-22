@@ -93,11 +93,8 @@ export default function Home() {
               height={150}
               className="h-full w-full object-cover"
               style={{
-                // Center nose (at 75x65px) in the circular container
-                // For 128px container: offset nose to center (64px) = 75-64=11px left, 65-64=1px top
-                // For 160px container: offset nose to center (80px) = 75-80=-5px left, 65-80=-15px top
-                // Using center with slight adjustment for better face centering
-                objectPosition: 'center 40%',
+                // Lower photo by 10px - adjust vertical position
+                objectPosition: 'center 50%',
               }}
               priority
             />
@@ -139,25 +136,30 @@ export default function Home() {
         </motion.p>
 
         {/* CTA Buttons */}
-        <motion.div variants={itemVariants} className="flex flex-wrap justify-center gap-3 sm:gap-4">
+        <motion.div
+          variants={itemVariants}
+          className="flex flex-wrap justify-center gap-3 sm:gap-4"
+        >
           <Link
             href="/resume"
-            className="glow group bg-accent relative overflow-hidden rounded-full px-6 py-2.5 font-medium text-white transition-all hover:scale-105 sm:px-8 sm:py-3"
+            className="liquid-glass-hover glow group bg-accent relative overflow-hidden rounded-full px-6 py-2.5 font-medium text-white transition-all hover:scale-105 sm:px-8 sm:py-3"
           >
             <span className="relative z-10">View Resume</span>
             <span className="bg-accent-secondary absolute inset-0 -translate-x-full transition-transform duration-300 group-hover:translate-x-0" />
           </Link>
 
-          {/* Only show cover letters button if unlocked */}
+          {/* Cover letters button - positioned correctly */}
           {showCoverLetters && (
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
               transition={{ duration: 0.3 }}
+              className="inline-block"
             >
               <Link
                 href="/cover-letters"
-                className="glass-card text-foreground hover:border-accent/30 rounded-full px-6 py-2.5 font-medium transition-all hover:scale-105 sm:px-8 sm:py-3"
+                className="liquid-glass-hover glass-card text-foreground hover:border-accent/30 rounded-full px-6 py-2.5 font-medium transition-all hover:scale-105 sm:px-8 sm:py-3"
               >
                 Cover Letters
               </Link>
@@ -223,8 +225,11 @@ export default function Home() {
         </motion.div>
       </motion.div>
 
-      {/* Secret lock icon - only show if not already unlocked */}
-      {!showCoverLetters && <SecretLock onUnlock={() => setShowCoverLetters(true)} />}
+      {/* Secret lock icon - always visible, can hide/show cover letters */}
+      <SecretLock
+        onUnlock={() => setShowCoverLetters(true)}
+        onLock={() => setShowCoverLetters(false)}
+      />
     </div>
   );
 }

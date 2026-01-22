@@ -82,7 +82,10 @@ export default function ResumePage() {
         {/* Bento Grid */}
         <div className="grid gap-3 sm:gap-4 md:grid-cols-2 lg:grid-cols-4">
           {/* Summary - spans 2 cols */}
-          <motion.div variants={itemVariants} className="glass-card p-4 sm:p-6 md:col-span-2">
+          <motion.div
+            variants={itemVariants}
+            className="liquid-glass-resume glass-card p-4 sm:p-6 md:col-span-2"
+          >
             <h2 className="text-accent mb-3 font-mono text-xs tracking-widest uppercase">
               Summary
             </h2>
@@ -97,7 +100,10 @@ export default function ResumePage() {
           </motion.div>
 
           {/* Education */}
-          <motion.div variants={itemVariants} className="glass-card p-4 sm:p-6">
+          <motion.div
+            variants={itemVariants}
+            className="liquid-glass-resume glass-card p-4 sm:p-6"
+          >
             <h2 className="text-accent mb-3 font-mono text-xs tracking-widest uppercase">
               Education
             </h2>
@@ -109,7 +115,10 @@ export default function ResumePage() {
           </motion.div>
 
           {/* Contact - obfuscated */}
-          <motion.div variants={itemVariants} className="glass-card p-4 sm:p-6">
+          <motion.div
+            variants={itemVariants}
+            className="liquid-glass-resume glass-card p-4 sm:p-6"
+          >
             <h2 className="text-accent mb-3 font-mono text-xs tracking-widest uppercase">
               Contact
             </h2>
@@ -275,7 +284,10 @@ export default function ResumePage() {
           </motion.div>
 
           {/* Publication */}
-          <motion.div variants={itemVariants} className="glass-card p-4 sm:p-6 md:col-span-2">
+          <motion.div
+            variants={itemVariants}
+            className="liquid-glass-resume glass-card p-4 sm:p-6 md:col-span-2"
+          >
             <div className="mb-3 flex items-center gap-2">
               <FileText className="text-accent h-4 w-4" />
               <h2 className="text-accent font-mono text-xs tracking-widest uppercase">

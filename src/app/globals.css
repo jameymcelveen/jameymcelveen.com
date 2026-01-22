@@ -134,6 +134,81 @@ body {
   animation: shimmer 3s infinite;
 }
 
+/* Liquid glass on hover for buttons */
+.liquid-glass-hover {
+  position: relative;
+  overflow: hidden;
+}
+
+.liquid-glass-hover::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.15),
+    transparent
+  );
+  transition: left 0.5s ease;
+  pointer-events: none;
+}
+
+.liquid-glass-hover:hover::before {
+  left: 100%;
+}
+
+/* Resume page specific - liquid glass flash twice on load, then on hover */
+.liquid-glass-resume {
+  position: relative;
+  overflow: hidden;
+}
+
+.liquid-glass-resume::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.15),
+    transparent
+  );
+  pointer-events: none;
+  animation: shimmer-resume-initial 4s ease-in-out 2;
+}
+
+.liquid-glass-resume:hover::before {
+  animation: shimmer-resume-hover 0.8s ease-in-out;
+}
+
+@keyframes shimmer-resume-initial {
+  0% {
+    left: -100%;
+  }
+  50% {
+    left: 100%;
+  }
+  100% {
+    left: -100%;
+  }
+}
+
+@keyframes shimmer-resume-hover {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
 @keyframes shimmer {
   0% {
     left: -100%;

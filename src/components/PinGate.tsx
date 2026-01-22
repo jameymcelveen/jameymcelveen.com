@@ -120,19 +120,37 @@ export function useIsAuthenticated() {
   return isAuthenticated;
 }
 
-// Compact lock icon that triggers PIN modal
-export function SecretLock({ onUnlock }: { onUnlock: () => void }) {
+// Compact lock icon that triggers PIN modal - can also hide cover letters
+export function SecretLock({ onUnlock, onLock }: { onUnlock: () => void; onLock?: () => void }) {
   const [showModal, setShowModal] = useState(false);
   const [pin, setPin] = useState('');
   const [error, setError] = useState('');
+  const [isUnlocked, setIsUnlocked] = useState(false);
+
+  useEffect(() => {
+    // Check if already unlocked
+    const stored = sessionStorage.getItem(STORAGE_KEY);
+    setIsUnlocked(stored === 'true');
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (pin === CORRECT_PIN) {
-      sessionStorage.setItem(STORAGE_KEY, 'true');
-      setShowModal(false);
-      setError('');
-      onUnlock();
+      if (isUnlocked) {
+        // Hide cover letters
+        sessionStorage.removeItem(STORAGE_KEY);
+        setIsUnlocked(false);
+        setShowModal(false);
+        setError('');
+        onLock?.();
+      } else {
+        // Show cover letters
+        sessionStorage.setItem(STORAGE_KEY, 'true');
+        setIsUnlocked(true);
+        setShowModal(false);
+        setError('');
+        onUnlock();
+      }
     } else {
       setError('Incorrect PIN');
       setPin('');
@@ -141,11 +159,11 @@ export function SecretLock({ onUnlock }: { onUnlock: () => void }) {
 
   return (
     <>
-      {/* Subtle lock icon - almost invisible */}
+      {/* Lock icon - always visible */}
       <button
         onClick={() => setShowModal(true)}
         className="text-foreground-muted/20 hover:text-foreground-muted/40 fixed bottom-6 right-6 z-40 transition-colors duration-500"
-        aria-label="Access restricted content"
+        aria-label={isUnlocked ? 'Hide cover letters' : 'Access restricted content'}
       >
         <Lock className="h-4 w-4" strokeWidth={1.5} />
       </button>
@@ -165,6 +183,9 @@ export function SecretLock({ onUnlock }: { onUnlock: () => void }) {
             onClick={(e) => e.stopPropagation()}
           >
             <form onSubmit={handleSubmit} className="space-y-4">
+              <p className="text-foreground-muted mb-2 text-center text-sm">
+                {isUnlocked ? 'Enter PIN to hide cover letters' : 'Enter PIN to unlock'}
+              </p>
               <input
                 type="password"
                 inputMode="numeric"
@@ -187,7 +208,7 @@ export function SecretLock({ onUnlock }: { onUnlock: () => void }) {
                 disabled={pin.length < 6}
                 className="bg-accent hover:bg-accent/90 w-full rounded-lg py-2 text-sm font-medium text-white transition-colors disabled:opacity-50"
               >
-                Unlock
+                {isUnlocked ? 'Hide' : 'Unlock'}
               </button>
             </form>
           </motion.div>
