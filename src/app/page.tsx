@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import { ObfuscatedEmail, ObfuscatedPhone } from '@/components/ObfuscatedContact';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -127,25 +128,13 @@ export default function Home() {
           ))}
         </motion.div>
 
-        {/* Contact links */}
+        {/* Contact links - obfuscated */}
         <motion.div
           variants={itemVariants}
           className="text-foreground-muted mt-12 flex flex-wrap justify-center gap-6 text-sm"
         >
-          <a
-            href="mailto:jamey@mcelveen.us"
-            className="hover:text-accent flex items-center gap-2 transition-colors"
-          >
-            <span className="text-lg">📧</span>
-            jamey@mcelveen.us
-          </a>
-          <a
-            href="tel:+18436188078"
-            className="hover:text-accent flex items-center gap-2 transition-colors"
-          >
-            <span className="text-lg">📞</span>
-            (843) 618-8078
-          </a>
+          <ObfuscatedEmail className="hover:text-accent flex items-center transition-colors" />
+          <ObfuscatedPhone className="hover:text-accent flex items-center transition-colors" />
           <span className="flex items-center gap-2">
             <span className="text-lg">📍</span>
             Timmonsville, SC

@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { useState } from 'react';
+import { PinGate } from '@/components/PinGate';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -115,7 +116,7 @@ Jamey McElveen`,
   },
 ];
 
-export default function CoverLettersPage() {
+function CoverLettersContent() {
   const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
 
@@ -253,5 +254,13 @@ export default function CoverLettersPage() {
         </motion.div>
       </motion.div>
     </div>
+  );
+}
+
+export default function CoverLettersPage() {
+  return (
+    <PinGate>
+      <CoverLettersContent />
+    </PinGate>
   );
 }

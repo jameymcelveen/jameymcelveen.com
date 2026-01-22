@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { ObfuscatedEmail, ObfuscatedPhone } from '@/components/ObfuscatedContact';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -99,23 +100,17 @@ export default function ResumePage() {
             </h2>
             <p className="text-foreground font-medium">B.S. Computer Engineering</p>
             <p className="text-foreground-muted">Clemson University</p>
+            <p className="text-accent mt-1 text-xs">🐅 Go Tigers!</p>
           </motion.div>
 
-          {/* Contact */}
+          {/* Contact - obfuscated */}
           <motion.div variants={itemVariants} className="glass-card p-6">
             <h2 className="text-accent mb-3 font-mono text-xs tracking-widest uppercase">
               Contact
             </h2>
             <div className="space-y-2 text-sm">
-              <a
-                href="mailto:jamey@mcelveen.us"
-                className="text-foreground-muted hover:text-accent block"
-              >
-                📧 jamey@mcelveen.us
-              </a>
-              <a href="tel:+18436188078" className="text-foreground-muted hover:text-accent block">
-                📞 (843) 618-8078
-              </a>
+              <ObfuscatedEmail className="text-foreground-muted hover:text-accent block transition-colors" />
+              <ObfuscatedPhone className="text-foreground-muted hover:text-accent block transition-colors" />
               <p className="text-foreground-muted">📍 Timmonsville, SC</p>
             </div>
           </motion.div>
@@ -161,7 +156,7 @@ export default function ResumePage() {
                   {skills.data.map((skill) => (
                     <span
                       key={skill}
-                      className="rounded-md bg-pink-500/10 px-2 py-1 font-mono text-xs text-pink-400"
+                      className="rounded-md bg-orange-500/10 px-2 py-1 font-mono text-xs text-orange-300"
                     >
                       {skill}
                     </span>

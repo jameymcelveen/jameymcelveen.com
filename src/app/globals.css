@@ -1,31 +1,35 @@
 @import 'tailwindcss';
 
 :root {
-  /* Dark theme palette */
-  --background: #0a0a0f;
-  --background-secondary: #111118;
+  /* Clemson-inspired dark theme */
+  --background: #0f0a14;
+  --background-secondary: #1a1220;
   --foreground: #fafafa;
   --foreground-muted: #a1a1aa;
 
-  /* Accent colors - electric cyan/teal */
-  --accent: #00d4ff;
-  --accent-secondary: #7c3aed;
-  --accent-glow: rgba(0, 212, 255, 0.15);
+  /* Clemson Colors */
+  --clemson-orange: #f56600;
+  --clemson-regalia: #522d80;
+  --clemson-diploma: #4a2c6a;
 
-  /* Glass effect */
-  --glass-bg: rgba(255, 255, 255, 0.03);
-  --glass-border: rgba(255, 255, 255, 0.08);
+  /* Accent colors - Clemson Orange primary, Regalia secondary */
+  --accent: #f56600;
+  --accent-secondary: #522d80;
+  --accent-glow: rgba(245, 102, 0, 0.2);
 
-  /* Gradients */
-  --gradient-primary: linear-gradient(135deg, #00d4ff 0%, #7c3aed 50%, #f472b6 100%);
-  --gradient-mesh:
-    radial-gradient(at 27% 37%, #3b82f6 0, transparent 50%),
-    radial-gradient(at 97% 21%, #7c3aed 0, transparent 50%),
-    radial-gradient(at 52% 99%, #06b6d4 0, transparent 50%),
-    radial-gradient(at 10% 29%, #8b5cf6 0, transparent 50%),
-    radial-gradient(at 97% 96%, #0ea5e9 0, transparent 50%),
-    radial-gradient(at 33% 50%, #6366f1 0, transparent 50%),
-    radial-gradient(at 79% 53%, #7c3aed 0, transparent 50%);
+  /* Glass effect with purple tint */
+  --glass-bg: rgba(82, 45, 128, 0.05);
+  --glass-border: rgba(245, 102, 0, 0.15);
+
+  /* Gradients - Clemson Orange to Regalia */
+  --gradient-primary: linear-gradient(135deg, #f56600 0%, #522d80 100%);
+  --gradient-mesh: radial-gradient(at 27% 37%, #f56600 0, transparent 50%),
+    radial-gradient(at 97% 21%, #522d80 0, transparent 50%),
+    radial-gradient(at 52% 99%, #f56600 0, transparent 50%),
+    radial-gradient(at 10% 29%, #7a3d99 0, transparent 50%),
+    radial-gradient(at 97% 96%, #d45500 0, transparent 50%),
+    radial-gradient(at 33% 50%, #522d80 0, transparent 50%),
+    radial-gradient(at 79% 53%, #f56600 0, transparent 50%);
 }
 
 @theme inline {
@@ -38,6 +42,9 @@
   --color-accent-glow: var(--accent-glow);
   --color-glass-bg: var(--glass-bg);
   --color-glass-border: var(--glass-border);
+  --color-clemson-orange: var(--clemson-orange);
+  --color-clemson-regalia: var(--clemson-regalia);
+  --color-clemson-diploma: var(--clemson-diploma);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -64,7 +71,7 @@ body {
   width: 200%;
   height: 200%;
   background: var(--gradient-mesh);
-  opacity: 0.4;
+  opacity: 0.35;
   filter: blur(100px);
   animation: mesh-float 20s ease-in-out infinite;
 }
@@ -93,7 +100,7 @@ body {
   border-radius: 16px;
 }
 
-/* Text gradient */
+/* Text gradient - Clemson colors */
 .text-gradient {
   background: var(--gradient-primary);
   background-clip: text;
@@ -101,11 +108,9 @@ body {
   -webkit-text-fill-color: transparent;
 }
 
-/* Glow effect */
+/* Glow effect - Orange glow */
 .glow {
-  box-shadow:
-    0 0 40px var(--accent-glow),
-    0 0 80px var(--accent-glow);
+  box-shadow: 0 0 40px var(--accent-glow), 0 0 80px var(--accent-glow);
 }
 
 /* Selection style */
