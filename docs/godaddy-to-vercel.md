@@ -11,7 +11,7 @@ This guide explains how to connect your GoDaddy domain (`jameymcelveen.com`) to 
 ## Step 1: Add Domain to Vercel
 
 1. Go to your Vercel project dashboard: https://vercel.com
-2. Navigate to your project: `jamey.mcelveen.us`
+2. Navigate to your project: `jameymcelveen.com`
 3. Go to **Settings** → **Domains**
 4. Click **Add Domain**
 5. Enter your domain: `jameymcelveen.com`
