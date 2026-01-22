@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { ObfuscatedEmail, ObfuscatedPhone } from '@/components/ObfuscatedContact';
 import { SecretLock } from '@/components/PinGate';
@@ -79,6 +80,26 @@ export default function Home() {
         animate="visible"
         className="max-w-4xl text-center"
       >
+        {/* Photo */}
+        <motion.div
+          variants={itemVariants}
+          className="mb-6 flex justify-center sm:mb-8"
+        >
+          <div className="relative h-32 w-32 overflow-hidden rounded-full border-2 border-accent/30 sm:h-40 sm:w-40">
+            <Image
+              src="/jamey-mcelveen.jpg"
+              alt="Jamey McElveen"
+              width={120}
+              height={150}
+              className="h-full w-full object-cover"
+              style={{
+                objectPosition: '75px 65px', // Center on nose
+              }}
+              priority
+            />
+          </div>
+        </motion.div>
+
         {/* Greeting */}
         <motion.p
           variants={itemVariants}
@@ -166,6 +187,22 @@ export default function Home() {
             <MapPin className="h-4 w-4" />
             Timmonsville, SC
           </span>
+        </motion.div>
+
+        {/* Cursor acknowledgment */}
+        <motion.div
+          variants={itemVariants}
+          className="text-foreground-muted/60 mt-8 text-xs sm:mt-12"
+        >
+          Built with{' '}
+          <a
+            href="https://cursor.sh"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-accent hover:text-accent/80 transition-colors"
+          >
+            Cursor
+          </a>
         </motion.div>
       </motion.div>
 

@@ -1,36 +1,156 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 Jamey McElveen - Portfolio Site
 
-## Getting Started
+<div align="center">
 
-First, run the development server:
+## 👋 Welcome to My Portfolio
+
+**Live Site:** [jameymcelveen.com](https://jameymcelveen.com) | [Vercel Preview](https://jameymcelveen-com.vercel.app)
+
+[![Next.js](https://img.shields.io/badge/Next.js-16-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
+[![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react)](https://react.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
+[![Vercel](https://img.shields.io/badge/Vercel-Deployed-black?style=for-the-badge&logo=vercel)](https://vercel.com)
+
+**Built with [Cursor](https://cursor.sh) AI** 🤖
+
+</div>
+
+---
+
+## ✨ Features
+
+- 🎨 **Modern Design** - Dark theme with Clemson-inspired color palette
+- 📱 **Fully Responsive** - Optimized for mobile, tablet, and desktop
+- ⚡ **Performance** - Next.js 16 with App Router and Turbopack
+- 🔒 **Protected Content** - PIN-protected cover letter templates
+- 🖨️ **Print-Optimized** - Clean resume printing with `@media print` styles
+- 🎭 **Animations** - Smooth Framer Motion animations throughout
+- 🔐 **Privacy** - Obfuscated contact information to prevent scraping
+
+## 🛠️ Tech Stack
+
+- **Framework:** Next.js 16 (App Router)
+- **Language:** TypeScript 5.9
+- **Styling:** Tailwind CSS 4
+- **Animations:** Framer Motion
+- **Icons:** Lucide React
+- **Package Manager:** pnpm
+- **Deployment:** Vercel
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- Node.js 22+ (managed via `.nvmrc`)
+- pnpm (will be installed by setup script)
+
+### Setup
+
+Run the automated setup script:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Mac/Linux
+make setup
+
+# Windows
+.\setup.bat
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Or manually:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+# Install dependencies
+pnpm install
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# Run development server
+pnpm dev
+```
 
-## Learn More
+Open [http://localhost:3000](http://localhost:3000) to see the site.
 
-To learn more about Next.js, take a look at the following resources:
+## 📜 Available Scripts
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+pnpm dev          # Start development server (Turbopack)
+pnpm build        # Build for production
+pnpm start        # Start production server
+pnpm lint         # Run ESLint
+pnpm format       # Format code with Prettier
+pnpm format:check # Check code formatting
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📁 Project Structure
 
-## Deploy on Vercel
+```
+├── src/
+│   ├── app/              # Next.js App Router pages
+│   │   ├── page.tsx      # Home page
+│   │   ├── resume/       # Resume page
+│   │   └── cover-letters/ # Cover letter templates
+│   ├── components/        # React components
+│   └── globals.css        # Global styles
+├── public/                # Static assets
+├── tools/                 # AI cover letter generation tools
+├── docs/                  # Documentation
+└── Makefile              # Build automation (Mac/Linux)
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🔧 Development
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Code Quality
+
+- **ESLint** - Linting with Next.js config
+- **Prettier** - Code formatting with Tailwind plugin
+- **EditorConfig** - Consistent editor settings
+- **TypeScript** - Full type safety
+
+### Node Version
+
+This project uses Node.js 22 (specified in `.nvmrc`). If you use `nvm`, it will automatically switch:
+
+```bash
+nvm use  # Automatically uses Node 22
+```
+
+## 📚 Documentation
+
+- [GoDaddy to Vercel Setup Guide](./docs/godaddy-to-vercel.md) - How to point your domain to Vercel
+- [Cover Letter Generation Tools](./tools/COVER_LETTER_GENERATION.md) - AI-powered cover letter generation
+
+## 🎨 Design System
+
+### Colors
+
+- **Primary Accent:** Purple (`#8b6cb5`)
+- **Secondary:** Clemson Regalia (`#522d80`)
+- **Highlights:** Clemson Orange (`#f56600`) - used sparingly
+- **Background:** Dark purple-tinted (`#0c0a10`)
+
+### Typography
+
+- **Sans:** Geist Sans (via Next.js)
+- **Mono:** Geist Mono (for code/tech terms)
+
+## 🚢 Deployment
+
+This site is automatically deployed to Vercel on every push to `main`.
+
+- **Production:** https://jameymcelveen.com
+- **Preview:** https://jameymcelveen-com.vercel.app
+
+See [docs/godaddy-to-vercel.md](./docs/godaddy-to-vercel.md) for domain setup instructions.
+
+## 📝 License
+
+Private project - All rights reserved.
+
+---
+
+<div align="center">
+
+**Built with ❤️ by Jamey McElveen**
+
+[Portfolio](https://jameymcelveen.com) • [GitHub](https://github.com/jameymelveen) • [Email](mailto:jamey@mcelveen.us)
+
+</div>
