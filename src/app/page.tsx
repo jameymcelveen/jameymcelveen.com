@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { ObfuscatedEmail, ObfuscatedPhone } from '@/components/ObfuscatedContact';
 import { SecretLock } from '@/components/PinGate';
-import { MapPin } from 'lucide-react';
+import { MapPin, Github } from 'lucide-react';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -193,20 +193,33 @@ export default function Home() {
           </span>
         </motion.div>
 
-        {/* Cursor acknowledgment */}
+        {/* Footer links - GitHub and Cursor */}
         <motion.div
           variants={itemVariants}
-          className="text-foreground-muted/60 mt-8 text-xs sm:mt-12"
+          className="text-foreground-muted/60 mt-8 flex flex-wrap items-center justify-center gap-4 text-xs sm:mt-12"
         >
-          Built with{' '}
           <a
-            href="https://cursor.sh"
+            href="https://github.com/jameymelveen/jamey.mcelveen.us"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-accent hover:text-accent/80 transition-colors"
+            className="hover:text-accent flex items-center gap-1.5 transition-colors"
+            aria-label="View source code on GitHub"
           >
-            Cursor
+            <Github className="h-4 w-4" />
+            <span>View Source</span>
           </a>
+          <span className="text-foreground-muted/40">•</span>
+          <span>
+            Built with{' '}
+            <a
+              href="https://cursor.sh"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-accent hover:text-accent/80 transition-colors"
+            >
+              Cursor
+            </a>
+          </span>
         </motion.div>
       </motion.div>
 
