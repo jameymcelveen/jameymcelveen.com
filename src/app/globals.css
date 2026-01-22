@@ -291,7 +291,8 @@ html {
   nav,
   .glow,
   .no-print,
-  button {
+  button,
+  img[alt='Clemson Tigers'] {
     display: none !important;
   }
 

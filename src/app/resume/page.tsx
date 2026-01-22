@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { ObfuscatedEmail, ObfuscatedPhone } from '@/components/ObfuscatedContact';
 import { Sparkles, FileText, MapPin } from 'lucide-react';
 
@@ -104,9 +105,18 @@ export default function ResumePage() {
             variants={itemVariants}
             className="liquid-glass-resume glass-card p-4 sm:p-6"
           >
-            <h2 className="text-accent mb-3 font-mono text-xs tracking-widest uppercase">
-              Education
-            </h2>
+            <div className="mb-3 flex items-center justify-between">
+              <h2 className="text-accent font-mono text-xs tracking-widest uppercase">
+                Education
+              </h2>
+              <Image
+                src="/clemson-tigers-logo.svg"
+                alt="Clemson Tigers"
+                width={24}
+                height={24}
+                className="no-print h-6 w-6 opacity-40"
+              />
+            </div>
             <p className="text-foreground text-sm font-medium sm:text-base">
               B.S. Computer Engineering
             </p>

@@ -230,6 +230,22 @@ export default function Home() {
         onUnlock={() => setShowCoverLetters(true)}
         onLock={() => setShowCoverLetters(false)}
       />
+
+      {/* Subtle Clemson Tiger logo - bottom left */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1, duration: 0.5 }}
+        className="no-print fixed bottom-6 left-6 z-30 opacity-30 transition-opacity hover:opacity-50"
+      >
+        <Image
+          src="/clemson-tigers-logo.svg"
+          alt="Clemson Tigers"
+          width={32}
+          height={32}
+          className="h-8 w-8"
+        />
+      </motion.div>
     </div>
   );
 }
