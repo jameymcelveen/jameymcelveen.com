@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { ObfuscatedEmail, ObfuscatedPhone } from '@/components/ObfuscatedContact';
+import { Sparkles, FileText, MapPin } from 'lucide-react';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -115,7 +116,10 @@ export default function ResumePage() {
             <div className="space-y-2 text-sm">
               <ObfuscatedEmail className="text-foreground-muted hover:text-accent block transition-colors" />
               <ObfuscatedPhone className="text-foreground-muted hover:text-accent block transition-colors" />
-              <p className="text-foreground-muted">📍 Timmonsville, SC</p>
+              <span className="text-foreground-muted flex items-center gap-1.5">
+                <MapPin className="h-3.5 w-3.5" />
+                Timmonsville, SC
+              </span>
             </div>
           </motion.div>
 
@@ -185,6 +189,41 @@ export default function ResumePage() {
             </div>
           </motion.div>
 
+          {/* AI/Cursor Skills Section - Liquid Glass */}
+          <motion.div
+            variants={itemVariants}
+            className="liquid-glass p-4 sm:p-6 md:col-span-2 lg:col-span-4"
+          >
+            <div className="mb-4 flex items-center gap-2">
+              <Sparkles className="text-clemson-orange h-5 w-5" />
+              <h2 className="text-accent font-mono text-xs tracking-widest uppercase">
+                AI-Augmented Development
+              </h2>
+            </div>
+            <div className="space-y-3">
+              <p className="text-foreground-muted text-sm leading-relaxed sm:text-base">
+                Using AI tools like <span className="text-clemson-orange font-medium">Cursor</span>{' '}
+                to improve development velocity by{' '}
+                <span className="text-clemson-orange font-semibold">~30%</span> while maintaining
+                high code quality and architectural standards.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                <span className="bg-clemson-orange/10 text-clemson-orange rounded-md px-2 py-1 font-mono text-xs">
+                  Cursor AI
+                </span>
+                <span className="bg-clemson-orange/10 text-clemson-orange rounded-md px-2 py-1 font-mono text-xs">
+                  AI Code Generation
+                </span>
+                <span className="bg-clemson-orange/10 text-clemson-orange rounded-md px-2 py-1 font-mono text-xs">
+                  Automated Testing
+                </span>
+                <span className="bg-clemson-orange/10 text-clemson-orange rounded-md px-2 py-1 font-mono text-xs">
+                  Code Review AI
+                </span>
+              </div>
+            </div>
+          </motion.div>
+
           {/* Work Experience - individual cards */}
           <motion.div
             variants={itemVariants}
@@ -237,9 +276,12 @@ export default function ResumePage() {
 
           {/* Publication */}
           <motion.div variants={itemVariants} className="glass-card p-4 sm:p-6 md:col-span-2">
-            <h2 className="text-accent mb-3 font-mono text-xs tracking-widest uppercase">
-              Publications
-            </h2>
+            <div className="mb-3 flex items-center gap-2">
+              <FileText className="text-accent h-4 w-4" />
+              <h2 className="text-accent font-mono text-xs tracking-widest uppercase">
+                Publications
+              </h2>
+            </div>
             <p className="text-foreground text-sm font-medium sm:text-base">
               iPhone Game Development
             </p>
@@ -257,8 +299,20 @@ export default function ResumePage() {
               onClick={() => window.print()}
               className="bg-accent/10 text-accent hover:bg-accent/20 flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-colors sm:px-6"
             >
-              <span>📄</span> Print Resume
+              <FileText className="h-4 w-4" />
+              Print Resume
             </button>
+          </motion.div>
+
+          {/* References - Print Only */}
+          <motion.div
+            variants={itemVariants}
+            className="print-only glass-card hidden p-4 sm:p-6 md:col-span-2 lg:col-span-4"
+          >
+            <h2 className="text-accent mb-2 font-mono text-xs tracking-widest uppercase">
+              References
+            </h2>
+            <p className="text-foreground-muted text-sm">Available upon request</p>
           </motion.div>
         </div>
       </motion.div>

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { ObfuscatedEmail, ObfuscatedPhone } from '@/components/ObfuscatedContact';
 import { SecretLock } from '@/components/PinGate';
+import { MapPin } from 'lucide-react';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -162,7 +163,7 @@ export default function Home() {
           <ObfuscatedEmail className="hover:text-accent flex items-center transition-colors" />
           <ObfuscatedPhone className="hover:text-accent flex items-center transition-colors" />
           <span className="flex items-center gap-2">
-            <span className="text-lg">📍</span>
+            <MapPin className="h-4 w-4" />
             Timmonsville, SC
           </span>
         </motion.div>

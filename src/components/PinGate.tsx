@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { Lock } from 'lucide-react';
 
 // PIN for cover letters access
 const CORRECT_PIN = '072995';
@@ -55,7 +56,7 @@ export function PinGate({ children }: { children: React.ReactNode }) {
         className="glass-card w-full max-w-sm p-8"
       >
         <div className="mb-6 text-center">
-          <div className="text-foreground-muted mb-4 text-4xl">🔒</div>
+          <Lock className="text-foreground-muted mx-auto mb-4 h-12 w-12" />
           <h2 className="text-foreground text-xl font-semibold">Protected Content</h2>
           <p className="text-foreground-muted mt-2 text-sm">
             Enter PIN to view cover letter templates
@@ -146,20 +147,7 @@ export function SecretLock({ onUnlock }: { onUnlock: () => void }) {
         className="text-foreground-muted/20 hover:text-foreground-muted/40 fixed bottom-6 right-6 z-40 transition-colors duration-500"
         aria-label="Access restricted content"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />
-          <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-        </svg>
+        <Lock className="h-4 w-4" strokeWidth={1.5} />
       </button>
 
       {/* PIN Modal */}
@@ -192,9 +180,7 @@ export function SecretLock({ onUnlock }: { onUnlock: () => void }) {
                 autoFocus
               />
 
-              {error && (
-                <p className="text-center text-xs text-red-400">{error}</p>
-              )}
+              {error && <p className="text-center text-xs text-red-400">{error}</p>}
 
               <button
                 type="submit"
