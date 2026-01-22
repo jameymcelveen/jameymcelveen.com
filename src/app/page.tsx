@@ -93,7 +93,11 @@ export default function Home() {
               height={150}
               className="h-full w-full object-cover"
               style={{
-                objectPosition: '75px 65px', // Center on nose
+                // Center nose (at 75x65px) in the circular container
+                // For 128px container: offset nose to center (64px) = 75-64=11px left, 65-64=1px top
+                // For 160px container: offset nose to center (80px) = 75-80=-5px left, 65-80=-15px top
+                // Using center with slight adjustment for better face centering
+                objectPosition: 'center 40%',
               }}
               priority
             />
