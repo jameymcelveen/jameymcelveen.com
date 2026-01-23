@@ -1,18 +1,8 @@
 'use client';
 
-import { useEffect } from 'react';
+import { Mail, Phone, MapPin } from 'lucide-react';
 
 export default function ResumePrintPage() {
-  useEffect(() => {
-    // Auto-print when page loads (if opened in new window)
-    const timer = setTimeout(() => {
-      if (window.opener) {
-        window.print();
-      }
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, []);
   return (
     <div className="resume-print">
       <style jsx>{`
@@ -69,6 +59,15 @@ export default function ResumePrintPage() {
         }
         .sidebar li {
           margin-bottom: 6px;
+          display: flex;
+          align-items: center;
+          gap: 6px;
+        }
+        .sidebar svg {
+          width: 14px;
+          height: 14px;
+          flex-shrink: 0;
+          color: #666;
         }
         .main h2 {
           color: #1a2a6c;
@@ -128,9 +127,18 @@ export default function ResumePrintPage() {
         <aside className="sidebar">
           <h3>Contact</h3>
           <ul>
-            <li>📍 Timmonsville, SC</li>
-            <li>📧 jamey@mcelveen.us</li>
-            <li>🔗 jameymcelveen.com</li>
+            <li>
+              <MapPin />
+              Timmonsville, SC
+            </li>
+            <li>
+              <Mail />
+              jamey@mcelveen.us
+            </li>
+            <li>
+              <Phone />
+              (843) 618-8078
+            </li>
           </ul>
 
           <h3>Technical Stack</h3>
