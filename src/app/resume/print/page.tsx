@@ -12,12 +12,16 @@ export default function ResumePrintPage() {
           color: #333;
           margin: 0;
           padding: 0;
+          background: #f5f5f5;
         }
         .container {
           max-width: 850px;
           margin: 20px auto;
           padding: 30px;
+          background: white;
           border: 1px solid #eee;
+          border-radius: 8px;
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
           display: grid;
           grid-template-columns: 260px 1fr;
           gap: 30px;
@@ -106,11 +110,15 @@ export default function ResumePrintPage() {
           font-size: 10pt;
         }
         @media print {
+          .resume-print {
+            background: white;
+          }
           .container {
             border: none;
             box-shadow: none;
             margin: 0;
             padding: 10px;
+            border-radius: 0;
           }
           .sidebar {
             background: #fff;

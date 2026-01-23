@@ -96,7 +96,7 @@ export default function ResumePage() {
       <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12">
         <motion.div variants={containerVariants} initial="hidden" animate="visible">
           {/* Header */}
-          <motion.div variants={itemVariants} className="mb-8 text-center sm:mb-12">
+          <motion.div variants={itemVariants} className="mb-8 pt-16 text-center sm:mb-12 sm:pt-20">
             <h1 className="text-gradient mb-2 text-3xl font-bold sm:text-4xl md:text-5xl">
               Resume
             </h1>
