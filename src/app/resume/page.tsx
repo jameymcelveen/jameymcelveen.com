@@ -105,23 +105,23 @@ export default function ResumePage() {
             variants={itemVariants}
             className="liquid-glass-resume glass-card p-4 sm:p-6"
           >
-            <div className="mb-3 flex items-center justify-between">
-              <h2 className="text-accent font-mono text-xs tracking-widest uppercase">
-                Education
-              </h2>
-              <Image
-                src="/clemson-tigers-logo.svg"
-                alt="Clemson Tigers"
-                width={24}
-                height={24}
-                className="no-print h-6 w-6 opacity-40"
-              />
-            </div>
+            <h2 className="text-accent mb-3 font-mono text-xs tracking-widest uppercase">
+              Education
+            </h2>
             <p className="text-foreground text-sm font-medium sm:text-base">
               B.S. Computer Engineering
             </p>
             <p className="text-foreground-muted text-sm">Clemson University</p>
-            <p className="text-clemson-orange mt-1 text-xs">🐅 Go Tigers!</p>
+            <div className="no-print mt-1 flex items-center gap-1.5">
+              <Image
+                src="/clemson-tigers-logo.svg"
+                alt="Clemson Tigers"
+                width={16}
+                height={16}
+                className="h-4 w-4"
+              />
+              <span className="text-clemson-orange text-xs">Go Tigers!</span>
+            </div>
           </motion.div>
 
           {/* Contact - obfuscated */}

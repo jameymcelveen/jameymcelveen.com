@@ -139,32 +139,7 @@ body {
   animation: shimmer-single 1.5s ease-in-out;
 }
 
-/* Liquid glass on hover for buttons - single pass, then on hover */
-.liquid-glass-hover {
-  position: relative;
-  overflow: hidden;
-}
-
-.liquid-glass-hover::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.15),
-    transparent
-  );
-  animation: shimmer-single 1.5s ease-in-out;
-  pointer-events: none;
-}
-
-.liquid-glass-hover:hover::before {
-  animation: shimmer-single 1.5s ease-in-out;
-}
+/* Liquid glass on hover for buttons - removed shimmer */
 
 /* Resume page specific - liquid glass flash once on load, then on hover */
 .liquid-glass-resume {
@@ -193,28 +168,7 @@ body {
   animation: shimmer-single 1.5s ease-in-out;
 }
 
-/* Name shimmer effect - single pass on load */
-.name-shimmer {
-  position: relative;
-  display: inline-block;
-}
-
-.name-shimmer::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.2),
-    transparent
-  );
-  animation: shimmer-single 2s ease-in-out;
-  pointer-events: none;
-}
+/* Name shimmer effect - removed */
 
 /* Single shimmer animation */
 @keyframes shimmer-single {

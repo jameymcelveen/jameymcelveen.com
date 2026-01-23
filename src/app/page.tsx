@@ -43,7 +43,7 @@ const letterVariants = {
 
 function AnimatedText({ text, className }: { text: string; className?: string }) {
   return (
-    <span className={`${className} name-shimmer`}>
+    <span className={className}>
       {text.split('').map((char, i) => (
         <motion.span
           key={i}
@@ -142,7 +142,7 @@ export default function Home() {
         >
           <Link
             href="/resume"
-            className="liquid-glass-hover glow group bg-accent relative overflow-hidden rounded-full px-6 py-2.5 font-medium text-white transition-all hover:scale-105 sm:px-8 sm:py-3"
+            className="glow group bg-accent relative overflow-hidden rounded-full px-6 py-2.5 font-medium text-white transition-all hover:scale-105 sm:px-8 sm:py-3"
           >
             <span className="relative z-10">View Resume</span>
             <span className="bg-accent-secondary absolute inset-0 -translate-x-full transition-transform duration-300 group-hover:translate-x-0" />
@@ -159,7 +159,7 @@ export default function Home() {
             >
               <Link
                 href="/cover-letters"
-                className="liquid-glass-hover glass-card text-foreground hover:border-accent/30 rounded-full px-6 py-2.5 font-medium transition-all hover:scale-105 sm:px-8 sm:py-3"
+                className="glass-card text-foreground hover:border-accent/30 rounded-full px-6 py-2.5 font-medium transition-all hover:scale-105 sm:px-8 sm:py-3"
               >
                 Cover Letters
               </Link>
@@ -236,7 +236,7 @@ export default function Home() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1, duration: 0.5 }}
-        className="no-print fixed bottom-6 left-6 z-30 opacity-30 transition-opacity hover:opacity-50"
+        className="no-print fixed bottom-6 left-6 z-30 opacity-50 transition-opacity hover:opacity-70"
       >
         <Image
           src="/clemson-tigers-logo.svg"
