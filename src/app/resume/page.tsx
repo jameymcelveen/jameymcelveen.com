@@ -2,11 +2,8 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { useRef } from 'react';
-import { useReactToPrint } from 'react-to-print';
 import { ObfuscatedEmail, ObfuscatedPhone } from '@/components/ObfuscatedContact';
 import { Sparkles, FileText, MapPin } from 'lucide-react';
-import ResumePrintPage from './print/page';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -72,38 +69,23 @@ const skills = {
 };
 
 export default function ResumePage() {
-  const printRef = useRef<HTMLDivElement>(null);
-  const handlePrint = useReactToPrint({
-    content: () => printRef.current,
-    documentTitle: 'Jamey McElveen - Resume',
-  });
+  const handlePrint = () => {
+    const printWindow = window.open('/resume/print', '_blank');
+    if (printWindow) {
+      printWindow.onload = () => {
+        setTimeout(() => {
+          printWindow.print();
+        }, 250);
+      };
+    }
+  };
 
   return (
     <>
-      {/* Hidden print component - rendered but off-screen */}
-      <div
-        style={{
-          position: 'absolute',
-          left: '-9999px',
-          top: '-9999px',
-          width: '1px',
-          height: '1px',
-          overflow: 'hidden',
-        }}
-      >
-        <div ref={printRef}>
-          <ResumePrintPage />
-        </div>
-      </div>
-
       {/* Sticky print button - centered with nav */}
       <div className="fixed right-4 top-4 z-50 flex items-center sm:right-6 sm:top-6">
         <button
-          onClick={() => {
-            if (printRef.current) {
-              handlePrint();
-            }
-          }}
+          onClick={handlePrint}
           className="glass-card text-foreground hover:border-accent/30 flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all hover:scale-105 sm:px-6"
         >
           <FileText className="h-4 w-4" />
