@@ -83,7 +83,7 @@ export default function Home() {
         {/* Photo */}
         <motion.div
           variants={itemVariants}
-          className="mb-6 flex justify-center sm:mb-8"
+          className="mb-6 flex justify-center pt-8 sm:mb-8 sm:pt-12"
         >
           <div className="relative h-32 w-32 overflow-hidden rounded-full border-2 border-accent/30 sm:h-40 sm:w-40">
             <Image
@@ -198,7 +198,7 @@ export default function Home() {
         {/* Footer links - GitHub and Cursor */}
         <motion.div
           variants={itemVariants}
-          className="text-foreground-muted/60 mt-8 flex flex-wrap items-center justify-center gap-4 text-xs sm:mt-12"
+          className="text-foreground-muted/60 mb-4 mt-8 flex flex-wrap items-center justify-center gap-4 text-xs sm:mt-12"
         >
           <a
             href="https://github.com/jameymcelveen/jameymcelveen.com"
