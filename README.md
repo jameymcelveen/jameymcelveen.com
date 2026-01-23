@@ -117,6 +117,7 @@ nvm use  # Automatically uses Node 22
 
 - [GoDaddy to Vercel Setup Guide](./docs/godaddy-to-vercel.md) - How to point your domain to Vercel
 - [Cover Letter Generation Tools](./tools/COVER_LETTER_GENERATION.md) - AI-powered cover letter generation
+- [Session Notes](./.cursor/session-notes.md) - AI agent continuity and project context
 
 ## 🎨 Design System
 
