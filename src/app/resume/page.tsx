@@ -318,7 +318,9 @@ export default function ResumePage() {
             className="glass-card no-print flex items-center justify-center p-4 sm:p-6 md:col-span-2"
           >
             <button
-              onClick={() => window.print()}
+              onClick={() => {
+                window.open('/resume/print', '_blank');
+              }}
               className="bg-accent/10 text-accent hover:bg-accent/20 flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-colors sm:px-6"
             >
               <FileText className="h-4 w-4" />
