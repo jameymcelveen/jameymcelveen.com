@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
+import { getNavigation } from '@/data';
 
 export function Navigation() {
   const pathname = usePathname();
@@ -30,11 +31,10 @@ export function Navigation() {
     setShowCoverLetters(stored === 'true');
   }, [pathname]);
 
-  const navItems = [
-    { href: '/', label: 'Home' },
-    { href: '/resume', label: 'Resume' },
-    ...(showCoverLetters ? [{ href: '/cover-letters', label: 'Cover Letters' }] : []),
-  ];
+  const allNavItems = getNavigation();
+  const navItems = allNavItems.filter(
+    (item) => !item.protected || (item.protected && showCoverLetters)
+  );
 
   return (
     <motion.nav

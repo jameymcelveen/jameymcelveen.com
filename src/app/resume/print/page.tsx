@@ -1,8 +1,23 @@
 'use client';
 
 import { Mail, Phone, MapPin } from 'lucide-react';
+import {
+  getPersonalInfo,
+  getResumeData,
+  getWorkExperience,
+  getSkills,
+  getEngineering,
+  getContactInfo,
+} from '@/data';
 
 export default function ResumePrintPage() {
+  const personal = getPersonalInfo();
+  const resume = getResumeData();
+  const jobs = getWorkExperience();
+  const skills = getSkills();
+  const engineering = getEngineering();
+  const contact = getContactInfo();
+
   return (
     <div className="resume-print">
       <style jsx>{`
@@ -128,8 +143,8 @@ export default function ResumePrintPage() {
       `}</style>
       <div className="container">
         <header>
-          <h1>Jamey McElveen</h1>
-          <div className="subtitle">Senior Software Architect & Engineering Leader</div>
+          <h1>{personal.name}</h1>
+          <div className="subtitle">{personal.title}</div>
         </header>
 
         <aside className="sidebar">
@@ -137,117 +152,81 @@ export default function ResumePrintPage() {
           <ul>
             <li>
               <MapPin />
-              Timmonsville, SC
+              {contact.location}
             </li>
             <li>
               <Mail />
-              jamey@mcelveen.us
+              {contact.email}
             </li>
             <li>
               <Phone />
-              (843) 618-8078
+              {contact.phone}
             </li>
           </ul>
 
           <h3>Technical Stack</h3>
           <ul>
             <li>
-              <strong>Languages:</strong> C#, JavaScript, TypeScript, Scala, HTML
+              <strong>Languages:</strong> {skills.languages.join(', ')}
             </li>
             <li>
-              <strong>Frameworks:</strong> .NET Core, ASP.NET MVC, React, Next.js, Angular,
-              Vue.js
+              <strong>Frameworks:</strong> {skills.frameworks.join(', ')}
             </li>
             <li>
-              <strong>Data:</strong> Snowflake, PostgreSQL, MSSQL, Oracle Cloud
+              <strong>Data:</strong> {skills.data.join(', ')}
             </li>
             <li>
-              <strong>Tools:</strong> Cursor AI, CI/CD, Git, Agile/Scrum
+              <strong>Tools:</strong> {skills.tools.join(', ')}
             </li>
           </ul>
 
           <h3>Education</h3>
           <ul>
             <li>
-              <strong>B.S. Computer Engineering</strong>
+              <strong>{resume.education.degree}</strong>
             </li>
-            <li>Clemson University</li>
+            <li>{resume.education.school}</li>
           </ul>
 
           <h3>Publications</h3>
           <p>
-            <em>iPhone Game Development:</em> A technical and business guide
+            <em>{resume.publication.title}:</em> {resume.publication.description}
           </p>
+
+          <h3>Engineering &amp; IoT</h3>
+          <ul style={{ fontSize: '9.5pt', marginTop: '8px' }}>
+            {engineering.items.map((item, idx) => (
+              <li key={idx} style={{ marginBottom: '4px' }}>
+                <strong>{item.label}:</strong> {item.description}
+              </li>
+            ))}
+          </ul>
         </aside>
 
         <main className="main">
-          <section className="summary">
-            Software Architect with 25+ years of experience specializing in high-scale platforms
-            and modern development workflows. Proven track record of leading teams of 20+ and
-            architecting solutions for over 50,000 organizations. Specialist in AI-augmented
-            engineering to maximize delivery velocity.
-          </section>
+          <section className="summary">{resume.printSummary}</section>
 
           <h2>Professional Experience</h2>
 
-          <div className="job">
-            <div className="job-header">
-              <span>Senior Software Engineer</span>
-              <span>Sept 2023 – July 2025</span>
+          {jobs.map((job, idx) => (
+            <div key={idx} className="job">
+              <div className="job-header">
+                <span>{job.title}</span>
+                <span>{job.period}</span>
+              </div>
+              <div className="company">{job.company}</div>
+              <ul className="job-list">
+                {job.bullets.map((bullet, bulletIdx) => (
+                  <li key={bulletIdx}>{bullet}</li>
+                ))}
+              </ul>
+              {job.highlight && (
+                <div className="innovation">
+                  <strong>AI Leadership:</strong> {job.highlight.replace(/^AI Innovation: /, '')}
+                </div>
+              )}
             </div>
-            <div className="company">SecureGive.com</div>
-            <ul className="job-list">
-              <li>
-                Architected high-performance client-facing API using Snowflake and .NET Core API
-                Gateway.
-              </li>
-              <li>Developed full-stack features using Scala, Angular, and React Native.</li>
-            </ul>
-            <div className="innovation">
-              <strong>AI Leadership:</strong> Integrated Cursor AI into the development lifecycle,
-              increasing sprint velocity by ~30% while maintaining high architectural standards.
-            </div>
-          </div>
-
-          <div className="job">
-            <div className="job-header">
-              <span>Senior Software Developer</span>
-              <span>Sept 2021 – July 2023</span>
-            </div>
-            <div className="company">McLeod Health</div>
-            <ul className="job-list">
-              <li>
-                Modernized legacy C# codebases to .NET Core standards for critical healthcare
-                infrastructure.
-              </li>
-              <li>Introduced Git SCM and CI/CD to the organization for the first time.</li>
-              <li>
-                Mentored interns using Agile methodologies to ensure quality code output.
-              </li>
-            </ul>
-          </div>
-
-          <div className="job">
-            <div className="job-header">
-              <span>Programming Manager</span>
-              <span>May 1996 – Feb 2021</span>
-            </div>
-            <div className="company">ACS Technologies</div>
-            <ul className="job-list">
-              <li>
-                Directed an R&D department of 20+ developers, managing hiring, mentorship, and
-                product roadmaps.
-              </li>
-              <li>
-                Led the engineering of &quot;Realm,&quot; a flagship C# .NET MVC application serving
-                50,000+ churches.
-              </li>
-              <li>
-                Pioneered &quot;ChurchLife&quot; in 2008, one of the first 100 apps on the Apple
-                App Store.
-              </li>
-            </ul>
-          </div>
+          ))}
 
           <h2>References</h2>
           <p style={{ fontSize: '10.5pt' }}>Available upon request</p>

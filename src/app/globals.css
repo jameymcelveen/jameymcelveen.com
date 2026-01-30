@@ -1,16 +1,16 @@
 @import 'tailwindcss';
 
 :root {
-  /* Soft dark theme with Clemson accents */
+  /* Soft dark theme with brand accents */
   --background: #0c0a10;
   --background-secondary: #14121a;
   --foreground: #f0f0f2;
   --foreground-muted: #9ca3af;
 
-  /* Clemson Colors - used sparingly */
-  --clemson-orange: #f56600;
-  --clemson-regalia: #522d80;
-  --clemson-diploma: #3d2163;
+  /* Brand Colors - used sparingly */
+  --brand-highlight: #f56600;
+  --brand-secondary: #522d80;
+  --brand-tertiary: #3d2163;
 
   /* Primary accent is now softer purple, orange for highlights only */
   --accent: #8b6cb5;
@@ -27,7 +27,7 @@
   --liquid-glass-border: rgba(255, 255, 255, 0.1);
   --liquid-glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
 
-  /* Gradients - subtle with slight orange hint */
+  /* Gradients - subtle with brand highlight hint */
   --gradient-primary: linear-gradient(135deg, #8b6cb5 0%, #522d80 100%);
   --gradient-mesh: radial-gradient(at 27% 37%, rgba(82, 45, 128, 0.5) 0, transparent 50%),
     radial-gradient(at 97% 21%, rgba(139, 108, 181, 0.4) 0, transparent 50%),
@@ -48,9 +48,9 @@
   --color-accent-glow: var(--accent-glow);
   --color-glass-bg: var(--glass-bg);
   --color-glass-border: var(--glass-border);
-  --color-clemson-orange: var(--clemson-orange);
-  --color-clemson-regalia: var(--clemson-regalia);
-  --color-clemson-diploma: var(--clemson-diploma);
+  --color-brand-highlight: var(--brand-highlight);
+  --color-brand-secondary: var(--brand-secondary);
+  --color-brand-tertiary: var(--brand-tertiary);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -61,7 +61,7 @@ body {
   font-family: var(--font-sans), system-ui, sans-serif;
 }
 
-/* Animated gradient mesh background - subtle with orange hint */
+/* Animated gradient mesh background - subtle with brand highlight hint */
 .gradient-mesh {
   position: fixed;
   inset: 0;
@@ -180,7 +180,7 @@ body {
   }
 }
 
-/* Text gradient - Clemson colors for name only */
+/* Text gradient - brand colors for name only */
 .text-gradient {
   background: var(--gradient-primary);
   background-clip: text;
@@ -188,9 +188,9 @@ body {
   -webkit-text-fill-color: transparent;
 }
 
-/* Clemson orange highlight for special emphasis */
-.text-clemson {
-  color: var(--clemson-orange);
+/* Brand highlight color for special emphasis */
+.text-brand-highlight {
+  color: var(--brand-highlight);
 }
 
 /* Glow effect - softer purple */
@@ -229,25 +229,43 @@ html {
 
 /* ==================== PRINT STYLES ==================== */
 @media print {
-  /* Reset for print */
-  *,
-  *::before,
-  *::after {
-    background: white !important;
-    color: black !important;
-    box-shadow: none !important;
-    text-shadow: none !important;
-    -webkit-text-fill-color: black !important;
+  /* Force color printing for links and highlights */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
 
-  /* Hide non-essential elements */
-  .gradient-mesh,
+  /* Hide the navigation, buttons, and brand logo footer for a clean print */
   nav,
-  .glow,
   .no-print,
   button,
-  img[alt='Clemson Tigers'] {
+  .footer-tiger,
+  .gradient-mesh,
+  .glow,
+  img[alt*='logo'],
+  img[alt*='Logo'] {
     display: none !important;
+  }
+
+  /* Reset layout for 8.5x11 paper */
+  body {
+    background: white !important;
+    padding: 0 !important;
+    margin: 0.5in !important;
+    font-size: 11pt;
+    line-height: 1.4;
+  }
+
+  /* Reset for print - but preserve colors */
+  *::before,
+  *::after {
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  /* Ensure text is readable */
+  .text-foreground-muted {
+    color: #666 !important;
   }
 
   /* Page setup */
@@ -256,15 +274,22 @@ html {
     size: letter;
   }
 
-  html,
-  body {
+  html {
     font-size: 11pt;
     line-height: 1.4;
   }
 
+  /* Container adjustments */
+  .container {
+    box-shadow: none !important;
+    border: none !important;
+    max-width: 100% !important;
+  }
+
   /* Reset glass cards for print */
   .glass-card,
-  .liquid-glass {
+  .liquid-glass,
+  .liquid-glass-resume {
     background: white !important;
     border: 1px solid #ddd !important;
     backdrop-filter: none !important;
@@ -319,7 +344,7 @@ html {
   /* Accent colors become dark gray for print */
   .text-accent,
   .text-accent-secondary,
-  .text-clemson-orange {
+  .text-brand-highlight {
     color: #333 !important;
     -webkit-text-fill-color: #333 !important;
   }

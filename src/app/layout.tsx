@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import { Navigation } from '@/components/Navigation';
 import { GradientMesh } from '@/components/GradientMesh';
+import { getSiteMetadata } from '@/data';
 import './globals.css';
 
 const geistSans = Geist({
@@ -14,25 +15,17 @@ const geistMono = Geist_Mono({
   subsets: ['latin'],
 });
 
+const siteMetadata = getSiteMetadata();
+
 export const metadata: Metadata = {
-  title: 'Jamey McElveen | Senior Software Architect',
-  description:
-    'Senior Software Architect with 25+ years of experience in Christian tech and fintech. Expert in scalable solutions and AI-augmented engineering workflows.',
-  keywords: [
-    'Software Architect',
-    'Senior Developer',
-    'C#',
-    '.NET',
-    'React',
-    'TypeScript',
-    'Christian Tech',
-    'FinTech',
-  ],
-  authors: [{ name: 'Jamey McElveen' }],
+  title: siteMetadata.title,
+  description: siteMetadata.description,
+  keywords: siteMetadata.keywords,
+  authors: [{ name: siteMetadata.author }],
   openGraph: {
-    title: 'Jamey McElveen | Senior Software Architect',
-    description: 'Senior Software Architect with 25+ years of experience',
-    type: 'website',
+    title: siteMetadata.openGraph.title,
+    description: siteMetadata.openGraph.description,
+    type: siteMetadata.openGraph.type,
   },
 };
 

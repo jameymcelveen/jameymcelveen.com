@@ -3,9 +3,10 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Lock } from 'lucide-react';
+import { getCoverLetters } from '@/data';
 
 // PIN for cover letters access
-const CORRECT_PIN = '072995';
+const CORRECT_PIN = getCoverLetters().pin;
 
 const STORAGE_KEY = 'cover-letters-auth';
 

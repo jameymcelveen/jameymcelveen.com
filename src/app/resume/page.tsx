@@ -4,6 +4,16 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { ObfuscatedEmail, ObfuscatedPhone } from '@/components/ObfuscatedContact';
 import { Sparkles, FileText, MapPin } from 'lucide-react';
+import {
+  getResumeData,
+  getWorkExperience,
+  getSkills,
+  getEngineering,
+  getAIDevelopment,
+  getImages,
+  getContactInfo,
+  getBranding,
+} from '@/data';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -26,49 +36,17 @@ const itemVariants = {
   },
 };
 
-const jobs = [
-  {
-    title: 'Senior Software Engineer',
-    company: 'SecureGive.com',
-    period: 'Sept 2023 – July 2025',
-    bullets: [
-      'Architected high-performance client-facing API using Snowflake and .NET Core API Gateway',
-      'Developed full-stack features using Scala, Angular, and React Native',
-      'Integrated Cursor AI protocols into the development lifecycle, increasing sprint velocity by ~30%',
-    ],
-    highlight: 'AI Innovation: Pioneered AI-augmented development workflows',
-  },
-  {
-    title: 'Senior Software Developer',
-    company: 'McLeod Health',
-    period: 'Sept 2021 – July 2023',
-    bullets: [
-      'Modernized legacy C# codebases to .NET Core standards for critical HR and healthcare infrastructure',
-      'Introduced Git SCM and CI/CD to the organization for the first time',
-      'Mentored interns using Agile methodologies to ensure seamless integration and quality code output',
-    ],
-  },
-  {
-    title: 'Programming Manager',
-    company: 'ACS Technologies',
-    period: 'May 1996 – Feb 2021',
-    bullets: [
-      'Directed an R&D department of 20+ developers, managing hiring, mentorship, and product roadmaps',
-      'Led the engineering of Realm, a flagship C# .NET MVC application serving 50,000+ churches',
-      'Pioneered ChurchLife in 2008, one of the first 100 apps on the Apple App Store',
-    ],
-    isLongTenure: true,
-  },
-];
-
-const skills = {
-  languages: ['C#', 'JavaScript', 'TypeScript', 'HTML', 'Scala'],
-  frameworks: ['.NET Core', 'ASP.NET MVC', 'React', 'React Native', 'Angular', 'Vue.js', 'Next.js'],
-  data: ['Snowflake', 'PostgreSQL', 'MSSQL', 'Oracle Cloud'],
-  tools: ['Cursor AI', 'Git', 'CI/CD', 'Agile/Scrum'],
-};
 
 export default function ResumePage() {
+  const resume = getResumeData();
+  const jobs = getWorkExperience();
+  const skills = getSkills();
+  const engineering = getEngineering();
+  const aiDev = getAIDevelopment();
+  const images = getImages();
+  const contact = getContactInfo();
+  const branding = getBranding();
+
   const handlePrint = () => {
     const printWindow = window.open('/resume/print', '_blank');
     if (printWindow) {
@@ -101,7 +79,7 @@ export default function ResumePage() {
               Resume
             </h1>
             <p className="text-foreground-muted text-sm sm:text-base">
-              25+ years of engineering excellence
+              {resume.subtitle}
             </p>
           </motion.div>
 
@@ -116,12 +94,45 @@ export default function ResumePage() {
                 Summary
               </h2>
               <p className="text-foreground-muted text-sm leading-relaxed sm:text-base">
-                Senior Software Architect with 25+ years of experience in{' '}
-                <span className="text-foreground">Christian tech</span> and{' '}
-                <span className="text-foreground">fintech</span>. Expert in architecting scalable
-                solutions for platforms serving 50,000+ organizations. Specialist in{' '}
-                <span className="text-clemson-orange">AI-augmented engineering workflows</span> to
-                maximize developer velocity and code quality.
+                {resume.summary
+                  .replace(resume.summaryHighlight1, `__H1__${resume.summaryHighlight1}__H1__`)
+                  .replace(resume.summaryHighlight2, `__H2__${resume.summaryHighlight2}__H2__`)
+                  .replace(resume.summaryHighlight3, `__H3__${resume.summaryHighlight3}__H3__`)
+                  .split('__H1__')
+                  .map((part, i) => {
+                    if (part.includes('__H2__')) {
+                      return part.split('__H2__').map((p, j) => {
+                        if (p.includes('__H3__')) {
+                          return p.split('__H3__').map((p2, k) =>
+                            k % 2 === 1 ? (
+                              <span
+                                key={`${i}-${j}-${k}`}
+                                style={{ color: branding.highlight }}
+                              >
+                                {p2}
+                              </span>
+                            ) : (
+                              p2
+                            )
+                          );
+                        }
+                        return j % 2 === 1 ? (
+                          <span key={`${i}-${j}`} className="text-foreground">
+                            {p}
+                          </span>
+                        ) : (
+                          p
+                        );
+                      });
+                    }
+                    return i % 2 === 1 ? (
+                      <span key={i} className="text-foreground">
+                        {part}
+                      </span>
+                    ) : (
+                      part
+                    );
+                  })}
               </p>
             </motion.div>
 
@@ -134,18 +145,20 @@ export default function ResumePage() {
                 Education
               </h2>
               <p className="text-foreground text-sm font-medium sm:text-base">
-                B.S. Computer Engineering
+                {resume.education.degree}
               </p>
-              <p className="text-foreground-muted text-sm">Clemson University</p>
+              <p className="text-foreground-muted text-sm">{resume.education.school}</p>
               <div className="no-print mt-1 flex items-center gap-1.5">
                 <Image
-                  src="/clemson-tigers-logo.svg"
-                  alt="Clemson Tigers"
+                  src={images.brandLogo}
+                  alt={images.brandLogoAlt}
                   width={16}
                   height={16}
                   className="h-4 w-4"
                 />
-                <span className="text-clemson-orange text-xs">Go Tigers!</span>
+                <span className="text-xs" style={{ color: branding.highlight }}>
+                  {resume.education.schoolMotto}
+                </span>
               </div>
             </motion.div>
 
@@ -162,7 +175,7 @@ export default function ResumePage() {
                 <ObfuscatedPhone className="text-foreground-muted hover:text-accent flex items-center gap-2 transition-colors" />
                 <span className="text-foreground-muted flex items-center gap-2">
                   <MapPin className="h-4 w-4" />
-                  Timmonsville, SC
+                  {contact.location}
                 </span>
               </div>
             </motion.div>
@@ -237,37 +250,86 @@ export default function ResumePage() {
               </div>
             </motion.div>
 
+            {/* Engineering & IoT Prototyping Section */}
+            <motion.div
+              variants={itemVariants}
+              className="glass-card p-4 sm:p-6 md:col-span-2 lg:col-span-4"
+              style={{
+                borderLeft: `4px solid ${branding.primary}`,
+                backgroundColor: `${branding.primary}0d`,
+              }}
+            >
+              <h3
+                className="text-xl font-bold mb-2 sm:text-2xl"
+                style={{ color: branding.secondary }}
+              >
+                {engineering.title}
+              </h3>
+              <ul className="list-disc ml-5 space-y-2 text-sm sm:text-base">
+                {engineering.items.map((item, idx) => (
+                  <li key={idx} className="text-foreground-muted">
+                    <strong style={{ color: branding.primary }}>{item.label}:</strong>{' '}
+                    {item.description}
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+
             {/* AI/Cursor Skills Section - Liquid Glass */}
             <motion.div
               variants={itemVariants}
               className="liquid-glass p-4 sm:p-6 md:col-span-2 lg:col-span-4"
             >
               <div className="mb-4 flex items-center gap-2">
-                <Sparkles className="text-clemson-orange h-5 w-5" />
+                <Sparkles className="h-5 w-5" style={{ color: branding.highlight }} />
                 <h2 className="text-accent font-mono text-xs tracking-widest uppercase">
-                  AI-Augmented Development
+                  {aiDev.title}
                 </h2>
               </div>
               <div className="space-y-3">
                 <p className="text-foreground-muted text-sm leading-relaxed sm:text-base">
-                  Using AI tools like <span className="text-clemson-orange font-medium">Cursor</span>{' '}
-                  to improve development velocity by{' '}
-                  <span className="text-clemson-orange font-semibold">~30%</span> while maintaining
-                  high code quality and architectural standards.
+                  {aiDev.description
+                    .replace(aiDev.toolName, `__TOOL__${aiDev.toolName}__TOOL__`)
+                    .replace(aiDev.velocityIncrease, `__VEL__${aiDev.velocityIncrease}__VEL__`)
+                    .split('__TOOL__')
+                    .map((part, i) => {
+                      if (part.includes('__VEL__')) {
+                        return part.split('__VEL__').map((p, j) =>
+                          j % 2 === 1 ? (
+                            <span
+                              key={`${i}-${j}`}
+                              style={{ color: branding.highlight }}
+                              className="font-semibold"
+                            >
+                              {p}
+                            </span>
+                          ) : (
+                            p
+                          )
+                        );
+                      }
+                      return i % 2 === 1 ? (
+                        <span key={i} style={{ color: branding.highlight }} className="font-medium">
+                          {part}
+                        </span>
+                      ) : (
+                        part
+                      );
+                    })}
                 </p>
                 <div className="flex flex-wrap gap-2">
-                  <span className="bg-clemson-orange/10 text-clemson-orange rounded-md px-2 py-1 font-mono text-xs">
-                    Cursor AI
-                  </span>
-                  <span className="bg-clemson-orange/10 text-clemson-orange rounded-md px-2 py-1 font-mono text-xs">
-                    AI Code Generation
-                  </span>
-                  <span className="bg-clemson-orange/10 text-clemson-orange rounded-md px-2 py-1 font-mono text-xs">
-                    Automated Testing
-                  </span>
-                  <span className="bg-clemson-orange/10 text-clemson-orange rounded-md px-2 py-1 font-mono text-xs">
-                    Code Review AI
-                  </span>
+                  {aiDev.badges.map((badge) => (
+                    <span
+                      key={badge}
+                      className="rounded-md px-2 py-1 font-mono text-xs"
+                      style={{
+                        backgroundColor: `${branding.highlight}1a`,
+                        color: branding.highlight,
+                      }}
+                    >
+                      {badge}
+                    </span>
+                  ))}
                 </div>
               </div>
             </motion.div>
@@ -285,9 +347,12 @@ export default function ResumePage() {
                   <motion.div
                     key={idx}
                     variants={itemVariants}
-                    className={`relative border-l-2 pl-4 sm:pl-6 ${
-                      job.isLongTenure ? 'border-clemson-orange' : 'border-glass-border'
-                    }`}
+                    className="relative border-l-2 pl-4 sm:pl-6 border-glass-border"
+                    style={
+                      job.isLongTenure
+                        ? { borderLeftColor: branding.highlight }
+                        : undefined
+                    }
                   >
                     <div className="bg-background absolute top-0 -left-[9px] h-4 w-4 rounded-full border-2 border-current" />
                     <div className="mb-2 flex flex-col gap-1 sm:flex-row sm:flex-wrap sm:items-baseline sm:justify-between sm:gap-2">
@@ -313,8 +378,16 @@ export default function ResumePage() {
                       ))}
                     </ul>
                     {job.highlight && (
-                      <div className="border-clemson-orange bg-clemson-orange/5 mt-3 rounded-lg border-l-4 p-2 text-xs sm:mt-4 sm:p-3 sm:text-sm">
-                        <span className="text-clemson-orange font-medium">✨ {job.highlight}</span>
+                      <div
+                        className="mt-3 rounded-lg border-l-4 p-2 text-xs sm:mt-4 sm:p-3 sm:text-sm"
+                        style={{
+                          borderLeftColor: branding.highlight,
+                          backgroundColor: `${branding.highlight}0d`,
+                        }}
+                      >
+                        <span style={{ color: branding.highlight }} className="font-medium">
+                          ✨ {job.highlight}
+                        </span>
                       </div>
                     )}
                   </motion.div>
@@ -334,10 +407,10 @@ export default function ResumePage() {
                 </h2>
               </div>
               <p className="text-foreground text-sm font-medium sm:text-base">
-                iPhone Game Development
+                {resume.publication.title}
               </p>
               <p className="text-foreground-muted text-xs sm:text-sm">
-                A technical and business guide to creating and selling iPhone games
+                {resume.publication.description}
               </p>
             </motion.div>
           </div>

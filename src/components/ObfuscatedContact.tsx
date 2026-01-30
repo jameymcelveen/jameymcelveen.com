@@ -2,12 +2,15 @@
 
 import { useEffect, useState } from 'react';
 import { Mail, Phone, MapPin } from 'lucide-react';
+import { getContactInfo } from '@/data';
 
 // Encode contact info to prevent scraping
 // Values are base64 encoded and decoded client-side
-const ENCODED_EMAIL = 'amFtZXlAbWNlbHZlZW4udXM='; // jamey@mcelveen.us
-const ENCODED_PHONE = 'KDg0MykgNjE4LTgwNzg='; // (843) 618-8078
-const ENCODED_PHONE_HREF = 'KzE4NDM2MTg4MDc4'; // +18436188078
+// Pre-encoded values (computed at build time)
+const contact = getContactInfo();
+const ENCODED_EMAIL = typeof window !== 'undefined' ? btoa(contact.email) : 'amFtZXlAbWNlbHZlZW4udXM=';
+const ENCODED_PHONE = typeof window !== 'undefined' ? btoa(contact.phone) : 'KDg0MykgNjE4LTgwNzg=';
+const ENCODED_PHONE_HREF = typeof window !== 'undefined' ? btoa(contact.phoneHref) : 'KzE4NDM2MTg4MDc4';
 
 function decode(encoded: string): string {
   if (typeof window === 'undefined') return '';
@@ -80,13 +83,14 @@ export function ObfuscatedPhone({ className }: { className?: string }) {
 }
 
 export function ObfuscatedContactBlock({ className }: { className?: string }) {
+  const contact = getContactInfo();
   return (
     <div className={className}>
       <ObfuscatedEmail className="hover:text-accent flex items-center gap-2 transition-colors" />
       <ObfuscatedPhone className="hover:text-accent flex items-center gap-2 transition-colors" />
       <span className="flex items-center gap-2">
         <MapPin className="h-4 w-4" />
-        Timmonsville, SC
+        {contact.location}
       </span>
     </div>
   );

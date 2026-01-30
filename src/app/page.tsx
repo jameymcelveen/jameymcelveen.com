@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 import { ObfuscatedEmail, ObfuscatedPhone } from '@/components/ObfuscatedContact';
 import { SecretLock } from '@/components/PinGate';
 import { MapPin, Github } from 'lucide-react';
+import { getPersonalInfo, getHomeData, getImages, getBranding } from '@/data';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -61,8 +62,74 @@ function AnimatedText({ text, className }: { text: string; className?: string })
   );
 }
 
+function renderSummaryWithHighlights(
+  text: string,
+  highlight1: string,
+  highlight2: string,
+  highlight3: string,
+  highlightColor: string
+) {
+  const parts: (string | JSX.Element)[] = [];
+  let remaining = text;
+  let key = 0;
+
+  // Find and replace highlight1
+  const idx1 = remaining.indexOf(highlight1);
+  if (idx1 >= 0) {
+    parts.push(remaining.substring(0, idx1));
+    parts.push(
+      <span key={key++} className="text-foreground">
+        {highlight1}
+      </span>
+    );
+    remaining = remaining.substring(idx1 + highlight1.length);
+  } else {
+    parts.push(remaining);
+    remaining = '';
+  }
+
+  // Find and replace highlight2
+  if (remaining) {
+    const idx2 = remaining.indexOf(highlight2);
+    if (idx2 >= 0) {
+      parts.push(remaining.substring(0, idx2));
+      parts.push(
+        <span key={key++} className="text-foreground">
+          {highlight2}
+        </span>
+      );
+      remaining = remaining.substring(idx2 + highlight2.length);
+    } else {
+      parts.push(remaining);
+      remaining = '';
+    }
+  }
+
+  // Find and replace highlight3
+  if (remaining) {
+    const idx3 = remaining.indexOf(highlight3);
+    if (idx3 >= 0) {
+      parts.push(remaining.substring(0, idx3));
+      parts.push(
+        <span key={key++} style={{ color: highlightColor }}>
+          {highlight3}
+        </span>
+      );
+      parts.push(remaining.substring(idx3 + highlight3.length));
+    } else {
+      parts.push(remaining);
+    }
+  }
+
+  return parts;
+}
+
 export default function Home() {
   const [showCoverLetters, setShowCoverLetters] = useState(false);
+  const personal = getPersonalInfo();
+  const home = getHomeData();
+  const images = getImages();
+  const branding = getBranding();
 
   // Check if already unlocked on mount
   useEffect(() => {
@@ -87,8 +154,8 @@ export default function Home() {
         >
           <div className="relative h-32 w-32 overflow-hidden rounded-full border-2 border-accent/30 sm:h-40 sm:w-40">
             <Image
-              src="/jamey-mcelveen.jpg"
-              alt="Jamey McElveen"
+              src={images.photo}
+              alt={images.photoAlt}
               width={150}
               height={150}
               className="h-full w-full object-cover"
@@ -106,12 +173,12 @@ export default function Home() {
           variants={itemVariants}
           className="text-accent mb-4 font-mono text-xs tracking-widest uppercase sm:text-sm"
         >
-          Hello, I&apos;m
+          {personal.greeting}
         </motion.p>
 
         {/* Name with kinetic typography */}
         <h1 className="mb-4 text-4xl font-bold tracking-tight sm:mb-6 sm:text-6xl md:text-7xl lg:text-8xl">
-          <AnimatedText text="Jamey McElveen" className="text-gradient" />
+          <AnimatedText text={personal.name} className="text-gradient" />
         </h1>
 
         {/* Title */}
@@ -119,8 +186,8 @@ export default function Home() {
           variants={itemVariants}
           className="text-foreground-muted mb-6 text-lg sm:mb-8 sm:text-xl md:text-2xl lg:text-3xl"
         >
-          Senior Software Architect &amp;{' '}
-          <span className="text-foreground">Engineering Leader</span>
+          {personal.title.split(' & ')[0]} &amp;{' '}
+          <span className="text-foreground">{personal.subtitle}</span>
         </motion.h2>
 
         {/* Summary */}
@@ -128,11 +195,13 @@ export default function Home() {
           variants={itemVariants}
           className="text-foreground-muted mx-auto mb-8 max-w-2xl text-base leading-relaxed sm:mb-12 sm:text-lg"
         >
-          25+ years crafting scalable solutions in{' '}
-          <span className="text-foreground">Christian tech</span> and{' '}
-          <span className="text-foreground">fintech</span>. Architecting platforms that serve
-          50,000+ organizations. Pioneering{' '}
-          <span className="text-clemson-orange">AI-augmented engineering</span> workflows.
+          {renderSummaryWithHighlights(
+            home.summary,
+            home.summaryHighlight1,
+            home.summaryHighlight2,
+            home.summaryHighlight3,
+            branding.highlight
+          )}
         </motion.p>
 
         {/* CTA Buttons */}
@@ -172,7 +241,7 @@ export default function Home() {
           variants={itemVariants}
           className="mt-12 flex flex-wrap justify-center gap-2 sm:mt-16 sm:gap-3"
         >
-          {['C#', '.NET Core', 'React', 'TypeScript', 'Snowflake', 'Cursor AI'].map((tech) => (
+          {home.techStack.map((tech) => (
             <span
               key={tech}
               className="glass-card text-foreground-muted hover:text-accent rounded-full px-3 py-1 font-mono text-xs transition-colors sm:px-4 sm:py-1.5"
@@ -191,7 +260,7 @@ export default function Home() {
           <ObfuscatedPhone className="hover:text-accent flex items-center transition-colors" />
           <span className="flex items-center gap-2">
             <MapPin className="h-4 w-4" />
-            Timmonsville, SC
+            {personal.location}
           </span>
         </motion.div>
 
@@ -201,25 +270,25 @@ export default function Home() {
           className="text-foreground-muted/60 mb-4 mt-8 flex flex-wrap items-center justify-center gap-4 text-xs sm:mt-12"
         >
           <a
-            href="https://github.com/jameymcelveen/jameymcelveen.com"
+            href={home.links.github.url}
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-accent flex items-center gap-1.5 transition-colors"
             aria-label="View source code on GitHub"
           >
             <Github className="h-4 w-4" />
-            <span>View Source</span>
+            <span>{home.links.github.label}</span>
           </a>
           <span className="text-foreground-muted/40">•</span>
           <span>
-            Built with{' '}
+            {home.links.cursorLabel}{' '}
             <a
-              href="https://cursor.sh"
+              href={home.links.cursor.url}
               target="_blank"
               rel="noopener noreferrer"
               className="text-accent hover:text-accent/80 transition-colors"
             >
-              Cursor
+              {home.links.cursor.label}
             </a>
           </span>
         </motion.div>
@@ -231,7 +300,7 @@ export default function Home() {
         onLock={() => setShowCoverLetters(false)}
       />
 
-      {/* Subtle Clemson Tiger logo - bottom left */}
+      {/* Subtle brand logo - bottom left */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -239,8 +308,8 @@ export default function Home() {
         className="no-print fixed bottom-6 left-6 z-30 opacity-50 transition-opacity hover:opacity-70"
       >
         <Image
-          src="/clemson-tigers-logo.svg"
-          alt="Clemson Tigers"
+          src={images.brandLogo}
+          alt={images.brandLogoAlt}
           width={32}
           height={32}
           className="h-8 w-8"
