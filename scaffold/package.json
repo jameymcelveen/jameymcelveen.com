@@ -1,0 +1,22 @@
+{
+  "name": "create-portfolio-site",
+  "version": "1.0.0",
+  "description": "Scaffold a new portfolio site from template",
+  "type": "module",
+  "bin": {
+    "create-portfolio-site": "./bin/create-portfolio-site.js"
+  },
+  "keywords": [
+    "portfolio",
+    "nextjs",
+    "template",
+    "scaffold"
+  ],
+  "author": "Jamey McElveen",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "inquirer": "^9.2.15",
+    "fs-extra": "^11.2.0"
+  }
+}

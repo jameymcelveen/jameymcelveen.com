@@ -1,0 +1,184 @@
+{
+  "personal": {
+    "name": "Your Name",
+    "firstName": "Your",
+    "lastName": "Name",
+    "title": "Software Developer",
+    "subtitle": "Developer",
+    "location": "City, State",
+    "greeting": "Hello, I'm"
+  },
+  "contact": {
+    "email": "your@email.com",
+    "phone": "(555) 123-4567",
+    "phoneHref": "+15551234567",
+    "location": "City, State"
+  },
+  "images": {
+    "photo": "/your-photo.jpg",
+    "photoAlt": "Your Name",
+    "brandLogo": "/your-logo.svg",
+    "brandLogoAlt": "Your Brand"
+  },
+  "branding": {
+    "primary": "#8b6cb5",
+    "secondary": "#522d80",
+    "highlight": "#f56600",
+    "accent": "#8b6cb5",
+    "accentSecondary": "#522d80",
+    "accentHighlight": "#f56600"
+  },
+  "home": {
+    "summary": "Experienced software developer crafting modern web applications. Building scalable solutions with cutting-edge technologies. Passionate about clean code and user experience.",
+    "summaryHighlight1": "modern web applications",
+    "summaryHighlight2": "cutting-edge technologies",
+    "summaryHighlight3": "clean code",
+    "techStack": ["React", "TypeScript", "Next.js", "Node.js", "Tailwind CSS"],
+    "links": {
+      "github": {
+        "url": "https://github.com/yourusername/your-repo",
+        "label": "View Source"
+      },
+      "cursor": {
+        "url": "https://cursor.sh",
+        "label": "Cursor"
+      },
+      "cursorLabel": "Built with"
+    }
+  },
+  "resume": {
+    "summary": "Software Developer with experience in modern web technologies. Skilled in building scalable applications and working with cross-functional teams. Passionate about writing clean, maintainable code.",
+    "summaryHighlight1": "modern web technologies",
+    "summaryHighlight2": "scalable applications",
+    "summaryHighlight3": "clean, maintainable code",
+    "subtitle": "Experienced software developer",
+    "education": {
+      "degree": "B.S. Computer Science",
+      "school": "Your University",
+      "schoolMotto": "Your Motto"
+    },
+    "publication": {
+      "title": "",
+      "description": ""
+    },
+    "printSummary": "Software Developer with experience in modern web technologies. Skilled in building scalable applications and working with cross-functional teams."
+  },
+  "workExperience": [
+    {
+      "title": "Software Developer",
+      "company": "Your Company",
+      "period": "Jan 2020 – Present",
+      "bullets": [
+        "Developed and maintained web applications using React and TypeScript",
+        "Collaborated with cross-functional teams to deliver high-quality software",
+        "Implemented new features and improved application performance"
+      ],
+      "highlight": null,
+      "isLongTenure": false
+    }
+  ],
+  "skills": {
+    "languages": ["JavaScript", "TypeScript", "HTML", "CSS", "Python"],
+    "frameworks": ["React", "Next.js", "Node.js", "Express", "Vue.js"],
+    "data": ["PostgreSQL", "MongoDB", "Redis"],
+    "tools": ["Git", "CI/CD", "Docker", "Agile/Scrum"]
+  },
+  "engineering": {
+    "title": "Engineering & IoT Prototyping",
+    "items": [
+      {
+        "label": "Custom Project",
+        "description": "Add your engineering projects and IoT work here."
+      }
+    ]
+  },
+  "aiDevelopment": {
+    "title": "AI-Augmented Development",
+    "description": "Using AI tools like Cursor to improve development velocity by ~30% while maintaining high code quality and architectural standards.",
+    "toolName": "Cursor",
+    "velocityIncrease": "~30%",
+    "badges": ["Cursor AI", "AI Code Generation", "Automated Testing", "Code Review AI"]
+  },
+  "coverLetters": {
+        "pin": "123456",
+    "pageTitle": "Cover Letters",
+    "pageSubtitle": "Industry-tailored templates ready to customize",
+    "proTip": "Use these templates as a starting point. For AI-powered customization with specific job descriptions, see the /tools folder in the repo for Cursor-based generation scripts.",
+    "instructions": [
+      {
+        "step": 1,
+        "emoji": "1️⃣",
+        "title": "Select Template",
+        "description": "Choose the industry that best matches the role"
+      },
+      {
+        "step": 2,
+        "emoji": "2️⃣",
+        "title": "Customize",
+        "description": "Replace [bracketed] placeholders with specifics"
+      },
+      {
+        "step": 3,
+        "emoji": "3️⃣",
+        "title": "AI Polish",
+        "description": "Use Cursor to tailor for specific job descriptions"
+      }
+    ],
+    "templates": [
+      {
+        "id": "christian-tech",
+        "title": "Christian Tech",
+        "icon": "⛪",
+        "description": "For mission-driven organizations in the faith technology space",
+        "color": "accent",
+        "content": "Dear [Hiring Manager],\n\nI am excited to apply for the [Position] role at [Company]. Your mission resonates deeply with my experience in this space.\n\n[Add your relevant experience and achievements here]\n\nI am particularly drawn to [Company]'s commitment to [specific value/feature]. I would welcome the opportunity to contribute my experience to your team.\n\nThank you for considering my application. I look forward to discussing how I can contribute to your team.\n\nSincerely,\nYour Name"
+      },
+      {
+        "id": "fintech",
+        "title": "FinTech",
+        "icon": "💳",
+        "description": "For financial technology and payment processing companies",
+        "color": "emerald",
+        "content": "Dear [Hiring Manager],\n\nI am writing to express my interest in the [Position] role at [Company]. With experience in [relevant field], I am excited about the opportunity to contribute to your team.\n\n[Add your relevant experience and achievements here]\n\nI am impressed by [Company]'s approach to [specific feature/value]. My background would allow me to contribute immediately while growing with your organization.\n\nI am available to start immediately in a remote capacity and am willing to adjust my work hours to accommodate team timezones. Thank you for your consideration.\n\nSincerely,\nYour Name"
+      },
+      {
+        "id": "healthcare",
+        "title": "Healthcare Tech",
+        "icon": "🏥",
+        "description": "For healthcare systems and medical technology companies",
+        "color": "purple",
+        "content": "Dear [Hiring Manager],\n\nI am eager to apply for the [Position] role at [Company]. My experience in [relevant field] has prepared me well for this opportunity.\n\n[Add your relevant experience and achievements here]\n\nI understand the importance of reliability, security, and compliance in [industry] systems. My work has shown me how to increase productivity while maintaining rigorous standards.\n\nI am drawn to [Company]'s commitment to [specific value/feature] and would welcome the opportunity to bring my experience to your team.\n\nThank you for considering my application.\n\nSincerely,\nYour Name"
+      },
+      {
+        "id": "general",
+        "title": "General Tech",
+        "icon": "💻",
+        "description": "Adaptable template for any technology company",
+        "color": "slate",
+        "content": "Dear [Hiring Manager],\n\nI am excited to apply for the [Position] role at [Company]. With experience as a software developer, I am confident in my ability to contribute to your team.\n\nThroughout my career, I have:\n• [Add your key achievements and experiences]\n• [Add more relevant points]\n• [Add more relevant points]\n\nMy technical expertise spans [your technologies]. I bring both hands-on coding skills and [your strengths] to every role.\n\nI am particularly impressed by [Company]'s [specific value/feature]. I am available to start immediately in a remote capacity and am flexible with timezone accommodations.\n\nThank you for your consideration. I look forward to discussing how I can contribute to your success.\n\nSincerely,\nYour Name"
+      }
+    ]
+  },
+  "site": {
+    "domain": {
+      "canonical": "yoursite.com",
+      "www": "www.yoursite.com"
+    },
+    "metadata": {
+      "title": "Your Name | Software Developer",
+      "description": "Software Developer with experience in modern web technologies.",
+      "keywords": ["Software Developer", "Web Developer", "React", "TypeScript", "Next.js"],
+      "author": "Your Name",
+      "openGraph": {
+        "title": "Your Name | Software Developer",
+        "description": "Software Developer",
+        "type": "website"
+      }
+    },
+    "navigation": [
+      { "href": "/", "label": "Home" },
+      { "href": "/resume", "label": "Resume" },
+      { "href": "/cover-letters", "label": "Cover Letters", "protected": true }
+    ]
+  }
+}

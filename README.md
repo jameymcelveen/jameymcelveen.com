@@ -28,6 +28,36 @@
 - 🎭 **Animations** - Smooth Framer Motion animations throughout
 - 🔐 **Privacy** - Obfuscated contact information to prevent scraping
 
+## 🎯 Build Your Own Portfolio
+
+**Like this site? Build your own!**
+
+This portfolio is fully data-driven and comes with a scaffold generator to create your own portfolio site in minutes. All content is managed through a single `profile.json` file—no code changes needed.
+
+### Quick Start
+
+```bash
+# Use the scaffold generator
+npx create-portfolio-site
+# or
+cd scaffold && npm install && node bin/create-portfolio-site.js
+```
+
+The generator will:
+- ✅ Create a complete Next.js project structure
+- ✅ Set up all components and pages
+- ✅ Pre-fill your basic information
+- ✅ Configure domain redirects
+- ✅ Get you ready to customize
+
+**📖 [View Scaffold Documentation →](./scaffold/README.md)**
+
+All you need to do is:
+1. Run the generator
+2. Update `src/data/profile.json` with your information
+3. Add your photo and assets
+4. Deploy!
+
 ## 🛠️ Tech Stack
 
 - **Framework:** Next.js 16 (App Router)
