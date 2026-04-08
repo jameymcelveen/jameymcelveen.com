@@ -1,4 +1,4 @@
-.PHONY: help setup install dev build start lint format format-check clean
+.PHONY: help setup install dev build start lint format format-check clean up down watch
 
 # Detect OS
 UNAME_S := $(shell uname -s)
@@ -12,6 +12,9 @@ help:
 	@echo "  make dev         - Start development server"
 	@echo "  make build       - Build for production"
 	@echo "  make start       - Start production server"
+	@echo "  make up          - Start API + web in Docker (detached); logs: docker compose logs -f"
+	@echo "  make down        - Stop Docker stack (docker compose down)"
+	@echo "  make watch       - Start stack in foreground (stream logs; Ctrl+C stops containers)"
 	@echo "  make lint        - Run ESLint"
 	@echo "  make format      - Format code with Prettier"
 	@echo "  make format-check - Check code formatting"
@@ -77,3 +80,16 @@ clean:
 	@rm -rf out
 	@rm -rf dist
 	@echo "Clean complete!"
+
+# Docker: full local stack (see docker-compose.yaml; set GEMINI_API_KEY in .env)
+up:
+	@echo "Starting Docker stack in background (API :8080, web :3000)…"
+	@docker compose up --build -d
+
+down:
+	@echo "Stopping Docker stack…"
+	@docker compose down
+
+watch:
+	@echo "Docker stack (API :8080, web :3000)—streaming logs; Ctrl+C stops…"
+	@docker compose up --build

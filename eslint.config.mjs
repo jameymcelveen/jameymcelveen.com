@@ -12,7 +12,16 @@ const eslintConfig = defineConfig([
     'out/**',
     'build/**',
     'next-env.d.ts',
+    'scaffold/**',
+    'backend/**',
   ]),
+  {
+    files: ['src/app/page.tsx', 'src/components/Navigation.tsx', 'src/components/PinGate.tsx'],
+    rules: {
+      // SessionStorage hydration after mount is intentional on these client components.
+      'react-hooks/set-state-in-effect': 'off',
+    },
+  },
 ]);
 
 export default eslintConfig;

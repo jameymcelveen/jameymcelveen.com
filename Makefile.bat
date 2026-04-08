@@ -15,6 +15,9 @@ if "%1"=="lint" goto lint
 if "%1"=="format" goto format
 if "%1"=="format-check" goto format-check
 if "%1"=="clean" goto clean
+if /i "%1"=="up" goto up
+if /i "%1"=="down" goto down
+if /i "%1"=="watch" goto watch
 
 echo Unknown target: %1
 goto help
@@ -26,6 +29,9 @@ echo   Makefile.bat install      - Install dependencies
 echo   Makefile.bat dev          - Start development server
 echo   Makefile.bat build        - Build for production
 echo   Makefile.bat start        - Start production server
+echo   Makefile.bat up           - Docker: API + web detached (see docker-compose.yaml)
+echo   Makefile.bat down         - Docker: stop stack
+echo   Makefile.bat watch        - Docker: foreground logs (Ctrl+C stops containers)
 echo   Makefile.bat lint         - Run ESLint
 echo   Makefile.bat format       - Format code with Prettier
 echo   Makefile.bat format-check - Check code formatting
@@ -78,6 +84,21 @@ if exist .next rmdir /s /q .next
 if exist out rmdir /s /q out
 if exist dist rmdir /s /q dist
 echo Clean complete!
+goto end
+
+:up
+echo Starting Docker stack in background (API :8080, web :3000^)...
+docker compose up --build -d
+goto end
+
+:down
+echo Stopping Docker stack...
+docker compose down
+goto end
+
+:watch
+echo Docker stack - streaming logs; Ctrl+C stops...
+docker compose up --build
 goto end
 
 :end

@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, type ReactElement } from 'react';
 import { ObfuscatedEmail, ObfuscatedPhone } from '@/components/ObfuscatedContact';
 import { SecretLock } from '@/components/PinGate';
 import { MapPin, Github } from 'lucide-react';
@@ -69,7 +69,7 @@ function renderSummaryWithHighlights(
   highlight3: string,
   highlightColor: string
 ) {
-  const parts: (string | JSX.Element)[] = [];
+  const parts: (string | ReactElement)[] = [];
   let remaining = text;
   let key = 0;
 
