@@ -5,6 +5,9 @@
 
 # dependencies
 /node_modules
+# pnpm only (Vercel/CI use frozen pnpm-lock.yaml; npm creates drift)
+package-lock.json
+
 /.pnp
 .pnp.*
 .yarn/*

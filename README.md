@@ -167,6 +167,8 @@ nvm use  # Automatically uses Node 22
 
 This site is automatically deployed to Vercel on every push to `main`.
 
+Use **pnpm** for installs (`pnpm install`). The repo tracks **`pnpm-lock.yaml`** only; **`package-lock.json` is ignored** so CI/Vercel `frozen-lockfile` installs never drift. Running `npm install` is blocked via **`preinstall`**—use pnpm (Corepack: `corepack enable`).
+
 - **Production:** https://jameymcelveen.com
 - **Preview:** https://jameymcelveen-com.vercel.app
 
