@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
+import { AnalyticsTracker } from '@/components/AnalyticsTracker';
 import { Navigation } from '@/components/Navigation';
 import { GradientMesh } from '@/components/GradientMesh';
 import { getSiteMetadata } from '@/data';
@@ -37,6 +38,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <AnalyticsTracker />
         <GradientMesh />
         <Navigation />
         <main className="min-h-screen pt-24">{children}</main>

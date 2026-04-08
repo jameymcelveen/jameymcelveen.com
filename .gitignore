@@ -26,6 +26,11 @@ package-lock.json
 # production
 /build
 
+# Local SQLite files (do not use backend/data/ — on macOS it hides backend/Data/ migrations)
+backend/**/*.db
+backend/**/*.db-shm
+backend/**/*.db-wal
+
 # misc
 .DS_Store
 *.pem

@@ -66,7 +66,7 @@ public sealed class ChatRateLimitMiddleware(RequestDelegate next, IMemoryCache c
     }
 }
 
-internal static class ClientIpResolver
+public static class ClientIpResolver
 {
     public static string Resolve(HttpContext context)
     {

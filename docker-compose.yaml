@@ -19,6 +19,10 @@ services:
       GEMINI_API_KEY: ${GEMINI_API_KEY:-}
       # Leave unset in .env to use SDK default (Gemini 2.0 Flash). Set GEMINI_MODEL only if overriding.
       GEMINI_MODEL: ${GEMINI_MODEL:-}
+      STATS_API_KEY: ${STATS_API_KEY:-dev-stats-change-me}
+      ConnectionStrings__DefaultConnection: Data Source=/app/data/analytics.db
+    volumes:
+      - api_data:/app/data
     restart: unless-stopped
 
   web:
@@ -32,6 +36,9 @@ services:
     environment:
       # Browser on your machine calls the API at this URL (published port on localhost).
       NEXT_PUBLIC_API_URL: http://localhost:8080
+      # Next.js server (inside this container) calls the API by service name.
+      INTERVIEW_API_URL: http://api:8080
+      STATS_API_KEY: ${STATS_API_KEY:-dev-stats-change-me}
       WATCHPACK_POLLING: 'true'
       CHOKIDAR_USEPOLLING: 'true'
     depends_on:
@@ -40,4 +47,5 @@ services:
       sh -c "corepack enable && corepack prepare pnpm@10.33.0 --activate && pnpm install && pnpm dev -- --hostname 0.0.0.0 --port 3000"
 
 volumes:
+  api_data:
   web_node_modules:

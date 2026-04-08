@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
+import { readAnalyticsIds } from '@/lib/site-analytics';
 
 type ChatRole = 'user' | 'assistant';
 
@@ -58,10 +59,15 @@ export function InterviewConsole() {
       setLines((prev) => [...prev, userLine]);
 
       try {
+        const ids = readAnalyticsIds();
         const res = await fetch(`${base}/api/chat`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message }),
+          body: JSON.stringify({
+            message,
+            ...(ids.visitorKey ? { visitorKey: ids.visitorKey } : {}),
+            ...(ids.sessionId ? { sessionId: ids.sessionId } : {}),
+          }),
         });
 
         const data: unknown = await res.json().catch(() => ({}));
