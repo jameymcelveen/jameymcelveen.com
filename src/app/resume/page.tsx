@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { ObfuscatedEmail, ObfuscatedPhone } from '@/components/ObfuscatedContact';
-import { Sparkles, FileText, MapPin } from 'lucide-react';
+import { Sparkles, FileText, MapPin, Download } from 'lucide-react';
 import {
   getResumeData,
   getWorkExperience,
@@ -47,28 +47,23 @@ export default function ResumePage() {
   const contact = getContactInfo();
   const branding = getBranding();
 
-  const handlePrint = () => {
-    const printWindow = window.open('/resume/print', '_blank');
-    if (printWindow) {
-      printWindow.onload = () => {
-        setTimeout(() => {
-          printWindow.print();
-        }, 250);
-      };
-    }
-  };
+  const resumePdfHref = '/Resume_Jamey_McElveen.pdf';
+  const resumePdfName = 'Resume_Jamey_McElveen.pdf';
 
   return (
     <>
-      {/* Sticky print button - centered with nav */}
+      {/* Sticky PDF download */}
       <div className="fixed right-4 top-4 z-50 flex items-center sm:right-6 sm:top-6">
-        <button
-          onClick={handlePrint}
+        <a
+          href={resumePdfHref}
+          download={resumePdfName}
+          aria-label="Download resume as PDF"
           className="glass-card text-foreground hover:border-accent/30 flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all hover:scale-105 sm:px-6"
         >
-          <FileText className="h-4 w-4" />
-          <span className="hidden sm:inline">Print Resume</span>
-        </button>
+          <Download className="h-4 w-4" aria-hidden />
+          <span className="hidden sm:inline">Download PDF</span>
+          <span className="sm:hidden">PDF</span>
+        </a>
       </div>
 
       <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12">
