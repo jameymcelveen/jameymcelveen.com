@@ -1,0 +1,29 @@
+# Hosting targets for CLI bootstrap scripts (scripts/hosting/README.md).
+# Safe to commit — no secrets here.
+
+project_slug: jameymcelveen
+
+domains:
+  primary:
+    - jameymcelveen.com
+    - www.jameymcelveen.com
+  secondary:
+    - jamey.co
+    - www.jamey.co
+
+# Public Interview API (Railway). Subdomain keeps CORS and env simple for the current Next.js client.
+api:
+  public_base_url: https://api.jameymcelveen.com
+  suggested_hostname: api.jameymcelveen.com
+  # Alternative: serve API under the primary site via Vercel rewrites (not wired in this repo):
+  # path_on_vercel: /api
+
+vercel:
+  project_name: jameymcelveen
+  production_branch: main
+
+railway:
+  project_name: jameymcelveen
+  # Create/link a Railway service with root directory = backend (monorepo).
+  service_root: backend
+  dockerfile: Dockerfile

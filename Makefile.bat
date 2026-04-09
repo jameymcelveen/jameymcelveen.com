@@ -40,7 +40,7 @@ goto end
 
 :setup
 echo Running Windows setup...
-call scripts\dev-setup-windows.bat
+call scripts\dev-setup\dev-setup-windows.bat
 goto end
 
 :install

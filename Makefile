@@ -1,4 +1,4 @@
-.PHONY: help setup install dev build start lint format format-check clean up down watch
+.PHONY: help setup install dev build start lint format format-check clean up down watch hosting-bootstrap
 
 # Detect OS
 UNAME_S := $(shell uname -s)
@@ -7,34 +7,35 @@ UNAME_M := $(shell uname -m)
 # Default target
 help:
 	@echo "Available targets:"
-	@echo "  make setup       - Run platform-specific setup script"
-	@echo "  make install     - Install dependencies"
-	@echo "  make dev         - Start development server"
-	@echo "  make build       - Build for production"
-	@echo "  make start       - Start production server"
-	@echo "  make up          - Start API + web in Docker (detached); logs: docker compose logs -f"
-	@echo "  make down        - Stop Docker stack (docker compose down)"
-	@echo "  make watch       - Start stack in foreground (stream logs; Ctrl+C stops containers)"
-	@echo "  make lint        - Run ESLint"
-	@echo "  make format      - Format code with Prettier"
-	@echo "  make format-check - Check code formatting"
-	@echo "  make clean       - Clean build artifacts"
+	@echo "  make setup       			- Run platform-specific setup script"
+	@echo "  make install     			- Install dependencies"
+	@echo "  make dev         			- Start development server"
+	@echo "  make build       			- Build for production"
+	@echo "  make start       			- Start production server"
+	@echo "  make up          			- Start API + web in Docker (detached); logs: docker compose logs -f"
+	@echo "  make down        			- Stop Docker stack (docker compose down)"
+	@echo "  make watch       			- Start stack in foreground (stream logs; Ctrl+C stops containers)"
+	@echo "  make lint        			- Run ESLint"
+	@echo "  make format      			- Format code with Prettier"
+	@echo "  make format-check 			- Check code formatting"
+	@echo "  make clean       			- Clean build artifacts"
+	@echo "  make hosting-bootstrap - Bootstrap hosting environment"
 
 # Platform-specific setup
 setup:
 	@echo "Detecting platform..."
 ifeq ($(UNAME_S),Linux)
 	@echo "Running Linux setup..."
-	@bash scripts/dev-setup-linux.sh
+	@bash scripts/dev-setup/dev-setup-linux.sh
 else ifeq ($(UNAME_S),Darwin)
 	@echo "Running macOS setup..."
-	@bash scripts/dev-setup-mac.sh
+	@bash scripts/dev-setup/dev-setup-mac.sh
 else
 	@echo "Unsupported platform: $(UNAME_S)"
 	@echo "Please run the appropriate setup script manually:"
-	@echo "  - Windows: .\\scripts\\dev-setup-windows.bat"
-	@echo "  - Mac: bash scripts/dev-setup-mac.sh"
-	@echo "  - Linux: bash scripts/dev-setup-linux.sh"
+	@echo "  - Windows: .\\scripts\\dev-setup\\dev-setup-windows.bat"
+	@echo "  - Mac: bash scripts/dev-setup/dev-setup-mac.sh"
+	@echo "  - Linux: bash scripts/dev-setup/dev-setup-linux.sh"
 	@exit 1
 endif
 
@@ -93,3 +94,7 @@ down:
 watch:
 	@echo "Docker stack (API :8080, web :3000)—streaming logs; Ctrl+C stops…"
 	@docker compose up --build
+
+hosting-bootstrap:
+	@echo "Bootstrapping hosting environment..."
+	@bash scripts/hosting/run-all.sh

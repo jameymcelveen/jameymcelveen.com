@@ -2,6 +2,9 @@
 REM Windows Development Setup Script
 REM Idempotent - safe to run multiple times
 
+set "SETUP_DIR=%~dp0"
+cd /d "%SETUP_DIR%..\..\"
+
 echo ========================================
 echo Windows Development Setup
 echo ========================================

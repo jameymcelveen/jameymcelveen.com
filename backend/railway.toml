@@ -1,0 +1,9 @@
+# Railway: set the service "Root Directory" to `backend` in the dashboard (monorepo).
+# https://docs.railway.app/guides/docker
+
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
+
+[deploy]
+restartPolicyType = "ON_FAILURE"
