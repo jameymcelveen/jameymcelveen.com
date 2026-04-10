@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono, JetBrains_Mono } from 'next/font/google';
 import { AnalyticsTracker } from '@/components/AnalyticsTracker';
-import { Navigation } from '@/components/Navigation';
 import { GradientMesh } from '@/components/GradientMesh';
+import { Navigation } from '@/components/Navigation';
+import { PageChrome } from '@/components/PageChrome';
 import { getSiteDomain, getSiteMetadata } from '@/data';
 import './globals.css';
 
@@ -50,9 +51,7 @@ export default function RootLayout({
         <AnalyticsTracker />
         <GradientMesh />
         <Navigation />
-        <main className="min-h-screen pt-12">
-          <div className="mx-auto w-full max-w-4xl px-4 pb-16 sm:px-6">{children}</div>
-        </main>
+        <PageChrome>{children}</PageChrome>
       </body>
     </html>
   );

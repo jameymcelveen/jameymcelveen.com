@@ -33,6 +33,10 @@ export function Navigation() {
     (item) => !item.protected || (item.protected && showCoverLetters)
   );
 
+  if (pathname === '/ai') {
+    return null;
+  }
+
   return (
     <motion.header
       initial={{ y: -8, opacity: 0 }}
