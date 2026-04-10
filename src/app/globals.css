@@ -1,48 +1,49 @@
 @import 'tailwindcss';
 
+/* Engineering Command Center — Linear-inspired palette */
 :root {
-  /* Soft dark theme with brand accents */
-  --background: #0c0a10;
-  --background-secondary: #14121a;
-  --foreground: #f0f0f2;
-  --foreground-muted: #9ca3af;
+  --background: #0b0e14;
+  --surface: #151921;
+  --foreground: #e6edf3;
+  --foreground-muted: #8b949e;
+  --steel: #2d333b;
+  --architect-blue: #357ec7;
+  --csharp-green: #4ec9b0;
+  --metric-success: #3fb950;
+  --metric-warning: #d4a72c;
+  --spotlight: rgba(53, 126, 199, 0.14);
 
-  /* Brand Colors - used sparingly */
-  --brand-highlight: #f56600;
-  --brand-secondary: #522d80;
-  --brand-tertiary: #3d2163;
+  --background-secondary: var(--surface);
+  --accent: var(--architect-blue);
+  --accent-highlight: var(--csharp-green);
+  --accent-secondary: #2d8f7c;
+  --accent-glow: rgba(53, 126, 199, 0.12);
+  --brand-highlight: var(--csharp-green);
+  --brand-secondary: var(--architect-blue);
+  --brand-tertiary: var(--steel);
 
-  /* Primary accent is now softer purple, orange for highlights only */
-  --accent: #8b6cb5;
-  --accent-highlight: #f56600;
-  --accent-secondary: #522d80;
-  --accent-glow: rgba(139, 108, 181, 0.15);
+  --glass-bg: rgba(21, 25, 33, 0.72);
+  --glass-border: var(--steel);
 
-  /* Glass effect - subtle, neutral */
-  --glass-bg: rgba(255, 255, 255, 0.02);
-  --glass-border: rgba(255, 255, 255, 0.06);
+  --liquid-glass-bg: rgba(21, 25, 33, 0.88);
+  --liquid-glass-border: var(--steel);
+  --liquid-glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
 
-  /* Liquid glass - enhanced glassmorphism */
-  --liquid-glass-bg: rgba(255, 255, 255, 0.05);
-  --liquid-glass-border: rgba(255, 255, 255, 0.1);
-  --liquid-glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
-
-  /* Gradients - subtle with brand highlight hint */
-  --gradient-primary: linear-gradient(135deg, #8b6cb5 0%, #522d80 100%);
-  --gradient-mesh: radial-gradient(at 27% 37%, rgba(82, 45, 128, 0.5) 0, transparent 50%),
-    radial-gradient(at 97% 21%, rgba(139, 108, 181, 0.4) 0, transparent 50%),
-    radial-gradient(at 52% 99%, rgba(61, 33, 99, 0.4) 0, transparent 50%),
-    radial-gradient(at 10% 29%, rgba(82, 45, 128, 0.3) 0, transparent 50%),
-    radial-gradient(at 97% 96%, rgba(139, 108, 181, 0.3) 0, transparent 50%),
-    radial-gradient(at 40% 60%, rgba(245, 102, 0, 0.15) 0, transparent 50%);
+  --gradient-primary: linear-gradient(135deg, var(--architect-blue) 0%, var(--csharp-green) 100%);
+  --gradient-mesh: radial-gradient(ellipse 80% 60% at 50% -10%, var(--spotlight) 0%, transparent 55%),
+    radial-gradient(ellipse 70% 50% at 100% 40%, rgba(78, 201, 176, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 45% at 0% 80%, rgba(53, 126, 199, 0.08) 0%, transparent 45%);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-background-secondary: var(--background-secondary);
+  --color-surface: var(--surface);
   --color-foreground: var(--foreground);
   --color-foreground-muted: var(--foreground-muted);
+  --color-steel: var(--steel);
   --color-accent: var(--accent);
+  --color-accent-csharp: var(--csharp-green);
   --color-accent-highlight: var(--accent-highlight);
   --color-accent-secondary: var(--accent-secondary);
   --color-accent-glow: var(--accent-glow);
@@ -51,8 +52,29 @@
   --color-brand-highlight: var(--brand-highlight);
   --color-brand-secondary: var(--brand-secondary);
   --color-brand-tertiary: var(--brand-tertiary);
+  --color-metric-success: var(--metric-success);
+  --color-metric-warning: var(--metric-warning);
   --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-mono: var(--font-jetbrains-mono), var(--font-geist-mono), ui-monospace, monospace;
+}
+
+@layer base {
+  a,
+  button,
+  input:not([disabled]),
+  select,
+  textarea:not([disabled]),
+  summary {
+    transition-property: color, background-color, border-color, text-decoration-color, box-shadow, transform,
+      opacity;
+    transition-duration: 0.15s;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  button:not([disabled]):hover,
+  a:hover {
+    transition-duration: 0.12s;
+  }
 }
 
 body {
@@ -61,7 +83,7 @@ body {
   font-family: var(--font-sans), system-ui, sans-serif;
 }
 
-/* Animated gradient mesh background - subtle with brand highlight hint */
+/* Low-opacity radial spotlight + depth */
 .gradient-mesh {
   position: fixed;
   inset: 0;
@@ -73,46 +95,48 @@ body {
 .gradient-mesh::before {
   content: '';
   position: absolute;
-  inset: -50%;
-  width: 200%;
-  height: 200%;
+  inset: -40% -20%;
+  width: 140%;
+  height: 140%;
   background: var(--gradient-mesh);
-  opacity: 0.6;
-  filter: blur(100px);
-  animation: mesh-float 25s ease-in-out infinite;
+  opacity: 1;
+  filter: blur(72px);
+  animation: mesh-float 28s ease-in-out infinite;
 }
 
 @keyframes mesh-float {
   0%,
   100% {
-    transform: translate(0, 0) rotate(0deg);
+    transform: translate(0, 0) scale(1);
   }
-  25% {
-    transform: translate(2%, 2%) rotate(1deg);
+  40% {
+    transform: translate(2%, 1%) scale(1.03);
   }
-  50% {
-    transform: translate(-1%, 3%) rotate(-1deg);
-  }
-  75% {
-    transform: translate(1%, -2%) rotate(0.5deg);
+  70% {
+    transform: translate(-1%, 2%) scale(0.98);
   }
 }
 
-/* Glass card effect */
+/* Command-center surfaces */
 .glass-card {
-  background: var(--glass-bg);
-  backdrop-filter: blur(12px);
-  border: 1px solid var(--glass-border);
-  border-radius: 16px;
+  background: var(--surface);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--steel);
+  border-radius: 8px;
 }
 
-/* Liquid glass effect - enhanced glassmorphism for special cards */
+.surface-card {
+  background: var(--surface);
+  border: 1px solid var(--steel);
+  border-radius: 8px;
+}
+
 .liquid-glass {
   background: var(--liquid-glass-bg);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
   border: 1px solid var(--liquid-glass-border);
-  border-radius: 16px;
+  border-radius: 8px;
   box-shadow: var(--liquid-glass-shadow);
   position: relative;
   overflow: hidden;
@@ -125,12 +149,7 @@ body {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.1),
-    transparent
-  );
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.04), transparent);
   animation: shimmer-single 1.5s ease-in-out;
   pointer-events: none;
 }
@@ -139,9 +158,6 @@ body {
   animation: shimmer-single 1.5s ease-in-out;
 }
 
-/* Liquid glass on hover for buttons - removed shimmer */
-
-/* Resume page specific - liquid glass flash once on load, then on hover */
 .liquid-glass-resume {
   position: relative;
   overflow: hidden;
@@ -154,12 +170,7 @@ body {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.15),
-    transparent
-  );
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.06), transparent);
   pointer-events: none;
   animation: shimmer-single 1.5s ease-in-out;
 }
@@ -168,9 +179,6 @@ body {
   animation: shimmer-single 1.5s ease-in-out;
 }
 
-/* Name shimmer effect - removed */
-
-/* Single shimmer animation */
 @keyframes shimmer-single {
   0% {
     left: -100%;
@@ -180,7 +188,6 @@ body {
   }
 }
 
-/* Text gradient - brand colors for name only */
 .text-gradient {
   background: var(--gradient-primary);
   background-clip: text;
@@ -188,28 +195,23 @@ body {
   -webkit-text-fill-color: transparent;
 }
 
-/* Brand highlight color for special emphasis */
 .text-brand-highlight {
   color: var(--brand-highlight);
 }
 
-/* Glow effect - softer purple */
 .glow {
-  box-shadow: 0 0 30px var(--accent-glow), 0 0 60px var(--accent-glow);
+  box-shadow: 0 0 0 1px rgba(53, 126, 199, 0.35), 0 0 24px var(--accent-glow);
 }
 
-/* Selection style */
 ::selection {
-  background: var(--accent);
-  color: white;
+  background: var(--architect-blue);
+  color: #fff;
 }
 
-/* Smooth scrolling */
 html {
   scroll-behavior: smooth;
 }
 
-/* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -219,7 +221,7 @@ html {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--glass-border);
+  background: var(--steel);
   border-radius: 3px;
 }
 
@@ -227,15 +229,50 @@ html {
   background: var(--foreground-muted);
 }
 
+/* IDE-grade markdown / prose (shared) */
+.prose-cmd strong {
+  color: var(--foreground);
+  font-weight: 600;
+}
+.prose-cmd code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background: rgba(21, 25, 33, 0.9);
+  border: 1px solid var(--steel);
+  color: var(--csharp-green);
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+}
+.prose-cmd pre {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  background: var(--surface);
+  border: 1px solid var(--steel);
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  overflow-x: auto;
+  margin: 0.75rem 0;
+}
+.prose-cmd pre code {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  color: var(--foreground);
+}
+
+.interview-md.prose-cmd a {
+  color: var(--architect-blue);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
 /* ==================== PRINT STYLES ==================== */
 @media print {
-  /* Force color printing for links and highlights */
   * {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
 
-  /* Hide the navigation, buttons, and brand logo footer for a clean print */
   nav,
   .no-print,
   button,
@@ -247,7 +284,6 @@ html {
     display: none !important;
   }
 
-  /* Reset layout for 8.5x11 paper */
   body {
     background: white !important;
     padding: 0 !important;
@@ -256,19 +292,16 @@ html {
     line-height: 1.4;
   }
 
-  /* Reset for print - but preserve colors */
   *::before,
   *::after {
     box-shadow: none !important;
     text-shadow: none !important;
   }
 
-  /* Ensure text is readable */
   .text-foreground-muted {
     color: #666 !important;
   }
 
-  /* Page setup */
   @page {
     margin: 0.5in;
     size: letter;
@@ -279,17 +312,16 @@ html {
     line-height: 1.4;
   }
 
-  /* Container adjustments */
   .container {
     box-shadow: none !important;
     border: none !important;
     max-width: 100% !important;
   }
 
-  /* Reset glass cards for print */
   .glass-card,
   .liquid-glass,
-  .liquid-glass-resume {
+  .liquid-glass-resume,
+  .surface-card {
     background: white !important;
     border: 1px solid #ddd !important;
     backdrop-filter: none !important;
@@ -298,7 +330,6 @@ html {
     padding: 12pt !important;
   }
 
-  /* Headers */
   h1 {
     font-size: 24pt !important;
     margin-bottom: 4pt !important;
@@ -315,19 +346,16 @@ html {
     font-size: 11pt !important;
   }
 
-  /* Text gradient becomes solid for print */
   .text-gradient {
     background: none !important;
     -webkit-text-fill-color: black !important;
     color: black !important;
   }
 
-  /* Links */
   a {
     text-decoration: none !important;
   }
 
-  /* Grid adjustments for print */
   .grid {
     display: block !important;
   }
@@ -336,20 +364,18 @@ html {
     margin-bottom: 12pt;
   }
 
-  /* Skills badges */
   .font-mono {
     font-family: 'Courier New', monospace !important;
   }
 
-  /* Accent colors become dark gray for print */
   .text-accent,
   .text-accent-secondary,
+  .text-accent-csharp,
   .text-brand-highlight {
     color: #333 !important;
     -webkit-text-fill-color: #333 !important;
   }
 
-  /* Badge backgrounds */
   [class*='bg-accent'],
   [class*='bg-emerald'],
   [class*='bg-orange'],
@@ -358,23 +384,19 @@ html {
     border: 1px solid #ddd !important;
   }
 
-  /* Timeline border */
   .border-l-2 {
     border-left: 2px solid #333 !important;
   }
 
-  /* Ensure content fits */
   .max-w-6xl {
     max-width: 100% !important;
     padding: 0 !important;
   }
 
-  /* Hide print button */
   button[onclick] {
     display: none !important;
   }
 
-  /* Show print-only content */
   .print-only {
     display: block !important;
   }

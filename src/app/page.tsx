@@ -140,19 +140,19 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="flex min-h-[calc(100vh-6rem)] flex-col items-center justify-center px-4 sm:px-6">
+    <div className="flex min-h-[calc(100vh-5rem)] flex-col items-center justify-center py-8 sm:py-12">
       <motion.div
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="max-w-4xl text-center"
+        className="w-full max-w-3xl text-center"
       >
         {/* Photo */}
         <motion.div
           variants={itemVariants}
           className="mb-6 flex justify-center pt-8 sm:mb-8 sm:pt-12"
         >
-          <div className="relative h-32 w-32 overflow-hidden rounded-full border-2 border-accent/30 sm:h-40 sm:w-40">
+          <div className="border-steel relative h-32 w-32 overflow-hidden rounded-full border-2 ring-1 ring-accent/20 sm:h-40 sm:w-40">
             <Image
               src={images.photo}
               alt={images.photoAlt}
@@ -184,11 +184,18 @@ export default function Home() {
         {/* Title */}
         <motion.h2
           variants={itemVariants}
-          className="text-foreground-muted mb-6 text-lg sm:mb-8 sm:text-xl md:text-2xl lg:text-3xl"
+          className="text-foreground-muted mb-2 text-lg sm:text-xl md:text-2xl"
+        >
+          <span className="text-foreground font-semibold tracking-tight">Principal Architect</span>
+          <span className="text-foreground-muted font-normal"> — value delivery, platforms, and teams at scale.</span>
+        </motion.h2>
+        <motion.p
+          variants={itemVariants}
+          className="text-foreground-muted mb-6 text-base sm:mb-8 sm:text-lg md:text-xl"
         >
           {personal.title.split(' & ')[0]} &amp;{' '}
           <span className="text-foreground">{personal.subtitle}</span>
-        </motion.h2>
+        </motion.p>
 
         {/* Summary */}
         <motion.p
@@ -211,10 +218,9 @@ export default function Home() {
         >
           <Link
             href="/resume"
-            className="glow group bg-accent relative overflow-hidden rounded-full px-6 py-2.5 font-medium text-white transition-all hover:scale-105 sm:px-8 sm:py-3"
+            className="glow group bg-accent text-background relative overflow-hidden rounded-md px-6 py-2.5 font-medium shadow-sm hover:brightness-110 sm:px-8 sm:py-3"
           >
-            <span className="relative z-10">View Resume</span>
-            <span className="bg-accent-secondary absolute inset-0 -translate-x-full transition-transform duration-300 group-hover:translate-x-0" />
+            <span className="relative z-10">View resume</span>
           </Link>
 
           {/* Cover letters button - positioned correctly */}
@@ -228,7 +234,7 @@ export default function Home() {
             >
               <Link
                 href="/cover-letters"
-                className="glass-card text-foreground hover:border-accent/30 rounded-full px-6 py-2.5 font-medium transition-all hover:scale-105 sm:px-8 sm:py-3"
+                className="glass-card text-foreground hover:border-accent/40 rounded-md px-6 py-2.5 font-medium hover:bg-surface sm:px-8 sm:py-3"
               >
                 Cover Letters
               </Link>
@@ -244,7 +250,7 @@ export default function Home() {
           {home.techStack.map((tech) => (
             <span
               key={tech}
-              className="glass-card text-foreground-muted hover:text-accent rounded-full px-3 py-1 font-mono text-xs transition-colors sm:px-4 sm:py-1.5"
+              className="glass-card text-accent-csharp hover:bg-surface hover:text-accent-csharp rounded-md border-steel px-3 py-1 font-mono text-xs sm:px-4 sm:py-1.5"
             >
               {tech}
             </span>

@@ -53,12 +53,12 @@ export default function ResumePage() {
   return (
     <>
       {/* Sticky PDF download */}
-      <div className="fixed right-4 top-4 z-50 flex items-center sm:right-6 sm:top-6">
+      <div className="fixed top-14 right-4 z-50 flex items-center sm:right-6 sm:top-14">
         <a
           href={resumePdfHref}
           download={resumePdfName}
           aria-label="Download resume as PDF"
-          className="glass-card text-foreground hover:border-accent/30 flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all hover:scale-105 sm:px-6"
+          className="glass-card text-foreground hover:border-accent/40 flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium sm:px-6"
         >
           <Download className="h-4 w-4" aria-hidden />
           <span className="hidden sm:inline">Download PDF</span>
@@ -66,26 +66,28 @@ export default function ResumePage() {
         </a>
       </div>
 
-      <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12">
+      <div className="w-full px-0 py-8 sm:py-12">
         <motion.div variants={containerVariants} initial="hidden" animate="visible">
-          {/* Header */}
-          <motion.div variants={itemVariants} className="mb-8 pt-2 text-center sm:mb-10 sm:pt-3">
-            <h1 className="text-gradient mb-2 text-3xl font-bold sm:text-4xl md:text-5xl">
-              Resume
+          {/* Header — technical spec */}
+          <motion.div variants={itemVariants} className="mb-8 border-b border-steel pb-6 text-left sm:mb-10">
+            <p className="text-accent mb-1 font-mono text-[10px] tracking-[0.2em] uppercase sm:text-xs">
+              Document / résumé
+            </p>
+            <h1 className="text-foreground mb-2 font-mono text-2xl font-semibold tracking-tight sm:text-3xl md:text-4xl">
+              Technical specification — experience &amp; stack
             </h1>
-            <p className="text-foreground-muted text-sm sm:text-base">
+            <p className="text-foreground-muted font-mono text-xs sm:text-sm">
               {resume.subtitle}
             </p>
           </motion.div>
 
-          {/* Bento Grid */}
-          <div className="grid gap-3 sm:gap-4 md:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-3 sm:gap-4 md:grid-cols-2">
             {/* Summary - spans 2 cols */}
             <motion.div
               variants={itemVariants}
               className="liquid-glass-resume glass-card p-4 sm:p-6 md:col-span-2"
             >
-              <h2 className="text-accent mb-3 font-mono text-xs tracking-widest uppercase">
+              <h2 className="text-accent mb-3 font-mono text-[10px] tracking-[0.18em] uppercase">
                 Summary
               </h2>
               <p className="text-foreground-muted text-sm leading-relaxed sm:text-base">
@@ -136,7 +138,7 @@ export default function ResumePage() {
               variants={itemVariants}
               className="liquid-glass-resume glass-card p-4 sm:p-6"
             >
-              <h2 className="text-accent mb-3 font-mono text-xs tracking-widest uppercase">
+              <h2 className="text-accent mb-3 font-mono text-[10px] tracking-[0.18em] uppercase">
                 Education
               </h2>
               <p className="text-foreground text-sm font-medium sm:text-base">
@@ -162,7 +164,7 @@ export default function ResumePage() {
               variants={itemVariants}
               className="liquid-glass-resume glass-card p-4 sm:p-6"
             >
-              <h2 className="text-accent mb-3 font-mono text-xs tracking-widest uppercase">
+              <h2 className="text-accent mb-3 font-mono text-[10px] tracking-[0.18em] uppercase">
                 Contact
               </h2>
               <div className="space-y-2 text-sm">
@@ -178,10 +180,10 @@ export default function ResumePage() {
             {/* Technical Skills - spans full width */}
             <motion.div
               variants={itemVariants}
-              className="glass-card p-4 sm:p-6 md:col-span-2 lg:col-span-4"
+              className="glass-card p-4 sm:p-6 md:col-span-2"
             >
-              <h2 className="text-accent mb-4 font-mono text-xs tracking-widest uppercase">
-                Technical Stack
+              <h2 className="text-accent mb-4 font-mono text-[10px] tracking-[0.18em] uppercase">
+                Technical stack
               </h2>
               <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
                 <div>
@@ -192,7 +194,7 @@ export default function ResumePage() {
                     {skills.languages.map((skill) => (
                       <span
                         key={skill}
-                        className="bg-accent/10 text-accent rounded-md px-2 py-0.5 font-mono text-xs"
+                        className="border-steel bg-surface text-accent-csharp rounded border px-2 py-0.5 font-mono text-xs"
                       >
                         {skill}
                       </span>
@@ -207,7 +209,7 @@ export default function ResumePage() {
                     {skills.frameworks.map((skill) => (
                       <span
                         key={skill}
-                        className="bg-accent-secondary/10 text-accent-secondary rounded-md px-2 py-0.5 font-mono text-xs"
+                        className="border-steel bg-surface text-accent-csharp rounded border px-2 py-0.5 font-mono text-xs"
                       >
                         {skill}
                       </span>
@@ -220,7 +222,7 @@ export default function ResumePage() {
                     {skills.data.map((skill) => (
                       <span
                         key={skill}
-                        className="rounded-md bg-purple-500/10 px-2 py-0.5 font-mono text-xs text-purple-300"
+                        className="border-steel bg-surface text-accent-csharp rounded border px-2 py-0.5 font-mono text-xs"
                       >
                         {skill}
                       </span>
@@ -235,7 +237,7 @@ export default function ResumePage() {
                     {skills.tools.map((skill) => (
                       <span
                         key={skill}
-                        className="rounded-md bg-emerald-500/10 px-2 py-0.5 font-mono text-xs text-emerald-400"
+                        className="border-steel bg-surface text-accent-csharp rounded border px-2 py-0.5 font-mono text-xs"
                       >
                         {skill}
                       </span>
@@ -248,7 +250,7 @@ export default function ResumePage() {
             {/* Engineering & IoT Prototyping Section */}
             <motion.div
               variants={itemVariants}
-              className="glass-card p-4 sm:p-6 md:col-span-2 lg:col-span-4"
+              className="glass-card p-4 sm:p-6 md:col-span-2"
               style={{
                 borderLeft: `4px solid ${branding.primary}`,
                 backgroundColor: `${branding.primary}0d`,
@@ -273,11 +275,11 @@ export default function ResumePage() {
             {/* AI/Cursor Skills Section - Liquid Glass */}
             <motion.div
               variants={itemVariants}
-              className="liquid-glass p-4 sm:p-6 md:col-span-2 lg:col-span-4"
+              className="liquid-glass p-4 sm:p-6 md:col-span-2"
             >
               <div className="mb-4 flex items-center gap-2">
                 <Sparkles className="h-5 w-5" style={{ color: branding.highlight }} />
-                <h2 className="text-accent font-mono text-xs tracking-widest uppercase">
+                <h2 className="text-accent font-mono text-[10px] tracking-[0.18em] uppercase">
                   {aiDev.title}
                 </h2>
               </div>
@@ -332,17 +334,17 @@ export default function ResumePage() {
             {/* Work Experience - individual cards */}
             <motion.div
               variants={itemVariants}
-              className="glass-card p-4 sm:p-6 md:col-span-2 lg:col-span-4"
+              className="glass-card p-4 sm:p-6 md:col-span-2"
             >
-              <h2 className="text-accent mb-4 font-mono text-xs tracking-widest uppercase sm:mb-6">
-                Work History
+              <h2 className="text-accent mb-4 font-mono text-[10px] tracking-[0.18em] uppercase sm:mb-6">
+                Work history
               </h2>
               <div className="space-y-6 sm:space-y-8">
                 {jobs.map((job, idx) => (
                   <motion.div
                     key={idx}
                     variants={itemVariants}
-                    className="relative border-l-2 pl-4 sm:pl-6 border-glass-border"
+                    className="border-steel relative border-l-2 pl-4 sm:pl-6"
                     style={
                       job.isLongTenure
                         ? { borderLeftColor: branding.highlight }
@@ -393,11 +395,11 @@ export default function ResumePage() {
             {/* Publication - expanded to full width */}
             <motion.div
               variants={itemVariants}
-              className="liquid-glass-resume glass-card p-4 sm:p-6 md:col-span-2 lg:col-span-4"
+              className="liquid-glass-resume glass-card p-4 sm:p-6 md:col-span-2"
             >
               <div className="mb-3 flex items-center gap-2">
                 <FileText className="text-accent h-4 w-4" />
-                <h2 className="text-accent font-mono text-xs tracking-widest uppercase">
+                <h2 className="text-accent font-mono text-[10px] tracking-[0.18em] uppercase">
                   Publications
                 </h2>
               </div>

@@ -53,7 +53,7 @@ function CoverLettersContent() {
   };
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12">
+    <div className="w-full px-0 py-8 sm:py-12">
       <motion.div variants={containerVariants} initial="hidden" animate="visible">
         {/* Header */}
         <motion.div variants={itemVariants} className="mb-6 text-center sm:mb-8">
@@ -114,7 +114,7 @@ function CoverLettersContent() {
             className="mt-6 sm:mt-8"
           >
             <div className="glass-card overflow-hidden">
-              <div className="border-glass-border flex items-center justify-between border-b p-3 sm:p-4">
+              <div className="border-steel flex items-center justify-between border-b p-3 sm:p-4">
                 <h3 className="text-foreground text-sm font-medium sm:text-base">
                   {activeTemplate.icon} {activeTemplate.title} Template
                 </h3>

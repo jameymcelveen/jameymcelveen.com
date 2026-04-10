@@ -35,7 +35,7 @@ export function InterviewConsole() {
 
   useEffect(() => {
     if (!base) {
-      setBanner('Set NEXT_PUBLIC_API_URL to your Interview API origin (e.g. https://your-api.up.railway.app).');
+      setBanner('Set NEXT_PUBLIC_API_URL to your Interview API origin (e.g. https://api.example.com).');
     }
   }, [base]);
 
@@ -134,25 +134,22 @@ export function InterviewConsole() {
   );
 
   return (
-    <section className="mx-auto flex min-h-[calc(100vh-6rem)] max-w-3xl flex-col px-4 pb-16 pt-24 sm:px-6">
-      <header className="mb-8 text-center">
-        <p className="text-accent mb-2 font-mono text-xs tracking-[0.2em] uppercase">
-          AI Interview · Architecture &amp; Compliance
+    <div className="flex min-h-[calc(100vh-7rem)] flex-col pb-36">
+      <header className="mx-auto mb-8 w-full max-w-2xl text-center">
+        <p className="text-accent mb-2 font-mono text-[10px] tracking-[0.2em] uppercase">
+          Architect interview
         </p>
-        <h1 className="font-mono text-2xl font-semibold tracking-tight text-foreground sm:text-3xl md:text-4xl">
-          <span className="glass-card text-accent-highlight border-accent/25 inline-block border px-2 py-0.5">
-            &gt;_ interview-console
-          </span>
+        <h1 className="text-foreground font-mono text-xl font-semibold tracking-tight sm:text-2xl">
+          Career &amp; technical Q&amp;A
         </h1>
-        <p className="text-foreground-muted mx-auto mt-4 max-w-xl text-sm leading-relaxed sm:text-base">
-          Ask career and technical questions—.NET modernization, HIPAA-aware delivery, legacy refactors—grounded in
-          public resume context.
+        <p className="text-foreground-muted mx-auto mt-3 max-w-lg text-sm leading-relaxed">
+          Grounded in public resume context: .NET modernization, HIPAA-aware delivery, legacy refactors.
         </p>
       </header>
 
       {banner && (
         <div
-          className="glass-card border-accent/30 text-foreground-muted mb-4 rounded-lg border px-3 py-2 font-mono text-xs sm:text-sm"
+          className="border-steel bg-surface text-foreground-muted mx-auto mb-4 w-full max-w-2xl rounded-md border px-3 py-2 font-mono text-xs sm:text-sm"
           role="status"
         >
           {banner}
@@ -161,42 +158,68 @@ export function InterviewConsole() {
 
       <div
         ref={listRef}
-        className="glass-card border-glass-border mb-4 max-h-[38vh] min-h-[120px] overflow-y-auto rounded-xl border font-mono text-sm leading-relaxed shadow-inner sm:text-base"
+        className="border-steel bg-background/40 mx-auto mb-4 w-full max-w-2xl flex-1 overflow-y-auto rounded-md border px-1 sm:px-2"
+        style={{ maxHeight: 'min(52vh, 28rem)' }}
       >
         {lines.length === 0 ? (
-          <div className="text-foreground-muted p-4 text-sm italic">
-            No messages yet. Type a question or use a quick-start below.
-          </div>
+          <p className="text-foreground-muted p-4 text-center text-sm italic">
+            No messages yet. Use quick prompts below or the command bar.
+          </p>
         ) : (
-          <ul className="flex flex-col gap-4 p-4">
+          <ul className="flex flex-col gap-5 py-4">
             {lines.map((line) => (
-              <li key={line.id} className="text-foreground leading-relaxed">
-                <span className="text-accent">
-                  {line.role === 'user' ? 'guest@interview' : 'jamey-agent'}
-                </span>
-                <span className="text-foreground-muted">:</span>{' '}
+              <li
+                key={line.id}
+                className={
+                  line.role === 'user'
+                    ? 'border-accent bg-surface/50 border-l-2 py-3 pr-3 pl-4'
+                    : 'border-accent-csharp border-l-2 py-3 pr-3 pl-4'
+                }
+              >
+                <div className="text-foreground-muted mb-1.5 font-mono text-[10px] tracking-widest uppercase">
+                  {line.role === 'user' ? 'You' : 'Response'}
+                </div>
                 {line.role === 'user' ? (
-                  <span className="text-foreground">{line.text}</span>
+                  <p className="text-foreground text-sm leading-relaxed">{line.text}</p>
                 ) : (
-                  <div className="interview-md text-foreground-muted mt-1 inline-block max-w-none">
+                  <div className="prose-cmd interview-md text-foreground-muted text-sm leading-relaxed">
                     <ReactMarkdown
                       components={{
                         strong: (props) => (
-                          <strong className="text-accent-highlight font-semibold text-foreground">{props.children}</strong>
+                          <strong className="text-foreground font-semibold">{props.children}</strong>
                         ),
                         h2: (props) => (
-                          <h2 className="text-foreground mt-3 mb-2 border-b border-glass-border pb-1 text-base font-semibold first:mt-0">
+                          <h2 className="text-foreground border-steel mt-4 mb-2 border-b pb-1 font-mono text-base font-semibold tracking-tight first:mt-0">
                             {props.children}
                           </h2>
                         ),
                         h3: (props) => (
-                          <h3 className="text-foreground mt-2 mb-1 text-sm font-semibold">{props.children}</h3>
+                          <h3 className="text-foreground mt-3 mb-1 font-mono text-sm font-semibold">
+                            {props.children}
+                          </h3>
                         ),
                         p: (props) => <p className="mb-2 last:mb-0">{props.children}</p>,
-                        ul: (props) => <ul className="mb-2 list-disc space-y-1 pl-5">{props.children}</ul>,
-                        ol: (props) => <ol className="mb-2 list-decimal space-y-1 pl-5">{props.children}</ol>,
+                        ul: (props) => (
+                          <ul className="mb-2 list-disc space-y-1 pl-5 marker:text-accent-csharp">{props.children}</ul>
+                        ),
+                        ol: (props) => (
+                          <ol className="mb-2 list-decimal space-y-1 pl-5">{props.children}</ol>
+                        ),
                         li: (props) => <li className="[&>p]:mb-0">{props.children}</li>,
-                        em: (props) => <em className="text-foreground/90">{props.children}</em>,
+                        em: (props) => <em className="text-foreground/90 not-italic">{props.children}</em>,
+                        code: (props) => {
+                          const { className, children, ...rest } = props;
+                          const inline = !className?.includes('language-');
+                          return inline ? (
+                            <code {...rest} className="font-mono text-[0.9em]">
+                              {children}
+                            </code>
+                          ) : (
+                            <code {...rest} className={className}>
+                              {children}
+                            </code>
+                          );
+                        },
                       }}
                     >
                       {line.text}
@@ -209,7 +232,7 @@ export function InterviewConsole() {
         )}
       </div>
 
-      <div className="mb-4 flex flex-wrap gap-2">
+      <div className="mx-auto mb-24 flex w-full max-w-2xl flex-wrap gap-2">
         {QUICK_STARTS.map((q) => (
           <button
             key={q}
@@ -218,57 +241,60 @@ export function InterviewConsole() {
               void send(q);
             }}
             disabled={busy || !base}
-            className="glass-card border-accent/35 text-foreground hover:border-accent/60 rounded-lg border px-3 py-1.5 text-left font-mono text-xs transition-colors hover:bg-accent-glow disabled:cursor-not-allowed disabled:opacity-40 sm:text-sm"
+            className="border-steel bg-surface text-foreground-muted hover:border-accent/50 hover:text-foreground rounded-md border px-3 py-1.5 text-left font-mono text-[11px] transition-colors disabled:cursor-not-allowed disabled:opacity-40 sm:text-xs"
           >
             {q}
           </button>
         ))}
       </div>
 
-      <form
-        className="glass-card border-accent/40 relative rounded-xl border-2 shadow-lg"
-        onSubmit={(e) => {
-          e.preventDefault();
-          void send(input);
-        }}
-      >
-        <label htmlFor="interview-cmd" className="sr-only">
-          Interview question
-        </label>
-        <div className="flex items-stretch gap-0">
-          <span className="text-accent flex select-none items-center pl-3 font-mono text-sm sm:text-base" aria-hidden>
-            $
-          </span>
-          <input
-            id="interview-cmd"
-            name="message"
-            autoComplete="off"
-            spellCheck
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder={
-              base ? 'Ask a professional or technical question…' : 'Configure NEXT_PUBLIC_API_URL to enable sending…'
-            }
-            disabled={busy || !base}
-            className="text-foreground placeholder:text-foreground-muted/50 min-w-0 flex-1 border-0 bg-transparent py-3 pr-20 pl-1 font-mono text-sm outline-none disabled:opacity-50 sm:text-base"
-          />
-        </div>
-        <button
-          type="submit"
-          disabled={busy || !input.trim() || !base}
-          className="glow bg-accent absolute top-1/2 right-2 -translate-y-1/2 rounded-md px-3 py-1.5 font-mono text-xs font-medium text-white transition-opacity disabled:opacity-40 sm:text-sm"
+      {/* Glass floating input */}
+      <div className="pointer-events-none fixed inset-x-0 bottom-0 z-40 flex justify-center px-4 pb-4 sm:px-6 sm:pb-5">
+        <form
+          className="border-steel bg-surface/75 pointer-events-auto flex w-full max-w-2xl items-end gap-2 rounded-xl border shadow-[0_-8px_40px_rgba(0,0,0,0.35)] backdrop-blur-xl backdrop-saturate-150"
+          onSubmit={(e) => {
+            e.preventDefault();
+            void send(input);
+          }}
         >
-          {busy ? '…' : 'Enter'}
-        </button>
-      </form>
+          <label htmlFor="interview-cmd" className="sr-only">
+            Interview question
+          </label>
+          <div className="flex min-h-[3.25rem] flex-1 items-center gap-2 px-3 py-2 sm:px-4">
+            <span className="text-accent font-mono text-sm select-none" aria-hidden>
+              &gt;
+            </span>
+            <input
+              id="interview-cmd"
+              name="message"
+              autoComplete="off"
+              spellCheck
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder={
+                base ? 'Ask a professional or technical question…' : 'Set NEXT_PUBLIC_API_URL to enable…'
+              }
+              disabled={busy || !base}
+              className="text-foreground placeholder:text-foreground-muted/60 min-w-0 flex-1 border-0 bg-transparent py-1 font-mono text-sm outline-none disabled:opacity-50 sm:text-base"
+            />
+          </div>
+          <button
+            type="submit"
+            disabled={busy || !input.trim() || !base}
+            className="bg-accent text-background m-2 shrink-0 rounded-md px-4 py-2 font-mono text-xs font-medium hover:brightness-110 disabled:opacity-40 sm:text-sm"
+          >
+            {busy ? '…' : 'Send'}
+          </button>
+        </form>
+      </div>
 
-      <footer className="text-foreground-muted mt-8 text-center text-xs sm:mt-10 sm:text-sm">
-        <a href="https://jameymcelveen.com" className="text-accent hover:text-accent-highlight transition-colors" rel="author">
-          Powered by Jamey McElveen
+      <footer className="text-foreground-muted mx-auto mt-auto max-w-2xl px-2 text-center text-[10px] sm:text-xs">
+        <a href="https://jameymcelveen.com" className="text-accent hover:text-accent-csharp transition-colors" rel="author">
+          Jamey McElveen
         </a>
-        <span className="text-foreground-muted/40"> · </span>
+        <span className="text-foreground-muted/50"> · </span>
         <span>AI-generated from curated context—not live advice or guarantees.</span>
       </footer>
-    </section>
+    </div>
   );
 }

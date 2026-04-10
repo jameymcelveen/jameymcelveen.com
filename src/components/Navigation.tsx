@@ -11,21 +11,18 @@ export function Navigation() {
   const [showCoverLetters, setShowCoverLetters] = useState(false);
 
   useEffect(() => {
-    // Check authentication status
     const stored = sessionStorage.getItem('cover-letters-auth');
     setShowCoverLetters(stored === 'true');
 
-    // Listen for storage changes (in case user unlocks in another tab)
     const handleStorage = () => {
-      const stored = sessionStorage.getItem('cover-letters-auth');
-      setShowCoverLetters(stored === 'true');
+      const s = sessionStorage.getItem('cover-letters-auth');
+      setShowCoverLetters(s === 'true');
     };
 
     window.addEventListener('storage', handleStorage);
     return () => window.removeEventListener('storage', handleStorage);
   }, []);
 
-  // Re-check on pathname change (user might have just unlocked)
   useEffect(() => {
     const stored = sessionStorage.getItem('cover-letters-auth');
     setShowCoverLetters(stored === 'true');
@@ -37,36 +34,40 @@ export function Navigation() {
   );
 
   return (
-    <motion.nav
-      initial={{ y: -20, opacity: 0 }}
+    <motion.header
+      initial={{ y: -8, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.5, ease: 'easeOut' }}
-      className="glass-card fixed top-4 left-1/2 z-50 -translate-x-1/2 px-1.5 py-1.5 sm:top-6 sm:px-2 sm:py-2"
+      transition={{ duration: 0.35, ease: 'easeOut' }}
+      className="border-steel bg-background/85 supports-[backdrop-filter]:bg-background/70 fixed top-0 right-0 left-0 z-50 border-b backdrop-blur-md"
     >
-      <ul className="flex items-center gap-0.5 sm:gap-1">
-        {navItems.map((item) => {
-          const isActive = pathname === item.href;
-          return (
-            <li key={item.href}>
-              <Link
-                href={item.href}
-                className={`relative block rounded-lg px-3 py-1.5 text-xs font-medium transition-colors sm:rounded-xl sm:px-4 sm:py-2 sm:text-sm ${
-                  isActive ? 'text-accent' : 'text-foreground-muted hover:text-foreground'
-                }`}
-              >
-                {isActive && (
-                  <motion.span
-                    layoutId="nav-indicator"
-                    className="bg-accent/10 absolute inset-0 rounded-lg sm:rounded-xl"
-                    transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
-                  />
-                )}
-                <span className="relative z-10">{item.label}</span>
-              </Link>
-            </li>
-          );
-        })}
-      </ul>
-    </motion.nav>
+      <nav className="mx-auto flex max-w-4xl items-center px-4 sm:px-6" aria-label="Primary">
+        <ul className="flex min-h-11 flex-wrap items-center gap-0.5 py-1.5 sm:gap-1">
+          {navItems.map((item) => {
+            const isActive = pathname === item.href;
+            return (
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  className={`relative block rounded-md px-3 py-1.5 text-xs font-medium tracking-tight sm:px-3.5 sm:py-2 sm:text-[13px] ${
+                    isActive
+                      ? 'text-accent'
+                      : 'text-foreground-muted hover:text-foreground'
+                  }`}
+                >
+                  {isActive && (
+                    <motion.span
+                      layoutId="nav-indicator"
+                      className="bg-accent/10 absolute inset-0 rounded-md ring-1 ring-accent/25"
+                      transition={{ type: 'spring', bounce: 0.2, duration: 0.55 }}
+                    />
+                  )}
+                  <span className="relative z-10 font-mono">{item.label}</span>
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      </nav>
+    </motion.header>
   );
 }

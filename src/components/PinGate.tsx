@@ -77,7 +77,7 @@ export function PinGate({ children }: { children: React.ReactNode }) {
                 setError('');
               }}
               placeholder="Enter PIN"
-              className="border-glass-border bg-background/50 text-foreground placeholder:text-foreground-muted focus:border-accent w-full rounded-lg border px-4 py-3 text-center font-mono text-lg tracking-widest outline-none transition-colors"
+              className="border-steel bg-background/60 text-foreground placeholder:text-foreground-muted focus:border-accent focus:ring-accent/20 w-full rounded-md border px-4 py-3 text-center font-mono text-lg tracking-widest outline-none ring-0 transition-colors focus:ring-2"
               autoFocus
             />
           </div>
@@ -198,7 +198,7 @@ export function SecretLock({ onUnlock, onLock }: { onUnlock: () => void; onLock?
                   setError('');
                 }}
                 placeholder="PIN"
-                className="border-glass-border bg-background/50 text-foreground placeholder:text-foreground-muted focus:border-accent w-full rounded-lg border px-4 py-3 text-center font-mono tracking-widest outline-none transition-colors"
+                className="border-steel bg-background/60 text-foreground placeholder:text-foreground-muted focus:border-accent focus:ring-accent/20 w-full rounded-md border px-4 py-3 text-center font-mono tracking-widest outline-none ring-0 transition-colors focus:ring-2"
                 autoFocus
               />
 
@@ -207,7 +207,7 @@ export function SecretLock({ onUnlock, onLock }: { onUnlock: () => void; onLock?
               <button
                 type="submit"
                 disabled={pin.length < 6}
-                className="bg-accent hover:bg-accent/90 w-full rounded-lg py-2 text-sm font-medium text-white transition-colors disabled:opacity-50"
+                className="bg-accent text-background hover:brightness-110 w-full rounded-md py-2 text-sm font-medium transition-all disabled:opacity-50"
               >
                 {isUnlocked ? 'Hide' : 'Unlock'}
               </button>
