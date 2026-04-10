@@ -9,6 +9,8 @@ export const metadata: Metadata = {
 export const revalidate = 30;
 
 function serverApiBase(): string {
+  const proxy = process.env.INTERVIEW_API_PROXY_ORIGIN?.trim();
+  if (proxy) return proxy.replace(/\/+$/, '');
   const a = process.env.INTERVIEW_API_URL?.trim();
   if (a) return a.replace(/\/+$/, '');
   const b = process.env.NEXT_PUBLIC_API_URL?.trim();
@@ -25,7 +27,8 @@ export default async function StatsPage() {
         <h1 className="text-foreground mb-3 text-lg font-semibold">Stats dashboard</h1>
         <p className="mb-3">
           Configure server-side env for this Next.js deployment:{' '}
-          <span className="text-foreground">INTERVIEW_API_URL</span> (or <span className="text-foreground">NEXT_PUBLIC_API_URL</span>)
+          <span className="text-foreground">INTERVIEW_API_PROXY_ORIGIN</span>,{' '}
+          <span className="text-foreground">INTERVIEW_API_URL</span>, or <span className="text-foreground">NEXT_PUBLIC_API_URL</span>
           and <span className="text-foreground">STATS_API_KEY</span>. The key must match{' '}
           <span className="text-foreground">STATS_API_KEY</span> / <span className="text-foreground">Stats:ApiKey</span> on the
           Interview API.

@@ -13,15 +13,15 @@ Scripts here are **idempotent** where the CLIs allow it: safe to run more than o
 
 | File | Purpose |
 |------|---------|
-| `config.yaml` | Project slug `jameymcelveen`, domains (`jameymcelveen.com`, `jamey.co`), API base `https://api.jameymcelveen.com`. |
+| `config.yaml` | Project slug `jameymcelveen`, domains (`jameymcelveen.com`, `jamey.co`), public API as **`https://jameymcelveen.com/api/*`** (Vercel → Railway). |
 | `.env.example` | Template for env vars to mirror on Vercel and Railway. |
 | `.env` | Your real values — **not committed**. Created by `00-ensure-env.sh`. |
 
 ## Strategy
 
 - **Vercel** hosts the Next.js site as project **`jameymcelveen`**.
-- **Railway** hosts the .NET Interview API; use service **root directory `backend`** and **`backend/Dockerfile`**.
-- Public API URL **`https://api.jameymcelveen.com`** (subdomain) keeps **`NEXT_PUBLIC_API_URL`** / CORS straightforward. Putting the API under `jameymcelveen.com/api` would require Vercel rewrites to the Railway origin and URL changes in the app — not pre-wired here.
+- **Railway** hosts the .NET Interview API (**root directory `backend`**, **`backend/Dockerfile`**).
+- The browser uses **`https://jameymcelveen.com/api/*`** (same origin). **Vercel rewrites** those paths to **`INTERVIEW_API_PROXY_ORIGIN`** (Railway `*.up.railway.app` for the API service). Set **`NEXT_PUBLIC_API_URL`** to **`https://jameymcelveen.com`**. An optional **`api.`** subdomain is not required for the app to work.
 
 ## Commands
 
@@ -71,9 +71,9 @@ RAILWAY_UP_EXTRA_ARGS='--detach' bash scripts/hosting/40-railway-deploy.sh
 
 ## After bootstrap
 
-1. **DNS** (registrar): point apex/`www` for both domains to Vercel per their DNS UI; add **`api.jameymcelveen.com`** as a **CNAME** (or A/ALIAS) to Railway’s target **for the .NET API service only** (the one using **`backend/Dockerfile`**). If `curl -sS https://api…/health` returns HTML instead of `{"status":"ok"}`, the subdomain is aimed at the wrong Railway service (e.g. a **Next.js** deploy) — open Railway → **Networking** / **Domains** on each service and move **`api`** to the API service, then update the registrar CNAME to match that service’s Railway hostname.
+1. **DNS** (registrar): point apex/`www` for both sites to **Vercel**. You do **not** need a public **`api.`** DNS record for the app; **`/api`** is proxied in Next (see `next.config.ts`). Optionally keep **`api.`** pointed at Railway only for direct API/Scalar access.
 2. **Vercel** → project → Domains: attach `jameymcelveen.com`, `www.jameymcelveen.com`, `jamey.co`, `www.jamey.co`.
-3. **Vercel** env (production): `NEXT_PUBLIC_API_URL`, `INTERVIEW_API_URL`, `STATS_API_KEY` (match API).
+3. **Vercel** env (production): **`NEXT_PUBLIC_API_URL`** = `https://jameymcelveen.com`, **`INTERVIEW_API_PROXY_ORIGIN`** = Railway **`https://…up.railway.app`** for the **.NET** service, **`STATS_API_KEY`** (match API).
 4. **Railway** env: `GEMINI_API_KEY`, `STATS_API_KEY`, SQLite path via volume + `ConnectionStrings__DefaultConnection`, `ASPNETCORE_ENVIRONMENT=Production`.
 5. **CORS** on the API includes both sites — see `backend/appsettings.json` (`Cors:Origins`); adjust if you add more hosts.
 

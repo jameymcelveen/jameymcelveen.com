@@ -13,9 +13,10 @@ interface ChatLine {
 }
 
 function apiBaseUrl(): string {
-  const raw = process.env.NEXT_PUBLIC_API_URL;
-  if (!raw?.trim()) return '';
-  return raw.replace(/\/+$/, '');
+  const raw = process.env.NEXT_PUBLIC_API_URL?.trim();
+  if (raw) return raw.replace(/\/+$/, '');
+  if (typeof window !== 'undefined') return window.location.origin;
+  return '';
 }
 
 const QUICK_STARTS = [
@@ -35,7 +36,7 @@ export function InterviewConsole() {
 
   useEffect(() => {
     if (!base) {
-      setBanner('Set NEXT_PUBLIC_API_URL to your Interview API origin (e.g. https://api.example.com).');
+      setBanner('Set NEXT_PUBLIC_API_URL or load this app in the browser (same-origin /api).');
     }
   }, [base]);
 
@@ -122,7 +123,7 @@ export function InterviewConsole() {
           {
             id: crypto.randomUUID(),
             role: 'assistant',
-            text: 'Network error. Check NEXT_PUBLIC_API_URL and that the API is running.',
+            text: 'Network error. Check Vercel /api proxy (INTERVIEW_API_PROXY_ORIGIN), NEXT_PUBLIC_API_URL, and that the API is running.',
           },
         ]);
       } finally {
@@ -272,7 +273,7 @@ export function InterviewConsole() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder={
-                base ? 'Ask a professional or technical question…' : 'Set NEXT_PUBLIC_API_URL to enable…'
+                base ? 'Ask a professional or technical question…' : 'Configure API URL or open in browser for same-origin /api…'
               }
               disabled={busy || !base}
               className="text-foreground placeholder:text-foreground-muted/60 min-w-0 flex-1 border-0 bg-transparent py-1 font-mono text-sm outline-none disabled:opacity-50 sm:text-base"
