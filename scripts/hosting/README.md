@@ -71,7 +71,7 @@ RAILWAY_UP_EXTRA_ARGS='--detach' bash scripts/hosting/40-railway-deploy.sh
 
 ## After bootstrap
 
-1. **DNS** (registrar): point apex/`www` for both domains to Vercel per their DNS UI; add **`api.jameymcelveen.com`** as a **CNAME** (or A/ALIAS) to Railway’s target for the API service.
+1. **DNS** (registrar): point apex/`www` for both domains to Vercel per their DNS UI; add **`api.jameymcelveen.com`** as a **CNAME** (or A/ALIAS) to Railway’s target **for the .NET API service only** (the one using **`backend/Dockerfile`**). If `curl -sS https://api…/health` returns HTML instead of `{"status":"ok"}`, the subdomain is aimed at the wrong Railway service (e.g. a **Next.js** deploy) — open Railway → **Networking** / **Domains** on each service and move **`api`** to the API service, then update the registrar CNAME to match that service’s Railway hostname.
 2. **Vercel** → project → Domains: attach `jameymcelveen.com`, `www.jameymcelveen.com`, `jamey.co`, `www.jamey.co`.
 3. **Vercel** env (production): `NEXT_PUBLIC_API_URL`, `INTERVIEW_API_URL`, `STATS_API_KEY` (match API).
 4. **Railway** env: `GEMINI_API_KEY`, `STATS_API_KEY`, SQLite path via volume + `ConnectionStrings__DefaultConnection`, `ASPNETCORE_ENVIRONMENT=Production`.
