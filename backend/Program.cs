@@ -7,6 +7,8 @@ using Interview.Api.Middleware;
 using Interview.Api.Services;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+using Scalar.AspNetCore;
 using SysEnvironment = global::System.Environment;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -50,6 +52,58 @@ builder.Services.AddDbContextFactory<AnalyticsDbContext>(o => o.UseSqlite(sqlite
 builder.Services.AddDbContext<AnalyticsDbContext>(o => o.UseSqlite(sqliteConn));
 builder.Services.AddSingleton<GeminiCostEstimator>();
 
+var openApiPublicBaseUrl = builder.Configuration["OpenApi:PublicBaseUrl"]?.Trim().TrimEnd('/');
+builder.Services.AddOpenApi(options =>
+{
+    options.AddDocumentTransformer((document, _, _) =>
+    {
+        document.Info = new OpenApiInfo
+        {
+            Title = "Jamey McElveen — Interview API",
+            Version = "v1",
+            Description =
+                "Career-interview chat (Gemini), site analytics ingestion, and protected stats. "
+                + "CORS allows configured front-end origins. "
+                + "`/api/stats` requires header `X-Stats-Key`.",
+        };
+        document.Components ??= new OpenApiComponents();
+        document.Components.SecuritySchemes["StatsApiKey"] = new OpenApiSecurityScheme
+        {
+            Type = SecuritySchemeType.ApiKey,
+            In = ParameterLocation.Header,
+            Name = "X-Stats-Key",
+            Description = "Server-side stats key (`STATS_API_KEY` or `Stats:ApiKey`).",
+        };
+
+        if (!string.IsNullOrEmpty(openApiPublicBaseUrl))
+        {
+            document.Servers = new List<OpenApiServer> { new() { Url = openApiPublicBaseUrl } };
+        }
+
+        return Task.CompletedTask;
+    });
+
+    options.AddOperationTransformer((operation, context, _) =>
+    {
+        var relative = context.Description.RelativePath;
+        if (relative is not null
+            && relative.Contains("api/stats", StringComparison.OrdinalIgnoreCase))
+        {
+            var req = new OpenApiSecurityRequirement
+            {
+                [new OpenApiSecurityScheme
+                {
+                    Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "StatsApiKey" },
+                }] = new List<string>(),
+            };
+            operation.Security ??= new List<OpenApiSecurityRequirement>();
+            operation.Security.Add(req);
+        }
+
+        return Task.CompletedTask;
+    });
+});
+
 var systemPromptPath = Path.Combine(builder.Environment.ContentRootPath, "Prompts", "system_prompt.md");
 if (!File.Exists(systemPromptPath))
     throw new InvalidOperationException($"Missing system prompt: {systemPromptPath}");
@@ -70,6 +124,15 @@ app.UseMiddleware<ChatRateLimitMiddleware>();
 app.UseMiddleware<CareerContentFilterMiddleware>();
 
 app.MapGet("/health", () => Results.Ok(new { status = "ok" }));
+
+app.MapOpenApi();
+app.MapScalarApiReference("/", options =>
+{
+    options
+        .WithTitle("Interview API")
+        .ForceDarkMode()
+        .DisableAgent();
+});
 
 app.MapAnalyticsRoutes();
 

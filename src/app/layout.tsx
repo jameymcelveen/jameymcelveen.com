@@ -3,7 +3,7 @@ import { Geist, Geist_Mono, JetBrains_Mono } from 'next/font/google';
 import { AnalyticsTracker } from '@/components/AnalyticsTracker';
 import { Navigation } from '@/components/Navigation';
 import { GradientMesh } from '@/components/GradientMesh';
-import { getSiteMetadata } from '@/data';
+import { getSiteDomain, getSiteMetadata } from '@/data';
 import './globals.css';
 
 const geistSans = Geist({
@@ -22,8 +22,10 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 const siteMetadata = getSiteMetadata();
+const siteDomain = getSiteDomain();
 
 export const metadata: Metadata = {
+  metadataBase: new URL(`https://${siteDomain.canonical}`),
   title: siteMetadata.title,
   description: siteMetadata.description,
   keywords: siteMetadata.keywords,
