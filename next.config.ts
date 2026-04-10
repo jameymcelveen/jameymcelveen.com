@@ -2,25 +2,10 @@ import type { NextConfig } from 'next';
 import profileData from './src/data/profile.json';
 
 /**
- * Interview API lives on Railway; the site calls `/api/*` on the same host and
- * Vercel rewrites those requests to `INTERVIEW_API_PROXY_ORIGIN` (Railway
- * `*.up.railway.app` URL — the service that runs `backend/Dockerfile`).
- * Set `NEXT_PUBLIC_API_URL` to your public site origin (e.g. https://jameymcelveen.com).
- */
-const proxyOrigin = process.env.INTERVIEW_API_PROXY_ORIGIN?.trim().replace(/\/+$/, '') ?? '';
-
-/**
- * Sends www → apex (bare domain). In Vercel → Project → Domains, set the apex
- * as the primary production domain and point www at the same project so both
- * hostnames are valid. Do **not** leave “redirect apex → www” enabled there; if
- * Vercel and this rule disagree, you get ERR_TOO_MANY_REDIRECTS.
+ * `/api/*` → Railway: `app/api/[...path]/route.ts` (INTERVIEW_API_PROXY_ORIGIN).
+ * www → apex: set apex as primary in Vercel; do not also redirect apex → www.
  */
 const nextConfig: NextConfig = {
-  async rewrites() {
-    if (!proxyOrigin) return [];
-    return [{ source: '/api/:path*', destination: `${proxyOrigin}/api/:path*` }];
-  },
-
   async redirects() {
     const { domain } = profileData.site;
 

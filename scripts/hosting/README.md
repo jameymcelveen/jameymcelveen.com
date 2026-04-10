@@ -21,7 +21,7 @@ Scripts here are **idempotent** where the CLIs allow it: safe to run more than o
 
 - **Vercel** hosts the Next.js site as project **`jameymcelveen`**.
 - **Railway** hosts the .NET Interview API (**root directory `backend`**, **`backend/Dockerfile`**).
-- The browser uses **`https://jameymcelveen.com/api/*`** (same origin). **Vercel rewrites** those paths to **`INTERVIEW_API_PROXY_ORIGIN`** (Railway `*.up.railway.app` for the API service). Set **`NEXT_PUBLIC_API_URL`** to **`https://jameymcelveen.com`**. An optional **`api.`** subdomain is not required for the app to work.
+- The browser uses **`https://jameymcelveen.com/api/*`** (same origin). **`app/api/[...path]/route.ts`** proxies to **`INTERVIEW_API_PROXY_ORIGIN`** at **request time** (Railway `*.up.railway.app`). Set **`NEXT_PUBLIC_API_URL`** to **`https://jameymcelveen.com`**. Redeploy Vercel after adding or changing the proxy env vars.
 
 ## Commands
 
@@ -73,7 +73,7 @@ RAILWAY_UP_EXTRA_ARGS='--detach' bash scripts/hosting/40-railway-deploy.sh
 
 1. **DNS** (registrar): point apex/`www` for both sites to **Vercel**. You do **not** need a public **`api.`** DNS record for the app; **`/api`** is proxied in Next (see `next.config.ts`). Optionally keep **`api.`** pointed at Railway only for direct API/Scalar access.
 2. **Vercel** → project → Domains: attach `jameymcelveen.com`, `www.jameymcelveen.com`, `jamey.co`, `www.jamey.co`.
-3. **Vercel** env (production): **`NEXT_PUBLIC_API_URL`** = `https://jameymcelveen.com`, **`INTERVIEW_API_PROXY_ORIGIN`** = Railway **`https://…up.railway.app`** for the **.NET** service, **`STATS_API_KEY`** (match API).
+3. **Vercel** env (production): **`NEXT_PUBLIC_API_URL`** = `https://jameymcelveen.com`, **`INTERVIEW_API_PROXY_ORIGIN`** = Railway **`https://…up.railway.app`** for the **.NET** service (required for `/api` to work—**not** only at build time), **`STATS_API_KEY`** (match API).
 4. **Railway** env: `GEMINI_API_KEY`, `STATS_API_KEY`, SQLite path via volume + `ConnectionStrings__DefaultConnection`, `ASPNETCORE_ENVIRONMENT=Production`.
 5. **CORS** on the API includes both sites — see `backend/appsettings.json` (`Cors:Origins`); adjust if you add more hosts.
 

@@ -1,8 +1,6 @@
 import type { NextConfig } from 'next';
 import profileData from './src/data/profile.json';
 
-const proxyOrigin = process.env.INTERVIEW_API_PROXY_ORIGIN?.trim().replace(/\/+$/, '') ?? '';
-
 /**
  * Sends www → apex (bare domain). In Vercel → Project → Domains, set the apex
  * as the primary production domain and point www at the same project so both
@@ -10,11 +8,6 @@ const proxyOrigin = process.env.INTERVIEW_API_PROXY_ORIGIN?.trim().replace(/\/+$
  * Vercel and this rule disagree, you get ERR_TOO_MANY_REDIRECTS.
  */
 const nextConfig: NextConfig = {
-  async rewrites() {
-    if (!proxyOrigin) return [];
-    return [{ source: '/api/:path*', destination: `${proxyOrigin}/api/:path*` }];
-  },
-
   async redirects() {
     const { domain } = profileData.site;
 
