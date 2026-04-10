@@ -79,5 +79,13 @@ RAILWAY_UP_EXTRA_ARGS='--detach' bash scripts/hosting/40-railway-deploy.sh
 
 ## Tokens and CI
 
-For non-interactive Vercel use, set **`VERCEL_TOKEN`** (and optionally org/project IDs) in **`scripts/hosting/.env`**.  
-Railway often still uses **`railway login`** locally; tokens for CI are documented on Railway’s site.
+For non-interactive Vercel use, set **`VERCEL_TOKEN`** (and optionally org/project IDs) in **`scripts/hosting/.env`**.
+
+### Railway from GitHub Actions
+
+Pushing to **`main`** does **not** deploy Railway by default. You can either:
+
+1. **GitHub Action (this repo)** — workflow **`.github/workflows/railway-api.yml`** runs on **`backend/**`** changes. Add an Actions secret **`RAILWAY_TOKEN`**: in Railway open the **project** → **project settings** → **Tokens** → create a **project token** scoped to the environment where the API runs (e.g. Production). If the project has **multiple services**, also set **`RAILWAY_SERVICE_NAME`** to the exact API service name. You can re-run the workflow manually from the **Actions** tab (**Deploy API (Railway)**).
+2. **Railway ↔ GitHub in the dashboard** — connect the same GitHub repo to the API service and enable **deploy on push** (Railway builds from git; no `RAILWAY_TOKEN` in GitHub). If you use this, you can disable or delete the workflow above to avoid double deploys.
+
+Local deploys still use **`railway login`** + **`bash scripts/hosting/40-railway-deploy.sh`** (see [Project tokens](https://docs.railway.com/integrations/api#project-token) for non-interactive **`RAILWAY_TOKEN`**).
