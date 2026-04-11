@@ -1,9 +1,12 @@
 import type { NextConfig } from 'next';
 import profileData from './src/data/profile.json';
 
-/** Set at build time, or replace the fallback with your API origin (trailing slashes stripped). */
-const API_UPSTREAM =
-  (process.env.INTERVIEW_API_PROXY_ORIGIN ?? '').replace(/\/+$/, '') || 'https://YOUR_SERVICE.up.railway.app';
+const fromEnv = (process.env.INTERVIEW_API_PROXY_ORIGIN ?? '').replace(/\/+$/, '');
+const isVercel = process.env.VERCEL === '1';
+const API_UPSTREAM = fromEnv || (!isVercel ? 'http://127.0.0.1:8080' : '');
+if (!API_UPSTREAM) {
+  throw new Error('INTERVIEW_API_PROXY_ORIGIN is required on Vercel. Set it to your API origin, then redeploy.');
+}
 
 /**
  * Sends www → apex (bare domain). In Vercel → Project → Domains, set the apex

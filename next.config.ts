@@ -1,9 +1,19 @@
 import type { NextConfig } from 'next';
 import profileData from './src/data/profile.json';
 
-/** Interview.Api on Railway — same paths as this site (`/api/*`). Override via `INTERVIEW_API_PROXY_ORIGIN` (e.g. `http://api:8080` in Docker). */
-const DEFAULT_API_UPSTREAM = 'https://mxv9j0bl.up.railway.app';
-const API_UPSTREAM = (process.env.INTERVIEW_API_PROXY_ORIGIN ?? '').replace(/\/+$/, '') || DEFAULT_API_UPSTREAM;
+/**
+ * Interview.Api — same paths as this site (`/api/*`). Set `INTERVIEW_API_PROXY_ORIGIN` on Vercel (build-time)
+ * to the service URL from Railway → your API → Settings → Networking (e.g. `https://….up.railway.app`).
+ * Do not commit a default: Railway URLs change when services are recreated.
+ */
+const fromEnv = (process.env.INTERVIEW_API_PROXY_ORIGIN ?? '').replace(/\/+$/, '');
+const isVercel = process.env.VERCEL === '1';
+const API_UPSTREAM = fromEnv || (!isVercel ? 'http://127.0.0.1:8080' : '');
+if (!API_UPSTREAM) {
+  throw new Error(
+    'INTERVIEW_API_PROXY_ORIGIN is required on Vercel. Set it to your Interview.Api origin (no trailing slash), then redeploy.'
+  );
+}
 
 /**
  * Proxy `/api/*` to Railway. Query string is forwarded by Next/Vercel; headers pass through the edge proxy.

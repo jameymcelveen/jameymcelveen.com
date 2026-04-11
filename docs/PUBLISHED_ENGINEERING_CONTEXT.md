@@ -43,7 +43,7 @@ Key files:
 
 **Behavior:** `source: '/api/:path*'` → `destination: '{upstream}/api/:path*'`. The backend serves `/api/chat`, `/api/stats`, `/api/analytics/*`, etc., so **`/api/` appears on both sides**.
 
-**Default upstream** is the production Railway URL committed in `next.config.ts`. **`INTERVIEW_API_PROXY_ORIGIN`** (optional, no `NEXT_PUBLIC_` prefix) overrides that value when present; it is read when the config is evaluated (**build time** on Vercel). Local **Docker Compose** sets it to `http://api:8080` so the dev server rewrites to the compose `api` service.
+**`INTERVIEW_API_PROXY_ORIGIN`** (no `NEXT_PUBLIC_` prefix) is **required on Vercel** (production and preview): the Interview.Api base URL (e.g. `https://….up.railway.app`). It is read when `next.config.ts` is evaluated (**build time**). There is no committed default, because Railway deployment URLs change. Local **`pnpm dev`** falls back to `http://127.0.0.1:8080`; **Docker Compose** sets `http://api:8080` on the `web` service.
 
 Do not add a catch-all **`app/api`** Route Handler for the same paths — it would take precedence over rewrites and break the proxy.
 
@@ -66,8 +66,8 @@ Do not add a catch-all **`app/api`** Route Handler for the same paths — it wou
 
 | Variable | Purpose |
 |----------|---------|
+| `INTERVIEW_API_PROXY_ORIGIN` | **Required** — Interview.Api origin for `/api/*` rewrites (build-time) |
 | `STATS_API_KEY` | Must match API `Stats:ApiKey` / `STATS_API_KEY` for `/stats` |
-| `INTERVIEW_API_PROXY_ORIGIN` | Optional; overrides default rewrite upstream (build-time) |
 
 **Railway (API service)**
 
