@@ -2,16 +2,26 @@ import type { NextConfig } from 'next';
 import profileData from './src/data/profile.json';
 
 /**
- * Interview.Api — same paths as this site (`/api/*`). Set `INTERVIEW_API_PROXY_ORIGIN` on Vercel (build-time)
- * to the service URL from Railway → your API → Settings → Networking (e.g. `https://….up.railway.app`).
- * Do not commit a default: Railway URLs change when services are recreated.
+ * Next.js rewrite `destination` must be absolute (`http://` / `https://`) or start with `/`.
+ * Hostname-only values (e.g. `api.example.com`) get `https://` prepended.
  */
-const fromEnv = (process.env.INTERVIEW_API_PROXY_ORIGIN ?? '').replace(/\/+$/, '');
+function normalizeProxyOrigin(raw: string): string {
+  const t = raw.trim().replace(/\/+$/, '');
+  if (!t) return '';
+  if (/^https?:\/\//i.test(t)) return t;
+  return `https://${t}`;
+}
+
+/**
+ * Interview.Api — same paths as this site (`/api/*`). Set `INTERVIEW_API_PROXY_ORIGIN` on Vercel (build-time)
+ * to your API origin, e.g. `https://api.example.com` or `api.example.com`.
+ */
+const fromEnv = normalizeProxyOrigin(process.env.INTERVIEW_API_PROXY_ORIGIN ?? '');
 const isVercel = process.env.VERCEL === '1';
 const API_UPSTREAM = fromEnv || (!isVercel ? 'http://127.0.0.1:8080' : '');
 if (!API_UPSTREAM) {
   throw new Error(
-    'INTERVIEW_API_PROXY_ORIGIN is required on Vercel. Set it to your Interview.Api origin (no trailing slash), then redeploy.'
+    'INTERVIEW_API_PROXY_ORIGIN is required on Vercel. Set it to your Interview.Api host or URL (e.g. https://api.jameymcelveen.com), then redeploy.'
   );
 }
 

@@ -1,11 +1,18 @@
 import type { NextConfig } from 'next';
 import profileData from './src/data/profile.json';
 
-const fromEnv = (process.env.INTERVIEW_API_PROXY_ORIGIN ?? '').replace(/\/+$/, '');
+function normalizeProxyOrigin(raw: string): string {
+  const t = raw.trim().replace(/\/+$/, '');
+  if (!t) return '';
+  if (/^https?:\/\//i.test(t)) return t;
+  return `https://${t}`;
+}
+
+const fromEnv = normalizeProxyOrigin(process.env.INTERVIEW_API_PROXY_ORIGIN ?? '');
 const isVercel = process.env.VERCEL === '1';
 const API_UPSTREAM = fromEnv || (!isVercel ? 'http://127.0.0.1:8080' : '');
 if (!API_UPSTREAM) {
-  throw new Error('INTERVIEW_API_PROXY_ORIGIN is required on Vercel. Set it to your API origin, then redeploy.');
+  throw new Error('INTERVIEW_API_PROXY_ORIGIN is required on Vercel. Set it to your API host or URL, then redeploy.');
 }
 
 /**
