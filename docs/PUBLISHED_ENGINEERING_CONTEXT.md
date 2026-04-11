@@ -10,11 +10,11 @@ This document is a **technical snapshot** of how the personal site and interview
 
 | Layer | Role |
 |--------|------|
-| **Vercel** | Next.js 16 app — marketing site, resume, `/ai` chat UI, **proxy** to the API under same-origin `/api/*` |
+| **Vercel** | Next.js 16 app — marketing site, resume, `/ai` chat UI, **rewrite** of same-origin `/api/*` to the Interview API |
 | **Railway** | ASP.NET Core **Interview.Api** (`.NET 9`) — Gemini chat, analytics ingestion, stats, OpenAPI/Scalar |
 | **DNS** | Apex/`www` → Vercel. Optional `api.*` → Railway if you want a direct API hostname (not required for the site). |
 
-The browser talks to **`https://jameymcelveen.com/api/...`** only. Vercel forwards those requests to Railway using server-side configuration (see §5).
+The browser talks to **`https://jameymcelveen.com/api/...`** only. Next.js **`rewrites()`** in `next.config.ts` forward those requests to Railway, preserving path (`/api/:path*` → `{upstream}/api/:path*`), query string, and headers through the platform proxy.
 
 ---
 
@@ -25,7 +25,7 @@ The browser talks to **`https://jameymcelveen.com/api/...`** only. Vercel forwar
 - **Design language:** “Engineering Command Center” — dark baseline inspired by Linear-style product UI; separate **Claude-like** full-page UI for `/ai` (see `globals.css` `.ai-chat-shell` and `InterviewConsole.tsx`).
 - **Fonts:** Geist Sans / Mono, JetBrains Mono (see `src/app/layout.tsx`).
 - **Important routes:** `/`, `/resume`, `/resume/print`, `/cover-letters` (PIN-gated UI), `/ai` (unlisted chat — no main nav link), `/stats` (stats dashboard, server-side fetch + env).
-- **Client env:** `NEXT_PUBLIC_API_URL` — should be the **public site origin** (e.g. `https://jameymcelveen.com`) so `/api` is same-origin.
+- **API calls:** Client and server use **relative** `/api/...` (same origin). No `NEXT_PUBLIC_API_URL`.
 
 Key files:
 
@@ -39,17 +39,13 @@ Key files:
 
 ---
 
-## 3. API proxy (why it exists)
+## 3. API routing (`next.config.ts` rewrites)
 
-**Problem:** `next.config` **rewrites** only work if env vars are present when the config is evaluated at **build** time. Missing `INTERVIEW_API_PROXY_ORIGIN` at build ⇒ **no rewrite** ⇒ **`/api/chat` 404** on Vercel.
+**Behavior:** `source: '/api/:path*'` → `destination: '{upstream}/api/:path*'`. The backend serves `/api/chat`, `/api/stats`, `/api/analytics/*`, etc., so **`/api/` appears on both sides**.
 
-**Solution:** `src/app/api/[...path]/route.ts` — a **catch-all Route Handler** that forwards HTTP methods to:
+**Default upstream** is the production Railway URL committed in `next.config.ts`. **`INTERVIEW_API_PROXY_ORIGIN`** (optional, no `NEXT_PUBLIC_` prefix) overrides that value when present; it is read when the config is evaluated (**build time** on Vercel). Local **Docker Compose** sets it to `http://api:8080` so the dev server rewrites to the compose `api` service.
 
-`{INTERVIEW_API_PROXY_ORIGIN}/api/{...path}`
-
-at **request time**. If the proxy origin is not set, the handler returns **503** with a JSON `error` hint instead of 404.
-
-**Loop guard:** If `INTERVIEW_API_URL` points at the **same host** as the site, it is not used as the upstream (would proxy to yourself).
+Do not add a catch-all **`app/api`** Route Handler for the same paths — it would take precedence over rewrites and break the proxy.
 
 ---
 
@@ -70,10 +66,8 @@ at **request time**. If the proxy origin is not set, the handler returns **503**
 
 | Variable | Purpose |
 |----------|---------|
-| `NEXT_PUBLIC_API_URL` | Browser + analytics base URL — typically `https://jameymcelveen.com` |
-| `INTERVIEW_API_PROXY_ORIGIN` | **Primary** upstream for `/api/*` proxy — Railway `https://*.up.railway.app` for the **.NET** service |
-| `INTERVIEW_API_URL` | Optional; server-side stats page prefers `INTERVIEW_API_PROXY_ORIGIN`, else this if host ≠ site |
 | `STATS_API_KEY` | Must match API `Stats:ApiKey` / `STATS_API_KEY` for `/stats` |
+| `INTERVIEW_API_PROXY_ORIGIN` | Optional; overrides default rewrite upstream (build-time) |
 
 **Railway (API service)**
 
@@ -104,7 +98,7 @@ Details: `scripts/hosting/README.md`, `scripts/hosting/config.yaml`.
 
 - **Apex vs `www`:** Vercel primary domain and `next.config` **host redirects** must agree. Opposing rules ⇒ `ERR_TOO_MANY_REDIRECTS` (e.g. Vercel apex→`www` while Next forced `www`→apex). Pick one canonical pattern and match both places.
 - **`api` subdomain on Railway:** DNS `api` must target the **.NET** service’s Railway URL. If that hostname is attached to a **Next.js** (or wrong) Railway service, the “API” URL will serve the wrong app — check **which service** owns the custom domain / default `*.up.railway.app` URL.
-- **Custom `api` domain is optional** if all traffic uses **`jameymcelveen.com/api/*`** via the Vercel proxy.
+- **Custom `api` domain is optional** if all traffic uses **`jameymcelveen.com/api/*`** via the Next.js rewrite.
 
 ---
 

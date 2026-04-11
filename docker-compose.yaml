@@ -34,10 +34,8 @@ services:
     ports:
       - '3000:3000'
     environment:
-      # Browser on your machine calls the API at this URL (published port on localhost).
-      NEXT_PUBLIC_API_URL: http://localhost:8080
-      # Next.js server (inside this container) calls the API by service name.
-      INTERVIEW_API_URL: http://api:8080
+      # Same-origin `/api/*` rewrites to the api service (see next.config.ts).
+      INTERVIEW_API_PROXY_ORIGIN: http://api:8080
       STATS_API_KEY: ${STATS_API_KEY:-dev-stats-change-me}
       WATCHPACK_POLLING: 'true'
       CHOKIDAR_USEPOLLING: 'true'

@@ -15,13 +15,6 @@ interface ChatLine {
   streaming?: boolean;
 }
 
-function apiBaseUrl(): string {
-  const raw = process.env.NEXT_PUBLIC_API_URL?.trim();
-  if (raw) return raw.replace(/\/+$/, '');
-  if (typeof window !== 'undefined') return window.location.origin;
-  return '';
-}
-
 function walkText(node: ReactNode): string {
   if (node == null || typeof node === 'boolean') return '';
   if (typeof node === 'string' || typeof node === 'number') return String(node);
@@ -99,18 +92,9 @@ export function InterviewConsole() {
   const [lines, setLines] = useState<ChatLine[]>([]);
   const [input, setInput] = useState('');
   const [busy, setBusy] = useState(false);
-  const [banner, setBanner] = useState<string | null>(null);
   const listRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { theme, toggleTheme } = useAiTheme();
-
-  const base = apiBaseUrl();
-
-  useEffect(() => {
-    if (!base) {
-      setBanner('Set NEXT_PUBLIC_API_URL or open on the deployed site for same-origin /api.');
-    }
-  }, [base]);
 
   const scrollToBottom = useCallback((behavior: ScrollBehavior = 'smooth') => {
     const el = listRef.current;
@@ -142,9 +126,7 @@ export function InterviewConsole() {
     async (raw: string) => {
       const message = raw.trim();
       if (!message || busy) return;
-      if (!base) return;
 
-      setBanner(null);
       setBusy(true);
       const userLine: ChatLine = {
         id: crypto.randomUUID(),
@@ -157,7 +139,7 @@ export function InterviewConsole() {
 
       try {
         const ids = readAnalyticsIds();
-        const res = await fetch(`${base}/api/chat`, {
+        const res = await fetch('/api/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -210,7 +192,7 @@ export function InterviewConsole() {
           {
             id: assistantId,
             role: 'assistant',
-            text: 'Network error. Check /api proxy, NEXT_PUBLIC_API_URL, and that the API is running.',
+            text: 'Network error. Check that the site can reach /api (Next.js rewrite to Railway) and that the API is running.',
             streaming: false,
           },
         ]);
@@ -219,13 +201,12 @@ export function InterviewConsole() {
         setInput('');
       }
     },
-    [base, busy, streamAssistant]
+    [busy, streamAssistant]
   );
 
   const newChat = useCallback(() => {
     setLines([]);
     setInput('');
-    setBanner(null);
   }, []);
 
   const hasInput = input.trim().length > 0;
@@ -322,7 +303,7 @@ export function InterviewConsole() {
   );
 
   const isStreaming = lines.some((l) => l.streaming);
-  const disableComposer = busy || isStreaming || !base;
+  const disableComposer = busy || isStreaming;
 
   return (
     <div
@@ -353,15 +334,6 @@ export function InterviewConsole() {
           </div>
         </div>
       </header>
-
-      {banner && (
-        <div
-          className="border-b border-[var(--ai-border)] px-4 py-2 text-center text-[13px] text-[var(--ai-text-muted)]"
-          role="status"
-        >
-          {banner}
-        </div>
-      )}
 
       <div ref={listRef} className="min-h-0 flex-1 overflow-y-auto">
         <div className="mx-auto max-w-[720px] px-4 pt-6 pb-36">

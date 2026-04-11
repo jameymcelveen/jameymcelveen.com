@@ -13,7 +13,7 @@ Scripts here are **idempotent** where the CLIs allow it: safe to run more than o
 
 | File | Purpose |
 |------|---------|
-| `config.yaml` | Project slug `jameymcelveen`, domains (`jameymcelveen.com`, `jamey.co`), public API as **`https://jameymcelveen.com/api/*`** (Vercel → Railway). |
+| `config.yaml` | Project slug `jameymcelveen`, domains (`jameymcelveen.com`, `jamey.co`), public API as **`https://jameymcelveen.com/api/*`** (Next.js rewrite → Railway). |
 | `.env.example` | Template for env vars to mirror on Vercel and Railway. |
 | `.env` | Your real values — **not committed**. Created by `00-ensure-env.sh`. |
 
@@ -21,7 +21,7 @@ Scripts here are **idempotent** where the CLIs allow it: safe to run more than o
 
 - **Vercel** hosts the Next.js site as project **`jameymcelveen`**.
 - **Railway** hosts the .NET Interview API (**root directory `backend`**, **`backend/Dockerfile`**).
-- The browser uses **`https://jameymcelveen.com/api/*`** (same origin). **`app/api/[...path]/route.ts`** proxies to **`INTERVIEW_API_PROXY_ORIGIN`** at **request time** (Railway `*.up.railway.app`). Set **`NEXT_PUBLIC_API_URL`** to **`https://jameymcelveen.com`**. Redeploy Vercel after adding or changing the proxy env vars.
+- The browser uses **`https://jameymcelveen.com/api/*`** (same origin). **`next.config.ts`** rewrites those requests to Interview.Api on Railway (same `/api/...` paths). Optional **`INTERVIEW_API_PROXY_ORIGIN`** overrides the default upstream when set at **build** time. Redeploy after changing rewrite-related env vars.
 
 ## Commands
 
@@ -71,9 +71,9 @@ RAILWAY_UP_EXTRA_ARGS='--detach' bash scripts/hosting/40-railway-deploy.sh
 
 ## After bootstrap
 
-1. **DNS** (registrar): point apex/`www` for both sites to **Vercel**. You do **not** need a public **`api.`** DNS record for the app; **`/api`** is proxied in Next (see `next.config.ts`). Optionally keep **`api.`** pointed at Railway only for direct API/Scalar access.
+1. **DNS** (registrar): point apex/`www` for both sites to **Vercel**. You do **not** need a public **`api.`** DNS record for the app; **`/api`** is rewritten in Next (see `next.config.ts`). Optionally keep **`api.`** pointed at Railway only for direct API/Scalar access.
 2. **Vercel** → project → Domains: attach `jameymcelveen.com`, `www.jameymcelveen.com`, `jamey.co`, `www.jamey.co`.
-3. **Vercel** env (production): **`NEXT_PUBLIC_API_URL`** = `https://jameymcelveen.com`, **`INTERVIEW_API_PROXY_ORIGIN`** = Railway **`https://…up.railway.app`** for the **.NET** service (required for `/api` to work—**not** only at build time), **`STATS_API_KEY`** (match API).
+3. **Vercel** env (production): **`STATS_API_KEY`** (must match API). Optional **`INTERVIEW_API_PROXY_ORIGIN`** if the rewrite target in `next.config.ts` should not use the committed default Railway URL (evaluated at **build** time).
 4. **Railway** env: `GEMINI_API_KEY`, `STATS_API_KEY`, SQLite path via volume + `ConnectionStrings__DefaultConnection`, `ASPNETCORE_ENVIRONMENT=Production`.
 5. **CORS** on the API includes both sites — see `backend/appsettings.json` (`Cors:Origins`); adjust if you add more hosts.
 

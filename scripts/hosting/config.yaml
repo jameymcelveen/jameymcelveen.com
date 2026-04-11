@@ -11,12 +11,10 @@ domains:
     - jamey.co
     - www.jamey.co
 
-# Public site origin; browser calls https://…/api/* and Vercel rewrites to Railway (INTERVIEW_API_PROXY_ORIGIN).
+# Public site origin; browser calls https://…/api/*; Next.js rewrites to Railway (optional INTERVIEW_API_PROXY_ORIGIN at build).
 api:
   public_base_url: https://jameymcelveen.com
   suggested_hostname: api.jameymcelveen.com
-  # Alternative: serve API under the primary site via Vercel rewrites (not wired in this repo):
-  # path_on_vercel: /api
 
 vercel:
   project_name: jameymcelveen
