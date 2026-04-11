@@ -10,9 +10,13 @@ function normalizeProxyOrigin(raw: string): string {
 
 const fromEnv = normalizeProxyOrigin(process.env.INTERVIEW_API_PROXY_ORIGIN ?? '');
 const isVercel = process.env.VERCEL === '1';
-const API_UPSTREAM = fromEnv || (!isVercel ? 'http://127.0.0.1:8080' : '');
+const onRailway = Boolean(process.env.RAILWAY_ENVIRONMENT || process.env.RAILWAY_PROJECT_ID);
+const useLocalApiFallback = !isVercel && !onRailway;
+const API_UPSTREAM = fromEnv || (useLocalApiFallback ? 'http://127.0.0.1:8080' : '');
 if (!API_UPSTREAM) {
-  throw new Error('INTERVIEW_API_PROXY_ORIGIN is required on Vercel. Set it to your API host or URL, then redeploy.');
+  throw new Error(
+    'INTERVIEW_API_PROXY_ORIGIN is required when deploying Next.js (Vercel or Railway). Set it to your API base URL.'
+  );
 }
 
 /**

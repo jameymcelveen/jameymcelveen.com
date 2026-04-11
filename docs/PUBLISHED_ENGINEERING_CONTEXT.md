@@ -43,7 +43,7 @@ Key files:
 
 **Behavior:** `source: '/api/:path*'` → `destination: '{upstream}/api/:path*'`. The backend serves `/api/chat`, `/api/stats`, `/api/analytics/*`, etc., so **`/api/` appears on both sides**.
 
-**`INTERVIEW_API_PROXY_ORIGIN`** (no `NEXT_PUBLIC_` prefix) is **required on Vercel** (production and preview): the Interview.Api base URL (e.g. `https://….up.railway.app`). It is read when `next.config.ts` is evaluated (**build time**). There is no committed default, because Railway deployment URLs change. Local **`pnpm dev`** falls back to `http://127.0.0.1:8080`; **Docker Compose** sets `http://api:8080` on the `web` service.
+**`INTERVIEW_API_PROXY_ORIGIN`** (no `NEXT_PUBLIC_` prefix) is **required on Vercel** (production and preview): the Interview.Api base URL (e.g. `https://….up.railway.app`). It is read when `next.config.ts` is evaluated (**build time**). There is no committed default, because Railway deployment URLs change. Local **`pnpm dev`** / laptop builds fall back to `http://127.0.0.1:8080` only when **not** on Vercel or Railway (Railway sets `RAILWAY_*` env vars; using localhost there rewrote `/api` to the container itself and caused `EADDRNOTAVAIL` / proxy errors). **Docker Compose** sets `http://api:8080` on the `web` service.
 
 Do not add a catch-all **`app/api`** Route Handler for the same paths — it would take precedence over rewrites and break the proxy.
 
