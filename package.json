@@ -22,6 +22,7 @@
     "hosting:railway-deploy": "bash scripts/hosting/40-railway-deploy.sh"
   },
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "framer-motion": "^12.27.5",
     "lucide-react": "^0.562.0",
     "next": "16.1.4",

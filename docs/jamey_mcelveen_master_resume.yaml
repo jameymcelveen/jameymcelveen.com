@@ -1,0 +1,535 @@
+# =============================================================================
+# JAMEY McELVEEN — MASTER RESUME DATA
+# =============================================================================
+# Usage: Feed this file to any template engine, AI prompt, or script to
+# generate targeted resumes for specific job postings.
+#
+# Cursor prompt to generate a targeted resume:
+#   "Read jamey_mcelveen_master_resume.yaml and generate a tailored resume
+#    for this job posting: [paste JD]. Emphasize relevant skills and bullets.
+#    Output as markdown and HTML using the executive style (EB Garamond +
+#    DM Sans, navy accent #1a5c8e)."
+# =============================================================================
+
+identity:
+  name: Jamey McElveen
+  title: Principal Systems Architect
+  location: Florence, SC
+  email: jamey@mcelveen.us
+  phone: "(843) 618-8078"
+  website: jameymcelveen.com
+  github: github.com/jameymcelveen
+  availability: Remote · Full-Time or Contract
+  not_available_for:
+    - Relocation
+    - Hybrid
+    - In-House
+  preferred:
+    - Christian culture / faith-based organizations
+    - Forward-thinking technologies
+    - Technologies that help people
+    - Kingdom work / missions
+
+summary:
+  full: >
+    Principal Systems Architect with 30+ years delivering enterprise .NET
+    platforms across SaaS, FinTech, and Healthcare. Designed and sustained
+    multi-tenant systems serving 50,000+ organizations; led teams of 20+
+    engineers through complete platform generational shifts. Expert in
+    AI-Augmented Engineering — using LLM-driven tooling (Cursor/Claude) to
+    accelerate legacy modernization with a consistent 30% velocity gain.
+    Published O'Reilly author. Currently architecting an open-source mission
+    clinic EMR (Christ Medical) with offline-first sync for field clinics in
+    low-connectivity environments. Brings rare technical depth combined with
+    the operational empathy of someone who has worked in regulated, high-stakes
+    environments where downtime has real human cost.
+
+  short: >
+    Principal Systems Architect with 30+ years in enterprise .NET, SaaS,
+    FinTech, and Healthcare. Expert in AI-Augmented Engineering, HIPAA
+    compliance, and multi-tenant architecture at scale. Published O'Reilly
+    author. Remote only.
+
+  healthcare_focus: >
+    Principal Systems Architect with 30+ years delivering HIPAA-compliant
+    enterprise platforms. Deep experience in Healthcare IT modernization,
+    Epic/Oracle integration, PHI masking, and BAA-safe AI workflows. Led
+    clinical system modernization at McLeod Health; currently building an
+    open-source mission clinic EMR with offline-first architecture.
+
+  fintech_focus: >
+    Principal Systems Architect with 30+ years delivering high-concurrency
+    FinTech and enterprise SaaS platforms. Expert in fraud prevention,
+    idempotent ETL design, Snowflake data pipelines, and audit trail
+    architecture. Proven at elastic scale — designed systems that absorbed
+    Giving Tuesday donation spikes with zero downtime.
+
+  saas_focus: >
+    Principal Systems Architect with 30+ years building and scaling
+    multi-tenant SaaS platforms. Designed Realm for 50,000+ organizations
+    with RLS, SQL Resource Governor, and shard-aware zero-downtime tenant
+    migration. Expert in Model-Driven Development, legacy modernization,
+    and AI-augmented engineering velocity.
+
+metrics:
+  - "50,000+ organizations served on Realm (ACS Technologies)"
+  - "20+ engineers led across distributed R&D teams"
+  - "70% query overhead reduction (covering index, Facility Scheduler)"
+  - "80% repo size reduction (BFG Repo-Cleaner, McLeod Health)"
+  - "30% velocity gain (AI-augmented engineering)"
+  - "100,000+ commits migrated SVN to Git"
+  - "25 years continuous tenure at ACS Technologies"
+  - "Zero BAA exposure incidents at McLeod Health"
+
+experience:
+  - company: Christ Medical Mission System
+    title: Principal Architect
+    type: Pro Bono / Kingdom Work
+    start: 2024
+    end: present
+    location: Remote
+    industry: Healthcare / Missions
+    repo: github.com/christmedical/christmedical.com
+    summary: >
+      Open-source mission clinic EMR purpose-built for field clinics
+      operating in low-connectivity environments.
+    bullets:
+      - text: >
+          Architected an offline-first sync layer using Dotmim Sync so field
+          laptops operate independently and reconcile with the central hub on
+          reconnect — zero data loss, no paper fallback required.
+        tags: [architecture, offline-first, dotmim-sync, healthcare]
+
+      - text: >
+          Implemented Double Metaphone phonetic patient search via PostgreSQL's
+          fuzzystrmatch extension — solving name romanization inconsistency
+          across multilingual mission contexts where "sounds like" outperforms
+          exact spelling.
+        tags: [postgresql, search, ETL, healthcare, missions]
+
+      - text: >
+          Unified spiritual and medical outcome tracking in a single data model
+          (spiritual=heard|hope|none), treating the whole person as the patient.
+        tags: [data-modeling, healthcare, missions]
+
+      - text: >
+          Enforced CI parity via a single make build / npm run ci gate running
+          ESLint, Vitest, React Testing Library, and production Next.js build
+          locally and in GitHub Actions.
+        tags: [ci-cd, github-actions, nextjs, testing]
+
+    stack:
+      - .NET 9
+      - ASP.NET Core
+      - Next.js 15
+      - TypeScript
+      - PostgreSQL
+      - Dotmim Sync
+      - Docker
+      - Railway
+      - Vercel
+      - GitHub Actions
+
+  - company: SecureGive
+    title: Senior Solutions Architect
+    type: Full-Time
+    start: 2023
+    end: 2025
+    location: Remote
+    industry: FinTech / Donation Processing
+    summary: >
+      Architected high-concurrency FinTech APIs and data warehouse
+      infrastructure for a large-scale donation processing platform.
+    bullets:
+      - text: >
+          Architected high-concurrency public APIs in .NET Core on Kubernetes
+          (EKS) with elastic scale to absorb Giving Tuesday traffic spikes —
+          zero downtime during peak donation surges.
+        tags: [dotnet, kubernetes, eks, fintech, performance]
+        metric: "Zero downtime during peak surges"
+
+      - text: >
+          Designed anti-fraud heuristics to detect and shut down credit-card
+          validation attacks (carding), protecting platform integrity and
+          donor funds.
+        tags: [security, fraud-prevention, fintech]
+
+      - text: >
+          Engineered idempotent ETL pipelines for PostgreSQL to Snowflake
+          migrations; pipelines restart mid-stream without duplicating
+          financial records or corrupting the ledger.
+        tags: [etl, postgresql, snowflake, fintech, data-engineering]
+
+      - text: >
+          Leveraged Snowflake Time Travel for financial audit trails and
+          year-over-year trend reporting without loading the production
+          transactional database.
+        tags: [snowflake, audit, fintech, reporting]
+
+      - text: >
+          Applied FinTech-grade security practices including immutable audit
+          trails, TLS 1.2+ enforcement, and least-privilege access across
+          all data surfaces.
+        tags: [security, tls, compliance, fintech]
+
+    stack:
+      - .NET Core
+      - C#
+      - Kubernetes
+      - EKS
+      - PostgreSQL
+      - Snowflake
+      - REST API
+      - Docker
+
+  - company: McLeod Health
+    title: Senior Software Developer / Modernization Lead
+    type: Full-Time
+    start: 2021
+    end: 2023
+    location: Florence, SC
+    industry: Enterprise Healthcare / HIPAA
+    summary: >
+      Healthcare IT modernization lead specializing in HIPAA-aware
+      environments, source control transformation, and Epic/Oracle
+      integration boundaries.
+    bullets:
+      - text: >
+          Migrated the entire development organization from file-share-based
+          code storage to Git and GitHub — the organization's first modern
+          source control practice — cleaning 100,000+ commit history with
+          BFG Repo-Cleaner, reducing repo size by 80%.
+        tags: [git, github, modernization, devops]
+        metric: "80% repo size reduction"
+
+      - text: >
+          Implemented CI pipelines for HIPAA-compliant clinical systems,
+          replacing manual deployments with automated, auditable release
+          processes.
+        tags: [ci-cd, hipaa, devops, healthcare]
+
+      - text: >
+          Mentored developers and interns on Git workflows, branching
+          strategy, and pull request culture; socialized changes with
+          leadership to ensure team ownership rather than mandated compliance.
+        tags: [mentoring, leadership, git, culture]
+
+      - text: >
+          Introduced structured logging via an in-house ELK stack with a
+          Golden Record PHI scrubbing service — replacing real names and SSNs
+          with synthetic identities in non-production environments while
+          preserving referential integrity. Zero BAA exposure risk.
+        tags: [elk, logging, hipaa, phi, security, healthcare]
+        metric: "Zero BAA exposure risk"
+
+      - text: >
+          Enforced TLS 1.2+ across all WCF and REST endpoints; advocated for
+          data-at-rest encryption and least-privilege access across all
+          clinical data surfaces.
+        tags: [security, tls, wcf, rest, hipaa, compliance]
+
+      - text: >
+          Managed data integration bridges between .NET applications and
+          Oracle Cloud / Epic EMR platforms serving thousands of clinical
+          staff.
+        tags: [oracle, epic, emr, integration, healthcare, dotnet]
+
+    stack:
+      - C#
+      - .NET Core
+      - WCF
+      - REST API
+      - Oracle Cloud
+      - Epic EMR
+      - ELK Stack
+      - Git
+      - GitHub Actions
+      - SQL Server
+
+  - company: ACS Technologies
+    title: Programming Manager / R&D Architect
+    type: Full-Time
+    start: 1996
+    end: 2021
+    location: Florence, SC
+    industry: Enterprise SaaS
+    tenure_note: "25 years"
+    departure_note: >
+      Departed following a strategic leadership transition that fundamentally
+      altered the organization's technical vision and direction.
+    summary: >
+      Strategic architectural lead across a suite of SaaS products serving
+      50,000+ organizations; directed a distributed R&D team of 20+ engineers
+      through 25 years of continuous company growth and multiple platform
+      generational shifts. Pioneered Model-Driven Development (MDD) for
+      large-scale C# codebases.
+    bullets:
+      core:
+        - text: >
+            Served as strategic architectural lead for a flagship SaaS
+            platform suite serving 50,000+ organizations worldwide.
+          tags: [architecture, saas, leadership]
+          metric: "50,000+ organizations"
+
+        - text: >
+            Directed a distributed R&D department of 20+ engineers,
+            pioneering Model-Driven Development (MDD) for large-scale
+            C# codebases.
+          tags: [leadership, mdd, csharp, r-and-d]
+          metric: "20+ engineers"
+
+      realm:
+        product: Realm
+        description: Multi-Tenant SaaS Platform
+        bullets:
+          - text: >
+              Architected multi-tenancy using Row-Level Security (RLS) and
+              SQL Resource Governor to prevent Noisy Neighbor degradation —
+              ensuring one large tenant's workload could not starve the
+              other 49,999.
+            tags: [multi-tenancy, rls, sql, saas, architecture]
+            metric: "49,999 tenants protected"
+
+          - text: >
+              Built a shard-aware routing layer that live-migrated
+              over-threshold tenants to quieter shards with zero downtime.
+            tags: [sharding, architecture, saas, sql]
+            metric: "Zero downtime tenant migration"
+
+      facility_scheduler:
+        product: Facility Scheduler
+        description: N-Tier Scheduling Engine
+        bullets:
+          - text: >
+              Designed an N-tier C# / WCF / SOAP architecture with custom
+              WS-Security header processing integrated into the WCF message
+              pipeline — solving cross-network auth challenges the native
+              stack could not handle.
+            tags: [wcf, soap, n-tier, security, csharp, architecture]
+
+          - text: >
+              Eliminated high-concurrency booking conflicts using RowVersion
+              optimistic locking; reduced critical scheduling query overhead
+              by 70% via a covering index that eliminated a bookmark lookup.
+            tags: [sql, performance, optimization, concurrency]
+            metric: "70% query overhead reduction"
+
+      headmaster:
+        product: HeadMaster
+        description: School Management Ecosystem
+        bullets:
+          - text: >
+              Modeled non-linear Student-Guardian-Representative hierarchies
+              using M:N relational tables with bitmask permission flags —
+              enabling instant legal-authority validation at 1,000-student
+              scale.
+            tags: [data-modeling, sql, permissions, education, healthcare-adjacent]
+
+          - text: >
+              Architecture maps directly to SC DSS / CAPSS child placement
+              and voucher eligibility workflows — transferable to any
+              behavioral health or child-services SaaS domain.
+            tags: [behavioral-health, child-services, saas, data-modeling]
+
+    stack:
+      - C#
+      - .NET Framework
+      - .NET Core
+      - WCF
+      - SOAP
+      - MS SQL Server
+      - T-SQL
+      - N-Tier Architecture
+      - MDD
+      - Row-Level Security
+      - SQL Resource Governor
+
+education:
+  - degree: B.S. Computer Engineering
+    institution: Clemson University
+    note: >
+      Low-level C++ / OpenGL background applied to .NET GC optimization
+      and performance-sensitive system design.
+
+publications:
+  - title: iPhone Game Development
+    publisher: O'Reilly Media
+    type: Book
+    tech: [C++, OpenGL]
+    note: >
+      Technical writing discipline applied daily — every team ships with
+      Swagger/OpenAPI specs, deep-dive READMEs, and Architecture Decision
+      Records (ADRs).
+
+skills:
+  languages:
+    - C#
+    - .NET 9 / .NET Core
+    - ASP.NET Core
+    - TypeScript
+    - T-SQL
+    - C++
+    - JavaScript
+
+  frontend:
+    - Next.js 15
+    - React
+    - Angular
+    - Tailwind CSS
+    - Framer Motion
+
+  apis_and_protocols:
+    - REST API
+    - WCF
+    - SOAP
+    - WS-Security
+    - OpenAPI / Swagger
+    - SSE (Server-Sent Events)
+
+  data:
+    - MS SQL Server
+    - PostgreSQL
+    - Snowflake
+    - Oracle
+    - Redis
+    - Drizzle ORM
+    - Entity Framework
+
+  data_techniques:
+    - Row-Level Security (RLS)
+    - SQL Resource Governor
+    - RowVersion Optimistic Locking
+    - Covering Index Optimization
+    - Snowflake Time Travel
+    - Double Metaphone / fuzzystrmatch
+    - ETL Pipeline Design
+    - Idempotent Pipeline Design
+
+  architecture_patterns:
+    - Principal Systems Architecture
+    - Multi-Tenant SaaS Design
+    - N-Tier Architecture
+    - Model-Driven Development (MDD)
+    - Strangler Pattern
+    - Domain-Driven Design
+    - Offline-First Architecture
+    - Shard-Aware Routing
+    - Microservices
+    - CQRS
+
+  cloud_and_devops:
+    - Kubernetes
+    - EKS
+    - Docker
+    - Railway
+    - Vercel
+    - GitHub Actions
+    - CI/CD
+    - Git / GitFlow
+    - BFG Repo-Cleaner
+    - SVN to Git Migration
+
+  observability:
+    - ELK Stack
+    - Structured Logging
+    - OpenTelemetry
+    - Architecture Decision Records (ADRs)
+
+  security_and_compliance:
+    - HIPAA
+    - PHI Masking / Golden Record Scrubbing
+    - BAA Compliance
+    - TLS 1.2+
+    - WS-Security
+    - Anti-Fraud Heuristics
+    - FinTech Audit Trail Design
+    - Least Privilege / Zero Trust
+
+  ai_and_tooling:
+    - AI-Augmented Engineering
+    - Cursor
+    - Claude
+    - LLM Workflows
+    - Prompt Engineering
+    - Clean-Room PII Protocol
+    - Local-Context LLM Usage
+
+  integration:
+    - Epic EMR
+    - Oracle Cloud
+    - Dotmim Sync
+    - Snowflake ETL
+
+  leadership:
+    - R&D Team Management
+    - Technical Mentoring
+    - Stakeholder Communication
+    - Architecture Decision Records
+    - Technical Writing
+    - O'Reilly Published Author
+
+  # ATS flat list — use this for Indeed, LinkedIn, job boards
+  ats_flat_list:
+    - C#
+    - .NET 9
+    - ASP.NET Core
+    - TypeScript
+    - Next.js
+    - React
+    - Angular
+    - T-SQL
+    - PostgreSQL
+    - Snowflake
+    - C++
+    - REST API
+    - WCF
+    - SOAP
+    - OpenAPI
+    - Epic EMR
+    - Oracle Cloud
+    - ETL Design
+    - MS SQL Server
+    - Row-Level Security
+    - SQL Resource Governor
+    - RowVersion Optimistic Locking
+    - Kubernetes
+    - EKS
+    - Docker
+    - Railway
+    - Vercel
+    - GitHub Actions
+    - CI/CD
+    - Git
+    - ELK Stack
+    - HIPAA
+    - PHI Masking
+    - TLS 1.2+
+    - Anti-Fraud Systems
+    - FinTech Audit Trail
+    - AI-Augmented Engineering
+    - Cursor
+    - Claude
+    - LLM Workflows
+    - Prompt Engineering
+    - Systems Architecture
+    - Multi-Tenant SaaS
+    - Strangler Pattern
+    - Legacy Modernization
+    - Offline-First Architecture
+    - R&D Leadership
+    - Technical Mentoring
+    - Architecture Decision Records
+    - O'Reilly Author
+
+references:
+  note: Available upon request.
+
+# =============================================================================
+# TARGETING NOTES
+# =============================================================================
+# Healthcare roles:     lead with McLeod bullets + HIPAA skills + Christ Medical
+# FinTech roles:        lead with SecureGive bullets + fraud/audit skills
+# SaaS/Architect roles: lead with ACS/Realm bullets + multi-tenancy + MDD
+# Modernization roles:  lead with McLeod Git migration + Strangler Pattern + AI
+# Missions/Nonprofit:   include Christ Medical prominently + faith preference
+# =============================================================================
