@@ -143,18 +143,24 @@ app.MapPost("/api/chat", async (
     IHostEnvironment host,
     AnalyticsDbContext db,
     GeminiCostEstimator costEstimator,
+    HttpContext httpContext,
     CancellationToken ct) =>
 {
+    var chatLog = loggerFactory.CreateLogger("Interview.Chat");
+
+    // ── resolve API key (before starting stream so we can return a proper HTTP error) ──
     var apiKey = config["Gemini:ApiKey"];
     if (string.IsNullOrWhiteSpace(apiKey))
         apiKey = SysEnvironment.GetEnvironmentVariable("GEMINI_API_KEY");
     if (string.IsNullOrWhiteSpace(apiKey))
     {
-        return Results.Json(
-            new ChatResponse(null, "Server configuration error: missing Gemini API key."),
-            statusCode: StatusCodes.Status500InternalServerError);
+        httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
+        await httpContext.Response.WriteAsJsonAsync(
+            new ChatResponse(null, "Server configuration error: missing Gemini API key."), ct);
+        return;
     }
 
+    // ── resolve model name ─────────────────────────────────────────────────────────────
     var modelName = config["Gemini:Model"];
     if (string.IsNullOrWhiteSpace(modelName))
         modelName = SysEnvironment.GetEnvironmentVariable("GEMINI_MODEL");
@@ -167,9 +173,15 @@ app.MapPost("/api/chat", async (
             modelName = GoogleAIModels.GeminiFlashLatest;
     }
 
-    var chatLog = loggerFactory.CreateLogger("Interview.Chat");
+    // ── begin SSE response ─────────────────────────────────────────────────────────────
+    // text/event-stream keeps the connection alive and lets the browser read tokens
+    // as they arrive instead of waiting for the full Gemini response (fixes Vercel timeouts).
+    httpContext.Response.ContentType = "text/event-stream";
+    httpContext.Response.Headers.CacheControl = "no-cache";
+    httpContext.Response.Headers["X-Accel-Buffering"] = "no"; // disable Railway/nginx response buffering
 
-    GenerateContentResponse? geminiRaw = null;
+    var fullText = new System.Text.StringBuilder();
+    GenerateContentResponse? lastChunk = null;
 
     try
     {
@@ -188,95 +200,75 @@ app.MapPost("/api/chat", async (
             safetyRatings: null,
             systemInstruction: systemPromptText);
 
-        geminiRaw = await model.GenerateContentAsync(request.Message!, ct);
-        string? text;
-        try
+        await foreach (var chunk in model.GenerateContentStreamAsync(request.Message!, ct))
         {
-            text = geminiRaw.Text();
-        }
-        catch (Exception tex)
-        {
-            chatLog.LogWarning(
-                tex,
-                "Gemini response had no extractable text. Model={Model} PromptLength={PromptLength}",
-                modelName,
-                request.Message?.Length ?? 0);
-            await ChatTurnLog.SaveAsync(
-                db,
-                costEstimator,
-                request,
-                modelName,
-                StatusCodes.Status502BadGateway,
-                null,
-                host.IsDevelopment() ? tex.GetBaseException().Message : "no extractable text",
-                geminiRaw,
-                ct);
-            return Results.Json(
-                new ChatResponse(
-                    null,
-                    "The model could not produce a reply (content may have been blocked). Try rephrasing your question.",
-                    host.IsDevelopment() ? tex.GetBaseException().Message : null),
-                statusCode: StatusCodes.Status502BadGateway);
+            lastChunk = chunk;
+
+            string? delta = null;
+            try { delta = chunk.Text(); }
+            catch { /* safety-filtered chunk — skip */ }
+
+            if (!string.IsNullOrEmpty(delta))
+            {
+                fullText.Append(delta);
+                var payload = JsonSerializer.Serialize(new { delta });
+                await httpContext.Response.WriteAsync($"data: {payload}\n\n", ct);
+                await httpContext.Response.Body.FlushAsync(ct);
+            }
         }
 
-        if (string.IsNullOrWhiteSpace(text))
+        var assembledText = fullText.ToString().Trim();
+        if (string.IsNullOrEmpty(assembledText))
         {
-            await ChatTurnLog.SaveAsync(
-                db,
-                costEstimator,
-                request,
-                modelName,
-                StatusCodes.Status502BadGateway,
-                null,
-                "empty model text",
-                geminiRaw,
-                ct);
-            return Results.Json(
-                new ChatResponse(null, "The model returned an empty response. Try rephrasing your question."),
-                statusCode: StatusCodes.Status502BadGateway);
+            // Gemini returned nothing (all tokens safety-filtered or empty model output).
+            var emptyPayload = JsonSerializer.Serialize(new
+            {
+                error = "The model returned an empty response. Try rephrasing your question.",
+            });
+            await httpContext.Response.WriteAsync($"data: {emptyPayload}\n\n", ct);
+            await ChatTurnLog.SaveAsync(db, costEstimator, request, modelName,
+                StatusCodes.Status502BadGateway, null, "empty stream", lastChunk, ct);
+        }
+        else
+        {
+            await httpContext.Response.WriteAsync("data: [DONE]\n\n", ct);
+            await ChatTurnLog.SaveAsync(db, costEstimator, request, modelName,
+                StatusCodes.Status200OK, assembledText, null, lastChunk, ct);
         }
 
-        text = text.Trim();
-        await ChatTurnLog.SaveAsync(
-            db,
-            costEstimator,
-            request,
-            modelName,
-            StatusCodes.Status200OK,
-            text,
-            null,
-            geminiRaw,
-            ct);
-
-        return Results.Json(new ChatResponse(text, null));
+        await httpContext.Response.Body.FlushAsync(ct);
+    }
+    catch (OperationCanceledException)
+    {
+        // Client disconnected — normal, not an error.
     }
     catch (Exception ex)
     {
         var root = ex.GetBaseException();
         chatLog.LogError(
             ex,
-            "Gemini request failed. Model={Model} Environment={Environment} ExceptionType={ExceptionType} Message={Message}",
+            "Gemini stream failed. Model={Model} Environment={Environment} ExceptionType={ExceptionType} Message={Message}",
             modelName,
             host.EnvironmentName,
             root.GetType().Name,
             root.Message);
-        var detail = host.IsDevelopment() ? root.Message : null;
-        await ChatTurnLog.SaveAsync(
-            db,
-            costEstimator,
-            request,
-            modelName,
-            StatusCodes.Status502BadGateway,
-            null,
-            root.Message,
-            geminiRaw,
-            ct);
-        return Results.Json(
-            new ChatResponse(
-                null,
-                "The interview service is temporarily unavailable. Please try again shortly.",
-                detail),
-            statusCode: StatusCodes.Status502BadGateway);
+
+        var userMsg = "The interview service is temporarily unavailable. Please try again shortly.";
+        var errorPayload = JsonSerializer.Serialize(new
+        {
+            error = userMsg,
+            detail = host.IsDevelopment() ? root.Message : (string?)null,
+        });
+
+        try
+        {
+            await httpContext.Response.WriteAsync($"data: {errorPayload}\n\n", ct);
+            await httpContext.Response.Body.FlushAsync(ct);
+        }
+        catch { /* response may already be closed by the time we get here */ }
+
+        await ChatTurnLog.SaveAsync(db, costEstimator, request, modelName,
+            StatusCodes.Status502BadGateway, null, root.Message, lastChunk, ct);
     }
 });
 
