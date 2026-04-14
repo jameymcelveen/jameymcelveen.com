@@ -5,6 +5,7 @@ import { GradientMesh } from '@/components/GradientMesh';
 import { Navigation } from '@/components/Navigation';
 import { PageChrome } from '@/components/PageChrome';
 import { getSiteDomain, getSiteMetadata } from '@/data';
+import { Analytics } from '@vercel/analytics/next';
 import './globals.css';
 
 const geistSans = Geist({
@@ -51,6 +52,7 @@ export default function RootLayout({
         <AnalyticsTracker />
         <GradientMesh />
         <Navigation />
+        <Analytics />
         <PageChrome>{children}</PageChrome>
       </body>
     </html>
