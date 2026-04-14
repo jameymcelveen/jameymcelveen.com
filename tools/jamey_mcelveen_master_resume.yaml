@@ -1,0 +1,346 @@
+# jamey_mcelveen_master_resume.yaml
+# Master resume data — single source of truth for Garfield-powered tailored resumes.
+#
+# GARFIELD QUICK-START PROMPT:
+#   Read tools/jamey_mcelveen_master_resume.yaml and generate a tailored resume
+#   for this job posting: [PASTE JD HERE]
+#   Use the [christian_tech|healthcare|fintech|saas|leadership] summary variant.
+#   Emphasize bullets tagged with [relevant tags].
+#   Output as clean HTML (EB Garamond + DM Sans, navy #1a5c8e header).
+#
+# See targeting guide at the bottom for per-role recommendations.
+
+# ── CONTACT ──────────────────────────────────────────────────────────────────
+
+contact:
+  name: Jamey McElveen
+  title: Senior Software Architect & Engineering Leader
+  location: Timmonsville, SC
+  email: jamey@mcelveen.us
+  phone: "(843) 618-8078"
+  github: github.com/jameymcelveen/jameymcelveen.com
+  site: jameymcelveen.com
+
+# ── KEY METRICS ───────────────────────────────────────────────────────────────
+# Pull these into executive summaries, ATS headlines, and cover letters.
+
+metrics:
+  years_experience: "25+"
+  organizations_served: "50,000+"
+  team_size_managed: "20+"
+  ai_velocity_increase: "~30%"
+  app_store_milestone: "one of the first 100 apps on the Apple App Store (2008)"
+  acs_tenure: "25 years"
+
+# ── SUMMARIES ─────────────────────────────────────────────────────────────────
+# Swap in the right variant per application. Keep the chosen one under ~4 lines.
+
+summaries:
+  full: >
+    Senior Software Architect with 25+ years of experience in Christian tech and fintech.
+    Expert in architecting scalable solutions for platforms serving 50,000+ organizations.
+    Proven engineering leader — managed R&D teams of 20+, delivered products from concept
+    to 50k-org scale, and pioneered AI-augmented development workflows (Cursor) that drove
+    a ~30% increase in sprint velocity without sacrificing code quality.
+
+  short: >
+    Senior Software Architect · 25+ years · 50,000+ orgs served · 20+ engineers led ·
+    AI-augmented development pioneer.
+
+  christian_tech_focus: >
+    Senior Software Architect with 25+ years dedicated to Christian tech and ministry
+    software. Architected Realm, ACS Technologies' flagship platform serving 50,000+
+    churches, and pioneered ChurchLife — one of the first 100 apps on the Apple App Store.
+    Deep domain expertise in faith-organization workflows, donor management, and community
+    platforms at scale, combined with modern engineering: .NET Core, React, CI/CD, and
+    AI-augmented development with Cursor.
+
+  healthcare_focus: >
+    Senior Software Architect with 25+ years of experience, including healthcare IT
+    modernization at McLeod Health. Skilled in migrating legacy C# systems to HIPAA-aware
+    .NET Core standards, introducing CI/CD to clinical infrastructure, and mentoring
+    engineering teams in regulated environments. Brings both deep architectural experience
+    and a hands-on approach to healthcare systems where reliability and compliance are
+    non-negotiable.
+
+  fintech_focus: >
+    Senior Software Architect with 25+ years of experience, including high-performance
+    payment and financial API work at SecureGive. Architected Snowflake + .NET Core API
+    Gateways for transaction processing at scale. Expert in building auditable, secure
+    financial systems. AI-augmented development pioneer — integrated Cursor into the
+    engineering lifecycle for a proven ~30% sprint velocity gain.
+
+  saas_focus: >
+    Senior Software Architect with 25+ years building and operating multi-tenant SaaS
+    platforms. Led engineering of a flagship SaaS product serving 50,000+ organizations
+    across a 25-year tenure at ACS Technologies. Deep expertise in .NET Core, React,
+    multi-tenant architecture, CI/CD, and AI-augmented development. Proven leader managing
+    R&D teams of 20+ through multiple product generations.
+
+  leadership_focus: >
+    Engineering leader with 25+ years directing high-performance R&D teams. Managed and
+    mentored teams of 20+ developers at ACS Technologies, overseeing hiring, roadmaps, and
+    architectural standards across a multi-product SaaS portfolio. Track record of delivering
+    flagship products at scale, pioneering mobile development, and driving organizational
+    adoption of Git, CI/CD, and AI-augmented engineering workflows.
+
+# ── WORK EXPERIENCE ───────────────────────────────────────────────────────────
+# Each bullet has tags — Garfield filters by tags relevant to the JD.
+# ACS is broken out by product so you include only what's relevant per role.
+
+experience:
+
+  - company: SecureGive.com
+    title: Senior Software Engineer
+    period: "Sept 2023 – July 2025"
+    sector: fintech
+    bullets:
+      - text: >
+          Architected high-performance client-facing API using Snowflake and
+          .NET Core API Gateway, supporting transaction processing for thousands
+          of organizations.
+        tags: [fintech, api, snowflake, dotnet, architecture, scale, payments]
+      - text: >
+          Developed full-stack features using Scala, Angular, and React Native
+          across web and mobile surfaces.
+        tags: [fullstack, scala, angular, react-native, mobile, fintech]
+      - text: >
+          Integrated Cursor AI protocols into the full development lifecycle,
+          increasing sprint velocity by ~30% while maintaining high architectural
+          standards and code quality.
+        tags: [ai, cursor, productivity, agile, velocity, innovation]
+
+  - company: McLeod Health
+    title: Senior Software Developer
+    period: "Sept 2021 – July 2023"
+    sector: healthcare
+    bullets:
+      - text: >
+          Modernized legacy C# codebases to .NET Core standards for critical HR
+          and healthcare infrastructure, improving maintainability and
+          long-term compliance posture.
+        tags: [dotnet, csharp, legacy-modernization, healthcare, hipaa, infrastructure]
+      - text: >
+          Introduced Git source control and CI/CD pipelines to the organization
+          for the first time, establishing a repeatable, auditable release process.
+        tags: [git, cicd, devops, healthcare, process-improvement, leadership]
+      - text: >
+          Mentored interns using Agile methodologies, ensuring seamless team
+          integration and consistent code quality output.
+        tags: [mentorship, agile, leadership, healthcare, coaching]
+
+  - company: ACS Technologies
+    title: Programming Manager
+    period: "May 1996 – Feb 2021"
+    sector: christian-tech
+    tenure_note: "25-year tenure across multiple products and product generations"
+
+    # Leadership bullets — always include for management/architect roles
+    leadership_bullets:
+      - text: >
+          Directed an R&D department of 20+ developers across hiring, mentorship,
+          performance management, and multi-year product roadmaps.
+        tags: [leadership, management, hiring, mentorship, roadmap, scale, christian-tech]
+      - text: >
+          Managed a multi-product SaaS portfolio spanning church management, mobile,
+          school administration, and facility scheduling — coordinating priorities
+          across independent engineering teams.
+        tags: [leadership, product-management, saas, portfolio, christian-tech]
+
+    # ACS products — include only the subset relevant to the role
+    products:
+
+      realm:
+        name: Realm
+        type: "Church management SaaS — C# .NET MVC, multi-tenant, 50,000+ orgs"
+        bullets:
+          - text: >
+              Led the engineering of Realm, ACS Technologies' flagship C# .NET MVC
+              platform serving 50,000+ churches with member management, giving,
+              and community tools.
+            tags: [dotnet, csharp, mvc, saas, multi-tenant, scale, christian-tech, architecture]
+          - text: >
+              Designed and maintained the multi-tenant data architecture supporting
+              50,000+ isolated church environments, ensuring data integrity and
+              performance at scale.
+            tags: [architecture, multi-tenant, saas, scale, dotnet, database, christian-tech]
+          - text: >
+              Drove iterative modernization of the Realm codebase across multiple
+              framework generations, balancing stability for existing customers with
+              delivery of new capabilities.
+            tags: [legacy-modernization, dotnet, saas, christian-tech, architecture]
+
+      churchlife:
+        name: ChurchLife (Mobile App)
+        type: "Consumer iOS app — Objective-C / C# — App Store pioneer"
+        bullets:
+          - text: >
+              Pioneered ChurchLife in 2008 — one of the first 100 apps on the Apple
+              App Store — delivering a mobile church community experience before
+              iOS development tooling had matured.
+            tags: [mobile, ios, objective-c, pioneer, christian-tech, app-store, innovation]
+          - text: >
+              Led mobile architecture and team for a consumer-facing church app,
+              bridging C# backend services with an Objective-C native client.
+            tags: [mobile, ios, architecture, christian-tech, leadership, fullstack]
+
+      facility_scheduler:
+        name: Facility Scheduler
+        type: "Church facility and resource booking product"
+        bullets:
+          - text: >
+              Contributed engineering leadership to Facility Scheduler, enabling
+              churches to manage room bookings, resource allocation, and event
+              coordination across campuses.
+            tags: [christian-tech, scheduling, saas, dotnet, product]
+
+      headmaster:
+        name: HeadMaster
+        type: "K-12 school administration platform for Christian schools"
+        bullets:
+          - text: >
+              Supported HeadMaster, a school administration platform serving
+              Christian K-12 institutions with enrollment, grading, and
+              family communication features.
+            tags: [christian-tech, education, k12, saas, dotnet, product]
+
+# ── SKILLS ────────────────────────────────────────────────────────────────────
+
+skills:
+  languages:     [C#, JavaScript, TypeScript, Scala, HTML, "Objective-C"]
+  frameworks:    [".NET Core", "ASP.NET MVC", React, "React Native", Angular, "Vue.js", "Next.js"]
+  data:          [Snowflake, PostgreSQL, MSSQL, "Oracle Cloud", SQLite]
+  tools:         ["Cursor AI", Git, "GitHub Actions", "CI/CD", "Agile/Scrum", Docker]
+  cloud_hosting: [Vercel, Railway]
+  specialties:
+    - "AI-augmented development (Cursor) — proven ~30% velocity gain"
+    - "Multi-tenant SaaS architecture"
+    - "Legacy modernization (.NET Framework → .NET Core)"
+    - "Healthcare IT / HIPAA-aware systems"
+    - "Payment processing APIs"
+    - "Church & ministry software (25 years domain expertise)"
+    - "Engineering team leadership (20+ direct/indirect reports)"
+    - "Mobile — iOS, React Native"
+    - "IoT prototyping — Raspberry Pi, Arduino, ESP32"
+
+  # Drop straight into Indeed / LinkedIn skills or ATS keyword field
+  ats_flat_list: >
+    C#, .NET Core, ASP.NET MVC, JavaScript, TypeScript, React, React Native, Angular,
+    Vue.js, Next.js, Scala, Objective-C, Snowflake, PostgreSQL, MSSQL, Oracle Cloud,
+    SQLite, Cursor AI, Git, GitHub Actions, CI/CD, Docker, Vercel, Railway, Agile,
+    Scrum, Software Architecture, System Design, API Design, REST API, Multi-tenant SaaS,
+    Legacy Modernization, HIPAA, Healthcare IT, FinTech, Payment Processing, Mobile
+    Development, iOS, React Native, Team Leadership, Engineering Management, Mentorship,
+    Product Roadmap, Christian Tech, Church Software, AI-augmented Development,
+    Developer Productivity, IoT, Raspberry Pi, Arduino, FIRST Robotics
+
+# ── EDUCATION & CREDENTIALS ───────────────────────────────────────────────────
+
+education:
+  - degree: "B.S. Computer Engineering"
+    school: Clemson University
+
+publications:
+  - title: "iPhone Game Development"
+    description: >
+      A technical and business guide to creating and selling iPhone games.
+      Published author demonstrating early mobile expertise and ability to
+      communicate complex technical concepts.
+    tags: [mobile, ios, publishing, pioneer, communication]
+
+certifications: []  # add as earned
+
+other_experience:
+  - label: FIRST Robotics Mentor
+    description: >
+      Long-term mentor for FIRST Robotics teams, specializing in autonomous
+      navigation systems. Demonstrates commitment to STEM education and
+      technical mentorship beyond the workplace.
+    tags: [stem, robotics, mentorship, leadership, community, autonomous-systems]
+  - label: Industrial IoT Prototyping
+    description: >
+      Personal R&D in sensor-to-cloud pipelines using Raspberry Pi, Arduino,
+      and ESP32. Bridges hardware protocols into C#/.NET APIs.
+    tags: [iot, hardware, raspberry-pi, arduino, esp32, dotnet, prototyping]
+  - label: Custom UAV / Quadcopter Architecture
+    description: >
+      Hands-on experience with quadcopter design, PID tuning, and telemetry
+      systems — applying control theory to real hardware.
+    tags: [uav, drone, hardware, iot, embedded, pid, telemetry]
+
+# ── TARGETING GUIDE ───────────────────────────────────────────────────────────
+# Tell Garfield which levers to pull per role type.
+
+targeting:
+
+  christian_tech:
+    use_summary: christian_tech_focus
+    emphasize_tags: [christian-tech, saas, multi-tenant, scale, leadership, dotnet, mobile, pioneer]
+    lead_with: "ACS Technologies — Realm (50,000+ churches) and ChurchLife (App Store pioneer)"
+    include_products: [realm, churchlife, facility_scheduler, headmaster]
+    de_emphasize_tags: [hipaa, healthcare, fintech, payments]
+    cover_letter_angle: "Mission alignment — genuine 25-year investment in faith-org software"
+
+  healthcare:
+    use_summary: healthcare_focus
+    emphasize_tags: [healthcare, hipaa, dotnet, legacy-modernization, cicd, git, mentorship, leadership]
+    lead_with: "McLeod Health — modernized critical healthcare infrastructure"
+    include_products: []
+    de_emphasize_tags: [christian-tech, mobile, pioneer, payments]
+    cover_letter_angle: "Reliability + compliance — understanding that downtime in healthcare is not acceptable"
+
+  fintech:
+    use_summary: fintech_focus
+    emphasize_tags: [fintech, api, snowflake, dotnet, scale, payments, ai, cursor, velocity]
+    lead_with: "SecureGive — Snowflake + .NET Core API Gateway, AI velocity gains"
+    include_products: []
+    de_emphasize_tags: [christian-tech, healthcare, hipaa, k12, education]
+    cover_letter_angle: "Speed + reliability — proven AI tooling to ship faster without breaking compliance"
+
+  saas_platform:
+    use_summary: saas_focus
+    emphasize_tags: [saas, multi-tenant, scale, dotnet, architecture, leadership, roadmap, legacy-modernization]
+    lead_with: "ACS Technologies — 25 years engineering a SaaS platform from 0 to 50,000+ orgs"
+    include_products: [realm]
+    de_emphasize_tags: [healthcare, hipaa, payments]
+    cover_letter_angle: "Long-game SaaS thinking — what it takes to keep a platform alive and growing for 25 years"
+
+  engineering_leadership:
+    use_summary: leadership_focus
+    emphasize_tags: [leadership, management, hiring, mentorship, roadmap, agile, scale, cicd, process-improvement]
+    lead_with: "ACS Technologies — Programming Manager, 20+ person R&D team, 25 years"
+    include_products: [realm]
+    de_emphasize_tags: [hipaa, payments]
+    cover_letter_angle: "Build the team, ship the product — experience across the full leadership lifecycle"
+
+  ai_tooling_or_devtools:
+    use_summary: fintech_focus
+    emphasize_tags: [ai, cursor, productivity, velocity, innovation, dotnet, architecture, fullstack]
+    lead_with: "SecureGive — pioneered Cursor AI workflows, ~30% sprint velocity increase"
+    include_products: []
+    de_emphasize_tags: [christian-tech, healthcare, hipaa]
+    cover_letter_angle: "First-mover on AI-augmented development — not just a user, an advocate who changed the team's workflow"
+
+# ── GARFIELD PROMPT ───────────────────────────────────────────────────────────
+# Copy-paste into Cursor. Replace the bracketed sections.
+
+garfield_prompt: |
+  Read tools/jamey_mcelveen_master_resume.yaml (master resume data) and
+  tools/COVER_LETTER_STYLE.md (voice + tone guide), then generate a
+  tailored resume for this job posting:
+
+  [PASTE JD HERE]
+
+  Instructions:
+  1. Pick the best summary variant from the yaml based on the role type
+  2. Filter experience bullets using the tags most relevant to this JD
+  3. For ACS Technologies, include only the product bullets that match
+     the role — do not list all four products unless they're all relevant
+  4. Lead with the strongest matching company/product per the targeting guide
+  5. Pull key metrics (years, org count, team size, velocity %) into the header
+  6. Output: clean single-page HTML
+     - Fonts: EB Garamond (body) + DM Sans (headers/labels)
+     - Header color: navy #1a5c8e
+     - Metrics row under name in a subtle highlight band
+  7. Append a 3-bullet "Why Jamey fits this role" callout box at the top
+     written in first person, specific to this JD
