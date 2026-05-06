@@ -1,0 +1,27 @@
+schemaVersion: '1.0.0'
+
+project:
+  name: 'stx-local-check'
+  version: '0.1.2'
+
+required:
+  brew: '>=4.0.0'
+  node: '>=20.0.0'
+  npm: '>=10.0.0'
+  pnpm: '>=10.0.0'
+  git: '>=2.0.0'
+  gh: '>=2.92.0'
+  vercel: '>=1.0.0'
+  railway: '>=1.0.0'
+  docker: '>=20.10.0'
+  dotnet: '>=9.0.0'
+
+optional:
+  # Example optional tool checks:
+  # bun: ">=1.0.0"
+
+authenticate:
+  - gh
+  - npm
+  - vercel
+  - railway

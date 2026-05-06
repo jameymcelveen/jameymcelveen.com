@@ -1,0 +1,55 @@
+================================================================================
+EXAMPLE-PROMPT — copy everything below the line into a new Cursor chat / project
+(Keep this file in docs/templates next to AGENTS.md and OWNER.md for easy copy.)
+================================================================================
+
+I’m starting a **greenfield** project on my **Mac desktop** to **track and visualize usage** across:
+
+- **Cursor** (IDE / agent usage — whatever we can read locally: logs, sqlite, exports, etc.)
+- **Claude** (Claude Desktop / local artifacts if available)
+- **Gemini** (Google AI Studio or API usage — only if we can do it without sketchy scraping; document limits)
+
+**Implementation:** I’m fine with either a **simple local web app** (browser + local server) **or Electron** — choose whichever gets a **credible v1** faster with **clear upgrade paths**. Explain the tradeoff in two sentences, then proceed.
+
+---
+
+## Bootstrap (do this before feature code)
+
+1. **Seed the repo** with my standard agent/personal context:
+   - Copy **`AGENTS.md`** and **`OWNER.md`** from the same folder as **`EXAMPLE-PROMPT.txt`** in my `jameymcelveen.com` repo (`docs/templates/`) into the **root** of this new project.
+   - If those files aren’t in the workspace, ask me to paste them or add the template repo as a second folder.
+   - Fill obvious placeholders (project name, stack choices); leave bracketed prompts I should complete myself.
+
+2. **Repo hygiene** (trim what doesn’t apply, but default on):
+   - **pnpm**, **TypeScript**, **Node 22+** (`.nvmrc` + `engines`), `preinstall` **`only-allow pnpm`** if Node-based.
+   - **ESLint** + **Prettier** + **`.editorconfig`** aligned with `AGENTS.md`.
+   - **`README.md`**: what it does, install, `dev`, `build`, where data comes from, privacy note (everything local-first unless I say otherwise).
+   - **`.env.example`** if any keys later; no secrets in git.
+   - **`Makefile`** with a **`help`** target wrapping common commands (optional but preferred).
+   - **`.gitignore`** appropriate for the stack.
+
+3. **Git / GitHub mindset:** `main` is protected in spirit (work on branches, PR-style commits); I deploy from GitHub later (Vercel/Railway/etc.) only if this app ever needs it — **default is local-first**.
+
+---
+
+## Product v1 (adjust scope as you discover what’s readable)
+
+- **Discover** where each tool stores **usage-relevant** data on macOS (paths, formats, permissions). **Read-only**; don’t modify vendor apps.
+- **Ingest** into something queryable (SQLite or JSON — pick simple).
+- **Minimal UI**: dashboard or table — totals over time, last session, rough token/cost estimates **only if** we have real signals; otherwise show **honest “unknown”** and what’s missing.
+- **Privacy:** offline-first; document what never leaves the machine.
+
+---
+
+## How to work
+
+- Read **`AGENTS.md`** (and **`OWNER.md`** if present) before large decisions.
+- **Small commits**, **run lint/tests** you add, **don’t** broaden scope beyond bootstrap + v1 without asking.
+
+Start by: (a) **5-bullet architecture**, (b) **risks/unknowns** (especially log locations), (c) **concrete file tree** for the first PR, then implement.
+
+================================================================================
+END OF PROMPT
+================================================================================
+
+Optional: attach or open the `docs/templates/` folder so the model can read`AGENTS.md` and `OWNER.md` directly instead of copying by hand.

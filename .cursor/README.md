@@ -6,6 +6,12 @@ This folder contains session notes and context for AI agents working on this pro
 
 - `session-notes.md` - Comprehensive project context, design decisions, and continuity notes
 
+## New projects (elsewhere)
+
+- Portable AI/bootstrap preferences: **`docs/templates/AGENTS.md`** — copy to a new repo’s root as `AGENTS.md` (or merge into your global Cursor user rules).
+- Optional longer personal context for new repos: **`docs/templates/OWNER.md`** — copy as `OWNER.md`; keep `AGENTS.md` short and point to it.
+- Greenfield **copy-paste prompt** (e.g. new desktop app): **`docs/templates/EXAMPLE-PROMPT.txt`**.
+
 ## Rules for AI Agents
 
 1. **Always read `session-notes.md` first** when starting a new session
