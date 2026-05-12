@@ -1,6 +1,6 @@
 {
   "name": "jameymcelveen.com",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "packageManager": "pnpm@10.33.0",
   "engines": {
@@ -16,12 +16,10 @@
     "format:check": "prettier --check .",
     "hosting:env": "bash scripts/hosting/00-ensure-env.sh",
     "hosting:vercel": "bash scripts/hosting/10-vercel-bootstrap.sh",
-    "hosting:railway": "bash scripts/hosting/20-railway-bootstrap.sh",
-    "hosting:print-env": "bash scripts/hosting/30-print-env-commands.sh",
-    "hosting:bootstrap": "bash scripts/hosting/run-all.sh",
-    "hosting:railway-deploy": "bash scripts/hosting/40-railway-deploy.sh"
+    "hosting:print-env": "bash scripts/hosting/30-print-env-commands.sh"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "@vercel/analytics": "^2.0.1",
     "framer-motion": "^12.27.5",
     "lucide-react": "^0.562.0",

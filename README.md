@@ -64,9 +64,10 @@ All you need to do is:
 - **Language:** TypeScript 5.9
 - **Styling:** Tailwind CSS 4
 - **Animations:** Framer Motion
+- **AI:** Google Gemini (via `@google/generative-ai`)
 - **Icons:** Lucide React
 - **Package Manager:** pnpm
-- **Deployment:** Vercel
+- **Deployment:** Vercel (frontend + API)
 
 ## 🚀 Quick Start
 
@@ -114,16 +115,29 @@ pnpm format:check # Check code formatting
 
 ```
 ├── src/
-│   ├── app/              # Next.js App Router pages
-│   │   ├── page.tsx      # Home page
-│   │   ├── resume/       # Resume page
-│   │   └── cover-letters/ # Cover letter templates
-│   ├── components/        # React components
-│   └── globals.css        # Global styles
-├── public/                # Static assets
-├── tools/                 # AI cover letter generation tools
-├── docs/                  # Documentation
-└── Makefile              # Build automation (Mac/Linux)
+│   ├── app/
+│   │   ├── page.tsx           # Home page
+│   │   ├── ai/               # AI interview chat UI
+│   │   ├── resume/            # Resume page
+│   │   ├── cover-letters/     # Cover letter templates
+│   │   ├── stats/             # Analytics dashboard
+│   │   └── api/               # API routes (Vercel serverless)
+│   │       ├── chat/          # POST - Gemini streaming chat (SSE)
+│   │       ├── health/        # GET  - Health check
+│   │       ├── stats/         # GET  - Analytics dashboard data
+│   │       └── analytics/     # POST - Session/pageview tracking
+│   ├── lib/
+│   │   └── api/               # Server-side API logic
+│   │       ├── gemini.ts      # Gemini AI streaming
+│   │       ├── career-validator.ts
+│   │       ├── rate-limiter.ts
+│   │       ├── analytics-store.ts
+│   │       └── system-prompt.md
+│   └── components/            # React components
+├── public/                    # Static assets
+├── tools/                     # AI cover letter generation tools
+├── docs/                      # Documentation
+└── Makefile                   # Build automation (Mac/Linux)
 ```
 
 ## 🔧 Development
@@ -165,9 +179,21 @@ nvm use  # Automatically uses Node 22
 
 ## 🚢 Deployment
 
+Everything runs on **Vercel** — frontend and API. No separate backend service needed.
+
 This site is automatically deployed to Vercel on every push to `main`.
 
 Use **pnpm** for installs (`pnpm install`). The repo tracks **`pnpm-lock.yaml`** only; **`package-lock.json` is ignored** so CI/Vercel `frozen-lockfile` installs never drift. Running `npm install` is blocked via **`preinstall`**—use pnpm (Corepack: `corepack enable`).
+
+### Environment Variables (Vercel)
+
+| Variable | Required | Purpose |
+|----------|----------|---------|
+| `GEMINI_API_KEY` | Yes (for chat) | Google Gemini API key |
+| `GEMINI_MODEL` | No | Model override (default: `gemini-2.0-flash`) |
+| `STATS_API_KEY` | No | Protects `GET /api/stats` and powers `/stats` page |
+
+### URLs
 
 - **Production:** https://jameymcelveen.com
 - **Preview:** https://jameymcelveen-com.vercel.app

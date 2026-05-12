@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export const revalidate = 30;
 
-/** Same-origin `/api/*` so the request hits Next rewrites → Railway. */
+/** Same-origin `/api/*` served by Next.js API routes. */
 async function sameOriginBase(): Promise<string> {
   const h = await headers();
   const host = h.get('x-forwarded-host') ?? h.get('host');

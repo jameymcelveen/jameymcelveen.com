@@ -1,7 +1,7 @@
 export const ANALYTICS_VISITOR_KEY = 'jm_analytics_vid';
 export const ANALYTICS_SESSION_KEY = 'jm_analytics_sid';
 
-/** Same-origin `/api/*` (rewritten to Railway in next.config.ts). */
+/** Same-origin `/api/*` (served by Next.js API routes). */
 export function analyticsApiBase(): string {
   return '';
 }
