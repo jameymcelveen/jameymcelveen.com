@@ -22,6 +22,9 @@ const CAREER_HINTS = [
   'ai', 'cursor', 'copilot', 'llm', 'prompt', 'tooling', 'developer productivity',
   'security', 'authentication', 'authorization', 'encryption', 'logging',
   'microservice', 'api', 'gateway', 'monolith', 'c++', 'cpp', 'angular', 'react',
+  'ruby', 'rails', 'ror', 'heroku', 'on the city',
+  'scrum', 'scrummaster', 'product owner', 'kanban', 'backlog', 'story point', 'standup', 'standups',
+  'vue', 'vuejs', 'vue.js', 'bootstrap', 'component library', 'design system',
 ];
 
 const INTERVIEW_SHAPE = /\b(how|why|what|when|who|where|tell|describe|walk|explain|discuss|outline|compare)\b/i;
