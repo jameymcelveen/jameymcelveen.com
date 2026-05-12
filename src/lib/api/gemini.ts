@@ -12,9 +12,9 @@ export function estimateCostUsd(promptTokens: number, outputTokens: number): num
 
 function resolveModel(): string {
   const fromEnv = process.env.GEMINI_MODEL?.trim();
-  if (!fromEnv) return 'gemini-2.0-flash';
+  if (!fromEnv) return 'gemini-2.5-flash';
   const legacy = ['models/gemini-2.0-flash', 'gemini-2.0-flash'];
-  if (legacy.some((a) => a.toLowerCase() === fromEnv.toLowerCase())) return 'gemini-2.0-flash';
+  if (legacy.some((a) => a.toLowerCase() === fromEnv.toLowerCase())) return 'gemini-2.5-flash';
   return fromEnv;
 }
 
@@ -70,7 +70,14 @@ export async function* streamChat(
     yield { type: 'done', promptTokens, outputTokens };
   } catch (err) {
     if (signal?.aborted) return;
-    console.error('[gemini] stream error:', err);
-    yield { type: 'error', error: 'The interview service is temporarily unavailable. Please try again shortly.' };
+    const detail = err instanceof Error ? err.message : String(err);
+    console.error('[gemini] stream error:', detail, err);
+    const isDev = process.env.NODE_ENV === 'development';
+    yield {
+      type: 'error',
+      error: isDev
+        ? `Gemini error: ${detail}`
+        : 'The interview service is temporarily unavailable. Please try again shortly.',
+    };
   }
 }
