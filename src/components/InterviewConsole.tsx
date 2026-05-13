@@ -1,6 +1,6 @@
 'use client';
 
-import { type ReactNode, isValidElement, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { type ReactNode, isValidElement, useCallback, useEffect, useMemo, useRef, useState, type UIEvent } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { ArrowUp } from 'lucide-react';
@@ -13,6 +13,7 @@ interface ChatLine {
   role: ChatRole;
   text: string;
   streaming?: boolean;
+  streamChunks?: string[];
 }
 
 function walkText(node: ReactNode): string {
@@ -57,6 +58,11 @@ const PAGE_QUICK_STARTS = [
   'How do you use AI in your workflow?',
 ] as const;
 
+function isShortAssistantReply(text: string): boolean {
+  const lineCount = text.trim().split(/\n/).filter(Boolean).length;
+  return text.length < 360 && lineCount <= 3;
+}
+
 export interface InterviewConsoleProps {
   /** When true (e.g. /ai with a page header), fill parent height; composer docks in-flow. */
   fillContainer?: boolean;
@@ -68,16 +74,54 @@ export function InterviewConsole({ fillContainer = false }: InterviewConsoleProp
   const [busy, setBusy] = useState(false);
   const listRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const endRef = useRef<HTMLDivElement>(null);
+  const bubbleElRef = useRef<Map<string, HTMLDivElement | null>>(new Map());
+  const streamingScrollDoneForId = useRef<string | null>(null);
+  const wasStreamingRef = useRef(false);
+  const userScrolledUpRef = useRef(false);
 
-  const scrollToBottom = useCallback((behavior: ScrollBehavior = 'smooth') => {
-    const el = listRef.current;
-    if (!el) return;
-    el.scrollTo({ top: el.scrollHeight, behavior });
+  const handleListScroll = useCallback((e: UIEvent<HTMLDivElement>) => {
+    const el = e.currentTarget;
+    const nearBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 50;
+    userScrolledUpRef.current = !nearBottom;
   }, []);
 
   useEffect(() => {
-    scrollToBottom(lines.some((l) => l.streaming) ? 'auto' : 'smooth');
-  }, [lines, scrollToBottom]);
+    if (lines.length < 1) return;
+    const last = lines[lines.length - 1];
+    if (last.role !== 'user') return;
+    const el = bubbleElRef.current.get(last.id);
+    requestAnimationFrame(() => {
+      el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }, [lines]);
+
+  useEffect(() => {
+    const streaming = lines.find((l) => l.streaming && l.role === 'assistant');
+    if (!streaming) return;
+    if (streamingScrollDoneForId.current === streaming.id) return;
+    streamingScrollDoneForId.current = streaming.id;
+    const el = bubbleElRef.current.get(streaming.id);
+    requestAnimationFrame(() => {
+      el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }, [lines]);
+
+  useEffect(() => {
+    const streaming = lines.some((l) => l.streaming);
+    if (wasStreamingRef.current && !streaming) {
+      const last = lines[lines.length - 1];
+      if (
+        last?.role === 'assistant' &&
+        last.text &&
+        isShortAssistantReply(last.text) &&
+        !userScrolledUpRef.current
+      ) {
+        endRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      }
+    }
+    wasStreamingRef.current = streaming;
+  }, [lines]);
 
   const send = useCallback(
     async (raw: string) => {
@@ -111,7 +155,7 @@ export function InterviewConsole({ fillContainer = false }: InterviewConsoleProp
           return;
         }
 
-        setLines((prev) => [...prev, { id: assistantId, role: 'assistant', text: '', streaming: true }]);
+        setLines((prev) => [...prev, { id: assistantId, role: 'assistant', text: '', streaming: true, streamChunks: [] }]);
 
         const reader = res.body!.getReader();
         const decoder = new TextDecoder();
@@ -130,21 +174,34 @@ export function InterviewConsole({ fillContainer = false }: InterviewConsoleProp
               const payload = line.slice(6);
               if (payload === '[DONE]') {
                 setLines((prev) =>
-                  prev.map((l) => (l.id === assistantId ? { ...l, streaming: false } : l))
+                  prev.map((l) =>
+                    l.id === assistantId ? { ...l, streaming: false, streamChunks: undefined } : l
+                  )
                 );
                 break outer;
               }
               try {
                 const parsed = JSON.parse(payload) as { delta?: string; error?: string };
                 if (parsed.delta) {
-                  accumulated += parsed.delta;
+                  const piece = parsed.delta;
+                  accumulated += piece;
                   setLines((prev) =>
-                    prev.map((l) => (l.id === assistantId ? { ...l, text: accumulated } : l))
+                    prev.map((l) =>
+                      l.id === assistantId
+                        ? {
+                            ...l,
+                            text: accumulated,
+                            streamChunks: [...(l.streamChunks ?? []), piece],
+                          }
+                        : l
+                    )
                   );
                 } else if (parsed.error) {
                   setLines((prev) =>
                     prev.map((l) =>
-                      l.id === assistantId ? { ...l, text: parsed.error!, streaming: false } : l
+                      l.id === assistantId
+                        ? { ...l, text: parsed.error!, streaming: false, streamChunks: undefined }
+                        : l
                     )
                   );
                   break outer;
@@ -159,7 +216,12 @@ export function InterviewConsole({ fillContainer = false }: InterviewConsoleProp
         setLines((prev) =>
           prev.map((l) =>
             l.id === assistantId && l.streaming
-              ? { ...l, text: l.text || 'No response received.', streaming: false }
+              ? {
+                  ...l,
+                  text: l.text || 'No response received.',
+                  streaming: false,
+                  streamChunks: undefined,
+                }
               : l
           )
         );
@@ -182,6 +244,10 @@ export function InterviewConsole({ fillContainer = false }: InterviewConsoleProp
   );
 
   const newChat = useCallback(() => {
+    streamingScrollDoneForId.current = null;
+    wasStreamingRef.current = false;
+    userScrolledUpRef.current = false;
+    bubbleElRef.current.clear();
     setLines([]);
     setInput('');
   }, []);
@@ -189,7 +255,12 @@ export function InterviewConsole({ fillContainer = false }: InterviewConsoleProp
   const hasInput = input.trim().length > 0;
   const isStreaming = lines.some((l) => l.streaming);
   const disableComposer = busy || isStreaming;
-  const waitingFirstToken = lines.some((l) => l.streaming && !l.text);
+  const waitingFirstToken = lines.some(
+    (l) =>
+      l.streaming &&
+      !(l.text?.length) &&
+      !(l.streamChunks && l.streamChunks.length > 0)
+  );
 
   useEffect(() => {
     const ta = textareaRef.current;
@@ -305,7 +376,7 @@ export function InterviewConsole({ fillContainer = false }: InterviewConsoleProp
         </div>
       </header>
 
-      <div ref={listRef} className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
+      <div ref={listRef} onScroll={handleListScroll} className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
         <div className={`mx-auto max-w-[720px] px-4 sm:px-5 ${fillContainer ? 'pb-3 pt-6' : 'pb-36 pt-6'}`}>
           {lines.length === 0 ? (
             <div className={`flex flex-col items-center justify-center px-2 text-center ${fillContainer ? 'min-h-[38vh]' : 'min-h-[45vh]'}`}>
@@ -335,13 +406,39 @@ export function InterviewConsole({ fillContainer = false }: InterviewConsoleProp
                   className={`ai-chat-msg-enter max-w-none ${line.role === 'user' ? 'flex justify-end' : 'flex justify-start'}`}
                 >
                   {line.role === 'user' ? (
-                    <div className="ask-jamey-msg-user max-w-[85%] px-[18px] py-[14px] text-[0.95rem] leading-[1.65]">
+                    <div
+                      ref={(el) => {
+                        if (el) bubbleElRef.current.set(line.id, el);
+                        else bubbleElRef.current.delete(line.id);
+                      }}
+                      className="ask-jamey-msg-user max-w-[85%] px-[18px] py-[14px] text-[0.95rem] leading-[1.65]"
+                    >
                       {line.text}
                     </div>
                   ) : line.streaming ? (
-                    <div className="ask-jamey-msg-assistant max-w-[90%] px-[18px] py-[14px] text-[0.95rem] leading-[1.65]">
-                      {line.text ? (
-                        <span className="whitespace-pre-wrap text-[var(--ai-assistant)]">{line.text}</span>
+                    <div
+                      ref={(el) => {
+                        if (el) bubbleElRef.current.set(line.id, el);
+                        else bubbleElRef.current.delete(line.id);
+                      }}
+                      className="ask-jamey-msg-assistant max-w-[90%] px-[18px] py-[14px] text-[0.95rem] leading-[1.65]"
+                    >
+                      {line.streamChunks && line.streamChunks.length > 0 ? (
+                        <>
+                          {line.streamChunks.map((chunk, i) => (
+                            <span key={i} className="streaming-text text-[var(--ai-assistant)]">
+                              {chunk}
+                            </span>
+                          ))}
+                          <span className="streaming-cursor" aria-hidden />
+                        </>
+                      ) : line.text ? (
+                        <>
+                          <span className="streaming-text whitespace-pre-wrap text-[var(--ai-assistant)]">
+                            {line.text}
+                          </span>
+                          <span className="streaming-cursor" aria-hidden />
+                        </>
                       ) : (
                         <span className="inline-flex gap-1">
                           <span className="ask-jamey-dot bg-[var(--ai-assistant)]/70 h-1.5 w-1.5 rounded-full" />
@@ -361,6 +458,8 @@ export function InterviewConsole({ fillContainer = false }: InterviewConsoleProp
               ))}
             </ul>
           )}
+
+          <div ref={endRef} className="h-px w-full shrink-0 scroll-mt-4" aria-hidden />
 
           <p className="text-[var(--ai-text-muted)] mt-12 text-center text-[11px] leading-relaxed">
             <a href="https://jameymcelveen.com" className="underline-offset-2 hover:underline" rel="author">

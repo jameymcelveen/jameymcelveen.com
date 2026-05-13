@@ -4,6 +4,7 @@ import profileData from './src/data/profile.json';
 const nextConfig: NextConfig = {
   outputFileTracingIncludes: {
     '/api/chat': ['./src/lib/api/system-prompt.md'],
+    '/api/health': ['./src/lib/api/system-prompt.md'],
   },
 
   async redirects() {

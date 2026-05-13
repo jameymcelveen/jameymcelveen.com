@@ -52,7 +52,7 @@ export function validateCareerQuestion(message: string | null | undefined): stri
   const hasCareerHint = CAREER_HINTS.some((h) => lower.includes(h));
   const shapedLikeInterview = INTERVIEW_SHAPE.test(lower);
 
-  if (!hasCareerHint && !(shapedLikeInterview && trimmed.length >= 40)) {
+  if (!hasCareerHint && !(shapedLikeInterview && trimmed.length >= 16)) {
     return (
       "Ask something tied to Jamey's software architecture work, .NET modernization, healthcare/HIPAA experience, " +
       'FinTech/data platforms, or engineering leadership.'

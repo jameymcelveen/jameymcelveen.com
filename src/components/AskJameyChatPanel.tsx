@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { type ReactNode, isValidElement, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { type ReactNode, isValidElement, useCallback, useEffect, useMemo, useRef, useState, type UIEvent } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { ArrowUp, X } from 'lucide-react';
@@ -17,6 +17,7 @@ interface ChatLine {
   text: string;
   streaming?: boolean;
   isWelcome?: boolean;
+  streamChunks?: string[];
 }
 
 const WELCOME_LINE_ID = 'ask-jamey-welcome';
@@ -29,6 +30,11 @@ const STARTER_CHIPS = [
   'What are you currently building?',
   'How do you use AI in your workflow?',
 ] as const;
+
+function isShortAssistantReply(text: string): boolean {
+  const lineCount = text.trim().split(/\n/).filter(Boolean).length;
+  return text.length < 360 && lineCount <= 3;
+}
 
 function walkText(node: ReactNode): string {
   if (node == null || typeof node === 'boolean') return '';
@@ -89,6 +95,17 @@ export function AskJameyChatPanel({ onClose }: { onClose: () => void }) {
   const [busy, setBusy] = useState(false);
   const listRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const endRef = useRef<HTMLDivElement>(null);
+  const bubbleElRef = useRef<Map<string, HTMLDivElement | null>>(new Map());
+  const streamingScrollDoneForId = useRef<string | null>(null);
+  const wasStreamingRef = useRef(false);
+  const userScrolledUpRef = useRef(false);
+
+  const handleListScroll = useCallback((e: UIEvent<HTMLDivElement>) => {
+    const el = e.currentTarget;
+    const nearBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 50;
+    userScrolledUpRef.current = !nearBottom;
+  }, []);
 
   const userMessageCount = useMemo(() => lines.filter((l) => l.role === 'user').length, [lines]);
   const hasAssistantReply = useMemo(
@@ -100,15 +117,43 @@ export function AskJameyChatPanel({ onClose }: { onClose: () => void }) {
   );
   const expanded = userMessageCount >= 1 && hasAssistantReply;
 
-  const scrollToBottom = useCallback((behavior: ScrollBehavior = 'smooth') => {
-    const el = listRef.current;
-    if (!el) return;
-    el.scrollTo({ top: el.scrollHeight, behavior });
-  }, []);
+  useEffect(() => {
+    if (lines.length < 1) return;
+    const last = lines[lines.length - 1];
+    if (last.role !== 'user') return;
+    const el = bubbleElRef.current.get(last.id);
+    requestAnimationFrame(() => {
+      el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }, [lines]);
 
   useEffect(() => {
-    scrollToBottom(lines.some((l) => l.streaming) ? 'auto' : 'smooth');
-  }, [lines, scrollToBottom]);
+    const streaming = lines.find((l) => l.streaming && l.role === 'assistant' && !l.isWelcome);
+    if (!streaming) return;
+    if (streamingScrollDoneForId.current === streaming.id) return;
+    streamingScrollDoneForId.current = streaming.id;
+    const el = bubbleElRef.current.get(streaming.id);
+    requestAnimationFrame(() => {
+      el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }, [lines]);
+
+  useEffect(() => {
+    const streaming = lines.some((l) => l.streaming);
+    if (wasStreamingRef.current && !streaming) {
+      const last = lines[lines.length - 1];
+      if (
+        last?.role === 'assistant' &&
+        !last.isWelcome &&
+        last.text &&
+        isShortAssistantReply(last.text) &&
+        !userScrolledUpRef.current
+      ) {
+        endRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      }
+    }
+    wasStreamingRef.current = streaming;
+  }, [lines]);
 
   const send = useCallback(
     async (raw: string) => {
@@ -142,7 +187,7 @@ export function AskJameyChatPanel({ onClose }: { onClose: () => void }) {
           return;
         }
 
-        setLines((prev) => [...prev, { id: assistantId, role: 'assistant', text: '', streaming: true }]);
+        setLines((prev) => [...prev, { id: assistantId, role: 'assistant', text: '', streaming: true, streamChunks: [] }]);
 
         const reader = res.body!.getReader();
         const decoder = new TextDecoder();
@@ -162,21 +207,34 @@ export function AskJameyChatPanel({ onClose }: { onClose: () => void }) {
               const payload = line.slice(6);
               if (payload === '[DONE]') {
                 setLines((prev) =>
-                  prev.map((l) => (l.id === assistantId ? { ...l, streaming: false } : l))
+                  prev.map((l) =>
+                    l.id === assistantId ? { ...l, streaming: false, streamChunks: undefined } : l
+                  )
                 );
                 break outer;
               }
               try {
                 const parsed = JSON.parse(payload) as { delta?: string; error?: string };
                 if (parsed.delta) {
-                  accumulated += parsed.delta;
+                  const piece = parsed.delta;
+                  accumulated += piece;
                   setLines((prev) =>
-                    prev.map((l) => (l.id === assistantId ? { ...l, text: accumulated } : l))
+                    prev.map((l) =>
+                      l.id === assistantId
+                        ? {
+                            ...l,
+                            text: accumulated,
+                            streamChunks: [...(l.streamChunks ?? []), piece],
+                          }
+                        : l
+                    )
                   );
                 } else if (parsed.error) {
                   setLines((prev) =>
                     prev.map((l) =>
-                      l.id === assistantId ? { ...l, text: parsed.error!, streaming: false } : l
+                      l.id === assistantId
+                        ? { ...l, text: parsed.error!, streaming: false, streamChunks: undefined }
+                        : l
                     )
                   );
                   break outer;
@@ -191,7 +249,12 @@ export function AskJameyChatPanel({ onClose }: { onClose: () => void }) {
         setLines((prev) =>
           prev.map((l) =>
             l.id === assistantId && l.streaming
-              ? { ...l, text: l.text || 'No response received.', streaming: false }
+              ? {
+                  ...l,
+                  text: l.text || 'No response received.',
+                  streaming: false,
+                  streamChunks: undefined,
+                }
               : l
           )
         );
@@ -214,6 +277,10 @@ export function AskJameyChatPanel({ onClose }: { onClose: () => void }) {
   );
 
   const resetChat = useCallback(() => {
+    streamingScrollDoneForId.current = null;
+    wasStreamingRef.current = false;
+    userScrolledUpRef.current = false;
+    bubbleElRef.current.clear();
     setLines([
       {
         id: WELCOME_LINE_ID,
@@ -291,7 +358,14 @@ export function AskJameyChatPanel({ onClose }: { onClose: () => void }) {
   );
 
   const waitingFirstToken = useMemo(
-    () => lines.some((l) => l.streaming && !l.text),
+    () =>
+      lines.some(
+        (l) =>
+          l.streaming &&
+          !l.isWelcome &&
+          !(l.text?.length) &&
+          !(l.streamChunks && l.streamChunks.length > 0)
+      ),
     [lines]
   );
 
@@ -334,7 +408,11 @@ export function AskJameyChatPanel({ onClose }: { onClose: () => void }) {
         </button>
       </header>
 
-      <div ref={listRef} className="ask-jamey-scroll min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-4">
+      <div
+        ref={listRef}
+        onScroll={handleListScroll}
+        className="ask-jamey-scroll min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-4"
+      >
         <ul className="flex flex-col gap-4">
           {lines.map((line) => (
             <li
@@ -342,7 +420,13 @@ export function AskJameyChatPanel({ onClose }: { onClose: () => void }) {
               className={`flex max-w-full ${line.role === 'user' ? 'justify-end' : 'justify-start'}`}
             >
               {line.role === 'user' ? (
-                <div className="ask-jamey-msg-user max-w-[85%] px-[18px] py-[14px] text-[0.95rem] leading-[1.65]">
+                <div
+                  ref={(el) => {
+                    if (el) bubbleElRef.current.set(line.id, el);
+                    else bubbleElRef.current.delete(line.id);
+                  }}
+                  className="ask-jamey-msg-user max-w-[85%] px-[18px] py-[14px] text-[0.95rem] leading-[1.65]"
+                >
                   {line.text}
                 </div>
               ) : line.isWelcome ? (
@@ -350,9 +434,29 @@ export function AskJameyChatPanel({ onClose }: { onClose: () => void }) {
                   {line.text}
                 </div>
               ) : line.streaming ? (
-                <div className="ask-jamey-msg-assistant max-w-[90%] px-[18px] py-[14px] text-[0.95rem] leading-[1.65]">
-                  {line.text ? (
-                    <span className="whitespace-pre-wrap text-[var(--ask-jamey-fg)]">{line.text}</span>
+                <div
+                  ref={(el) => {
+                    if (el) bubbleElRef.current.set(line.id, el);
+                    else bubbleElRef.current.delete(line.id);
+                  }}
+                  className="ask-jamey-msg-assistant max-w-[90%] px-[18px] py-[14px] text-[0.95rem] leading-[1.65]"
+                >
+                  {line.streamChunks && line.streamChunks.length > 0 ? (
+                    <>
+                      {line.streamChunks.map((chunk, i) => (
+                        <span key={i} className="streaming-text text-[var(--ask-jamey-fg)]">
+                          {chunk}
+                        </span>
+                      ))}
+                      <span className="streaming-cursor" aria-hidden />
+                    </>
+                  ) : line.text ? (
+                    <>
+                      <span className="streaming-text whitespace-pre-wrap text-[var(--ask-jamey-fg)]">
+                        {line.text}
+                      </span>
+                      <span className="streaming-cursor" aria-hidden />
+                    </>
                   ) : (
                     <LoadingDots />
                   )}
@@ -383,6 +487,8 @@ export function AskJameyChatPanel({ onClose }: { onClose: () => void }) {
             ))}
           </div>
         ) : null}
+
+        <div ref={endRef} className="h-px w-full shrink-0 scroll-mt-4" aria-hidden />
 
         <p className="text-[var(--text-muted)] mt-6 text-center text-[10px] leading-relaxed">
           AI-generated from curated context — not guarantees.
