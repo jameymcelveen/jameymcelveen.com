@@ -4,6 +4,7 @@ import { AnalyticsTracker } from '@/components/AnalyticsTracker';
 import { GradientMesh } from '@/components/GradientMesh';
 import { Navigation } from '@/components/Navigation';
 import { PageChrome } from '@/components/PageChrome';
+import { BillPanelProvider } from '@/context/BillPanelContext';
 import { getSiteDomain, getSiteMetadata } from '@/data';
 import { Analytics } from '@vercel/analytics/next';
 import './globals.css';
@@ -37,6 +38,11 @@ export const metadata: Metadata = {
     description: siteMetadata.openGraph.description,
     type: siteMetadata.openGraph.type as 'website',
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: siteMetadata.openGraph.title,
+    description: siteMetadata.openGraph.description,
+  },
 };
 
 export default function RootLayout({
@@ -53,7 +59,9 @@ export default function RootLayout({
         <GradientMesh />
         <Navigation />
         <Analytics />
-        <PageChrome>{children}</PageChrome>
+        <BillPanelProvider>
+          <PageChrome>{children}</PageChrome>
+        </BillPanelProvider>
       </body>
     </html>
   );

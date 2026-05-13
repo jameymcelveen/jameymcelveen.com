@@ -463,3 +463,52 @@ html {
     display: block !important;
   }
 }
+
+@keyframes bill-fab-pulse-once {
+  0% {
+    box-shadow: 0 0 0 0 rgba(245, 102, 0, 0.45);
+    transform: scale(1);
+  }
+  60% {
+    box-shadow: 0 0 0 14px rgba(245, 102, 0, 0);
+    transform: scale(1.04);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(245, 102, 0, 0);
+    transform: scale(1);
+  }
+}
+
+.bill-fab-pulse-once {
+  animation: bill-fab-pulse-once 1.15s ease-out 1;
+}
+
+@keyframes home-hero-mesh-shift {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(2%, -1.5%) scale(1.03);
+  }
+}
+
+.home-hero-mesh {
+  animation: home-hero-mesh-shift 22s ease-in-out infinite;
+}
+
+@keyframes home-hero-drift {
+  0% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 0.55;
+  }
+  100% {
+    opacity: 0.35;
+  }
+}
+
+.home-hero-drift {
+  animation: home-hero-drift 14s ease-in-out infinite;
+}

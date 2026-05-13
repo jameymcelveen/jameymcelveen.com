@@ -14,7 +14,7 @@
 
 contact:
   name: Jamey McElveen
-  title: Senior Software Architect & Engineering Leader
+  title: Principal Systems Architect & Engineering Leader
   location: Timmonsville, SC
   email: jamey@mcelveen.us
   phone: "(843) 618-8078"
@@ -25,7 +25,7 @@ contact:
 # Pull these into executive summaries, ATS headlines, and cover letters.
 
 metrics:
-  years_experience: "25+"
+  years_experience: "30+"
   organizations_served: "50,000+"
   team_size_managed: "20+"
   ai_velocity_increase: "~30%"
@@ -37,18 +37,18 @@ metrics:
 
 summaries:
   full: >
-    Senior Software Architect with 25+ years of experience in Christian tech and fintech.
+    Principal Systems Architect with 30+ years of experience in Christian tech and fintech.
     Expert in architecting scalable solutions for platforms serving 50,000+ organizations.
     Proven engineering leader — managed R&D teams of 20+, delivered products from concept
     to 50k-org scale, and pioneered AI-augmented development workflows (Cursor) that drove
     a ~30% increase in sprint velocity without sacrificing code quality.
 
   short: >
-    Senior Software Architect · 25+ years · 50,000+ orgs served · 20+ engineers led ·
+    Principal Systems Architect · 30+ years · 50,000+ orgs served · 20+ engineers led ·
     AI-augmented development pioneer.
 
   christian_tech_focus: >
-    Senior Software Architect with 25+ years dedicated to Christian tech and ministry
+    Principal Systems Architect with 30+ years dedicated to Christian tech and ministry
     software. Architected Realm, ACS Technologies' flagship platform serving 50,000+
     churches, and pioneered ChurchLife — one of the first 100 apps on the Apple App Store.
     Deep domain expertise in faith-organization workflows, donor management, and community
@@ -56,7 +56,7 @@ summaries:
     AI-augmented development with Cursor.
 
   healthcare_focus: >
-    Senior Software Architect with 25+ years of experience, including healthcare IT
+    Principal Systems Architect with 30+ years of experience, including healthcare IT
     modernization at McLeod Health. Skilled in migrating legacy C# systems to HIPAA-aware
     .NET Core standards, introducing CI/CD to clinical infrastructure, and mentoring
     engineering teams in regulated environments. Brings both deep architectural experience
@@ -64,21 +64,21 @@ summaries:
     non-negotiable.
 
   fintech_focus: >
-    Senior Software Architect with 25+ years of experience, including high-performance
+    Principal Systems Architect with 30+ years of experience, including high-performance
     payment and financial API work at SecureGive. Architected Snowflake + .NET Core API
     Gateways for transaction processing at scale. Expert in building auditable, secure
     financial systems. AI-augmented development pioneer — integrated Cursor into the
     engineering lifecycle for a proven ~30% sprint velocity gain.
 
   saas_focus: >
-    Senior Software Architect with 25+ years building and operating multi-tenant SaaS
+    Principal Systems Architect with 30+ years building and operating multi-tenant SaaS
     platforms. Led engineering of a flagship SaaS product serving 50,000+ organizations
     across a 25-year tenure at ACS Technologies. Deep expertise in .NET Core, React,
     multi-tenant architecture, CI/CD, and AI-augmented development. Proven leader managing
     R&D teams of 20+ through multiple product generations.
 
   leadership_focus: >
-    Engineering leader with 25+ years directing high-performance R&D teams. Managed and
+    Engineering leader with 30+ years directing high-performance R&D teams. Managed and
     mentored teams of 20+ developers at ACS Technologies, overseeing hiring, roadmaps, and
     architectural standards across a multi-product SaaS portfolio. Track record of delivering
     flagship products at scale, pioneering mobile development, and driving organizational

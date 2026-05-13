@@ -26,19 +26,17 @@ export function ObfuscatedEmail({ className }: { className?: string }) {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    // Decode after a small delay to further confuse scrapers
-    const timer = setTimeout(() => {
+    queueMicrotask(() => {
       setEmail(decode(ENCODED_EMAIL));
       setIsLoaded(true);
-    }, 100);
-    return () => clearTimeout(timer);
+    });
   }, []);
 
   if (!isLoaded) {
     return (
-      <span className={className}>
-        <Mail className="h-4 w-4" />
-        <span className="ml-2 animate-pulse">Loading...</span>
+      <span className={className} aria-busy="true" aria-label="Email">
+        <Mail className="h-4 w-4 shrink-0 text-foreground-muted" />
+        <span className="bg-foreground/12 ml-2 inline-block h-4 w-[11.5rem] animate-pulse rounded" />
       </span>
     );
   }
@@ -57,19 +55,18 @@ export function ObfuscatedPhone({ className }: { className?: string }) {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    queueMicrotask(() => {
       setPhone(decode(ENCODED_PHONE));
       setPhoneHref(decode(ENCODED_PHONE_HREF));
       setIsLoaded(true);
-    }, 100);
-    return () => clearTimeout(timer);
+    });
   }, []);
 
   if (!isLoaded) {
     return (
-      <span className={className}>
-        <Phone className="h-4 w-4" />
-        <span className="ml-2 animate-pulse">Loading...</span>
+      <span className={className} aria-busy="true" aria-label="Phone">
+        <Phone className="h-4 w-4 shrink-0 text-foreground-muted" />
+        <span className="bg-foreground/12 ml-2 inline-block h-4 w-[7.5rem] animate-pulse rounded" />
       </span>
     );
   }

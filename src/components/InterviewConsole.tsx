@@ -88,7 +88,16 @@ function useAiTheme() {
   return { theme, toggleTheme };
 }
 
-export function InterviewConsole() {
+export interface InterviewConsoleProps {
+  variant?: 'page' | 'bubble';
+  onClose?: () => void;
+  /** When true (e.g. /ai with a page header), fill parent height; composer docks in-flow. */
+  fillContainer?: boolean;
+}
+
+export function InterviewConsole({ variant = 'page', onClose, fillContainer = false }: InterviewConsoleProps) {
+  const isBubble = variant === 'bubble';
+  const dockedComposer = isBubble || fillContainer;
   const [lines, setLines] = useState<ChatLine[]>([]);
   const [input, setInput] = useState('');
   const [busy, setBusy] = useState(false);
@@ -212,7 +221,7 @@ export function InterviewConsole() {
           {
             id: assistantId,
             role: 'assistant',
-            text: 'Network error. Check that the site can reach /api (Next.js rewrite to Railway) and that the API is running.',
+            text: 'Network error. Check your connection and try again. The chat API is served from this site at /api/chat.',
             streaming: false,
           },
         ]);
@@ -327,40 +336,70 @@ export function InterviewConsole() {
 
   return (
     <div
-      className="ai-chat-shell flex min-h-dvh flex-col bg-[var(--ai-page-bg)] text-[15px] text-[var(--ai-text)]"
+      className={
+        isBubble
+          ? 'ai-chat-shell flex h-full min-h-0 flex-col bg-[var(--ai-page-bg)] text-[15px] text-[var(--ai-text)]'
+          : fillContainer
+            ? 'ai-chat-shell flex min-h-0 flex-1 flex-col bg-[var(--ai-page-bg)] text-[15px] text-[var(--ai-text)]'
+            : 'ai-chat-shell flex min-h-dvh flex-col bg-[var(--ai-page-bg)] text-[15px] text-[var(--ai-text)]'
+      }
       data-ai-theme={theme}
       suppressHydrationWarning
     >
-      <header className="flex h-12 shrink-0 items-center border-b border-[var(--ai-border)] px-4">
-        <div className="mx-auto flex w-full max-w-[720px] items-center justify-between">
-          <span className="text-sm font-medium">Interview</span>
-          <div className="flex gap-0.5">
+      <header className="flex h-12 shrink-0 items-center border-b border-[var(--ai-border)] px-3 sm:px-4">
+        <div className="mx-auto flex w-full max-w-[720px] items-center justify-between gap-2">
+          {isBubble ? (
+            <div className="min-w-0">
+              <span className="text-sm font-semibold tracking-tight text-[var(--ai-text)]">Ask Bill</span>
+              <p className="truncate text-[11px] text-[var(--ai-text-muted)]">
+                AI-powered Q&amp;A about Jamey&apos;s experience
+              </p>
+            </div>
+          ) : fillContainer ? (
+            <span className="text-sm font-medium text-[var(--ai-text)]">Bill</span>
+          ) : (
+            <span className="text-sm font-medium">Interview</span>
+          )}
+          <div className="flex shrink-0 items-center gap-0.5">
+            {isBubble && onClose ? (
+              <button
+                type="button"
+                onClick={onClose}
+                className="rounded-md px-2 py-1 text-xs font-medium text-[var(--ai-text-muted)] hover:bg-[var(--ai-user-pill)] hover:text-[var(--ai-text)]"
+              >
+                Close
+              </button>
+            ) : null}
             <button
-            type="button"
-            onClick={newChat}
-            className="transition-none rounded-md p-2 text-[var(--ai-icon-muted)] hover:bg-[var(--ai-user-pill)] hover:text-[var(--ai-text)]"
-            aria-label="New chat"
-          >
-            <MessageSquarePlus className="size-5" strokeWidth={1.75} />
-          </button>
+              type="button"
+              onClick={newChat}
+              className="transition-none rounded-md p-2 text-[var(--ai-icon-muted)] hover:bg-[var(--ai-user-pill)] hover:text-[var(--ai-text)]"
+              aria-label="New chat"
+            >
+              <MessageSquarePlus className="size-5" strokeWidth={1.75} />
+            </button>
             <button
-            type="button"
-            onClick={toggleTheme}
-            className="transition-none rounded-md p-2 text-[var(--ai-icon-muted)] hover:bg-[var(--ai-user-pill)] hover:text-[var(--ai-text)]"
-            aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-          >
-            {theme === 'dark' ? <Sun className="size-5" strokeWidth={1.75} /> : <Moon className="size-5" strokeWidth={1.75} />}
+              type="button"
+              onClick={toggleTheme}
+              className="transition-none rounded-md p-2 text-[var(--ai-icon-muted)] hover:bg-[var(--ai-user-pill)] hover:text-[var(--ai-text)]"
+              aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+            >
+              {theme === 'dark' ? <Sun className="size-5" strokeWidth={1.75} /> : <Moon className="size-5" strokeWidth={1.75} />}
             </button>
           </div>
         </div>
       </header>
 
       <div ref={listRef} className="min-h-0 flex-1 overflow-y-auto">
-        <div className="mx-auto max-w-[720px] px-4 pt-6 pb-36">
+        <div className={`mx-auto max-w-[720px] px-3 sm:px-4 ${isBubble ? 'pb-2 pt-4' : fillContainer ? 'pb-2 pt-6' : 'pb-36 pt-6'}`}>
           {lines.length === 0 ? (
-            <div className="flex min-h-[45vh] flex-col items-center justify-center px-2 text-center">
-              <p className="mb-8 text-[var(--ai-text-muted)]">Ask a professional or technical question.</p>
-              <div className="flex max-w-md flex-col gap-2">
+            <div
+              className={`flex flex-col items-center justify-center px-2 text-center ${isBubble ? 'min-h-[140px]' : fillContainer ? 'min-h-[38vh]' : 'min-h-[45vh]'}`}
+            >
+              <p className="mb-6 text-[var(--ai-text-muted)] sm:mb-8">
+                Ask a professional or technical question.
+              </p>
+              <div className="flex w-full max-w-md flex-col gap-2">
                 {QUICK_STARTS.map((q) => (
                   <button
                     key={q}
@@ -369,7 +408,7 @@ export function InterviewConsole() {
                       void send(q);
                     }}
                     disabled={disableComposer}
-                    className="rounded-lg px-3 py-2 text-left text-[14px] text-[var(--ai-text-muted)] hover:bg-[var(--ai-user-pill)] hover:text-[var(--ai-text)] disabled:opacity-40"
+                    className="rounded-xl border border-[var(--ai-border)] bg-[color-mix(in_oklch,var(--ai-user-pill)_40%,transparent)] px-3 py-2.5 text-left text-[13px] leading-snug text-[var(--ai-text)] hover:border-[var(--ai-assistant)]/35 hover:bg-[var(--ai-user-pill)] disabled:opacity-40 sm:text-[14px]"
                   >
                     {q}
                   </button>
@@ -403,23 +442,37 @@ export function InterviewConsole() {
             </ul>
           )}
 
-          <p className="mt-12 text-center text-[11px] leading-relaxed text-[var(--ai-text-muted)]">
-            <a
-              href="https://jameymcelveen.com"
-              className="underline-offset-2 hover:underline"
-              rel="author"
-            >
-              Jamey McElveen
-            </a>
-            {' · '}
-            AI-generated from curated context—not live advice or guarantees.
-          </p>
+          {!isBubble ? (
+            <p className="mt-12 text-center text-[11px] leading-relaxed text-[var(--ai-text-muted)]">
+              <a
+                href="https://jameymcelveen.com"
+                className="underline-offset-2 hover:underline"
+                rel="author"
+              >
+                Jamey McElveen
+              </a>
+              {' · '}
+              AI-generated from curated context—not live advice or guarantees.
+            </p>
+          ) : (
+            <p className="mt-6 text-center text-[10px] leading-relaxed text-[var(--ai-text-muted)]">
+              AI-generated from curated context—not guarantees.
+            </p>
+          )}
         </div>
       </div>
 
-      {/* Pinned composer — no rounded outer page shell; bar is full-bleed width, inner field ~16px radius */}
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-[var(--ai-border)] bg-[var(--ai-bar-elevated)] backdrop-blur-md supports-[backdrop-filter]:bg-[color-mix(in_oklch,var(--ai-page-bg)_88%,transparent)]">
-        <div className="mx-auto max-w-[720px] px-4 pt-3 pb-4">
+      {/* Composer: fixed on full page; in-bubble flow for widget */}
+      <div
+        className={
+          isBubble
+            ? 'shrink-0 border-t border-[var(--ai-border)] bg-[var(--ai-bar-elevated)] px-2 pt-2 pb-2 backdrop-blur-md supports-[backdrop-filter]:bg-[color-mix(in_oklch,var(--ai-page-bg)_92%,transparent)]'
+            : dockedComposer
+              ? 'shrink-0 border-t border-[var(--ai-border)] bg-[var(--ai-bar-elevated)] px-3 pt-3 pb-3 backdrop-blur-md supports-[backdrop-filter]:bg-[color-mix(in_oklch,var(--ai-page-bg)_90%,transparent)]'
+              : 'fixed inset-x-0 bottom-0 z-40 border-t border-[var(--ai-border)] bg-[var(--ai-bar-elevated)] backdrop-blur-md supports-[backdrop-filter]:bg-[color-mix(in_oklch,var(--ai-page-bg)_88%,transparent)]'
+        }
+      >
+        <div className={`mx-auto max-w-[720px] ${isBubble ? 'px-1 pt-1 pb-1' : dockedComposer ? 'px-4 pt-3 pb-4' : 'px-4 pt-3 pb-4'}`}>
           <form
             className="ai-chat-composer flex items-end gap-1.5 rounded-2xl bg-[var(--ai-input-bg)] px-2 py-1.5 shadow-sm focus-within:shadow-[var(--ai-focus-shadow)]"
             style={{ border: '1px solid var(--ai-input-border)' }}
@@ -446,12 +499,12 @@ export function InterviewConsole() {
                 <Wrench className="size-4" strokeWidth={1.75} />
               </button>
             </div>
-            <label htmlFor="interview-cmd" className="sr-only">
+            <label htmlFor={isBubble ? 'interview-cmd-bubble' : fillContainer ? 'interview-cmd-fill' : 'interview-cmd'} className="sr-only">
               Message
             </label>
             <textarea
               ref={textareaRef}
-              id="interview-cmd"
+              id={isBubble ? 'interview-cmd-bubble' : fillContainer ? 'interview-cmd-fill' : 'interview-cmd'}
               name="message"
               rows={1}
               autoComplete="off"

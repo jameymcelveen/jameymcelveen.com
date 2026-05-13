@@ -6,6 +6,9 @@ import Image from 'next/image';
 import { useState, useEffect, type ReactElement } from 'react';
 import { ObfuscatedEmail, ObfuscatedPhone } from '@/components/ObfuscatedContact';
 import { SecretLock } from '@/components/PinGate';
+import { CurrentlyBuilding, type HomeProjectCard } from '@/components/home/CurrentlyBuilding';
+import { HomeHeroBackdrop } from '@/components/home/HomeHeroBackdrop';
+import { useBillPanel } from '@/context/BillPanelContext';
 import { MapPin, Github } from 'lucide-react';
 import { getPersonalInfo, getHomeData, getImages, getBranding } from '@/data';
 
@@ -126,10 +129,13 @@ function renderSummaryWithHighlights(
 
 export default function Home() {
   const [showCoverLetters, setShowCoverLetters] = useState(false);
+  const { openBill } = useBillPanel();
   const personal = getPersonalInfo();
   const home = getHomeData();
   const images = getImages();
   const branding = getBranding();
+  const projects = (home as { projects?: HomeProjectCard[] }).projects ?? [];
+  const askBillCta = (home as { askBillCta?: string }).askBillCta;
 
   // Check if already unlocked on mount
   useEffect(() => {
@@ -140,12 +146,13 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="flex min-h-[calc(100vh-5rem)] flex-col items-center justify-center py-8 sm:py-12">
+    <div className="relative flex min-h-[calc(100vh-5rem)] flex-col items-center justify-center py-8 sm:py-12">
+      <HomeHeroBackdrop />
       <motion.div
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="w-full max-w-3xl text-center"
+        className="relative z-0 w-full max-w-3xl text-center"
       >
         {/* Photo */}
         <motion.div
@@ -181,20 +188,27 @@ export default function Home() {
           <AnimatedText text={personal.name} className="text-gradient" />
         </h1>
 
-        {/* Title */}
+        {/* Title + tagline */}
         <motion.h2
           variants={itemVariants}
           className="text-foreground-muted mb-2 text-lg sm:text-xl md:text-2xl"
         >
-          <span className="text-foreground font-semibold tracking-tight">Principal Architect</span>
-          <span className="text-foreground-muted font-normal"> — value delivery, platforms, and teams at scale.</span>
+          <span className="text-foreground font-semibold tracking-tight">
+            {'headlinePrimary' in personal && typeof personal.headlinePrimary === 'string'
+              ? personal.headlinePrimary
+              : 'Principal Systems Architect'}
+          </span>
+          <span className="text-foreground-muted font-normal">
+            {'headlineSecondary' in personal && typeof personal.headlineSecondary === 'string'
+              ? personal.headlineSecondary
+              : ' — value delivery, platforms, and teams at scale.'}
+          </span>
         </motion.h2>
         <motion.p
           variants={itemVariants}
-          className="text-foreground-muted mb-6 text-base sm:mb-8 sm:text-lg md:text-xl"
+          className="text-foreground-muted mb-6 text-sm sm:mb-8 sm:text-base"
         >
-          {personal.title.split(' & ')[0]} &amp;{' '}
-          <span className="text-foreground">{personal.subtitle}</span>
+          {personal.subtitle}
         </motion.p>
 
         {/* Summary */}
@@ -210,6 +224,24 @@ export default function Home() {
             branding.highlight
           )}
         </motion.p>
+
+        {askBillCta ? (
+          <motion.div variants={itemVariants} className="mb-8 sm:mb-10">
+            <button
+              type="button"
+              onClick={openBill}
+              className="text-accent hover:text-accent/85 font-mono text-sm underline-offset-4 transition-colors hover:underline"
+            >
+              {askBillCta}
+            </button>
+          </motion.div>
+        ) : null}
+
+        {projects.length > 0 ? (
+          <motion.div variants={itemVariants} className="mx-auto flex w-full justify-center">
+            <CurrentlyBuilding projects={projects} />
+          </motion.div>
+        ) : null}
 
         {/* CTA Buttons */}
         <motion.div

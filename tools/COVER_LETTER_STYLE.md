@@ -52,7 +52,7 @@ This document captures Jamey McElveen's preferred cover letter writing style for
 ### For Christian Tech
 
 - "Your mission to serve churches/faith communities resonates with my experience..."
-- "25+ years building solutions for ministry organizations..."
+- "30+ years building solutions for ministry organizations..."
 - "Domain expertise in the unique needs of faith-based technology..."
 
 ### For FinTech

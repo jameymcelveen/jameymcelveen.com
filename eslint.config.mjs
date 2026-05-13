@@ -14,6 +14,7 @@ const eslintConfig = defineConfig([
     'next-env.d.ts',
     'scaffold/**',
     'backend/**',
+    '.vercel/**',
   ]),
   {
     files: ['src/app/page.tsx', 'src/components/Navigation.tsx', 'src/components/PinGate.tsx'],

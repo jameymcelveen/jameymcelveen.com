@@ -8,7 +8,7 @@
 
 ## Summary
 
-Senior Software Architect with 25+ years of experience in Christian tech and fintech. Expert in architecting scalable solutions for platforms serving 50,000+ organizations. Specialist in AI-augmented engineering workflows (Cursor) to maximize developer velocity and code quality.
+Principal Systems Architect with 30+ years of experience in Christian tech and fintech. Expert in architecting scalable solutions for platforms serving 50,000+ organizations. Specialist in AI-augmented engineering workflows (Cursor) to maximize developer velocity and code quality.
 
 ---
 
