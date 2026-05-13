@@ -222,7 +222,7 @@ export default function ResumePrintPage() {
               </ul>
               {job.highlight && (
                 <div className="innovation">
-                  <strong>AI Leadership:</strong> {job.highlight.replace(/^AI Innovation: /, '')}
+                  <strong>Spotlight:</strong> {job.highlight.replace(/^AI Innovation:\s*/i, '')}
                 </div>
               )}
             </div>

@@ -35,9 +35,10 @@ summary:
     Principal Systems Architect with 30+ years delivering enterprise .NET
     platforms across SaaS, FinTech, and Healthcare. Designed and sustained
     multi-tenant systems serving 50,000+ organizations; led teams of 20+
-    engineers through complete platform generational shifts. Expert in
-    AI-Augmented Engineering — using LLM-driven tooling (Cursor/Claude) to
-    accelerate legacy modernization with a consistent 30% velocity gain.
+    engineers through complete platform generational shifts. Applies
+    AI-assisted tooling (e.g. Cursor/Claude) selectively to accelerate bounded
+    modernization work while keeping architectural ownership and compliance
+    gates explicit.
     Published O'Reilly author. Currently architecting an open-source mission
     clinic EMR (Christ Medical) with offline-first sync for field clinics in
     low-connectivity environments. Brings rare technical depth combined with
@@ -46,8 +47,8 @@ summary:
 
   short: >
     Principal Systems Architect with 30+ years in enterprise .NET, SaaS,
-    FinTech, and Healthcare. Expert in AI-Augmented Engineering, HIPAA
-    compliance, and multi-tenant architecture at scale. Published O'Reilly
+    FinTech, and Healthcare. Deep experience in HIPAA compliance, multi-tenant
+    architecture at scale, and selective AI-assisted engineering practices. Published O'Reilly
     author. Remote only.
 
   healthcare_focus: >
@@ -69,14 +70,14 @@ summary:
     multi-tenant SaaS platforms. Designed Realm for 50,000+ organizations
     with RLS, SQL Resource Governor, and shard-aware zero-downtime tenant
     migration. Expert in Model-Driven Development, legacy modernization,
-    and AI-augmented engineering velocity.
+    and disciplined delivery practices.
 
 metrics:
   - "50,000+ organizations served on Realm (ACS Technologies)"
   - "20+ engineers led across distributed R&D teams"
   - "70% query overhead reduction (covering index, Facility Scheduler)"
   - "80% repo size reduction (BFG Repo-Cleaner, McLeod Health)"
-  - "30% velocity gain (AI-augmented engineering)"
+  - "Selective AI-assisted engineering (context-dependent productivity gains)"
   - "100,000+ commits migrated SVN to Git"
   - "25 years continuous tenure at ACS Technologies"
   - "Zero BAA exposure incidents at McLeod Health"

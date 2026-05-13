@@ -112,9 +112,9 @@
       "bullets": [
         "Architected high-performance client-facing API using Snowflake and .NET Core API Gateway",
         "Developed full-stack features using Scala, Angular, and React Native",
-        "Integrated Cursor AI protocols into the development lifecycle, increasing sprint velocity by ~30%"
+        "Collaborated on technical design, code review, and iterative delivery within FinTech security and compliance expectations"
       ],
-      "highlight": "AI Innovation: Pioneered AI-augmented development workflows",
+      "highlight": "FinTech delivery: Snowflake-backed APIs and full-stack shipping across web and mobile",
       "isLongTenure": false
     },
     {
@@ -171,9 +171,9 @@
   },
   "aiDevelopment": {
     "title": "AI-Augmented Development",
-    "description": "Using AI tools like Cursor to improve development velocity by ~30% while maintaining high code quality and architectural standards.",
+    "description": "Using AI tools like Cursor to speed design exploration, boilerplate, and refactoring—always with manual review and strict guardrails when architecture, FinTech, or HIPAA boundaries apply.",
     "toolName": "Cursor",
-    "velocityIncrease": "~30%",
+    "velocityIncrease": "strict guardrails",
     "badges": ["Cursor AI", "AI Code Generation", "Automated Testing", "Code Review AI"]
   },
   "coverLetters": {
@@ -208,7 +208,7 @@
         "icon": "⛪",
         "description": "For mission-driven organizations in the faith technology space",
         "color": "accent",
-        "content": "Dear [Hiring Manager],\n\nI am excited to apply for the [Position] role at [Company]. Your mission to serve churches and faith communities through technology resonates deeply with my 30+ years of experience building solutions in this space.\n\nAt ACS Technologies, I led the engineering of Realm, a platform serving 50,000+ churches. I directed an R&D team of 20+ developers and pioneered ChurchLife in 2008—one of the first 100 apps on the Apple App Store. This experience gave me unique insight into the needs of faith organizations and the technical challenges of serving them at scale.\n\nMore recently at SecureGive, I architected high-performance APIs and integrated AI-augmented development workflows using Cursor, increasing our sprint velocity by approximately 30% while maintaining high code quality. I believe this combination of domain expertise and modern engineering practices can significantly benefit your team.\n\nI am particularly drawn to [Company]'s commitment to [specific value/feature]. I would welcome the opportunity to contribute my experience in .NET Core, React, and scalable architecture to your mission.\n\nThank you for considering my application. I look forward to discussing how I can contribute to your team.\n\nSincerely,\nJamey McElveen"
+        "content": "Dear [Hiring Manager],\n\nI am excited to apply for the [Position] role at [Company]. Your mission to serve churches and faith communities through technology resonates deeply with my 30+ years of experience building solutions in this space.\n\nAt ACS Technologies, I led the engineering of Realm, a platform serving 50,000+ churches. I directed an R&D team of 20+ developers and pioneered ChurchLife in 2008—one of the first 100 apps on the Apple App Store. This experience gave me unique insight into the needs of faith organizations and the technical challenges of serving them at scale.\n\nMore recently at SecureGive, I architected high-performance APIs on Snowflake and .NET Core and shipped full-stack work across Scala, Angular, and React Native in a regulated FinTech environment. I believe this combination of domain expertise and disciplined delivery can significantly benefit your team.\n\nI am particularly drawn to [Company]'s commitment to [specific value/feature]. I would welcome the opportunity to contribute my experience in .NET Core, React, and scalable architecture to your mission.\n\nThank you for considering my application. I look forward to discussing how I can contribute to your team.\n\nSincerely,\nJamey McElveen"
       },
       {
         "id": "fintech",
@@ -216,7 +216,7 @@
         "icon": "💳",
         "description": "For financial technology and payment processing companies",
         "color": "emerald",
-        "content": "Dear [Hiring Manager],\n\nI am writing to express my interest in the [Position] role at [Company]. With extensive experience in payment processing and financial software, I am excited about the opportunity to contribute to your team.\n\nAt SecureGive, I architected high-performance APIs using Snowflake and .NET Core, processing transactions for thousands of organizations. I developed full-stack solutions using Scala, Angular, and React Native, ensuring secure and reliable financial operations.\n\nMy 30+ years of experience spans architecting scalable solutions for platforms serving 50,000+ organizations. I have pioneered AI-augmented development workflows that increase velocity while maintaining the rigorous quality standards essential in financial applications.\n\nI am impressed by [Company]'s approach to [specific feature/value]. My background in both technical architecture and team leadership would allow me to contribute immediately while growing with your organization.\n\nI am available to start immediately in a remote capacity and am willing to adjust my work hours to accommodate team timezones. Thank you for your consideration.\n\nSincerely,\nJamey McElveen"
+        "content": "Dear [Hiring Manager],\n\nI am writing to express my interest in the [Position] role at [Company]. With extensive experience in payment processing and financial software, I am excited about the opportunity to contribute to your team.\n\nAt SecureGive, I architected high-performance APIs using Snowflake and .NET Core, processing transactions for thousands of organizations. I developed full-stack solutions using Scala, Angular, and React Native, ensuring secure and reliable financial operations.\n\nMy 30+ years of experience spans architecting scalable solutions for platforms serving 50,000+ organizations. I bring a principal-architecture mindset to reliability, auditability, and incremental delivery—the standards financial applications demand.\n\nI am impressed by [Company]'s approach to [specific feature/value]. My background in both technical architecture and team leadership would allow me to contribute immediately while growing with your organization.\n\nI am available to start immediately in a remote capacity and am willing to adjust my work hours to accommodate team timezones. Thank you for your consideration.\n\nSincerely,\nJamey McElveen"
       },
       {
         "id": "healthcare",
@@ -232,7 +232,7 @@
         "icon": "💻",
         "description": "Adaptable template for any technology company",
         "color": "slate",
-        "content": "Dear [Hiring Manager],\n\nI am excited to apply for the [Position] role at [Company]. With 30+ years of experience as a software architect and engineering leader, I am confident in my ability to contribute to your team.\n\nThroughout my career, I have:\n• Directed R&D teams of 20+ developers, managing hiring, mentorship, and product roadmaps\n• Architected platforms serving 50,000+ organizations\n• Pioneered mobile development with apps among the first 100 on the Apple App Store\n• Modernized legacy systems to modern .NET Core standards\n• Integrated AI-augmented development workflows, increasing sprint velocity by ~30%\n\nMy technical expertise spans C#, .NET Core, React, TypeScript, Angular, and data platforms like Snowflake and PostgreSQL. I bring both hands-on coding skills and leadership experience to every role.\n\nI am particularly impressed by [Company]'s [specific value/feature]. I am available to start immediately in a remote capacity and am flexible with timezone accommodations.\n\nThank you for your consideration. I look forward to discussing how I can contribute to your success.\n\nSincerely,\nJamey McElveen"
+        "content": "Dear [Hiring Manager],\n\nI am excited to apply for the [Position] role at [Company]. With 30+ years of experience as a software architect and engineering leader, I am confident in my ability to contribute to your team.\n\nThroughout my career, I have:\n• Directed R&D teams of 20+ developers, managing hiring, mentorship, and product roadmaps\n• Architected platforms serving 50,000+ organizations\n• Pioneered mobile development with apps among the first 100 on the Apple App Store\n• Modernized legacy systems to modern .NET Core standards\n• Used AI-assisted tooling selectively in architecture and modernization work, with strict guardrails in regulated domains\n\nMy technical expertise spans C#, .NET Core, React, TypeScript, Angular, and data platforms like Snowflake and PostgreSQL. I bring both hands-on coding skills and leadership experience to every role.\n\nI am particularly impressed by [Company]'s [specific value/feature]. I am available to start immediately in a remote capacity and am flexible with timezone accommodations.\n\nThank you for your consideration. I look forward to discussing how I can contribute to your success.\n\nSincerely,\nJamey McElveen"
       }
     ]
   },

@@ -8,7 +8,7 @@
 
 ## Summary
 
-Principal Systems Architect with 30+ years of experience in Christian tech and fintech. Expert in architecting scalable solutions for platforms serving 50,000+ organizations. Specialist in AI-augmented engineering workflows (Cursor) to maximize developer velocity and code quality.
+Principal Systems Architect with 30+ years of experience in Christian tech and fintech. Expert in architecting scalable solutions for platforms serving 50,000+ organizations. Uses AI-assisted tooling (e.g. Cursor) selectively to support modernization and delivery—always with architectural judgment and quality gates.
 
 ---
 
@@ -40,7 +40,7 @@ Cursor AI, Git, CI/CD, Agile/Scrum
 
 - Architected high-performance client-facing API using Snowflake and .NET Core API Gateway
 - Developed full-stack features using Scala, Angular, and React Native
-- **AI Innovation:** Integrated Cursor AI protocols into the development lifecycle, increasing sprint velocity by approximately 30% while maintaining high architectural standards
+- Collaborated on technical design, code review, and iterative delivery within FinTech security and compliance expectations
 
 ### Senior Software Developer | McLeod Health
 
@@ -77,6 +77,6 @@ Cursor AI, Git, CI/CD, Agile/Scrum
 1. **Domain Expertise:** 25 years in Christian tech, deep understanding of church/ministry software needs
 2. **Scale Experience:** Built and maintained platforms serving 50,000+ organizations
 3. **Leadership:** Managed 20+ developer teams, hiring, mentorship, roadmaps
-4. **AI Pioneer:** Early adopter of AI-augmented development (Cursor), proven productivity gains
+4. **Modern delivery:** Selective AI-assisted tooling (e.g. Cursor) for modernization—always with architectural ownership and compliance in mind
 5. **Full-Stack:** Equally comfortable with backend (.NET, Scala) and frontend (React, Angular)
 6. **Mobile:** Experience dating back to first 100 App Store apps

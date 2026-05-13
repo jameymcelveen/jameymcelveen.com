@@ -26,7 +26,7 @@ Generate a cover letter that:
 - Matches the company's mission and values
 - Uses my established writing tone
 - Includes a specific, relevant example of value I could bring
-- Mentions my AI/Cursor expertise as a differentiator
+- Mentions selective AI-assisted engineering where it fits the role (never as a fake employer-wide rollout)
 - Offers remote availability with timezone flexibility
 
 Job Description:
@@ -44,7 +44,7 @@ I'm Jamey McElveen, a Principal Systems Architect with 30+ years experience.
 
 Key highlights:
 - Programming Manager at ACS Technologies (25 years) - led 20+ developers, built Realm serving 50,000+ churches
-- Senior Engineer at SecureGive - Snowflake/.NET APIs, increased velocity 30% with Cursor AI
+- Senior Engineer at SecureGive — Snowflake/.NET APIs and full-stack FinTech delivery (Scala, Angular, React Native)
 - Senior Developer at McLeod Health - modernized legacy C# to .NET Core, introduced Git/CI/CD
 - B.S. Computer Engineering, Clemson University
 - Published author: "iPhone Game Development"
@@ -53,7 +53,7 @@ Key highlights:
 Writing style:
 - Personal connection to the product when possible
 - Concrete examples of value I could add
-- Emphasis on AI-augmented development as differentiator
+- Emphasis on disciplined engineering and selective AI assistance where appropriate (no invented metrics)
 - Remote-ready, timezone flexible
 - Mission-aligned for Christian tech roles
 

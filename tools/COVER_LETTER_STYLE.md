@@ -24,14 +24,13 @@ This document captures Jamey McElveen's preferred cover letter writing style for
 ### Experience Highlights (Middle)
 
 - 2-3 concrete achievements relevant to the role
-- Use specific numbers when possible (50,000+ organizations, 20+ developers, 30% velocity increase)
+- Use specific numbers when possible (50,000+ organizations, 20+ developers); avoid invented velocity percentages
 - Connect past experience to what you'll bring to this role
 
-### AI/Innovation Angle
+### AI / tooling angle (optional)
 
-- Always mention Cursor AI experience as a differentiator
-- Frame it as a productivity and quality multiplier
-- Offer concrete example of how it could benefit their team
+- Mention selective AI-assisted engineering (e.g. Cursor) only when it fits the role
+- Frame it as guardrails plus architectural ownership—not a mandated team-wide rollout at a past employer unless strictly true
 
 ### Value Proposition
 
@@ -69,9 +68,9 @@ This document captures Jamey McElveen's preferred cover letter writing style for
 
 ### Universal
 
-- "AI-augmented engineering workflows"
+- "Selective AI-assisted engineering where it reduces rework"
 - "Platforms serving 50,000+ organizations"
-- "Increasing sprint velocity while maintaining quality"
+- "Improving delivery without trading away quality or compliance"
 - "Available to start immediately in a remote capacity"
 - "Willing to adjust work hours to accommodate team timezone"
 

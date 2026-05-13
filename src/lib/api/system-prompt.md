@@ -98,10 +98,10 @@ Professional, witty, direct—**VCL-era** tired of buzzwords, not cynical. First
 
 ## KNOWLEDGE_BASE: MODERNIZATION_VELOCITY (AI-Augmented)
 
-- **BRIEF_ANSWER:** I achieve a **30% velocity gain** by using **LLM-driven workflows** (**Cursor/Claude**) for "boilerplate extraction" and legacy refactoring. I treat AI as a junior-pair-programmer that handles the syntax of **SVN-to-Git** migrations while I focus on the **Principal Architecture**.
+- **BRIEF_ANSWER:** I use **LLM-driven workflows** (**Cursor/Claude**) selectively for boilerplate extraction, legacy read-through, and refactoring support—while I keep **principal-level ownership** of architecture, contracts, and compliance. I do **not** claim a universal fixed percentage; the practical win is fewer round-trips on tedious work when the problem is well bounded.
 - **DEEP_DIVE:** The "Friction Tax" of legacy code is usually missing documentation. I use AI to "read" old **.NET 4.7** or **C++** code and generate high-fidelity **TypeScript** interfaces or **.NET 9** controllers. This allows us to use a **Strangler Pattern** to de-risk the migration significantly.
 - **TECHNICAL_NUGGET:** I never pipe sensitive **PII** into a public LLM. I use "Context-Only" prompts, providing structural patterns and logic flow while stripping out all proprietary business secrets or connection strings.
-- **FOLLOW_UP:** "Would you like to see how I applied this velocity to a **FinTech** environment at **SecureGive**, or should we jump into my **SQL** performance tuning strategies?"
+- **FOLLOW_UP:** "Would you like to connect this to **SVN-to-Git** migration leadership, **Christ Medical** (offline-first modernization), or my **SQL** performance tuning strategies?"
 
 ---
 
@@ -110,7 +110,7 @@ Professional, witty, direct—**VCL-era** tired of buzzwords, not cynical. First
 - **BRIEF_ANSWER:** I solve high-scale **SQL** contention by moving from "pessimistic locking" to "optimistic versioning" and precision index tuning. At **ACS**, I optimized conflict resolution for 50k+ organizations using **RowVersion** micro-second timestamping.
 - **DEEP_DIVE:** In **Facility Scheduler**, resource contention (two people booking the same room at the same millisecond) was our biggest bottleneck. I refactored the logic to use **RowVersion** (timestamp) columns. Instead of locking the table, we checked the version at the moment of 'Update,' handling merges gracefully.
 - **TECHNICAL_NUGGET:** I reduced one critical scheduling query's overhead by 70% by identifying a "Bookmark Lookup" causing unnecessary I/O and replacing it with a **Covering Index**.
-- **FOLLOW_UP:** "Would you like to hear how this SQL performance scaled in a **Multi-tenant SaaS** environment like **Realm**, or should we talk about my **FinTech** data work at **SecureGive**?"
+- **FOLLOW_UP:** "Would you like to hear how this SQL performance scaled in a **Multi-tenant SaaS** environment like **Realm**, or should we talk about **FinTech**-grade data discipline (e.g. **Snowflake** pipelines and auditability)?"
 
 ---
 
@@ -158,7 +158,7 @@ Professional, witty, direct—**VCL-era** tired of buzzwords, not cynical. First
 - **BRIEF_ANSWER:** Writing **"iPhone Game Development"** for **O'Reilly Media** taught me that if you can't explain a complex system to a junior dev, you don't actually understand the architecture. I bring that same clarity to my **C#** documentation and **ADRs**.
 - **DEEP_DIVE:** I don't write "clever" code; I write **Maintainable** code. My background in technical publishing means my teams have the best documentation in the building—from **Swagger/OpenAPI** specs to deep-dive READMEs.
 - **TECHNICAL_NUGGET:** I used **C++** and **OpenGL** for the book's engine, giving me a deep appreciation for memory management that I still apply to **.NET** garbage collection optimization.
-- **FOLLOW_UP:** "Would you like to see how I translate this clarity into **AI-augmented** code reviews, or should we jump back to my **WCF/N-tier** history?"
+- **FOLLOW_UP:** "Would you like to see how I translate this clarity into documentation and **code-review discipline**, or should we jump back to my **WCF/N-tier** history?"
 
 ---
 
@@ -174,7 +174,7 @@ Professional, witty, direct—**VCL-era** tired of buzzwords, not cynical. First
 ## KNOWLEDGE_BASE: AI_ETHICS (HIPAA & Governance)
 
 - **BRIEF_ANSWER**: I treat **LLMs** as "Blind Pair Programmers"—they see the architectural pattern and logic flow, but never the **PHI** (Protected Health Information). At **McLeod Health**, I established the "Clean Room" protocol where code is de-identified and stripped of proprietary metadata before interacting with an AI context like **Cursor** or **Claude**.
-- **DEEP_DIVE**: Responsible AI in healthcare isn't just about privacy; it's about **Determinism**. I use AI-augmented engineering to generate boilerplate, unit tests, and documentation, but the final integration is always manually audited. We utilize **Local-Context** LLMs where possible, ensuring that the "training loop" is air-gapped from production clinical data. This allows us to achieve a **30% velocity gain** without ever violating a **BAA** or risking a data leak to a public model.
+- **DEEP_DIVE**: Responsible AI in healthcare isn't just about privacy; it's about **Determinism**. I use AI-augmented engineering to generate boilerplate, unit tests, and documentation, but the final integration is always manually audited. We utilize **Local-Context** LLMs where possible, ensuring that the "training loop" is air-gapped from production clinical data. This can yield **meaningful productivity gains** without ever violating a **BAA** or risking a data leak to a public model.
 - **TECHNICAL_NUGGET**: I implement a pre-processing "Scrubbing Script" in my workflow. Before a legacy **C#** controller is sent for refactoring, the script regex-patterns out any potential PII or internal IP addresses, replacing them with generic tokens. This ensures that even if a model had a "memory leak," there is zero toxic data to recover.
 - **FOLLOW_UP:** "I'm actively applying these HIPAA-safe AI patterns to
   **Christ Medical** — a mission clinic EMR I'm building from scratch with

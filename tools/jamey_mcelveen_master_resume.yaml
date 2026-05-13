@@ -28,7 +28,7 @@ metrics:
   years_experience: "30+"
   organizations_served: "50,000+"
   team_size_managed: "20+"
-  ai_velocity_increase: "~30%"
+  ai_velocity_increase: "Selective AI-assisted tooling (gains vary by team and context)"
   app_store_milestone: "one of the first 100 apps on the Apple App Store (2008)"
   acs_tenure: "25 years"
 
@@ -40,12 +40,12 @@ summaries:
     Principal Systems Architect with 30+ years of experience in Christian tech and fintech.
     Expert in architecting scalable solutions for platforms serving 50,000+ organizations.
     Proven engineering leader — managed R&D teams of 20+, delivered products from concept
-    to 50k-org scale, and pioneered AI-augmented development workflows (Cursor) that drove
-    a ~30% increase in sprint velocity without sacrificing code quality.
+    to 50k-org scale, and applies AI-assisted tooling (e.g. Cursor) selectively for modernization
+    and delivery while keeping architectural ownership and quality bar high.
 
   short: >
     Principal Systems Architect · 30+ years · 50,000+ orgs served · 20+ engineers led ·
-    AI-augmented development pioneer.
+    Selective AI-assisted engineering in modernization work.
 
   christian_tech_focus: >
     Principal Systems Architect with 30+ years dedicated to Christian tech and ministry
@@ -53,7 +53,7 @@ summaries:
     churches, and pioneered ChurchLife — one of the first 100 apps on the Apple App Store.
     Deep domain expertise in faith-organization workflows, donor management, and community
     platforms at scale, combined with modern engineering: .NET Core, React, CI/CD, and
-    AI-augmented development with Cursor.
+    selective AI-assisted development practices where they reduce rework without lowering standards.
 
   healthcare_focus: >
     Principal Systems Architect with 30+ years of experience, including healthcare IT
@@ -67,8 +67,7 @@ summaries:
     Principal Systems Architect with 30+ years of experience, including high-performance
     payment and financial API work at SecureGive. Architected Snowflake + .NET Core API
     Gateways for transaction processing at scale. Expert in building auditable, secure
-    financial systems. AI-augmented development pioneer — integrated Cursor into the
-    engineering lifecycle for a proven ~30% sprint velocity gain.
+    financial systems with disciplined delivery in a regulated environment.
 
   saas_focus: >
     Principal Systems Architect with 30+ years building and operating multi-tenant SaaS
@@ -105,10 +104,9 @@ experience:
           across web and mobile surfaces.
         tags: [fullstack, scala, angular, react-native, mobile, fintech]
       - text: >
-          Integrated Cursor AI protocols into the full development lifecycle,
-          increasing sprint velocity by ~30% while maintaining high architectural
-          standards and code quality.
-        tags: [ai, cursor, productivity, agile, velocity, innovation]
+          Collaborated on technical design, code review, and iterative delivery
+          within FinTech security, auditability, and compliance expectations.
+        tags: [fintech, collaboration, security, compliance, process]
 
   - company: McLeod Health
     title: Senior Software Developer
@@ -213,7 +211,7 @@ skills:
   tools:         ["Cursor AI", Git, "GitHub Actions", "CI/CD", "Agile/Scrum", Docker]
   cloud_hosting: [Vercel, Railway]
   specialties:
-    - "AI-augmented development (Cursor) — proven ~30% velocity gain"
+    - "AI-assisted development (Cursor) — applied with architectural judgment, not as a blanket team mandate"
     - "Multi-tenant SaaS architecture"
     - "Legacy modernization (.NET Framework → .NET Core)"
     - "Healthcare IT / HIPAA-aware systems"
@@ -291,11 +289,11 @@ targeting:
 
   fintech:
     use_summary: fintech_focus
-    emphasize_tags: [fintech, api, snowflake, dotnet, scale, payments, ai, cursor, velocity]
-    lead_with: "SecureGive — Snowflake + .NET Core API Gateway, AI velocity gains"
+    emphasize_tags: [fintech, api, snowflake, dotnet, scale, payments, security, compliance]
+    lead_with: "SecureGive — Snowflake + .NET Core API Gateway, full-stack FinTech delivery"
     include_products: []
     de_emphasize_tags: [christian-tech, healthcare, hipaa, k12, education]
-    cover_letter_angle: "Speed + reliability — proven AI tooling to ship faster without breaking compliance"
+    cover_letter_angle: "Reliability + auditability — shipping financial software where mistakes are expensive"
 
   saas_platform:
     use_summary: saas_focus
@@ -314,12 +312,12 @@ targeting:
     cover_letter_angle: "Build the team, ship the product — experience across the full leadership lifecycle"
 
   ai_tooling_or_devtools:
-    use_summary: fintech_focus
-    emphasize_tags: [ai, cursor, productivity, velocity, innovation, dotnet, architecture, fullstack]
-    lead_with: "SecureGive — pioneered Cursor AI workflows, ~30% sprint velocity increase"
-    include_products: []
-    de_emphasize_tags: [christian-tech, healthcare, hipaa]
-    cover_letter_angle: "First-mover on AI-augmented development — not just a user, an advocate who changed the team's workflow"
+    use_summary: saas_focus
+    emphasize_tags: [ai, dotnet, architecture, legacy-modernization, leadership, scale, saas, mobile]
+    lead_with: "ACS Technologies — multi-tenant SaaS at 50k+ orgs; selective AI-assisted modernization today"
+    include_products: [realm]
+    de_emphasize_tags: [healthcare, hipaa, payments]
+    cover_letter_angle: "Principal-architect lens — where AI helps (boilerplate, refactors, docs) vs where humans own contracts and compliance"
 
 # ── GARFIELD PROMPT ───────────────────────────────────────────────────────────
 # Copy-paste into Cursor. Replace the bracketed sections.
@@ -337,7 +335,7 @@ garfield_prompt: |
   3. For ACS Technologies, include only the product bullets that match
      the role — do not list all four products unless they're all relevant
   4. Lead with the strongest matching company/product per the targeting guide
-  5. Pull key metrics (years, org count, team size, velocity %) into the header
+  5. Pull key metrics (years, org count, team size, delivery improvements where credible) into the header
   6. Output: clean single-page HTML
      - Fonts: EB Garamond (body) + DM Sans (headers/labels)
      - Header color: navy #1a5c8e

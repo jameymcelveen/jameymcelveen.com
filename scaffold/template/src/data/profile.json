@@ -94,9 +94,9 @@
   },
   "aiDevelopment": {
     "title": "AI-Augmented Development",
-    "description": "Using AI tools like Cursor to improve development velocity by ~30% while maintaining high code quality and architectural standards.",
+    "description": "Using AI tools like Cursor to speed design exploration, boilerplate, and refactoring—always with manual review and strict guardrails when architecture, FinTech, or HIPAA boundaries apply.",
     "toolName": "Cursor",
-    "velocityIncrease": "~30%",
+    "velocityIncrease": "strict guardrails",
     "badges": ["Cursor AI", "AI Code Generation", "Automated Testing", "Code Review AI"]
   },
   "coverLetters": {

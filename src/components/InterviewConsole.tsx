@@ -54,7 +54,7 @@ function CodeBlock({ children }: { children?: ReactNode }) {
 const QUICK_STARTS = [
   'How do you handle SVN to Git migrations?',
   'Tell me about your HIPAA experience at McLeod.',
-  'How do you increase team velocity by 30%?',
+  'How do you approach engineering velocity and quality without cutting corners?',
 ] as const;
 
 function readInitialAiTheme(): 'light' | 'dark' {
