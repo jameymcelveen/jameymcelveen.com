@@ -8,7 +8,8 @@ import pkg from '../../package.json';
 export function SiteFooter() {
   const footer = getSiteFooter();
   const year = new Date().getFullYear();
-  const alumniLine = 'alumniLine' in footer && typeof footer.alumniLine === 'string' ? footer.alumniLine : null;
+  const alumniLine =
+    'alumniLine' in footer && typeof footer.alumniLine === 'string' ? footer.alumniLine : null;
 
   return (
     <footer
@@ -16,7 +17,9 @@ export function SiteFooter() {
       style={{ willChange: 'transform' }}
     >
       <div className="text-foreground-muted mx-auto flex max-w-4xl flex-col items-center justify-center gap-3 px-4 py-8 text-center text-xs sm:px-6 sm:text-[13px]">
-        <p className="max-w-xl leading-relaxed">{footer.tagline}</p>
+        <p className="max-w-xl leading-relaxed">
+          {footer.tagline} · v{pkg.version}
+        </p>
         {alumniLine ? (
           <p className="text-[var(--text-muted)] max-w-xl text-[11px] tracking-wide">{alumniLine}</p>
         ) : null}
@@ -33,8 +36,6 @@ export function SiteFooter() {
         </div>
         <p className="text-foreground-muted/80 font-mono text-[11px] tracking-wide">
           © {year} {footer.copyrightName}
-          <span className="text-[var(--text-muted)] mx-2">·</span>
-          <span className="text-[var(--text-muted)]">v{pkg.version}</span>
         </p>
       </div>
     </footer>

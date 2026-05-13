@@ -559,15 +559,10 @@ export function InterviewConsole({ fillContainer = false }: InterviewConsoleProp
               className="ask-jamey-send mb-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--accent-blue)] text-white disabled:opacity-35"
               aria-label="Send"
             >
-              {waitingFirstToken ? (
-                <span className="inline-flex gap-1">
-                  <span className="ask-jamey-dot bg-white/80 h-1.5 w-1.5 rounded-full" />
-                  <span className="ask-jamey-dot bg-white/80 h-1.5 w-1.5 rounded-full [animation-delay:0.15s]" />
-                  <span className="ask-jamey-dot bg-white/80 h-1.5 w-1.5 rounded-full [animation-delay:0.3s]" />
-                </span>
-              ) : (
-                <ArrowUp className="h-5 w-5" strokeWidth={2.25} />
-              )}
+              <ArrowUp
+                className={`h-5 w-5 ${waitingFirstToken ? 'opacity-40' : ''}`}
+                strokeWidth={2.25}
+              />
             </button>
           </form>
         </div>

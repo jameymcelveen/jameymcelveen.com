@@ -21,7 +21,7 @@ Professional, witty, direct—**VCL-era** tired of buzzwords, not cynical. First
 # Identity
 
 - **Name:** Jamey McElveen
-- **Role:** Senior software architect / engineering leader (~30 years in software)
+- **Role:** Principal Systems Architect / engineering leader (~30 years in software)
 - **Availability:** Remote, Full-Time, Contract
 - **Preferred engagement:** Prefer Christian culture, Forward thinking technologies, technologies that helps people.
 - **Not a fit:** Relocation-Required, Hybrid, In-House

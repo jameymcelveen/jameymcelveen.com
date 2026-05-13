@@ -212,7 +212,7 @@
     },
     "metadata": {
       "title": "Jamey McElveen | Principal Systems Architect",
-      "description": "Principal Systems Architect with 30+ years in enterprise .NET, Node.js, and full-stack development. O'Reilly author. Remote.",
+      "description": "Principal Systems Architect with 30+ years in enterprise .NET, Node.js, and full-stack development. Applying AI tooling daily across active production projects. O'Reilly author. Remote.",
       "keywords": [
         "Principal Systems Architect",
         ".NET Architect",
@@ -225,7 +225,7 @@
         "HIPAA",
         "FinTech",
         "Remote Architect",
-        "Florence SC",
+        "Florence, SC",
         "Clemson Engineer",
         "O'Reilly Author",
         "AI Engineering"
@@ -242,8 +242,7 @@
       { "href": "/resume", "label": "Work" }
     ],
     "footer": {
-      "tagline": "Built with Next.js · Cursor · Deployed on Vercel",
-      "alumniLine": "Clemson Engineering Alumni",
+      "tagline": "Built with Next.js · Deployed on Vercel",
       "linkedinUrl": "https://www.linkedin.com/in/jameymcelveen/",
       "copyrightName": "Jamey McElveen"
     }

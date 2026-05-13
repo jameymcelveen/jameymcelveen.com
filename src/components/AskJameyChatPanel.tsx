@@ -561,14 +561,17 @@ export function AskJameyChatPanel({ onClose }: { onClose: () => void }) {
             disabled={disableComposer}
             className="ask-jamey-input text-[var(--ask-jamey-fg)] min-h-[44px] min-w-0 flex-1 resize-none px-4 py-3 text-[0.95rem] leading-normal outline-none placeholder:text-[var(--text-muted)] disabled:opacity-50"
           />
-          <button
-            type="submit"
-            disabled={disableComposer || !input.trim()}
-            className="ask-jamey-send bg-[var(--accent-blue)] text-white mb-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full disabled:opacity-35"
-            aria-label="Send"
-          >
-            {waitingFirstToken ? <LoadingDots /> : <ArrowUp className="h-5 w-5" strokeWidth={2.25} />}
-          </button>
+            <button
+              type="submit"
+              disabled={disableComposer || !input.trim()}
+              className="ask-jamey-send bg-[var(--accent-blue)] text-white mb-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full disabled:opacity-35"
+              aria-label="Send"
+            >
+              <ArrowUp
+                className={`h-5 w-5 ${waitingFirstToken ? 'opacity-40' : ''}`}
+                strokeWidth={2.25}
+              />
+            </button>
         </form>
       </div>
     </div>
