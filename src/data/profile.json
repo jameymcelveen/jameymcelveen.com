@@ -53,24 +53,6 @@
         "stack": [".NET 9", "Next.js 15", "PostgreSQL", "Offline-First"],
         "href": "https://github.com/christmedical/christmedical.com",
         "icon": "cross"
-      },
-      {
-        "id": "qiklog",
-        "title": "QikLog",
-        "shortTitle": "QikLog",
-        "description": "Multi-tenant log-tailing SaaS with live SSE streaming and SDK distribution.",
-        "stack": ["Fastify", "TypeScript", "Redis", "Drizzle ORM"],
-        "href": "https://github.com/jameymcelveen/qiklog",
-        "icon": "terminal"
-      },
-      {
-        "id": "erep",
-        "title": "eRep.io",
-        "shortTitle": "eRep.io",
-        "description": "AI-powered reputation defense for small businesses.",
-        "stack": [".NET 8", "React", "React Native"],
-        "href": "https://erep.io",
-        "icon": "shield"
       }
     ]
   },
@@ -251,7 +233,7 @@
       "author": "Jamey McElveen",
       "openGraph": {
         "title": "Jamey McElveen | Principal Systems Architect",
-        "description": "30+ years enterprise architecture. O'Reilly author. Currently building Christ Medical and QikLog. Ask Jamey anything.",
+        "description": "30+ years enterprise architecture. O'Reilly author. Currently building Christ Medical. Ask Jamey anything.",
         "type": "website"
       }
     },
