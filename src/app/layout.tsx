@@ -4,7 +4,7 @@ import { AnalyticsTracker } from '@/components/AnalyticsTracker';
 import { GradientMesh } from '@/components/GradientMesh';
 import { Navigation } from '@/components/Navigation';
 import { PageChrome } from '@/components/PageChrome';
-import { BillPanelProvider } from '@/context/BillPanelContext';
+import { AskJameyPanelProvider } from '@/context/AskJameyPanelContext';
 import { getSiteDomain, getSiteMetadata } from '@/data';
 import { Analytics } from '@vercel/analytics/next';
 import './globals.css';
@@ -59,9 +59,9 @@ export default function RootLayout({
         <GradientMesh />
         <Navigation />
         <Analytics />
-        <BillPanelProvider>
+        <AskJameyPanelProvider>
           <PageChrome>{children}</PageChrome>
-        </BillPanelProvider>
+        </AskJameyPanelProvider>
       </body>
     </html>
   );

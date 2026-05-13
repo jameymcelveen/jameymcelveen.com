@@ -5,8 +5,8 @@
     "lastName": "McElveen",
     "title": "Principal Systems Architect & Engineering Leader",
     "headlinePrimary": "Principal Systems Architect",
-    "headlineSecondary": " — value delivery, platforms, and teams at scale.",
-    "subtitle": "Engineering Leader",
+    "headlineSecondary": " · 30 Years Enterprise Architecture · O'Reilly Author",
+    "subtitle": "",
     "location": "Timmonsville, SC",
     "greeting": "Hello, I'm"
   },
@@ -31,7 +31,7 @@
     "accentHighlight": "#f56600"
   },
   "home": {
-    "summary": "30+ years crafting scalable solutions in Christian tech and fintech. Architecting platforms that serve 50,000+ organizations. Pioneering AI-augmented engineering workflows.",
+    "summary": "30+ years crafting scalable solutions in Christian tech and fintech. Architecting platforms that serve 50,000+ organizations. Practicing AI-augmented engineering workflows daily—judgment first, tooling as a force multiplier.",
     "summaryHighlight1": "Christian tech",
     "summaryHighlight2": "fintech",
     "summaryHighlight3": "AI-augmented engineering",
@@ -45,7 +45,8 @@
       "Fastify",
       "Cursor AI"
     ],
-    "askBillCta": "Have a question about my experience? Ask Bill →",
+    "askJameyCtaLine": "Have a question about my experience?",
+    "askJameyCta": "Ask Jamey →",
     "projects": [
       {
         "id": "christ-medical",
@@ -264,7 +265,7 @@
       "author": "Jamey McElveen",
       "openGraph": {
         "title": "Jamey McElveen | Principal Systems Architect",
-        "description": "30+ years enterprise architecture. O'Reilly author. Currently building Christ Medical and QikLog. Ask Bill anything.",
+        "description": "30+ years enterprise architecture. O'Reilly author. Currently building Christ Medical and QikLog. Ask Jamey anything.",
         "type": "website"
       }
     },
@@ -272,6 +273,12 @@
       { "href": "/", "label": "Home" },
       { "href": "/resume", "label": "Resume" },
       { "href": "/cover-letters", "label": "Cover Letters", "protected": true }
-    ]
+    ],
+    "footer": {
+      "tagline": "Built with Next.js · Deployed on Vercel",
+      "githubUrl": "https://github.com/jameymcelveen/jameymcelveen.com",
+      "linkedinUrl": "https://www.linkedin.com/in/jameymcelveen/",
+      "copyrightName": "Jamey McElveen"
+    }
   }
 }

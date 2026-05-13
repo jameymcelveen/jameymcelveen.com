@@ -19,3 +19,4 @@ export const getCoverLetters = () => profile.coverLetters;
 export const getSiteMetadata = () => profile.site.metadata;
 export const getSiteDomain = () => profile.site.domain;
 export const getNavigation = () => profile.site.navigation;
+export const getSiteFooter = () => profile.site.footer;

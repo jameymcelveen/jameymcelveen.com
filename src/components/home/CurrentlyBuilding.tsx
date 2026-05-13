@@ -1,4 +1,4 @@
-import { Hospital, Shield, Terminal } from 'lucide-react';
+import { ArrowUpRight, Hospital, Shield, Terminal } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
 const ICONS: Record<string, LucideIcon> = {
@@ -21,10 +21,14 @@ export function CurrentlyBuilding({ projects }: { projects: HomeProjectCard[] })
   if (!projects?.length) return null;
 
   return (
-    <section className="border-steel/80 mt-14 w-full max-w-3xl rounded-xl border bg-surface/40 px-4 py-8 text-left sm:mt-16 sm:px-6">
-      <h2 className="text-foreground mb-1 font-mono text-xs tracking-widest uppercase">Currently building</h2>
-      <p className="text-foreground-muted mb-6 text-sm">Active products and open-source work.</p>
-      <ul className="grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
+    <section className="mt-16 w-full max-w-3xl text-left sm:mt-20">
+      <h2 className="text-foreground-muted mb-2 font-mono text-[10px] tracking-[0.22em] uppercase">
+        Currently building
+      </h2>
+      <p className="text-foreground-muted mb-8 text-sm leading-relaxed sm:mb-10 sm:text-base">
+        Active products and open-source work.
+      </p>
+      <ul className="grid gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
         {projects.map((p) => {
           const Icon = ICONS[p.icon] ?? Terminal;
           return (
@@ -33,27 +37,34 @@ export function CurrentlyBuilding({ projects }: { projects: HomeProjectCard[] })
                 href={p.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="glass-card border-steel group flex flex-col gap-3 rounded-lg border p-4 transition-colors hover:border-accent/35 sm:flex-row sm:items-start sm:gap-4"
+                className="project-glass-card glass-card group relative flex h-full flex-col rounded-[var(--radius-card)] border-l-[3px] border-l-[var(--clemson-orange)] p-6 transition-[transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-[0_12px_40px_rgba(0,0,0,0.18),0_0_0_1px_rgba(245,102,0,0.12)]"
+                style={{ willChange: 'transform' }}
               >
-                <div className="bg-accent/12 text-accent flex h-11 w-11 shrink-0 items-center justify-center rounded-lg ring-1 ring-accent/20">
-                  <Icon className="h-5 w-5" strokeWidth={1.75} aria-hidden />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <h3 className="text-foreground group-hover:text-accent mb-1 text-base font-semibold tracking-tight transition-colors">
-                    {p.title}
-                  </h3>
-                  <p className="text-foreground-muted mb-3 text-sm leading-relaxed">{p.description}</p>
-                  <div className="flex flex-wrap gap-1.5">
-                    {p.stack.map((s) => (
-                      <span
-                        key={s}
-                        className="rounded border border-steel/80 bg-background/60 px-2 py-0.5 font-mono text-[10px] text-foreground-muted sm:text-[11px]"
-                      >
-                        {s}
-                      </span>
-                    ))}
+                <div className="mb-4 flex items-start gap-3">
+                  <div className="text-accent flex h-11 w-11 shrink-0 items-center justify-center rounded-[var(--radius-chip)] border border-[var(--glass-border)] bg-[var(--surface-2)]">
+                    <Icon className="h-5 w-5" strokeWidth={1.75} aria-hidden />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <h3 className="text-foreground group-hover:text-accent mb-1 text-base font-semibold tracking-tight transition-colors">
+                      {p.title}
+                    </h3>
+                    <p className="text-foreground-muted text-sm leading-[1.65]">{p.description}</p>
                   </div>
                 </div>
+                <div className="mb-6 flex flex-wrap gap-2">
+                  {p.stack.map((s) => (
+                    <span
+                      key={s}
+                      className="glass-pill rounded-[var(--radius-chip)] px-2.5 py-1 font-mono text-[10px] text-foreground-muted sm:text-[11px]"
+                    >
+                      {s}
+                    </span>
+                  ))}
+                </div>
+                <span className="text-accent mt-auto flex items-center justify-end gap-1 text-xs font-medium opacity-0 transition-opacity group-hover:opacity-100">
+                  View
+                  <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2} aria-hidden />
+                </span>
               </a>
             </li>
           );

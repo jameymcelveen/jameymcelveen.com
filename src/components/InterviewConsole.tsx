@@ -1,9 +1,10 @@
 'use client';
 
+import Image from 'next/image';
 import { type ReactNode, isValidElement, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { ArrowUp, MessageSquarePlus, Moon, Paperclip, Sun, Wrench } from 'lucide-react';
+import { ArrowUp, MessageSquarePlus, Moon, Paperclip, Sun, Wrench, X } from 'lucide-react';
 import { readAnalyticsIds } from '@/lib/site-analytics';
 
 type ChatRole = 'user' | 'assistant';
@@ -13,6 +14,8 @@ interface ChatLine {
   role: ChatRole;
   text: string;
   streaming?: boolean;
+  /** Bubble widget opening copy — plain text, no markdown */
+  isWelcome?: boolean;
 }
 
 function walkText(node: ReactNode): string {
@@ -51,10 +54,21 @@ function CodeBlock({ children }: { children?: ReactNode }) {
   );
 }
 
-const QUICK_STARTS = [
+const WELCOME_LINE_ID = 'ask-jamey-welcome';
+const OPENING_BUBBLE_MESSAGE =
+  "Hi there — I'm an AI trained on Jamey McElveen's professional background.\nAsk me anything about his experience, projects, or technical approach.";
+
+const PAGE_QUICK_STARTS = [
   'How do you handle SVN to Git migrations?',
   'Tell me about your HIPAA experience at McLeod.',
   'How do you approach engineering velocity and quality without cutting corners?',
+] as const;
+
+const BUBBLE_QUICK_STARTS = [
+  'Walk me through your career',
+  'Tell me about your HIPAA experience',
+  'What are you currently building?',
+  'How do you use AI in your workflow?',
 ] as const;
 
 function readInitialAiTheme(): 'light' | 'dark' {
@@ -98,7 +112,19 @@ export interface InterviewConsoleProps {
 export function InterviewConsole({ variant = 'page', onClose, fillContainer = false }: InterviewConsoleProps) {
   const isBubble = variant === 'bubble';
   const dockedComposer = isBubble || fillContainer;
-  const [lines, setLines] = useState<ChatLine[]>([]);
+  const [lines, setLines] = useState<ChatLine[]>(() =>
+    isBubble
+      ? [
+          {
+            id: WELCOME_LINE_ID,
+            role: 'assistant',
+            text: OPENING_BUBBLE_MESSAGE,
+            streaming: false,
+            isWelcome: true,
+          },
+        ]
+      : []
+  );
   const [input, setInput] = useState('');
   const [busy, setBusy] = useState(false);
   const listRef = useRef<HTMLDivElement>(null);
@@ -234,11 +260,24 @@ export function InterviewConsole({ variant = 'page', onClose, fillContainer = fa
   );
 
   const newChat = useCallback(() => {
-    setLines([]);
+    if (isBubble) {
+      setLines([
+        {
+          id: WELCOME_LINE_ID,
+          role: 'assistant',
+          text: OPENING_BUBBLE_MESSAGE,
+          streaming: false,
+          isWelcome: true,
+        },
+      ]);
+    } else {
+      setLines([]);
+    }
     setInput('');
-  }, []);
+  }, [isBubble]);
 
   const hasInput = input.trim().length > 0;
+  const userMessageCount = useMemo(() => lines.filter((l) => l.role === 'user').length, [lines]);
 
   useEffect(() => {
     const ta = textareaRef.current;
@@ -346,30 +385,30 @@ export function InterviewConsole({ variant = 'page', onClose, fillContainer = fa
       data-ai-theme={theme}
       suppressHydrationWarning
     >
-      <header className="flex h-12 shrink-0 items-center border-b border-[var(--ai-border)] px-3 sm:px-4">
-        <div className="mx-auto flex w-full max-w-[720px] items-center justify-between gap-2">
+      <header className="glass-panel-header flex h-[52px] shrink-0 items-center border-b border-[var(--glass-border)] px-3 sm:px-4">
+        <div className="mx-auto flex w-full max-w-[720px] items-center justify-between gap-3">
           {isBubble ? (
-            <div className="min-w-0">
-              <span className="text-sm font-semibold tracking-tight text-[var(--ai-text)]">Ask Bill</span>
-              <p className="truncate text-[11px] text-[var(--ai-text-muted)]">
-                AI-powered Q&amp;A about Jamey&apos;s experience
-              </p>
+            <div className="flex min-w-0 flex-1 items-center gap-3">
+              <Image
+                src="/ask-jamey.png"
+                alt=""
+                width={36}
+                height={36}
+                className="h-9 w-9 shrink-0 rounded-full border border-[var(--glass-border)] object-cover"
+              />
+              <div className="min-w-0">
+                <span className="text-sm font-semibold tracking-tight text-[var(--ai-text)]">Ask Jamey</span>
+                <p className="truncate text-[11px] leading-snug text-[var(--ai-text-muted)]">
+                  AI trained on Jamey&apos;s background
+                </p>
+              </div>
             </div>
           ) : fillContainer ? (
-            <span className="text-sm font-medium text-[var(--ai-text)]">Bill</span>
+            <span className="text-sm font-medium text-[var(--ai-text)]">Ask Jamey</span>
           ) : (
             <span className="text-sm font-medium">Interview</span>
           )}
           <div className="flex shrink-0 items-center gap-0.5">
-            {isBubble && onClose ? (
-              <button
-                type="button"
-                onClick={onClose}
-                className="rounded-md px-2 py-1 text-xs font-medium text-[var(--ai-text-muted)] hover:bg-[var(--ai-user-pill)] hover:text-[var(--ai-text)]"
-              >
-                Close
-              </button>
-            ) : null}
             <button
               type="button"
               onClick={newChat}
@@ -386,21 +425,33 @@ export function InterviewConsole({ variant = 'page', onClose, fillContainer = fa
             >
               {theme === 'dark' ? <Sun className="size-5" strokeWidth={1.75} /> : <Moon className="size-5" strokeWidth={1.75} />}
             </button>
+            {isBubble && onClose ? (
+              <button
+                type="button"
+                onClick={onClose}
+                className="rounded-md p-2 text-[var(--ai-text-muted)] hover:bg-[var(--ai-user-pill)] hover:text-[var(--ai-text)]"
+                aria-label="Close"
+              >
+                <X className="size-5" strokeWidth={1.75} />
+              </button>
+            ) : null}
           </div>
         </div>
       </header>
 
-      <div ref={listRef} className="min-h-0 flex-1 overflow-y-auto">
-        <div className={`mx-auto max-w-[720px] px-3 sm:px-4 ${isBubble ? 'pb-2 pt-4' : fillContainer ? 'pb-2 pt-6' : 'pb-36 pt-6'}`}>
-          {lines.length === 0 ? (
+      <div ref={listRef} className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
+        <div
+          className={`mx-auto max-w-[720px] px-4 sm:px-5 ${isBubble ? 'pb-4 pt-5' : fillContainer ? 'pb-3 pt-6' : 'pb-36 pt-6'}`}
+        >
+          {!isBubble && lines.length === 0 ? (
             <div
-              className={`flex flex-col items-center justify-center px-2 text-center ${isBubble ? 'min-h-[140px]' : fillContainer ? 'min-h-[38vh]' : 'min-h-[45vh]'}`}
+              className={`flex flex-col items-center justify-center px-2 text-center ${fillContainer ? 'min-h-[38vh]' : 'min-h-[45vh]'}`}
             >
               <p className="mb-6 text-[var(--ai-text-muted)] sm:mb-8">
                 Ask a professional or technical question.
               </p>
               <div className="flex w-full max-w-md flex-col gap-2">
-                {QUICK_STARTS.map((q) => (
+                {PAGE_QUICK_STARTS.map((q) => (
                   <button
                     key={q}
                     type="button"
@@ -408,7 +459,7 @@ export function InterviewConsole({ variant = 'page', onClose, fillContainer = fa
                       void send(q);
                     }}
                     disabled={disableComposer}
-                    className="rounded-xl border border-[var(--ai-border)] bg-[color-mix(in_oklch,var(--ai-user-pill)_40%,transparent)] px-3 py-2.5 text-left text-[13px] leading-snug text-[var(--ai-text)] hover:border-[var(--ai-assistant)]/35 hover:bg-[var(--ai-user-pill)] disabled:opacity-40 sm:text-[14px]"
+                    className="glass-chip-btn rounded-[var(--radius-chip)] border px-3 py-2.5 text-left text-[13px] leading-snug sm:text-[14px]"
                   >
                     {q}
                   </button>
@@ -416,30 +467,77 @@ export function InterviewConsole({ variant = 'page', onClose, fillContainer = fa
               </div>
             </div>
           ) : (
-            <ul className="flex flex-col gap-6">
-              {lines.map((line) => (
-                <li
-                  key={line.id}
-                  className={`ai-chat-msg-enter max-w-none ${line.role === 'user' ? 'flex justify-end' : ''}`}
-                >
-                  {line.role === 'user' ? (
-                    <div className="max-w-[85%] rounded-2xl bg-[var(--ai-user-pill)] px-4 py-2.5 text-[15px] leading-relaxed text-[var(--ai-text)]">
-                      {line.text}
-                    </div>
-                  ) : line.streaming ? (
-                    <div className="max-w-none whitespace-pre-wrap leading-[1.7] text-[var(--ai-assistant)]">
-                      {line.text}
-                    </div>
-                  ) : (
-                    <div className="ai-md prose-chat max-w-none leading-[1.7] text-[var(--ai-assistant)]">
-                      <ReactMarkdown remarkPlugins={[remarkGfm]} components={mdComponents}>
+            <>
+              <ul className={`flex flex-col ${isBubble ? 'gap-5' : 'gap-6'}`}>
+                {lines.map((line) => (
+                  <li
+                    key={line.id}
+                    className={`ai-chat-msg-enter max-w-none ${line.role === 'user' ? 'flex justify-end' : 'flex justify-start'}`}
+                  >
+                    {line.role === 'user' ? (
+                      <div
+                        className={
+                          isBubble
+                            ? 'max-w-[min(92%,28rem)] rounded-2xl border border-[color-mix(in_oklch,var(--clemson-orange)_40%,transparent)] bg-[color-mix(in_oklch,var(--clemson-orange)_18%,var(--surface-2))] px-4 py-3 text-[15px] leading-[1.65] text-[var(--ai-text)]'
+                            : 'max-w-[85%] rounded-2xl bg-[var(--ai-user-pill)] px-4 py-2.5 text-[15px] leading-relaxed text-[var(--ai-text)]'
+                        }
+                      >
                         {line.text}
-                      </ReactMarkdown>
-                    </div>
-                  )}
-                </li>
-              ))}
-            </ul>
+                      </div>
+                    ) : line.isWelcome ? (
+                      <div
+                        className={
+                          isBubble
+                            ? 'chat-bubble-assistant max-w-[min(92%,28rem)] whitespace-pre-wrap px-4 py-3 text-[15px] leading-[1.65] text-[var(--ai-assistant)]'
+                            : 'max-w-none whitespace-pre-wrap leading-[1.7] text-[var(--ai-assistant)]'
+                        }
+                      >
+                        {line.text}
+                      </div>
+                    ) : line.streaming ? (
+                      <div
+                        className={
+                          isBubble
+                            ? 'chat-bubble-assistant max-w-[min(92%,28rem)] whitespace-pre-wrap px-4 py-3 text-[15px] leading-[1.65] text-[var(--ai-assistant)]'
+                            : 'max-w-none whitespace-pre-wrap leading-[1.7] text-[var(--ai-assistant)]'
+                        }
+                      >
+                        {line.text}
+                      </div>
+                    ) : (
+                      <div
+                        className={
+                          isBubble
+                            ? 'chat-bubble-assistant ai-md prose-chat max-w-[min(92%,28rem)] px-4 py-3 leading-[1.65] text-[var(--ai-assistant)]'
+                            : 'ai-md prose-chat max-w-none leading-[1.7] text-[var(--ai-assistant)]'
+                        }
+                      >
+                        <ReactMarkdown remarkPlugins={[remarkGfm]} components={mdComponents}>
+                          {line.text}
+                        </ReactMarkdown>
+                      </div>
+                    )}
+                  </li>
+                ))}
+              </ul>
+              {isBubble && userMessageCount === 0 ? (
+                <div className="mt-5 flex flex-col gap-2">
+                  {BUBBLE_QUICK_STARTS.map((q) => (
+                    <button
+                      key={q}
+                      type="button"
+                      onClick={() => {
+                        void send(q);
+                      }}
+                      disabled={disableComposer}
+                      className="glass-chip-btn rounded-[var(--radius-chip)] border px-3 py-2.5 text-left text-[13px] leading-snug sm:text-[14px]"
+                    >
+                      {q}
+                    </button>
+                  ))}
+                </div>
+              ) : null}
+            </>
           )}
 
           {!isBubble ? (

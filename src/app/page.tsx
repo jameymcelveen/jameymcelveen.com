@@ -8,7 +8,7 @@ import { ObfuscatedEmail, ObfuscatedPhone } from '@/components/ObfuscatedContact
 import { SecretLock } from '@/components/PinGate';
 import { CurrentlyBuilding, type HomeProjectCard } from '@/components/home/CurrentlyBuilding';
 import { HomeHeroBackdrop } from '@/components/home/HomeHeroBackdrop';
-import { useBillPanel } from '@/context/BillPanelContext';
+import { useAskJameyPanel } from '@/context/AskJameyPanelContext';
 import { MapPin, Github } from 'lucide-react';
 import { getPersonalInfo, getHomeData, getImages, getBranding } from '@/data';
 
@@ -129,13 +129,16 @@ function renderSummaryWithHighlights(
 
 export default function Home() {
   const [showCoverLetters, setShowCoverLetters] = useState(false);
-  const { openBill } = useBillPanel();
+  const { openAskJamey } = useAskJameyPanel();
   const personal = getPersonalInfo();
   const home = getHomeData();
   const images = getImages();
   const branding = getBranding();
   const projects = (home as { projects?: HomeProjectCard[] }).projects ?? [];
-  const askBillCta = (home as { askBillCta?: string }).askBillCta;
+  const askJameyCtaLine = (home as { askJameyCtaLine?: string }).askJameyCtaLine;
+  const askJameyCta =
+    (home as { askJameyCta?: string }).askJameyCta ??
+    (home as { askBillCta?: string }).askBillCta;
 
   // Check if already unlocked on mount
   useEffect(() => {
@@ -191,9 +194,9 @@ export default function Home() {
         {/* Title + tagline */}
         <motion.h2
           variants={itemVariants}
-          className="text-foreground-muted mb-2 text-lg sm:text-xl md:text-2xl"
+          className="text-foreground-muted mb-3 text-lg leading-snug tracking-tight sm:mb-4 sm:text-xl md:text-2xl"
         >
-          <span className="text-foreground font-semibold tracking-tight">
+          <span className="text-foreground font-semibold">
             {'headlinePrimary' in personal && typeof personal.headlinePrimary === 'string'
               ? personal.headlinePrimary
               : 'Principal Systems Architect'}
@@ -201,20 +204,38 @@ export default function Home() {
           <span className="text-foreground-muted font-normal">
             {'headlineSecondary' in personal && typeof personal.headlineSecondary === 'string'
               ? personal.headlineSecondary
-              : ' — value delivery, platforms, and teams at scale.'}
+              : ' · 30 Years Enterprise Architecture · O\'Reilly Author'}
           </span>
         </motion.h2>
-        <motion.p
-          variants={itemVariants}
-          className="text-foreground-muted mb-6 text-sm sm:mb-8 sm:text-base"
-        >
-          {personal.subtitle}
-        </motion.p>
+        {personal.subtitle ? (
+          <motion.p
+            variants={itemVariants}
+            className="text-foreground-muted mb-6 text-sm sm:mb-8 sm:text-base"
+          >
+            {personal.subtitle}
+          </motion.p>
+        ) : (
+          <div className="mb-6 sm:mb-8" />
+        )}
+
+        {/* Ask Jamey CTA — directly under tagline */}
+        <motion.div variants={itemVariants} className="mb-8 text-center sm:mb-10">
+          <p className="text-foreground-muted mb-2 text-sm sm:text-base">
+            {askJameyCtaLine ?? 'Have a question about my experience?'}
+          </p>
+          <button
+            type="button"
+            onClick={openAskJamey}
+            className="text-accent hover:text-accent/90 font-mono text-sm font-medium tracking-wide underline-offset-4 transition-colors hover:underline"
+          >
+            {askJameyCta ?? 'Ask Jamey →'}
+          </button>
+        </motion.div>
 
         {/* Summary */}
-        <motion.p
+        <motion.div
           variants={itemVariants}
-          className="text-foreground-muted mx-auto mb-8 max-w-2xl text-base leading-relaxed sm:mb-12 sm:text-lg"
+          className="glass-callout text-foreground-muted mx-auto mb-10 max-w-2xl rounded-[var(--radius-card)] px-6 py-6 text-left text-base leading-[1.65] sm:mb-12 sm:px-8 sm:py-8 sm:text-lg"
         >
           {renderSummaryWithHighlights(
             home.summary,
@@ -223,19 +244,7 @@ export default function Home() {
             home.summaryHighlight3,
             branding.highlight
           )}
-        </motion.p>
-
-        {askBillCta ? (
-          <motion.div variants={itemVariants} className="mb-8 sm:mb-10">
-            <button
-              type="button"
-              onClick={openBill}
-              className="text-accent hover:text-accent/85 font-mono text-sm underline-offset-4 transition-colors hover:underline"
-            >
-              {askBillCta}
-            </button>
-          </motion.div>
-        ) : null}
+        </motion.div>
 
         {projects.length > 0 ? (
           <motion.div variants={itemVariants} className="mx-auto flex w-full justify-center">
@@ -282,7 +291,7 @@ export default function Home() {
           {home.techStack.map((tech) => (
             <span
               key={tech}
-              className="glass-card text-accent-csharp hover:bg-surface hover:text-accent-csharp rounded-md border-steel px-3 py-1 font-mono text-xs sm:px-4 sm:py-1.5"
+              className="glass-pill text-foreground-muted hover:text-accent-csharp rounded-[var(--radius-chip)] px-3 py-1.5 font-mono text-xs sm:px-4 sm:py-2 sm:text-[13px]"
             >
               {tech}
             </span>
