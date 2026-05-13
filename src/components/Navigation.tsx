@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { getNavigation } from '@/data';
+import { InsightsBellLink } from '@/components/InsightsBellLink';
 
 export function Navigation() {
   const pathname = usePathname();
@@ -45,8 +46,8 @@ export function Navigation() {
       className="nav-glass fixed top-0 right-0 left-0 z-40 border-b border-[var(--glass-border)]"
       style={{ willChange: 'transform' }}
     >
-      <nav className="mx-auto flex max-w-4xl items-center px-4 sm:px-6" aria-label="Primary">
-        <ul className="flex min-h-12 flex-wrap items-center gap-1 py-2 sm:gap-2">
+      <nav className="mx-auto flex max-w-4xl items-center justify-between gap-3 px-4 sm:px-6" aria-label="Primary">
+        <ul className="flex min-h-12 min-w-0 flex-1 flex-wrap items-center gap-1 py-2 sm:gap-2">
           {navItems.map((item) => {
             const isActive = pathname === item.href;
             return (
@@ -70,6 +71,7 @@ export function Navigation() {
             );
           })}
         </ul>
+        <InsightsBellLink />
       </nav>
     </motion.header>
   );

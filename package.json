@@ -1,6 +1,6 @@
 {
   "name": "jameymcelveen.com",
-  "version": "1.2.0",
+  "version": "1.2.2",
   "private": true,
   "packageManager": "pnpm@10.33.0",
   "engines": {
@@ -9,7 +9,8 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "node scripts/run-analytics-migration.mjs && next build",
+    "db:migrate": "node scripts/run-analytics-migration.mjs",
     "start": "next start",
     "lint": "eslint",
     "format": "prettier --write .",

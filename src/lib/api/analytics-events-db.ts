@@ -84,6 +84,7 @@ export async function queryDashboardSummary(): Promise<{
   topPages: { path: string; views: number }[];
   trafficSources: { source: string; count: number; percent: number }[];
   countryCounts: { country: string; count: number }[];
+  database: { usedBytes: number; limitBytes: number } | null;
 }> {
   const pool = getAnalyticsPool();
   if (!pool) {
@@ -93,8 +94,14 @@ export async function queryDashboardSummary(): Promise<{
       topPages: [],
       trafficSources: [],
       countryCounts: [],
+      database: null,
     };
   }
+
+  const limitBytes =
+    Number.parseInt(process.env.ANALYTICS_DB_LIMIT_BYTES?.trim() ?? '', 10) > 0
+      ? Number.parseInt(process.env.ANALYTICS_DB_LIMIT_BYTES!.trim(), 10)
+      : 536_870_912; /* 0.5 GiB — Neon free */
 
   const [
     visits,
@@ -106,6 +113,7 @@ export async function queryDashboardSummary(): Promise<{
     topPages,
     refAgg,
     countryAgg,
+    dbSize,
   ] = await Promise.all([
     pool.query<{ c: string }>(`SELECT COUNT(*)::text AS c FROM analytics_events WHERE event_type = 'page_view'`),
     pool.query<{ c: string }>(
@@ -151,6 +159,7 @@ export async function queryDashboardSummary(): Promise<{
         ORDER BY COUNT(*) DESC
         LIMIT 80`
     ),
+    pool.query<{ b: string }>(`SELECT pg_database_size(current_database())::text AS b`),
   ]);
 
   const totalVisits = Number(visits.rows[0]?.c ?? 0);
@@ -160,6 +169,8 @@ export async function queryDashboardSummary(): Promise<{
     ...r,
     percent: Math.round((r.count / refTotal) * 1000) / 10,
   }));
+
+  const usedBytes = Math.max(0, Number(dbSize.rows[0]?.b ?? 0));
 
   return {
     stats: {
@@ -175,6 +186,7 @@ export async function queryDashboardSummary(): Promise<{
     topPages: topPages.rows.map((row) => ({ path: row.path, views: Number(row.views) })),
     trafficSources,
     countryCounts: mapCountryRows(countryAgg.rows),
+    database: { usedBytes, limitBytes },
   };
 }
 

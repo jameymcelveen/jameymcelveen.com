@@ -14,6 +14,19 @@ import { VisitorMap } from '@/components/dashboard/VisitorMap';
 
 const nf = new Intl.NumberFormat();
 
+function formatBytes(n: number): string {
+  if (!Number.isFinite(n) || n <= 0) return '0 B';
+  const units = ['B', 'KB', 'MB', 'GB'];
+  let v = n;
+  let u = 0;
+  while (v >= 1024 && u < units.length - 1) {
+    v /= 1024;
+    u += 1;
+  }
+  const d = u === 0 ? 0 : u === 1 ? 1 : 2;
+  return `${v.toFixed(d)} ${units[u]}`;
+}
+
 function formatAgo(iso: string): string {
   const then = new Date(iso).getTime();
   const sec = Math.max(0, Math.round((Date.now() - then) / 1000));
@@ -49,6 +62,7 @@ type SummaryPayload = {
   topPages: { path: string; views: number }[];
   trafficSources: { source: string; count: number; percent: number }[];
   countryCounts: { country: string; count: number }[];
+  database: { usedBytes: number; limitBytes: number } | null;
   updatedAt: string;
 };
 
@@ -149,6 +163,52 @@ export default function DashboardPage() {
           <code className="font-mono text-xs">migrations/001_analytics_events.sql</code>. Until then, counts stay at
           zero — the UI is the portfolio piece.
         </div>
+      ) : null}
+
+      {connected && summary?.database ? (
+        <section
+          className="glass-card mb-8 rounded-[var(--radius-card)] border border-[var(--glass-border)] p-4 sm:p-5"
+          style={{ willChange: 'transform' }}
+        >
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h2 className="text-[var(--text-muted)] font-mono text-[10px] tracking-[0.22em] uppercase">
+                Postgres database size
+              </h2>
+              <p className="text-foreground mt-1 font-mono text-lg font-semibold tracking-tight sm:text-xl">
+                {formatBytes(summary.database.usedBytes)}
+                <span className="text-[var(--text-muted)] font-normal">
+                  {' '}
+                  / {formatBytes(summary.database.limitBytes)}
+                </span>
+              </p>
+              <p className="text-[var(--text-secondary)] mt-1 text-xs leading-relaxed">
+                Current database on Neon. Free tier storage is about 0.5&nbsp;GiB — set{' '}
+                <code className="font-mono text-[10px]">ANALYTICS_DB_LIMIT_BYTES</code> if your plan differs.
+              </p>
+            </div>
+            <div className="w-full sm:max-w-xs sm:shrink-0">
+              <div className="bg-foreground/10 h-2 overflow-hidden rounded-full">
+                <div
+                  className="bg-accent h-full rounded-full transition-[width] duration-500"
+                  style={{
+                    width: `${Math.min(
+                      100,
+                      (summary.database.usedBytes / Math.max(1, summary.database.limitBytes)) * 100
+                    )}%`,
+                  }}
+                />
+              </div>
+              <p className="text-[var(--text-muted)] mt-1 text-right font-mono text-[10px]">
+                {Math.min(
+                  100,
+                  Math.round((summary.database.usedBytes / Math.max(1, summary.database.limitBytes)) * 1000) / 10
+                )}
+                % of cap
+              </p>
+            </div>
+          </div>
+        </section>
       ) : null}
 
       {error ? (
