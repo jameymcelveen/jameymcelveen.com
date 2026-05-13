@@ -33,8 +33,6 @@ export function validateCareerQuestion(message: string | null | undefined): stri
   if (!message?.trim()) return 'Please enter a professional or technical question.';
 
   const trimmed = message.trim();
-  if (trimmed.length < 16)
-    return 'Questions must be at least a short sentence so the interview context stays substantive.';
   if (trimmed.length > 12_000) return 'Message is too long for this interview console.';
 
   const lower = trimmed.toLowerCase();
@@ -49,10 +47,12 @@ export function validateCareerQuestion(message: string | null | undefined): stri
       return 'Please keep questions strictly professional and appropriate for a hiring conversation.';
   }
 
+  if (trimmed.length <= 24) return null;
+
   const hasCareerHint = CAREER_HINTS.some((h) => lower.includes(h));
   const shapedLikeInterview = INTERVIEW_SHAPE.test(lower);
 
-  if (!hasCareerHint && !(shapedLikeInterview && trimmed.length >= 16)) {
+  if (!hasCareerHint && !shapedLikeInterview) {
     return (
       "Ask something tied to Jamey's software architecture work, .NET modernization, healthcare/HIPAA experience, " +
       'FinTech/data platforms, or engineering leadership.'

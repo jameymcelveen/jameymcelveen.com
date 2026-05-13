@@ -2,12 +2,12 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import Image from 'next/image';
 import { useState, useEffect, type ReactElement } from 'react';
 import { ObfuscatedEmail, ObfuscatedPhone } from '@/components/ObfuscatedContact';
 import { SecretLock } from '@/components/PinGate';
 import { CurrentlyBuilding, type HomeProjectCard } from '@/components/home/CurrentlyBuilding';
 import { HomeHeroBackdrop } from '@/components/home/HomeHeroBackdrop';
+import { HomePolaroidPhoto } from '@/components/home/HomePolaroidPhoto';
 import { useAskJameyPanel } from '@/context/AskJameyPanelContext';
 import { MapPin } from 'lucide-react';
 import { getPersonalInfo, getHomeData, getImages, getBranding } from '@/data';
@@ -156,25 +156,12 @@ export default function Home() {
         animate="visible"
         className="relative z-0 w-full max-w-3xl text-center"
       >
-        {/* Photo */}
+        {/* Polaroid photo */}
         <motion.div
           variants={itemVariants}
           className="mb-6 flex justify-center pt-8 sm:mb-8 sm:pt-12"
         >
-          <div className="border-steel relative h-32 w-32 overflow-hidden rounded-full border-2 ring-1 ring-accent/20 sm:h-40 sm:w-40">
-            <Image
-              src={images.photo}
-              alt={images.photoAlt}
-              width={150}
-              height={150}
-              className="h-full w-full object-cover"
-              style={{
-                // Photo is now 150x150px with face centered - use center positioning
-                objectPosition: 'center center',
-              }}
-              priority
-            />
-          </div>
+          <HomePolaroidPhoto alt={images.photoAlt} />
         </motion.div>
 
         {/* Greeting */}
@@ -186,7 +173,7 @@ export default function Home() {
         </motion.p>
 
         {/* Name with kinetic typography */}
-        <h1 className="hero-name-display mb-4 text-4xl sm:mb-6 sm:text-6xl md:text-7xl lg:text-8xl">
+        <h1 className="hero-name-display hero-name-h1 mb-4 sm:mb-6">
           <AnimatedText text={personal.name} className="text-gradient" />
         </h1>
 

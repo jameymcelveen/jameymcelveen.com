@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono, JetBrains_Mono } from 'next/font/google';
+import { Caveat, Geist, Geist_Mono, JetBrains_Mono, Space_Grotesk } from 'next/font/google';
 import { AnalyticsTracker } from '@/components/AnalyticsTracker';
 import { GradientMesh } from '@/components/GradientMesh';
 import { Navigation } from '@/components/Navigation';
@@ -22,6 +22,18 @@ const geistMono = Geist_Mono({
 const jetbrainsMono = JetBrains_Mono({
   variable: '--font-jetbrains-mono',
   subsets: ['latin'],
+});
+
+const spaceGrotesk = Space_Grotesk({
+  variable: '--font-space-grotesk',
+  subsets: ['latin'],
+  weight: 'variable',
+});
+
+const caveat = Caveat({
+  variable: '--font-caveat',
+  subsets: ['latin'],
+  weight: ['600', '700'],
 });
 
 const siteMetadata = getSiteMetadata();
@@ -51,21 +63,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&display=swap"
-          rel="stylesheet"
-        />
-      </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} ${jetbrainsMono.variable} antialiased`}>
+    <html lang="en">
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} ${jetbrainsMono.variable} ${spaceGrotesk.variable} ${caveat.variable} antialiased`}
+      >
         <AnalyticsTracker />
         <GradientMesh />
-        <Navigation />
         <Analytics />
         <AskJameyPanelProvider>
+          <Navigation />
           <PageChrome>{children}</PageChrome>
         </AskJameyPanelProvider>
       </body>

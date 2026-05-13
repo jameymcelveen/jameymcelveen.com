@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { Linkedin } from 'lucide-react';
 import { getSiteFooter } from '@/data';
+import pkg from '../../package.json';
 
 export function SiteFooter() {
   const footer = getSiteFooter();
@@ -32,6 +33,8 @@ export function SiteFooter() {
         </div>
         <p className="text-foreground-muted/80 font-mono text-[11px] tracking-wide">
           © {year} {footer.copyrightName}
+          <span className="text-[var(--text-muted)] mx-2">·</span>
+          <span className="text-[var(--text-muted)]">v{pkg.version}</span>
         </p>
       </div>
     </footer>

@@ -389,7 +389,7 @@ export function InterviewConsole({ fillContainer = false }: InterviewConsoleProp
           ? 'ai-chat-shell flex min-h-0 flex-1 flex-col bg-[var(--ai-page-bg)] text-[16px] text-[var(--ai-text)]'
           : 'ai-chat-shell flex min-h-dvh flex-col bg-[var(--ai-page-bg)] text-[16px] text-[var(--ai-text)]'
       }
-      data-ai-theme="dark"
+      data-ai-theme="light"
       suppressHydrationWarning
     >
       <header className="flex h-12 shrink-0 items-center border-b border-[var(--ai-border)] px-4 sm:px-5">

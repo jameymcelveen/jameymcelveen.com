@@ -257,9 +257,7 @@
     },
     "navigation": [
       { "href": "/", "label": "Home" },
-      { "href": "/dashboard", "label": "Insights" },
-      { "href": "/resume", "label": "Resume" },
-      { "href": "/cover-letters", "label": "Cover Letters", "protected": true }
+      { "href": "/resume", "label": "Work" }
     ],
     "footer": {
       "tagline": "Built with Next.js · Cursor · Deployed on Vercel",

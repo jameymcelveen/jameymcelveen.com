@@ -89,7 +89,7 @@ function AskJameyBubbleHost({
         type="button"
         onClick={openAskJamey}
         className={
-          'ask-jamey-fab flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-full border-2 border-[rgba(255,255,255,0.15)] shadow-[0_4px_24px_rgba(0,0,0,0.3)] transition-transform hover:scale-105' +
+          'ask-jamey-fab flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-full border-2 border-[rgba(82,45,128,0.28)] shadow-[0_4px_24px_rgba(82,45,128,0.15)] transition-transform hover:scale-105' +
           (fabPulse ? ' ask-jamey-fab-pulse-once' : '')
         }
         aria-label="Open Ask Jamey — AI trained on Jamey’s professional background"

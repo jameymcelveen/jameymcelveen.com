@@ -64,7 +64,7 @@ function CodeBlock({ children }: { children?: ReactNode }) {
       >
         {copied ? 'Copied' : 'Copy'}
       </button>
-      <pre className="overflow-x-auto rounded-xl bg-black/35 px-4 py-3 font-mono text-[13px] leading-relaxed text-[var(--ask-jamey-fg)]">
+      <pre className="overflow-x-auto rounded-xl bg-[rgba(82,45,128,0.08)] px-4 py-3 font-mono text-[13px] leading-relaxed text-[var(--ask-jamey-fg)]">
         {children}
       </pre>
     </div>
@@ -364,7 +364,7 @@ export function AskJameyChatPanel({ onClose }: { onClose: () => void }) {
         }
         return (
           <code
-            className="rounded-md bg-white/10 px-1.5 py-0.5 font-mono text-[0.9em] text-[var(--ask-jamey-fg)]"
+            className="rounded-md bg-[rgba(82,45,128,0.1)] px-1.5 py-0.5 font-mono text-[0.9em] text-[var(--ask-jamey-fg)]"
             {...rest}
           >
             {children}
@@ -396,11 +396,11 @@ export function AskJameyChatPanel({ onClose }: { onClose: () => void }) {
         className="ask-jamey-panel-inner flex min-h-0 flex-1 flex-col overflow-hidden rounded-t-[20px] sm:rounded-[20px] sm:rounded-b-none"
         style={{
         willChange: 'transform',
-        background: 'rgba(15, 20, 35, 0.92)',
+        background: 'rgba(250, 250, 250, 0.94)',
         backdropFilter: 'blur(20px)',
         WebkitBackdropFilter: 'blur(20px)',
-        boxShadow: '0 -8px 40px rgba(0,0,0,0.4)',
-        border: '1px solid rgba(255,255,255,0.1)',
+        boxShadow: '0 -8px 40px rgba(82, 45, 128, 0.12)',
+        border: '1px solid rgba(82, 45, 128, 0.15)',
       }}
     >
       <header className="flex shrink-0 items-center gap-3 border-b border-[var(--glass-border)] px-4 py-3">
