@@ -2,12 +2,14 @@ import type { NextConfig } from 'next';
 import profileData from './src/data/profile.json';
 
 const nextConfig: NextConfig = {
-  serverExternalPackages: ['geoip-lite', 'pg'],
+  /** pg stays external; geoip-lite is bundled with data from vendor/ (see scripts/sync-geoip-data.mjs). */
+  serverExternalPackages: ['pg'],
 
   outputFileTracingIncludes: {
     '/api/chat': ['./src/lib/api/system-prompt.md'],
     '/api/health': ['./src/lib/api/system-prompt.md'],
-    '/api/analytics/event': ['./node_modules/geoip-lite/data/**/*'],
+    /** Real files only — never trace pnpm’s symlinked node_modules/geoip-lite/data. */
+    '/api/analytics/event': ['./vendor/geoip-data/**/*'],
   },
 
   async redirects() {

@@ -1,5 +1,23 @@
-import geoip from 'geoip-lite';
+import { existsSync } from 'fs';
+import { createRequire } from 'module';
+import { join } from 'path';
 import { resolveClientIp } from '@/lib/api/rate-limiter';
+
+const require = createRequire(import.meta.url);
+
+type GeoipLite = typeof import('geoip-lite');
+
+let geoipSingleton: GeoipLite | null = null;
+
+function getGeoip(): GeoipLite {
+  if (geoipSingleton) return geoipSingleton;
+  const bundled = join(process.cwd(), 'vendor', 'geoip-data');
+  if (existsSync(bundled)) {
+    process.env.GEODATADIR = bundled;
+  }
+  geoipSingleton = require('geoip-lite') as GeoipLite;
+  return geoipSingleton;
+}
 
 const ANALYTICS_EVENT_RL = new Map<string, { count: number; expiresAt: number }>();
 
@@ -28,7 +46,7 @@ export function checkAnalyticsEventRateLimit(ip: string): { allowed: boolean } {
 
 export function geoFromIp(ip: string): { country: string | null; region: string | null } {
   if (!ip || ip === 'unknown') return { country: null, region: null };
-  const g = geoip.lookup(ip);
+  const g = getGeoip().lookup(ip);
   if (!g) return { country: null, region: null };
   const region = g.region ? String(g.region).slice(0, 100) : null;
   return {
