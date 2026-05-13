@@ -5,7 +5,7 @@ import { type ReactNode, isValidElement, useCallback, useEffect, useMemo, useRef
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { ArrowUp, X } from 'lucide-react';
-import { readAnalyticsIds } from '@/lib/site-analytics';
+import { readAnalyticsIds, postInsightEvent } from '@/lib/site-analytics';
 
 const ASK_JAMEY_AVATAR = '/images/ask-jamey.webp';
 
@@ -100,6 +100,11 @@ export function AskJameyChatPanel({ onClose }: { onClose: () => void }) {
   const streamingScrollDoneForId = useRef<string | null>(null);
   const wasStreamingRef = useRef(false);
   const userScrolledUpRef = useRef(false);
+  const panelOpenedAtRef = useRef(0);
+
+  useEffect(() => {
+    panelOpenedAtRef.current = Date.now();
+  }, []);
 
   const handleListScroll = useCallback((e: UIEvent<HTMLDivElement>) => {
     const el = e.currentTarget;
@@ -159,6 +164,18 @@ export function AskJameyChatPanel({ onClose }: { onClose: () => void }) {
     async (raw: string) => {
       const message = raw.trim();
       if (!message || busy) return;
+
+      const chatDurationSec = Math.round((Date.now() - panelOpenedAtRef.current) / 1000);
+      const path = typeof window !== 'undefined' ? window.location.pathname : '/';
+      const device = typeof window !== 'undefined' && window.innerWidth < 768 ? 'mobile' : 'desktop';
+      postInsightEvent({
+        event: 'ask_jamey_question',
+        page: path,
+        question: message,
+        referrer: typeof document !== 'undefined' ? document.referrer || null : null,
+        device,
+        chat_duration_sec: chatDurationSec,
+      });
 
       setBusy(true);
       const userLine: ChatLine = { id: crypto.randomUUID(), role: 'user', text: message };
@@ -281,6 +298,7 @@ export function AskJameyChatPanel({ onClose }: { onClose: () => void }) {
     wasStreamingRef.current = false;
     userScrolledUpRef.current = false;
     bubbleElRef.current.clear();
+    panelOpenedAtRef.current = Date.now();
     setLines([
       {
         id: WELCOME_LINE_ID,
@@ -479,7 +497,19 @@ export function AskJameyChatPanel({ onClose }: { onClose: () => void }) {
                 key={q}
                 type="button"
                 disabled={disableComposer}
-                onClick={() => void send(q)}
+                onClick={() => {
+                  const path = typeof window !== 'undefined' ? window.location.pathname : '/';
+                  const device =
+                    typeof window !== 'undefined' && window.innerWidth < 768 ? 'mobile' : 'desktop';
+                  postInsightEvent({
+                    event: 'chip_click',
+                    page: path,
+                    chip_label: q,
+                    referrer: typeof document !== 'undefined' ? document.referrer || null : null,
+                    device,
+                  });
+                  void send(q);
+                }}
                 className="ask-jamey-chip text-left text-[0.9rem] disabled:opacity-40"
               >
                 {q}

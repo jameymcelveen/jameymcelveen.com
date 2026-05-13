@@ -1,5 +1,7 @@
 'use client';
 
+import { useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { ObfuscatedEmail, ObfuscatedPhone } from '@/components/ObfuscatedContact';
 import { Sparkles, FileText, MapPin, Download } from 'lucide-react';
@@ -13,6 +15,7 @@ import {
   getBranding,
   getPersonalInfo,
 } from '@/data';
+import { postInsightEvent } from '@/lib/site-analytics';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -37,6 +40,7 @@ const itemVariants = {
 
 
 export default function ResumePage() {
+  const pathname = usePathname();
   const resume = getResumeData();
   const jobs = getWorkExperience();
   const skills = getSkills();
@@ -49,6 +53,19 @@ export default function ResumePage() {
   const resumePdfHref = '/Resume_Jamey_McElveen.pdf';
   const resumePdfName = 'Resume_Jamey_McElveen.pdf';
 
+  useEffect(() => {
+    if (pathname !== '/resume') return;
+    const from =
+      typeof sessionStorage !== 'undefined' ? sessionStorage.getItem('jm_resume_from') : null;
+    postInsightEvent({
+      event: 'resume_view',
+      page: '/resume',
+      from_page: from || null,
+      referrer: typeof document !== 'undefined' ? document.referrer || null : null,
+      device: typeof window !== 'undefined' && window.innerWidth < 768 ? 'mobile' : 'desktop',
+    });
+  }, [pathname]);
+
   return (
     <>
       {/* Sticky PDF download */}
@@ -58,6 +75,17 @@ export default function ResumePage() {
           download={resumePdfName}
           aria-label="Download resume as PDF"
           className="glass-card text-foreground hover:border-accent/40 flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium sm:px-6"
+          onClick={() => {
+            const from =
+              typeof sessionStorage !== 'undefined' ? sessionStorage.getItem('jm_resume_from') : null;
+            postInsightEvent({
+              event: 'resume_download',
+              page: '/resume',
+              from_page: from || null,
+              referrer: typeof document !== 'undefined' ? document.referrer || null : null,
+              device: typeof window !== 'undefined' && window.innerWidth < 768 ? 'mobile' : 'desktop',
+            });
+          }}
         >
           <Download className="h-4 w-4" aria-hidden />
           <span className="hidden sm:inline">Download PDF</span>

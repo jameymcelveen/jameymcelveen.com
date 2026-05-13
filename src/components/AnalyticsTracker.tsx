@@ -7,6 +7,7 @@ import {
   ANALYTICS_SESSION_KEY,
   getOrCreateSessionId,
   getOrCreateVisitorKey,
+  postInsightEvent,
 } from '@/lib/site-analytics';
 
 async function postJson(url: string, body: unknown) {
@@ -21,6 +22,7 @@ async function postJson(url: string, body: unknown) {
 export function AnalyticsTracker() {
   const pathname = usePathname();
   const registerOnce = useRef<Promise<void> | null>(null);
+  const lastPathRef = useRef<string | null>(null);
 
   useEffect(() => {
     const base = analyticsApiBase();
@@ -58,6 +60,26 @@ export function AnalyticsTracker() {
         sessionId: sid,
         path: pathname || '/',
         title: typeof document !== 'undefined' ? document.title : null,
+      });
+
+      const path = pathname || '/';
+      const prev = lastPathRef.current;
+      try {
+        if (prev === null) {
+          sessionStorage.removeItem('jm_resume_from');
+        } else {
+          sessionStorage.setItem('jm_resume_from', prev);
+        }
+      } catch {
+        /* ignore */
+      }
+      lastPathRef.current = path;
+
+      postInsightEvent({
+        event: 'page_view',
+        page: path,
+        referrer: document.referrer || null,
+        device: window.innerWidth < 768 ? 'mobile' : 'desktop',
       });
     })();
 

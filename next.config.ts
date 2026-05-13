@@ -2,9 +2,12 @@ import type { NextConfig } from 'next';
 import profileData from './src/data/profile.json';
 
 const nextConfig: NextConfig = {
+  serverExternalPackages: ['geoip-lite', 'pg'],
+
   outputFileTracingIncludes: {
     '/api/chat': ['./src/lib/api/system-prompt.md'],
     '/api/health': ['./src/lib/api/system-prompt.md'],
+    '/api/analytics/event': ['./node_modules/geoip-lite/data/**/*'],
   },
 
   async redirects() {

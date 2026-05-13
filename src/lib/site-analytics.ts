@@ -34,3 +34,27 @@ export function readAnalyticsIds(): { visitorKey: string | null; sessionId: stri
     sessionId: sessionStorage.getItem(ANALYTICS_SESSION_KEY),
   };
 }
+
+export type InsightClientEvent = {
+  event: 'page_view' | 'ask_jamey_question' | 'chip_click' | 'resume_view' | 'resume_download';
+  page?: string | null;
+  question?: string | null;
+  chip_label?: string | null;
+  referrer?: string | null;
+  device?: 'mobile' | 'desktop' | null;
+  chat_duration_sec?: number | null;
+  from_page?: string | null;
+};
+
+/** Public insights pipeline — no cookies; server derives country from IP. */
+export function postInsightEvent(payload: InsightClientEvent): void {
+  const base = analyticsApiBase();
+  if (!base || typeof window === 'undefined') return;
+  const body = JSON.stringify(payload);
+  void fetch(`${base}/api/analytics/event`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body,
+    keepalive: true,
+  }).catch(() => {});
+}
