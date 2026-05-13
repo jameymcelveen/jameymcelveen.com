@@ -22,10 +22,10 @@ export function CurrentlyBuilding({ projects }: { projects: HomeProjectCard[] })
 
   return (
     <section className="mt-16 w-full max-w-3xl text-left sm:mt-20">
-      <h2 className="text-foreground-muted mb-2 font-mono text-[10px] tracking-[0.22em] uppercase">
+      <h2 className="mb-2 font-mono text-[10px] tracking-[0.22em] text-[var(--text-muted)] uppercase">
         Currently building
       </h2>
-      <p className="text-foreground-muted mb-8 text-sm leading-relaxed sm:mb-10 sm:text-base">
+      <p className="mb-8 text-sm leading-relaxed text-[var(--text-secondary)] sm:mb-10 sm:text-base">
         Active products and open-source work.
       </p>
       <ul className="grid gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
@@ -37,8 +37,7 @@ export function CurrentlyBuilding({ projects }: { projects: HomeProjectCard[] })
                 href={p.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="project-glass-card glass-card group relative flex h-full flex-col rounded-[var(--radius-card)] border-l-[3px] border-l-[var(--clemson-orange)] p-6 transition-[transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-[0_12px_40px_rgba(0,0,0,0.18),0_0_0_1px_rgba(245,102,0,0.12)]"
-                style={{ willChange: 'transform' }}
+                className="project-card-v3 group relative flex h-full flex-col p-6"
               >
                 <div className="mb-4 flex items-start gap-3">
                   <div className="text-accent flex h-11 w-11 shrink-0 items-center justify-center rounded-[var(--radius-chip)] border border-[var(--glass-border)] bg-[var(--surface-2)]">
@@ -53,10 +52,7 @@ export function CurrentlyBuilding({ projects }: { projects: HomeProjectCard[] })
                 </div>
                 <div className="mb-6 flex flex-wrap gap-2">
                   {p.stack.map((s) => (
-                    <span
-                      key={s}
-                      className="glass-pill rounded-[var(--radius-chip)] px-2.5 py-1 font-mono text-[10px] text-foreground-muted sm:text-[11px]"
-                    >
+                    <span key={s} className="tech-stack-pill-v3">
                       {s}
                     </span>
                   ))}

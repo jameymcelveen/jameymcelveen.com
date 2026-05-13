@@ -9,11 +9,16 @@ import {
   useState,
   type ReactNode,
 } from 'react';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { InterviewConsole } from '@/components/InterviewConsole';
 
-const ASK_JAMEY_AVATAR = '/ask-jamey.png';
+const AskJameyChatPanelLazy = dynamic(
+  () => import('@/components/AskJameyChatPanel').then((m) => ({ default: m.AskJameyChatPanel })),
+  { ssr: false, loading: () => null }
+);
+
+const ASK_JAMEY_AVATAR = '/images/ask-jamey.webp';
 
 type AskJameyPanelContextValue = {
   openAskJamey: () => void;
@@ -67,18 +72,7 @@ function AskJameyBubbleHost({
           onClick={onClose}
           aria-label="Close chat"
         />
-        <div
-          className="ask-jamey-panel-enter glass-panel-strong fixed inset-x-0 bottom-0 z-50 flex h-[min(70dvh,580px)] max-h-[580px] w-full flex-col overflow-hidden rounded-t-[var(--radius-card)] border border-[var(--glass-border)] sm:inset-auto sm:bottom-6 sm:right-6 sm:left-auto sm:h-[min(580px,calc(100dvh-8rem))] sm:max-h-[580px] sm:w-[min(420px,calc(100vw-3rem))] sm:rounded-[var(--radius-card)]"
-          style={{ willChange: 'transform' }}
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="ask-jamey-panel-title"
-        >
-          <span id="ask-jamey-panel-title" className="sr-only">
-            Ask Jamey
-          </span>
-          <InterviewConsole variant="bubble" onClose={onClose} />
-        </div>
+        <AskJameyChatPanelLazy onClose={onClose} />
       </>
     );
   }
@@ -88,15 +82,15 @@ function AskJameyBubbleHost({
       className="group fixed right-6 bottom-6 z-50 flex flex-col items-end gap-1"
       style={{ willChange: 'transform' }}
     >
-      <span className="text-foreground-muted pointer-events-none max-w-[7rem] text-right font-mono text-[10px] tracking-wide opacity-0 transition-opacity duration-200 sm:opacity-100 group-hover:opacity-100">
+      <span className="text-[var(--text-muted)] pointer-events-none max-w-[7rem] text-right font-mono text-[10px] tracking-wide opacity-0 transition-opacity duration-200 sm:opacity-100 group-hover:opacity-100">
         Ask Jamey
       </span>
       <button
         type="button"
         onClick={openAskJamey}
         className={
-          'glass-panel-strong flex h-[52px] w-[52px] shrink-0 items-center justify-center overflow-hidden rounded-full border border-[var(--glass-border)] shadow-[var(--glass-shadow)] ring-1 ring-[var(--clemson-orange)]/20 transition-[transform,box-shadow] hover:ring-[var(--clemson-orange)]/35' +
-          (fabPulse ? ' bill-fab-pulse-once' : '')
+          'ask-jamey-fab flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-full border-2 border-[rgba(255,255,255,0.15)] shadow-[0_4px_24px_rgba(0,0,0,0.3)] transition-transform hover:scale-105' +
+          (fabPulse ? ' ask-jamey-fab-pulse-once' : '')
         }
         aria-label="Open Ask Jamey — AI trained on Jamey’s professional background"
         onAnimationEnd={() => setFabPulse(false)}
@@ -104,9 +98,10 @@ function AskJameyBubbleHost({
         <Image
           src={ASK_JAMEY_AVATAR}
           alt=""
-          width={52}
-          height={52}
-          className="h-[52px] w-[52px] object-cover"
+          width={56}
+          height={56}
+          className="h-14 w-14 object-cover"
+          sizes="56px"
           priority
         />
       </button>

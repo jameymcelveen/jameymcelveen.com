@@ -1,7 +1,6 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import Image from 'next/image';
 import { ObfuscatedEmail, ObfuscatedPhone } from '@/components/ObfuscatedContact';
 import { Sparkles, FileText, MapPin, Download } from 'lucide-react';
 import {
@@ -10,9 +9,9 @@ import {
   getSkills,
   getEngineering,
   getAIDevelopment,
-  getImages,
   getContactInfo,
   getBranding,
+  getPersonalInfo,
 } from '@/data';
 
 const containerVariants = {
@@ -43,9 +42,9 @@ export default function ResumePage() {
   const skills = getSkills();
   const engineering = getEngineering();
   const aiDev = getAIDevelopment();
-  const images = getImages();
   const contact = getContactInfo();
   const branding = getBranding();
+  const personal = getPersonalInfo();
 
   const resumePdfHref = '/Resume_Jamey_McElveen.pdf';
   const resumePdfName = 'Resume_Jamey_McElveen.pdf';
@@ -145,17 +144,15 @@ export default function ResumePage() {
                 {resume.education.degree}
               </p>
               <p className="text-foreground-muted text-sm">{resume.education.school}</p>
-              <div className="no-print mt-1 flex items-center gap-1.5">
-                <Image
-                  src={images.brandLogo}
-                  alt={images.brandLogoAlt}
-                  width={16}
-                  height={16}
-                  className="h-4 w-4"
-                />
-                <span className="text-xs" style={{ color: branding.highlight }}>
+              <div className="no-print mt-1 space-y-0.5">
+                <p className="text-foreground-muted text-xs tracking-wide">
+                  {'alumniNote' in personal && typeof personal.alumniNote === 'string'
+                    ? personal.alumniNote
+                    : 'Clemson Engineering Alumni'}
+                </p>
+                <p className="text-xs" style={{ color: branding.highlight }}>
                   {resume.education.schoolMotto}
-                </span>
+                </p>
               </div>
             </motion.div>
 

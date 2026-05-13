@@ -5,22 +5,21 @@
     "lastName": "McElveen",
     "title": "Principal Systems Architect & Engineering Leader",
     "headlinePrimary": "Principal Systems Architect",
-    "headlineSecondary": " · 30 Years Enterprise Architecture · O'Reilly Author",
+    "headlineSecondary": " · 30+ years Enterprise Architecture · O'Reilly Author",
     "subtitle": "",
-    "location": "Timmonsville, SC",
-    "greeting": "Hello, I'm"
+    "location": "Florence, SC",
+    "greeting": "Hello, I'm",
+    "alumniNote": "Clemson Engineering Alumni"
   },
   "contact": {
     "email": "jamey@mcelveen.us",
     "phone": "(843) 618-8078",
     "phoneHref": "+18436188078",
-    "location": "Timmonsville, SC"
+    "location": "Florence, SC"
   },
   "images": {
     "photo": "/jamey-mcelveen.jpg",
-    "photoAlt": "Jamey McElveen",
-    "brandLogo": "/clemson-tigers-logo.svg",
-    "brandLogoAlt": "Clemson Tigers"
+    "photoAlt": "Jamey McElveen"
   },
   "branding": {
     "primary": "#8b6cb5",
@@ -31,18 +30,16 @@
     "accentHighlight": "#f56600"
   },
   "home": {
-    "summary": "30+ years crafting scalable solutions in Christian tech and fintech. Architecting platforms that serve 50,000+ organizations. Practicing AI-augmented engineering workflows daily—judgment first, tooling as a force multiplier.",
+    "summary": "30+ years crafting scalable solutions in Christian tech and fintech. Architecting platforms that serve 50,000+ organizations. Applying AI tooling daily in engineering workflows—judgment first, tooling as a force multiplier.",
     "summaryHighlight1": "Christian tech",
     "summaryHighlight2": "fintech",
-    "summaryHighlight3": "AI-augmented engineering",
+    "summaryHighlight3": "Applying AI tooling daily",
     "techStack": [
       "Node.js",
       "TypeScript",
-      "Next.js 15",
       ".NET 9",
-      "PostgreSQL",
       "React",
-      "Fastify",
+      "PostgreSQL",
       "Cursor AI"
     ],
     "askJameyCtaLine": "Have a question about my experience?",
@@ -75,24 +72,13 @@
         "href": "https://erep.io",
         "icon": "shield"
       }
-    ],
-    "links": {
-      "github": {
-        "url": "https://github.com/jameymcelveen/jameymcelveen.com",
-        "label": "View Source"
-      },
-      "cursor": {
-        "url": "https://cursor.sh",
-        "label": "Cursor"
-      },
-      "cursorLabel": "Built with"
-    }
+    ]
   },
   "resume": {
-    "summary": "Principal Systems Architect with 30+ years of experience in Christian tech and fintech. Expert in architecting scalable solutions for platforms serving 50,000+ organizations. Specialist in AI-augmented engineering workflows to maximize developer velocity and code quality.",
+    "summary": "Principal Systems Architect with 30+ years of experience in Christian tech and fintech. Expert in architecting scalable solutions for platforms serving 50,000+ organizations. Applies AI tooling daily to maximize developer velocity and code quality, with judgment-first guardrails.",
     "summaryHighlight1": "Christian tech",
     "summaryHighlight2": "fintech",
-    "summaryHighlight3": "AI-augmented engineering workflows",
+    "summaryHighlight3": "Applies AI tooling daily",
     "subtitle": "30+ years of engineering excellence",
     "education": {
       "degree": "B.S. Computer Engineering",
@@ -103,7 +89,7 @@
       "title": "iPhone Game Development",
       "description": "A technical and business guide to creating and selling iPhone games"
     },
-    "printSummary": "Principal Systems Architect with 30+ years of experience specializing in high-scale platforms and modern development workflows. Proven track record of leading teams of 20+ and architecting solutions for over 50,000 organizations. Specialist in AI-augmented engineering to maximize delivery velocity."
+    "printSummary": "Principal Systems Architect with 30+ years of experience specializing in high-scale platforms and modern development workflows. Proven track record of leading teams of 20+ and architecting solutions for over 50,000 organizations. Applies AI tooling daily to maximize delivery velocity, with architecture-first judgment."
   },
   "workExperience": [
     {
@@ -137,7 +123,7 @@
       "bullets": [
         "Directed an R&D department of 20+ developers, managing hiring, mentorship, and product roadmaps",
         "Led the engineering of Realm, a flagship C# .NET MVC application serving 50,000+ churches",
-        "Pioneered ChurchLife in 2008, one of the first 100 apps on the Apple App Store"
+        "Launched ChurchLife in 2008, one of the first 100 apps on the Apple App Store"
       ],
       "highlight": null,
       "isLongTenure": true
@@ -209,7 +195,7 @@
         "icon": "⛪",
         "description": "For mission-driven organizations in the faith technology space",
         "color": "accent",
-        "content": "Dear [Hiring Manager],\n\nI am excited to apply for the [Position] role at [Company]. Your mission to serve churches and faith communities through technology resonates deeply with my 30+ years of experience building solutions in this space.\n\nAt ACS Technologies, I led the engineering of Realm, a platform serving 50,000+ churches. I directed an R&D team of 20+ developers and pioneered ChurchLife in 2008—one of the first 100 apps on the Apple App Store. This experience gave me unique insight into the needs of faith organizations and the technical challenges of serving them at scale.\n\nMore recently at SecureGive, I architected high-performance APIs on Snowflake and .NET Core and shipped full-stack work across Scala, Angular, and React Native in a regulated FinTech environment. I believe this combination of domain expertise and disciplined delivery can significantly benefit your team.\n\nI am particularly drawn to [Company]'s commitment to [specific value/feature]. I would welcome the opportunity to contribute my experience in .NET Core, React, and scalable architecture to your mission.\n\nThank you for considering my application. I look forward to discussing how I can contribute to your team.\n\nSincerely,\nJamey McElveen"
+        "content": "Dear [Hiring Manager],\n\nI am excited to apply for the [Position] role at [Company]. Your mission to serve churches and faith communities through technology resonates deeply with my 30+ years of experience building solutions in this space.\n\nAt ACS Technologies, I led the engineering of Realm, a platform serving 50,000+ churches. I directed an R&D team of 20+ developers and launched ChurchLife in 2008—one of the first 100 apps on the Apple App Store. This experience gave me unique insight into the needs of faith organizations and the technical challenges of serving them at scale.\n\nMore recently at SecureGive, I architected high-performance APIs on Snowflake and .NET Core and shipped full-stack work across Scala, Angular, and React Native in a regulated FinTech environment. I believe this combination of domain expertise and disciplined delivery can significantly benefit your team.\n\nI am particularly drawn to [Company]'s commitment to [specific value/feature]. I would welcome the opportunity to contribute my experience in .NET Core, React, and scalable architecture to your mission.\n\nThank you for considering my application. I look forward to discussing how I can contribute to your team.\n\nSincerely,\nJamey McElveen"
       },
       {
         "id": "fintech",
@@ -225,7 +211,7 @@
         "icon": "🏥",
         "description": "For healthcare systems and medical technology companies",
         "color": "purple",
-        "content": "Dear [Hiring Manager],\n\nI am eager to apply for the [Position] role at [Company]. My experience modernizing healthcare infrastructure at McLeod Health has prepared me well for this opportunity.\n\nAt McLeod Health, I modernized legacy C# codebases to .NET Core standards for critical HR and healthcare systems. I introduced Git SCM and CI/CD practices to the organization, significantly improving our development workflow and code reliability. I also mentored interns using Agile methodologies, ensuring quality output and knowledge transfer.\n\nWith 30+ years of software architecture experience, I understand the importance of reliability, security, and compliance in healthcare systems. My recent work with AI-augmented development (Cursor) has shown me how to increase productivity while maintaining the rigorous standards healthcare demands.\n\nI am drawn to [Company]'s commitment to [specific value/feature] and would welcome the opportunity to bring my experience to your team.\n\nThank you for considering my application.\n\nSincerely,\nJamey McElveen"
+        "content": "Dear [Hiring Manager],\n\nI am eager to apply for the [Position] role at [Company]. My experience modernizing healthcare infrastructure at McLeod Health has prepared me well for this opportunity.\n\nAt McLeod Health, I modernized legacy C# codebases to .NET Core standards for critical HR and healthcare systems. I introduced Git SCM and CI/CD practices to the organization, significantly improving our development workflow and code reliability. I also mentored interns using Agile methodologies, ensuring quality output and knowledge transfer.\n\nWith 30+ years of software architecture experience, I understand the importance of reliability, security, and compliance in healthcare systems. Applying AI tooling (Cursor) in day-to-day engineering has shown me how to increase productivity while maintaining the rigorous standards healthcare demands.\n\nI am drawn to [Company]'s commitment to [specific value/feature] and would welcome the opportunity to bring my experience to your team.\n\nThank you for considering my application.\n\nSincerely,\nJamey McElveen"
       },
       {
         "id": "general",
@@ -233,7 +219,7 @@
         "icon": "💻",
         "description": "Adaptable template for any technology company",
         "color": "slate",
-        "content": "Dear [Hiring Manager],\n\nI am excited to apply for the [Position] role at [Company]. With 30+ years of experience as a software architect and engineering leader, I am confident in my ability to contribute to your team.\n\nThroughout my career, I have:\n• Directed R&D teams of 20+ developers, managing hiring, mentorship, and product roadmaps\n• Architected platforms serving 50,000+ organizations\n• Pioneered mobile development with apps among the first 100 on the Apple App Store\n• Modernized legacy systems to modern .NET Core standards\n• Used AI-assisted tooling selectively in architecture and modernization work, with strict guardrails in regulated domains\n\nMy technical expertise spans C#, .NET Core, React, TypeScript, Angular, and data platforms like Snowflake and PostgreSQL. I bring both hands-on coding skills and leadership experience to every role.\n\nI am particularly impressed by [Company]'s [specific value/feature]. I am available to start immediately in a remote capacity and am flexible with timezone accommodations.\n\nThank you for your consideration. I look forward to discussing how I can contribute to your success.\n\nSincerely,\nJamey McElveen"
+        "content": "Dear [Hiring Manager],\n\nI am excited to apply for the [Position] role at [Company]. With 30+ years of experience as a software architect and engineering leader, I am confident in my ability to contribute to your team.\n\nThroughout my career, I have:\n• Directed R&D teams of 20+ developers, managing hiring, mentorship, and product roadmaps\n• Architected platforms serving 50,000+ organizations\n• Led early mobile development with apps among the first 100 on the Apple App Store\n• Modernized legacy systems to modern .NET Core standards\n• Used AI-assisted tooling selectively in architecture and modernization work, with strict guardrails in regulated domains\n\nMy technical expertise spans C#, .NET Core, React, TypeScript, Angular, and data platforms like Snowflake and PostgreSQL. I bring both hands-on coding skills and leadership experience to every role.\n\nI am particularly impressed by [Company]'s [specific value/feature]. I am available to start immediately in a remote capacity and am flexible with timezone accommodations.\n\nThank you for your consideration. I look forward to discussing how I can contribute to your success.\n\nSincerely,\nJamey McElveen"
       }
     ]
   },
@@ -244,7 +230,7 @@
     },
     "metadata": {
       "title": "Jamey McElveen | Principal Systems Architect",
-      "description": "Principal Systems Architect with 30+ years in enterprise .NET, Node.js, and full-stack development. O'Reilly author. AI-augmented engineering. Remote.",
+      "description": "Principal Systems Architect with 30+ years in enterprise .NET, Node.js, and full-stack development. O'Reilly author. Remote.",
       "keywords": [
         "Principal Systems Architect",
         ".NET Architect",
@@ -275,8 +261,8 @@
       { "href": "/cover-letters", "label": "Cover Letters", "protected": true }
     ],
     "footer": {
-      "tagline": "Built with Next.js · Deployed on Vercel",
-      "githubUrl": "https://github.com/jameymcelveen/jameymcelveen.com",
+      "tagline": "Built with Next.js · Cursor · Deployed on Vercel",
+      "alumniLine": "Clemson Engineering Alumni",
       "linkedinUrl": "https://www.linkedin.com/in/jameymcelveen/",
       "copyrightName": "Jamey McElveen"
     }

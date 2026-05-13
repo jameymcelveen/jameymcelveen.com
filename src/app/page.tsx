@@ -9,7 +9,7 @@ import { SecretLock } from '@/components/PinGate';
 import { CurrentlyBuilding, type HomeProjectCard } from '@/components/home/CurrentlyBuilding';
 import { HomeHeroBackdrop } from '@/components/home/HomeHeroBackdrop';
 import { useAskJameyPanel } from '@/context/AskJameyPanelContext';
-import { MapPin, Github } from 'lucide-react';
+import { MapPin } from 'lucide-react';
 import { getPersonalInfo, getHomeData, getImages, getBranding } from '@/data';
 
 const containerVariants = {
@@ -137,8 +137,7 @@ export default function Home() {
   const projects = (home as { projects?: HomeProjectCard[] }).projects ?? [];
   const askJameyCtaLine = (home as { askJameyCtaLine?: string }).askJameyCtaLine;
   const askJameyCta =
-    (home as { askJameyCta?: string }).askJameyCta ??
-    (home as { askBillCta?: string }).askBillCta;
+    (home as { askJameyCta?: string }).askJameyCta;
 
   // Check if already unlocked on mount
   useEffect(() => {
@@ -181,13 +180,13 @@ export default function Home() {
         {/* Greeting */}
         <motion.p
           variants={itemVariants}
-          className="text-accent mb-4 font-mono text-xs tracking-widest uppercase sm:text-sm"
+          className="text-[var(--text-muted)] mb-4 font-mono text-xs tracking-widest uppercase sm:text-sm"
         >
           {personal.greeting}
         </motion.p>
 
         {/* Name with kinetic typography */}
-        <h1 className="mb-4 text-4xl font-bold tracking-tight sm:mb-6 sm:text-6xl md:text-7xl lg:text-8xl">
+        <h1 className="hero-name-display mb-4 text-4xl sm:mb-6 sm:text-6xl md:text-7xl lg:text-8xl">
           <AnimatedText text={personal.name} className="text-gradient" />
         </h1>
 
@@ -204,7 +203,7 @@ export default function Home() {
           <span className="text-foreground-muted font-normal">
             {'headlineSecondary' in personal && typeof personal.headlineSecondary === 'string'
               ? personal.headlineSecondary
-              : ' · 30 Years Enterprise Architecture · O\'Reilly Author'}
+              : ' · 30+ years Enterprise Architecture · O\'Reilly Author'}
           </span>
         </motion.h2>
         {personal.subtitle ? (
@@ -226,7 +225,7 @@ export default function Home() {
           <button
             type="button"
             onClick={openAskJamey}
-            className="text-accent hover:text-accent/90 font-mono text-sm font-medium tracking-wide underline-offset-4 transition-colors hover:underline"
+            className="text-[var(--accent-blue)] hover:text-[color-mix(in_oklch,var(--accent-blue)_88%,white)] font-mono text-sm font-medium tracking-wide underline-offset-4 transition-colors hover:underline"
           >
             {askJameyCta ?? 'Ask Jamey →'}
           </button>
@@ -253,15 +252,9 @@ export default function Home() {
         ) : null}
 
         {/* CTA Buttons */}
-        <motion.div
-          variants={itemVariants}
-          className="flex flex-wrap justify-center gap-3 sm:gap-4"
-        >
-          <Link
-            href="/resume"
-            className="glow group bg-accent text-background relative overflow-hidden rounded-md px-6 py-2.5 font-medium shadow-sm hover:brightness-110 sm:px-8 sm:py-3"
-          >
-            <span className="relative z-10">View resume</span>
+        <motion.div variants={itemVariants} className="mt-12 flex flex-wrap justify-center gap-3 sm:gap-4">
+          <Link href="/resume" className="btn-resume-outline">
+            <span>View resume</span>
           </Link>
 
           {/* Cover letters button - positioned correctly */}
@@ -291,7 +284,7 @@ export default function Home() {
           {home.techStack.map((tech) => (
             <span
               key={tech}
-              className="glass-pill text-foreground-muted hover:text-accent-csharp rounded-[var(--radius-chip)] px-3 py-1.5 font-mono text-xs sm:px-4 sm:py-2 sm:text-[13px]"
+              className="tech-stack-pill-v3"
             >
               {tech}
             </span>
@@ -310,35 +303,6 @@ export default function Home() {
             {personal.location}
           </span>
         </motion.div>
-
-        {/* Footer links - GitHub and Cursor */}
-        <motion.div
-          variants={itemVariants}
-          className="text-foreground-muted/60 mb-4 mt-8 flex flex-wrap items-center justify-center gap-4 text-xs sm:mt-12"
-        >
-          <a
-            href={home.links.github.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-accent flex items-center gap-1.5 transition-colors"
-            aria-label="View source code on GitHub"
-          >
-            <Github className="h-4 w-4" />
-            <span>{home.links.github.label}</span>
-          </a>
-          <span className="text-foreground-muted/40">•</span>
-          <span>
-            {home.links.cursorLabel}{' '}
-            <a
-              href={home.links.cursor.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-accent hover:text-accent/80 transition-colors"
-            >
-              {home.links.cursor.label}
-            </a>
-          </span>
-        </motion.div>
       </motion.div>
 
       {/* Secret lock icon - always visible, can hide/show cover letters */}
@@ -346,22 +310,6 @@ export default function Home() {
         onUnlock={() => setShowCoverLetters(true)}
         onLock={() => setShowCoverLetters(false)}
       />
-
-      {/* Subtle brand logo - bottom left */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1, duration: 0.5 }}
-        className="no-print fixed bottom-6 left-6 z-30 opacity-50 transition-opacity hover:opacity-70"
-      >
-        <Image
-          src={images.brandLogo}
-          alt={images.brandLogoAlt}
-          width={32}
-          height={32}
-          className="h-8 w-8"
-        />
-      </motion.div>
     </div>
   );
 }

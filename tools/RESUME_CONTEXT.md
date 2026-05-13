@@ -2,7 +2,7 @@
 
 ## Contact
 
-- **Location:** Timmonsville, SC 29161
+- **Location:** Florence, SC
 - **Email:** jamey@mcelveen.us
 - **Phone:** (843) 618-8078
 
@@ -56,7 +56,7 @@ Cursor AI, Git, CI/CD, Agile/Scrum
 
 - Directed an R&D department of 20+ developers, managing hiring, mentorship, and product roadmaps
 - Led the engineering of Realm, a flagship C# .NET MVC application serving 50,000+ churches
-- Pioneered ChurchLife in 2008, one of the first 100 apps on the Apple App Store, utilizing Objective-C and C#
+- Launched ChurchLife in 2008, one of the first 100 apps on the Apple App Store, utilizing Objective-C and C#
 
 ---
 

@@ -1,4 +1,4 @@
-# <img src="./public/clemson-tigers-logo.svg" alt="Clemson Tiger" width="32" height="32" style="vertical-align: middle;" /> Jamey McElveen - Portfolio Site
+# Jamey McElveen — Portfolio Site
 
 <div align="center">
 

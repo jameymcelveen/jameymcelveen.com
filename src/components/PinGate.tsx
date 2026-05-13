@@ -39,7 +39,11 @@ export function PinGate({ children }: { children: React.ReactNode }) {
 
   if (isLoading) {
     return (
-      <div className="flex min-h-[60vh] items-center justify-center px-6" aria-busy="true" aria-label="Loading">
+      <div
+        className="flex min-h-[60vh] items-center justify-center px-6"
+        aria-busy="true"
+        aria-label="Checking session"
+      >
         <div className="glass-card h-40 w-full max-w-sm animate-pulse rounded-xl border border-steel/40" />
       </div>
     );
@@ -163,7 +167,7 @@ export function SecretLock({ onUnlock, onLock }: { onUnlock: () => void; onLock?
       {/* Lock icon - always visible */}
       <button
         onClick={() => setShowModal(true)}
-        className="text-foreground-muted/20 hover:text-foreground-muted/40 fixed bottom-6 right-6 z-40 transition-colors duration-500"
+        className="text-foreground-muted/20 hover:text-foreground-muted/40 fixed bottom-6 left-6 z-40 transition-colors duration-500"
         aria-label={isUnlocked ? 'Hide cover letters' : 'Access restricted content'}
       >
         <Lock className="h-4 w-4" strokeWidth={1.5} />

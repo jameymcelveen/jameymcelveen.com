@@ -39,8 +39,12 @@ export function PinGate({ children }: { children: React.ReactNode }) {
 
   if (isLoading) {
     return (
-      <div className="flex min-h-[60vh] items-center justify-center">
-        <div className="text-foreground-muted animate-pulse">Loading...</div>
+      <div
+        className="flex min-h-[60vh] items-center justify-center px-6"
+        aria-busy="true"
+        aria-label="Checking session"
+      >
+        <div className="glass-card h-40 w-full max-w-sm animate-pulse rounded-xl border border-steel/40" />
       </div>
     );
   }

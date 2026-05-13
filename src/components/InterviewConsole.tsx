@@ -1,10 +1,9 @@
 'use client';
 
-import Image from 'next/image';
 import { type ReactNode, isValidElement, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { ArrowUp, MessageSquarePlus, Moon, Paperclip, Sun, Wrench, X } from 'lucide-react';
+import { ArrowUp } from 'lucide-react';
 import { readAnalyticsIds } from '@/lib/site-analytics';
 
 type ChatRole = 'user' | 'assistant';
@@ -14,8 +13,6 @@ interface ChatLine {
   role: ChatRole;
   text: string;
   streaming?: boolean;
-  /** Bubble widget opening copy — plain text, no markdown */
-  isWelcome?: boolean;
 }
 
 function walkText(node: ReactNode): string {
@@ -32,7 +29,6 @@ function walkText(node: ReactNode): string {
 function CodeBlock({ children }: { children?: ReactNode }) {
   const text = useMemo(() => walkText(children).replace(/\n$/, ''), [children]);
   const [copied, setCopied] = useState(false);
-
   return (
     <div className="group relative my-4">
       <button
@@ -54,82 +50,24 @@ function CodeBlock({ children }: { children?: ReactNode }) {
   );
 }
 
-const WELCOME_LINE_ID = 'ask-jamey-welcome';
-const OPENING_BUBBLE_MESSAGE =
-  "Hi there — I'm an AI trained on Jamey McElveen's professional background.\nAsk me anything about his experience, projects, or technical approach.";
-
 const PAGE_QUICK_STARTS = [
-  'How do you handle SVN to Git migrations?',
-  'Tell me about your HIPAA experience at McLeod.',
-  'How do you approach engineering velocity and quality without cutting corners?',
-] as const;
-
-const BUBBLE_QUICK_STARTS = [
   'Walk me through your career',
   'Tell me about your HIPAA experience',
   'What are you currently building?',
   'How do you use AI in your workflow?',
 ] as const;
 
-function readInitialAiTheme(): 'light' | 'dark' {
-  if (typeof window === 'undefined') return 'dark';
-  const stored = localStorage.getItem('jm_ai_theme');
-  if (stored === 'light' || stored === 'dark') return stored;
-  return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-}
-
-function useAiTheme() {
-  const [theme, setTheme] = useState<'light' | 'dark'>(readInitialAiTheme);
-
-  useEffect(() => {
-    const mq = window.matchMedia('(prefers-color-scheme: light)');
-    const onChange = () => {
-      if (localStorage.getItem('jm_ai_theme')) return;
-      setTheme(mq.matches ? 'light' : 'dark');
-    };
-    mq.addEventListener('change', onChange);
-    return () => mq.removeEventListener('change', onChange);
-  }, []);
-
-  const toggleTheme = useCallback(() => {
-    setTheme((t) => {
-      const next = t === 'dark' ? 'light' : 'dark';
-      localStorage.setItem('jm_ai_theme', next);
-      return next;
-    });
-  }, []);
-
-  return { theme, toggleTheme };
-}
-
 export interface InterviewConsoleProps {
-  variant?: 'page' | 'bubble';
-  onClose?: () => void;
   /** When true (e.g. /ai with a page header), fill parent height; composer docks in-flow. */
   fillContainer?: boolean;
 }
 
-export function InterviewConsole({ variant = 'page', onClose, fillContainer = false }: InterviewConsoleProps) {
-  const isBubble = variant === 'bubble';
-  const dockedComposer = isBubble || fillContainer;
-  const [lines, setLines] = useState<ChatLine[]>(() =>
-    isBubble
-      ? [
-          {
-            id: WELCOME_LINE_ID,
-            role: 'assistant',
-            text: OPENING_BUBBLE_MESSAGE,
-            streaming: false,
-            isWelcome: true,
-          },
-        ]
-      : []
-  );
+export function InterviewConsole({ fillContainer = false }: InterviewConsoleProps) {
+  const [lines, setLines] = useState<ChatLine[]>([]);
   const [input, setInput] = useState('');
   const [busy, setBusy] = useState(false);
   const listRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const { theme, toggleTheme } = useAiTheme();
 
   const scrollToBottom = useCallback((behavior: ScrollBehavior = 'smooth') => {
     const el = listRef.current;
@@ -149,7 +87,6 @@ export function InterviewConsole({ variant = 'page', onClose, fillContainer = fa
       setBusy(true);
       const userLine: ChatLine = { id: crypto.randomUUID(), role: 'user', text: message };
       setLines((prev) => [...prev, userLine]);
-
       const assistantId = crypto.randomUUID();
 
       try {
@@ -164,25 +101,17 @@ export function InterviewConsole({ variant = 'page', onClose, fillContainer = fa
           }),
         });
 
-        // Non-streaming error (rate limit 429, content filter 400, server error 500)
         if (!res.ok) {
           const data: unknown = await res.json().catch(() => ({}));
           const errMsg =
             typeof data === 'object' && data !== null && 'error' in data
               ? String((data as { error: unknown }).error)
               : `Request failed (${res.status}).`;
-          setLines((prev) => [
-            ...prev,
-            { id: assistantId, role: 'assistant', text: errMsg, streaming: false },
-          ]);
+          setLines((prev) => [...prev, { id: assistantId, role: 'assistant', text: errMsg, streaming: false }]);
           return;
         }
 
-        // Real SSE stream — tokens arrive as they are generated by Gemini
-        setLines((prev) => [
-          ...prev,
-          { id: assistantId, role: 'assistant', text: '', streaming: true },
-        ]);
+        setLines((prev) => [...prev, { id: assistantId, role: 'assistant', text: '', streaming: true }]);
 
         const reader = res.body!.getReader();
         const decoder = new TextDecoder();
@@ -192,25 +121,19 @@ export function InterviewConsole({ variant = 'page', onClose, fillContainer = fa
         outer: while (true) {
           const { done, value } = await reader.read();
           if (done) break;
-
           buffer += decoder.decode(value, { stream: true });
-
-          // SSE messages are delimited by double newlines
           const messages = buffer.split('\n\n');
           buffer = messages.pop() ?? '';
-
           for (const msg of messages) {
             for (const line of msg.split('\n')) {
               if (!line.startsWith('data: ')) continue;
               const payload = line.slice(6);
-
               if (payload === '[DONE]') {
                 setLines((prev) =>
                   prev.map((l) => (l.id === assistantId ? { ...l, streaming: false } : l))
                 );
                 break outer;
               }
-
               try {
                 const parsed = JSON.parse(payload) as { delta?: string; error?: string };
                 if (parsed.delta) {
@@ -227,13 +150,12 @@ export function InterviewConsole({ variant = 'page', onClose, fillContainer = fa
                   break outer;
                 }
               } catch {
-                /* ignore malformed SSE payloads */
+                /* ignore */
               }
             }
           }
         }
 
-        // Ensure streaming flag is cleared if the connection closed without [DONE]
         setLines((prev) =>
           prev.map((l) =>
             l.id === assistantId && l.streaming
@@ -247,7 +169,7 @@ export function InterviewConsole({ variant = 'page', onClose, fillContainer = fa
           {
             id: assistantId,
             role: 'assistant',
-            text: 'Network error. Check your connection and try again. The chat API is served from this site at /api/chat.',
+            text: 'Network error. Check your connection and try again.',
             streaming: false,
           },
         ]);
@@ -260,24 +182,14 @@ export function InterviewConsole({ variant = 'page', onClose, fillContainer = fa
   );
 
   const newChat = useCallback(() => {
-    if (isBubble) {
-      setLines([
-        {
-          id: WELCOME_LINE_ID,
-          role: 'assistant',
-          text: OPENING_BUBBLE_MESSAGE,
-          streaming: false,
-          isWelcome: true,
-        },
-      ]);
-    } else {
-      setLines([]);
-    }
+    setLines([]);
     setInput('');
-  }, [isBubble]);
+  }, []);
 
   const hasInput = input.trim().length > 0;
-  const userMessageCount = useMemo(() => lines.filter((l) => l.role === 'user').length, [lines]);
+  const isStreaming = lines.some((l) => l.streaming);
+  const disableComposer = busy || isStreaming;
+  const waitingFirstToken = lines.some((l) => l.streaming && !l.text);
 
   useEffect(() => {
     const ta = textareaRef.current;
@@ -302,7 +214,7 @@ export function InterviewConsole({ variant = 'page', onClose, fillContainer = fa
         <h3 className="mt-3 mb-1 text-[15px] font-semibold text-[var(--ai-assistant)]">{children}</h3>
       ),
       p: ({ children }: { children?: ReactNode }) => (
-        <p className="mb-3 last:mb-0 leading-[1.7] text-[var(--ai-assistant)]">{children}</p>
+        <p className="mb-3 last:mb-0 leading-[1.65] text-[var(--ai-assistant)]">{children}</p>
       ),
       ul: ({ children }: { children?: ReactNode }) => (
         <ul className="mb-3 list-disc space-y-1 pl-5 text-[var(--ai-assistant)]">{children}</ul>
@@ -370,96 +282,45 @@ export function InterviewConsole({ variant = 'page', onClose, fillContainer = fa
     []
   );
 
-  const isStreaming = lines.some((l) => l.streaming);
-  const disableComposer = busy || isStreaming;
-
   return (
     <div
       className={
-        isBubble
-          ? 'ai-chat-shell flex h-full min-h-0 flex-col bg-[var(--ai-page-bg)] text-[15px] text-[var(--ai-text)]'
-          : fillContainer
-            ? 'ai-chat-shell flex min-h-0 flex-1 flex-col bg-[var(--ai-page-bg)] text-[15px] text-[var(--ai-text)]'
-            : 'ai-chat-shell flex min-h-dvh flex-col bg-[var(--ai-page-bg)] text-[15px] text-[var(--ai-text)]'
+        fillContainer
+          ? 'ai-chat-shell flex min-h-0 flex-1 flex-col bg-[var(--ai-page-bg)] text-[16px] text-[var(--ai-text)]'
+          : 'ai-chat-shell flex min-h-dvh flex-col bg-[var(--ai-page-bg)] text-[16px] text-[var(--ai-text)]'
       }
-      data-ai-theme={theme}
+      data-ai-theme="dark"
       suppressHydrationWarning
     >
-      <header className="glass-panel-header flex h-[52px] shrink-0 items-center border-b border-[var(--glass-border)] px-3 sm:px-4">
-        <div className="mx-auto flex w-full max-w-[720px] items-center justify-between gap-3">
-          {isBubble ? (
-            <div className="flex min-w-0 flex-1 items-center gap-3">
-              <Image
-                src="/ask-jamey.png"
-                alt=""
-                width={36}
-                height={36}
-                className="h-9 w-9 shrink-0 rounded-full border border-[var(--glass-border)] object-cover"
-              />
-              <div className="min-w-0">
-                <span className="text-sm font-semibold tracking-tight text-[var(--ai-text)]">Ask Jamey</span>
-                <p className="truncate text-[11px] leading-snug text-[var(--ai-text-muted)]">
-                  AI trained on Jamey&apos;s background
-                </p>
-              </div>
-            </div>
-          ) : fillContainer ? (
-            <span className="text-sm font-medium text-[var(--ai-text)]">Ask Jamey</span>
-          ) : (
-            <span className="text-sm font-medium">Interview</span>
-          )}
-          <div className="flex shrink-0 items-center gap-0.5">
-            <button
-              type="button"
-              onClick={newChat}
-              className="transition-none rounded-md p-2 text-[var(--ai-icon-muted)] hover:bg-[var(--ai-user-pill)] hover:text-[var(--ai-text)]"
-              aria-label="New chat"
-            >
-              <MessageSquarePlus className="size-5" strokeWidth={1.75} />
-            </button>
-            <button
-              type="button"
-              onClick={toggleTheme}
-              className="transition-none rounded-md p-2 text-[var(--ai-icon-muted)] hover:bg-[var(--ai-user-pill)] hover:text-[var(--ai-text)]"
-              aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-            >
-              {theme === 'dark' ? <Sun className="size-5" strokeWidth={1.75} /> : <Moon className="size-5" strokeWidth={1.75} />}
-            </button>
-            {isBubble && onClose ? (
-              <button
-                type="button"
-                onClick={onClose}
-                className="rounded-md p-2 text-[var(--ai-text-muted)] hover:bg-[var(--ai-user-pill)] hover:text-[var(--ai-text)]"
-                aria-label="Close"
-              >
-                <X className="size-5" strokeWidth={1.75} />
-              </button>
-            ) : null}
-          </div>
+      <header className="flex h-12 shrink-0 items-center border-b border-[var(--ai-border)] px-4 sm:px-5">
+        <div className="flex w-full max-w-[720px] items-center justify-between gap-3 mx-auto">
+          <span className="text-sm font-semibold tracking-tight text-[var(--ai-text)]">Ask Jamey</span>
+          <button
+            type="button"
+            onClick={newChat}
+            className="text-[var(--ai-text-muted)] hover:text-[var(--ai-text)] text-xs font-medium tracking-wide"
+          >
+            Clear conversation
+          </button>
         </div>
       </header>
 
       <div ref={listRef} className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
-        <div
-          className={`mx-auto max-w-[720px] px-4 sm:px-5 ${isBubble ? 'pb-4 pt-5' : fillContainer ? 'pb-3 pt-6' : 'pb-36 pt-6'}`}
-        >
-          {!isBubble && lines.length === 0 ? (
-            <div
-              className={`flex flex-col items-center justify-center px-2 text-center ${fillContainer ? 'min-h-[38vh]' : 'min-h-[45vh]'}`}
-            >
-              <p className="mb-6 text-[var(--ai-text-muted)] sm:mb-8">
-                Ask a professional or technical question.
+        <div className={`mx-auto max-w-[720px] px-4 sm:px-5 ${fillContainer ? 'pb-3 pt-6' : 'pb-36 pt-6'}`}>
+          {lines.length === 0 ? (
+            <div className={`flex flex-col items-center justify-center px-2 text-center ${fillContainer ? 'min-h-[38vh]' : 'min-h-[45vh]'}`}>
+              <p className="text-[var(--ai-text-muted)] mb-2 max-w-md text-[15px] leading-[1.65]">
+                Hi there — I&apos;m an AI trained on Jamey McElveen&apos;s professional background. Ask me anything
+                about his experience, projects, or technical approach.
               </p>
-              <div className="flex w-full max-w-md flex-col gap-2">
+              <div className="mt-6 flex w-full max-w-md flex-col gap-2">
                 {PAGE_QUICK_STARTS.map((q) => (
                   <button
                     key={q}
                     type="button"
-                    onClick={() => {
-                      void send(q);
-                    }}
+                    onClick={() => void send(q)}
                     disabled={disableComposer}
-                    className="glass-chip-btn rounded-[var(--radius-chip)] border px-3 py-2.5 text-left text-[13px] leading-snug sm:text-[14px]"
+                    className="ask-jamey-chip text-left text-[0.9rem] disabled:opacity-40"
                   >
                     {q}
                   </button>
@@ -467,142 +328,75 @@ export function InterviewConsole({ variant = 'page', onClose, fillContainer = fa
               </div>
             </div>
           ) : (
-            <>
-              <ul className={`flex flex-col ${isBubble ? 'gap-5' : 'gap-6'}`}>
-                {lines.map((line) => (
-                  <li
-                    key={line.id}
-                    className={`ai-chat-msg-enter max-w-none ${line.role === 'user' ? 'flex justify-end' : 'flex justify-start'}`}
-                  >
-                    {line.role === 'user' ? (
-                      <div
-                        className={
-                          isBubble
-                            ? 'max-w-[min(92%,28rem)] rounded-2xl border border-[color-mix(in_oklch,var(--clemson-orange)_40%,transparent)] bg-[color-mix(in_oklch,var(--clemson-orange)_18%,var(--surface-2))] px-4 py-3 text-[15px] leading-[1.65] text-[var(--ai-text)]'
-                            : 'max-w-[85%] rounded-2xl bg-[var(--ai-user-pill)] px-4 py-2.5 text-[15px] leading-relaxed text-[var(--ai-text)]'
-                        }
-                      >
+            <ul className="flex flex-col gap-6">
+              {lines.map((line) => (
+                <li
+                  key={line.id}
+                  className={`ai-chat-msg-enter max-w-none ${line.role === 'user' ? 'flex justify-end' : 'flex justify-start'}`}
+                >
+                  {line.role === 'user' ? (
+                    <div className="ask-jamey-msg-user max-w-[85%] px-[18px] py-[14px] text-[0.95rem] leading-[1.65]">
+                      {line.text}
+                    </div>
+                  ) : line.streaming ? (
+                    <div className="ask-jamey-msg-assistant max-w-[90%] px-[18px] py-[14px] text-[0.95rem] leading-[1.65]">
+                      {line.text ? (
+                        <span className="whitespace-pre-wrap text-[var(--ai-assistant)]">{line.text}</span>
+                      ) : (
+                        <span className="inline-flex gap-1">
+                          <span className="ask-jamey-dot bg-[var(--ai-assistant)]/70 h-1.5 w-1.5 rounded-full" />
+                          <span className="ask-jamey-dot bg-[var(--ai-assistant)]/70 h-1.5 w-1.5 rounded-full [animation-delay:0.15s]" />
+                          <span className="ask-jamey-dot bg-[var(--ai-assistant)]/70 h-1.5 w-1.5 rounded-full [animation-delay:0.3s]" />
+                        </span>
+                      )}
+                    </div>
+                  ) : (
+                    <div className="ask-jamey-msg-assistant ai-md prose-chat max-w-[90%] px-[18px] py-[14px] leading-[1.65] text-[var(--ai-assistant)]">
+                      <ReactMarkdown remarkPlugins={[remarkGfm]} components={mdComponents}>
                         {line.text}
-                      </div>
-                    ) : line.isWelcome ? (
-                      <div
-                        className={
-                          isBubble
-                            ? 'chat-bubble-assistant max-w-[min(92%,28rem)] whitespace-pre-wrap px-4 py-3 text-[15px] leading-[1.65] text-[var(--ai-assistant)]'
-                            : 'max-w-none whitespace-pre-wrap leading-[1.7] text-[var(--ai-assistant)]'
-                        }
-                      >
-                        {line.text}
-                      </div>
-                    ) : line.streaming ? (
-                      <div
-                        className={
-                          isBubble
-                            ? 'chat-bubble-assistant max-w-[min(92%,28rem)] whitespace-pre-wrap px-4 py-3 text-[15px] leading-[1.65] text-[var(--ai-assistant)]'
-                            : 'max-w-none whitespace-pre-wrap leading-[1.7] text-[var(--ai-assistant)]'
-                        }
-                      >
-                        {line.text}
-                      </div>
-                    ) : (
-                      <div
-                        className={
-                          isBubble
-                            ? 'chat-bubble-assistant ai-md prose-chat max-w-[min(92%,28rem)] px-4 py-3 leading-[1.65] text-[var(--ai-assistant)]'
-                            : 'ai-md prose-chat max-w-none leading-[1.7] text-[var(--ai-assistant)]'
-                        }
-                      >
-                        <ReactMarkdown remarkPlugins={[remarkGfm]} components={mdComponents}>
-                          {line.text}
-                        </ReactMarkdown>
-                      </div>
-                    )}
-                  </li>
-                ))}
-              </ul>
-              {isBubble && userMessageCount === 0 ? (
-                <div className="mt-5 flex flex-col gap-2">
-                  {BUBBLE_QUICK_STARTS.map((q) => (
-                    <button
-                      key={q}
-                      type="button"
-                      onClick={() => {
-                        void send(q);
-                      }}
-                      disabled={disableComposer}
-                      className="glass-chip-btn rounded-[var(--radius-chip)] border px-3 py-2.5 text-left text-[13px] leading-snug sm:text-[14px]"
-                    >
-                      {q}
-                    </button>
-                  ))}
-                </div>
-              ) : null}
-            </>
+                      </ReactMarkdown>
+                    </div>
+                  )}
+                </li>
+              ))}
+            </ul>
           )}
 
-          {!isBubble ? (
-            <p className="mt-12 text-center text-[11px] leading-relaxed text-[var(--ai-text-muted)]">
-              <a
-                href="https://jameymcelveen.com"
-                className="underline-offset-2 hover:underline"
-                rel="author"
-              >
-                Jamey McElveen
-              </a>
-              {' · '}
-              AI-generated from curated context—not live advice or guarantees.
-            </p>
-          ) : (
-            <p className="mt-6 text-center text-[10px] leading-relaxed text-[var(--ai-text-muted)]">
-              AI-generated from curated context—not guarantees.
-            </p>
-          )}
+          <p className="text-[var(--ai-text-muted)] mt-12 text-center text-[11px] leading-relaxed">
+            <a href="https://jameymcelveen.com" className="underline-offset-2 hover:underline" rel="author">
+              Jamey McElveen
+            </a>
+            {' · '}
+            AI-generated from curated context — not guarantees.
+          </p>
         </div>
       </div>
 
-      {/* Composer: fixed on full page; in-bubble flow for widget */}
       <div
         className={
-          isBubble
-            ? 'shrink-0 border-t border-[var(--ai-border)] bg-[var(--ai-bar-elevated)] px-2 pt-2 pb-2 backdrop-blur-md supports-[backdrop-filter]:bg-[color-mix(in_oklch,var(--ai-page-bg)_92%,transparent)]'
-            : dockedComposer
-              ? 'shrink-0 border-t border-[var(--ai-border)] bg-[var(--ai-bar-elevated)] px-3 pt-3 pb-3 backdrop-blur-md supports-[backdrop-filter]:bg-[color-mix(in_oklch,var(--ai-page-bg)_90%,transparent)]'
-              : 'fixed inset-x-0 bottom-0 z-40 border-t border-[var(--ai-border)] bg-[var(--ai-bar-elevated)] backdrop-blur-md supports-[backdrop-filter]:bg-[color-mix(in_oklch,var(--ai-page-bg)_88%,transparent)]'
+          fillContainer
+            ? 'shrink-0 border-t border-[var(--ai-border)] bg-[var(--ai-bar-elevated)] px-3 pt-3 pb-3 backdrop-blur-md supports-[backdrop-filter]:bg-[color-mix(in_oklch,var(--ai-page-bg)_90%,transparent)]'
+            : 'fixed inset-x-0 bottom-0 z-40 border-t border-[var(--ai-border)] bg-[var(--ai-bar-elevated)] px-4 pt-3 pb-4 backdrop-blur-md supports-[backdrop-filter]:bg-[color-mix(in_oklch,var(--ai-page-bg)_88%,transparent)]'
         }
       >
-        <div className={`mx-auto max-w-[720px] ${isBubble ? 'px-1 pt-1 pb-1' : dockedComposer ? 'px-4 pt-3 pb-4' : 'px-4 pt-3 pb-4'}`}>
+        <div className="mx-auto max-w-[720px]">
           <form
-            className="ai-chat-composer flex items-end gap-1.5 rounded-2xl bg-[var(--ai-input-bg)] px-2 py-1.5 shadow-sm focus-within:shadow-[var(--ai-focus-shadow)]"
-            style={{ border: '1px solid var(--ai-input-border)' }}
+            className="ai-chat-composer flex items-end gap-2 rounded-xl px-3 py-2"
+            style={{
+              background: 'rgba(255,255,255,0.06)',
+              border: '1px solid rgba(255,255,255,0.12)',
+            }}
             onSubmit={(e) => {
               e.preventDefault();
               void send(input);
             }}
           >
-            <div className="flex shrink-0 items-center gap-0.5 self-end pb-1.5">
-              <button
-                type="button"
-                disabled
-                className={`rounded-full p-2 ${hasInput ? 'bg-[var(--ai-user-pill)] text-[var(--ai-text)]' : 'text-[var(--ai-icon-muted)]'}`}
-                aria-label="Attachments (coming soon)"
-              >
-                <Paperclip className="size-4" strokeWidth={1.75} />
-              </button>
-              <button
-                type="button"
-                disabled
-                className={`rounded-full p-2 ${hasInput ? 'bg-[var(--ai-user-pill)] text-[var(--ai-text)]' : 'text-[var(--ai-icon-muted)]'}`}
-                aria-label="Tools (coming soon)"
-              >
-                <Wrench className="size-4" strokeWidth={1.75} />
-              </button>
-            </div>
-            <label htmlFor={isBubble ? 'interview-cmd-bubble' : fillContainer ? 'interview-cmd-fill' : 'interview-cmd'} className="sr-only">
+            <label htmlFor="interview-cmd-fill" className="sr-only">
               Message
             </label>
             <textarea
               ref={textareaRef}
-              id={isBubble ? 'interview-cmd-bubble' : fillContainer ? 'interview-cmd-fill' : 'interview-cmd'}
+              id="interview-cmd-fill"
               name="message"
               rows={1}
               autoComplete="off"
@@ -615,20 +409,24 @@ export function InterviewConsole({ variant = 'page', onClose, fillContainer = fa
                   void send(input);
                 }
               }}
-              placeholder="How can I help you today?"
+              placeholder="Ask a question…"
               disabled={disableComposer}
-              className="placeholder:text-center placeholder:text-[var(--ai-text-muted)] min-h-[44px] min-w-0 flex-1 resize-none bg-transparent py-2.5 leading-normal text-[var(--ai-text)] outline-none placeholder:translate-y-[1px] disabled:opacity-50 sm:placeholder:text-left"
+              className="min-h-[44px] min-w-0 flex-1 resize-none bg-transparent py-2.5 text-[0.95rem] leading-normal text-[var(--ai-text)] outline-none placeholder:text-[var(--ai-text-muted)] disabled:opacity-50"
             />
             <button
               type="submit"
               disabled={disableComposer || !input.trim()}
-              className="mb-1 shrink-0 rounded-full bg-[var(--ai-send-bg)] p-2 text-[var(--ai-send-fg)] disabled:opacity-35"
+              className="ask-jamey-send mb-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--accent-blue)] text-white disabled:opacity-35"
               aria-label="Send"
             >
-              {busy || isStreaming ? (
-                <span className="block size-5 text-center text-xs leading-5">…</span>
+              {waitingFirstToken ? (
+                <span className="inline-flex gap-1">
+                  <span className="ask-jamey-dot bg-white/80 h-1.5 w-1.5 rounded-full" />
+                  <span className="ask-jamey-dot bg-white/80 h-1.5 w-1.5 rounded-full [animation-delay:0.15s]" />
+                  <span className="ask-jamey-dot bg-white/80 h-1.5 w-1.5 rounded-full [animation-delay:0.3s]" />
+                </span>
               ) : (
-                <ArrowUp className="size-5" strokeWidth={2.25} />
+                <ArrowUp className="h-5 w-5" strokeWidth={2.25} />
               )}
             </button>
           </form>

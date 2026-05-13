@@ -261,8 +261,8 @@ experience:
     summary: >
       Strategic architectural lead across a suite of SaaS products serving
       50,000+ organizations; directed a distributed R&D team of 20+ engineers
-      through 25 years of continuous company growth and multiple platform
-      generational shifts. Pioneered Model-Driven Development (MDD) for
+      through 30+ years of continuous company growth and multiple platform
+      generational shifts. Led adoption of Model-Driven Development (MDD) for
       large-scale C# codebases.
     bullets:
       core:
@@ -274,7 +274,7 @@ experience:
 
         - text: >
             Directed a distributed R&D department of 20+ engineers,
-            pioneering Model-Driven Development (MDD) for large-scale
+            leading adoption of Model-Driven Development (MDD) for large-scale
             C# codebases.
           tags: [leadership, mdd, csharp, r-and-d]
           metric: "20+ engineers"

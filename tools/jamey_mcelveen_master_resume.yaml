@@ -15,7 +15,7 @@
 contact:
   name: Jamey McElveen
   title: Principal Systems Architect & Engineering Leader
-  location: Timmonsville, SC
+  location: Florence, SC
   email: jamey@mcelveen.us
   phone: "(843) 618-8078"
   github: github.com/jameymcelveen/jameymcelveen.com
@@ -50,7 +50,7 @@ summaries:
   christian_tech_focus: >
     Principal Systems Architect with 30+ years dedicated to Christian tech and ministry
     software. Architected Realm, ACS Technologies' flagship platform serving 50,000+
-    churches, and pioneered ChurchLife — one of the first 100 apps on the Apple App Store.
+    churches, and launched ChurchLife — one of the first 100 apps on the Apple App Store.
     Deep domain expertise in faith-organization workflows, donor management, and community
     platforms at scale, combined with modern engineering: .NET Core, React, CI/CD, and
     selective AI-assisted development practices where they reduce rework without lowering standards.
@@ -72,16 +72,16 @@ summaries:
   saas_focus: >
     Principal Systems Architect with 30+ years building and operating multi-tenant SaaS
     platforms. Led engineering of a flagship SaaS product serving 50,000+ organizations
-    across a 25-year tenure at ACS Technologies. Deep expertise in .NET Core, React,
-    multi-tenant architecture, CI/CD, and AI-augmented development. Proven leader managing
+    across a 30-year tenure at ACS Technologies. Deep expertise in .NET Core, React,
+    multi-tenant architecture, CI/CD, and applying AI tooling in development. Proven leader managing
     R&D teams of 20+ through multiple product generations.
 
   leadership_focus: >
     Engineering leader with 30+ years directing high-performance R&D teams. Managed and
     mentored teams of 20+ developers at ACS Technologies, overseeing hiring, roadmaps, and
     architectural standards across a multi-product SaaS portfolio. Track record of delivering
-    flagship products at scale, pioneering mobile development, and driving organizational
-    adoption of Git, CI/CD, and AI-augmented engineering workflows.
+    flagship products at scale, early mobile product work, and driving organizational
+    adoption of Git, CI/CD, and AI-assisted engineering workflows.
 
 # ── WORK EXPERIENCE ───────────────────────────────────────────────────────────
 # Each bullet has tags — Garfield filters by tags relevant to the JD.
@@ -131,7 +131,7 @@ experience:
     title: Programming Manager
     period: "May 1996 – Feb 2021"
     sector: christian-tech
-    tenure_note: "25-year tenure across multiple products and product generations"
+    tenure_note: "30-year tenure across multiple products and product generations"
 
     # Leadership bullets — always include for management/architect roles
     leadership_bullets:
@@ -170,10 +170,10 @@ experience:
 
       churchlife:
         name: ChurchLife (Mobile App)
-        type: "Consumer iOS app — Objective-C / C# — App Store pioneer"
+        type: "Consumer iOS app — Objective-C / C# — early App Store launch"
         bullets:
           - text: >
-              Pioneered ChurchLife in 2008 — one of the first 100 apps on the Apple
+              Launched ChurchLife in 2008 — one of the first 100 apps on the Apple
               App Store — delivering a mobile church community experience before
               iOS development tooling had matured.
             tags: [mobile, ios, objective-c, pioneer, christian-tech, app-store, innovation]
@@ -274,7 +274,7 @@ targeting:
   christian_tech:
     use_summary: christian_tech_focus
     emphasize_tags: [christian-tech, saas, multi-tenant, scale, leadership, dotnet, mobile, pioneer]
-    lead_with: "ACS Technologies — Realm (50,000+ churches) and ChurchLife (App Store pioneer)"
+    lead_with: "ACS Technologies — Realm (50,000+ churches) and ChurchLife (early App Store)"
     include_products: [realm, churchlife, facility_scheduler, headmaster]
     de_emphasize_tags: [hipaa, healthcare, fintech, payments]
     cover_letter_angle: "Mission alignment — genuine 25-year investment in faith-org software"

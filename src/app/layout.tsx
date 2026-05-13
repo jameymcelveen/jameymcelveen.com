@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono, JetBrains_Mono } from 'next/font/google';
+import { Geist, Geist_Mono, JetBrains_Mono, Space_Grotesk } from 'next/font/google';
 import { AnalyticsTracker } from '@/components/AnalyticsTracker';
 import { GradientMesh } from '@/components/GradientMesh';
 import { Navigation } from '@/components/Navigation';
@@ -22,6 +22,12 @@ const geistMono = Geist_Mono({
 const jetbrainsMono = JetBrains_Mono({
   variable: '--font-jetbrains-mono',
   subsets: ['latin'],
+});
+
+const spaceGrotesk = Space_Grotesk({
+  variable: '--font-space-grotesk',
+  subsets: ['latin'],
+  weight: ['700'],
 });
 
 const siteMetadata = getSiteMetadata();
@@ -53,7 +59,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${jetbrainsMono.variable} antialiased`}
+        className={`${spaceGrotesk.variable} ${geistSans.variable} ${geistMono.variable} ${jetbrainsMono.variable} antialiased`}
       >
         <AnalyticsTracker />
         <GradientMesh />
