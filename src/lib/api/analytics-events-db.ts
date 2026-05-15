@@ -207,11 +207,13 @@ export async function queryTopQuestions(limit = 25): Promise<{ question: string;
   return r.rows.map((row) => ({ question: row.question, count: Number(row.c) }));
 }
 
-export async function queryRecentQuestions(limit = 40): Promise<{ question: string; createdAt: string }[]> {
+export async function queryRecentQuestions(
+  limit = 40
+): Promise<{ question: string; createdAt: string; country: string | null }[]> {
   const pool = getAnalyticsPool();
   if (!pool) return [];
-  const r = await pool.query<{ question: string; created_at: Date }>(
-    `SELECT question, created_at
+  const r = await pool.query<{ question: string; created_at: Date; country: string | null }>(
+    `SELECT question, created_at, country
        FROM analytics_events
       WHERE event_type = 'ask_jamey_question' AND question IS NOT NULL AND TRIM(question) <> ''
       ORDER BY created_at DESC
@@ -221,5 +223,6 @@ export async function queryRecentQuestions(limit = 40): Promise<{ question: stri
   return r.rows.map((row) => ({
     question: row.question,
     createdAt: row.created_at.toISOString(),
+    country: row.country ? String(row.country).trim().toUpperCase().slice(0, 2) : null,
   }));
 }

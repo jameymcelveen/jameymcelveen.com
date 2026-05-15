@@ -47,6 +47,15 @@ export function Navigation() {
         <span className="text-[var(--text-muted)] select-none" aria-hidden>
           ·
         </span>
+        <Link
+          href="/dashboard"
+          className={`btn-glass btn-glass--sm ${pathname === '/dashboard' ? 'btn-glass--accent' : ''}`}
+        >
+          Dashboard
+        </Link>
+        <span className="text-[var(--text-muted)] select-none" aria-hidden>
+          ·
+        </span>
         <button type="button" onClick={openAskJamey} className="nav-ask-jamey-pill">
           <span className="mr-1 inline-block opacity-90" aria-hidden>
             ✦

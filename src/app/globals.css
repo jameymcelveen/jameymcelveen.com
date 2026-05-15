@@ -354,6 +354,20 @@ body {
   animation: ask-jamey-dot-pulse 1.1s ease-in-out infinite;
 }
 
+@keyframes dash-live-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+.dash-live-dot {
+  animation: dash-live-pulse 2s ease-in-out infinite;
+}
+
 @keyframes fadeInWord {
   from {
     opacity: 0;

@@ -1,0 +1,572 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Site Insights | Jamey McElveen</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #f7f7f5;
+      --surface: #ffffff;
+      --surface-2: #f0efe9;
+      --border: rgba(0,0,0,0.08);
+      --text: #1a1a1a;
+      --text-muted: #6b6b6b;
+      --accent: #522D80;
+      --accent-orange: #F56600;
+      --accent-light: rgba(82,45,128,0.08);
+      --mono: 'IBM Plex Mono', monospace;
+      --sans: 'DM Sans', sans-serif;
+      --radius: 16px;
+      --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 32px 24px 64px;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      max-width: 1100px;
+      margin: 0 auto 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .header-left h1 {
+      font-size: 1.75rem;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      color: var(--text);
+    }
+
+    .header-left p {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .live-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 6px 14px;
+    }
+
+    .live-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #22c55e;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    /* ── GRID ── */
+    .grid { max-width: 1100px; margin: 0 auto; }
+
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .chart-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .full-row {
+      margin-bottom: 24px;
+    }
+
+    /* ── CARDS ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .card-label {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .stat-number {
+      font-size: 2.4rem;
+      font-weight: 600;
+      letter-spacing: -0.04em;
+      color: var(--text);
+      line-height: 1;
+    }
+
+    .stat-sub {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    .stat-card {
+      border-left: 3px solid var(--accent);
+    }
+
+    .stat-card:nth-child(2) { border-left-color: var(--accent-orange); }
+    .stat-card:nth-child(3) { border-left-color: #0ea5e9; }
+    .stat-card:nth-child(4) { border-left-color: #22c55e; }
+
+    /* ── CHART CARDS ── */
+    .card h3 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .card .card-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    canvas {
+      max-height: 220px;
+    }
+
+    /* ── QUESTIONS LIST ── */
+    .questions-list {
+      list-style: none;
+    }
+
+    .question-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      gap: 16px;
+    }
+
+    .question-item:last-child { border-bottom: none; }
+
+    .question-text {
+      font-size: 0.88rem;
+      color: var(--text);
+      flex: 1;
+    }
+
+    .question-bar-wrap {
+      width: 120px;
+      height: 6px;
+      background: var(--surface-2);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .question-bar {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 3px;
+    }
+
+    .question-count {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      min-width: 28px;
+      text-align: right;
+    }
+
+    /* ── PAGES + SOURCES ── */
+    .two-col-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+
+    .table-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.87rem;
+    }
+
+    .table-row:last-child { border-bottom: none; }
+
+    .table-label { color: var(--text); }
+
+    .table-value {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* ── LIVE FEED ── */
+    .feed-item {
+      display: flex;
+      gap: 14px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      align-items: flex-start;
+    }
+
+    .feed-item:last-child { border-bottom: none; }
+
+    .feed-time {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+      padding-top: 2px;
+      min-width: 60px;
+    }
+
+    .feed-q {
+      font-size: 0.87rem;
+      color: var(--text);
+      flex: 1;
+    }
+
+    .feed-location {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    /* ── PRIVACY NOTE ── */
+    .privacy {
+      max-width: 1100px;
+      margin: 32px auto 0;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .stat-row { grid-template-columns: 1fr 1fr; }
+      .chart-row { grid-template-columns: 1fr; }
+      .two-col-inner { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 480px) {
+      .stat-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-left">
+    <h1>Site Insights</h1>
+    <p>jameymcelveen.com · built in-house · no third-party trackers</p>
+  </div>
+  <div class="live-badge">
+    <div class="live-dot"></div>
+    LIVE · updates every 60s
+  </div>
+</div>
+
+<div class="grid">
+
+  <!-- STAT CARDS -->
+  <div class="stat-row">
+    <div class="card stat-card">
+      <div class="card-label">Total Visits</div>
+      <div class="stat-number">1,247</div>
+      <div class="stat-sub">All time · page views</div>
+    </div>
+    <div class="card stat-card">
+      <div class="card-label">Ask Jamey Chats</div>
+      <div class="stat-number">89</div>
+      <div class="stat-sub">All time · questions sent</div>
+    </div>
+    <div class="card stat-card">
+      <div class="card-label">Countries</div>
+      <div class="stat-number">23</div>
+      <div class="stat-sub">Unique countries reached</div>
+    </div>
+    <div class="card stat-card">
+      <div class="card-label">Resume Views</div>
+      <div class="stat-number">156</div>
+      <div class="stat-sub">Views + PDF downloads</div>
+    </div>
+  </div>
+
+  <!-- VISITS CHART + TOP QUESTIONS -->
+  <div class="chart-row">
+    <div class="card">
+      <h3>Visits · last 30 days</h3>
+      <p class="card-desc">Daily page views across all routes</p>
+      <canvas id="visitsChart"></canvas>
+    </div>
+
+    <div class="card">
+      <h3>Top Ask Jamey Questions</h3>
+      <p class="card-desc">Most asked by recruiters and visitors</p>
+      <ul class="questions-list">
+        <li class="question-item">
+          <span class="question-text">Walk me through your career</span>
+          <div class="question-bar-wrap"><div class="question-bar" style="width:100%"></div></div>
+          <span class="question-count">23</span>
+        </li>
+        <li class="question-item">
+          <span class="question-text">Tell me about your HIPAA experience</span>
+          <div class="question-bar-wrap"><div class="question-bar" style="width:78%"></div></div>
+          <span class="question-count">18</span>
+        </li>
+        <li class="question-item">
+          <span class="question-text">What are you currently building?</span>
+          <div class="question-bar-wrap"><div class="question-bar" style="width:65%"></div></div>
+          <span class="question-count">15</span>
+        </li>
+        <li class="question-item">
+          <span class="question-text">How do you use AI in your workflow?</span>
+          <div class="question-bar-wrap"><div class="question-bar" style="width:52%"></div></div>
+          <span class="question-count">12</span>
+        </li>
+        <li class="question-item">
+          <span class="question-text">Tell me about multi-tenant SaaS experience</span>
+          <div class="question-bar-wrap"><div class="question-bar" style="width:39%"></div></div>
+          <span class="question-count">9</span>
+        </li>
+        <li class="question-item">
+          <span class="question-text">Where did you go to school?</span>
+          <div class="question-bar-wrap"><div class="question-bar" style="width:26%"></div></div>
+          <span class="question-count">6</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- TRAFFIC SOURCES + TOP PAGES -->
+  <div class="chart-row">
+    <div class="card">
+      <h3>Traffic Sources</h3>
+      <p class="card-desc">Where visitors are coming from</p>
+      <canvas id="sourcesChart"></canvas>
+    </div>
+
+    <div class="card">
+      <h3>Top Pages + Sources</h3>
+      <p class="card-desc">Most visited routes and referrers</p>
+      <div class="two-col-inner">
+        <div>
+          <div class="card-label" style="margin-bottom:12px">Pages</div>
+          <div class="table-row">
+            <span class="table-label">/ Homepage</span>
+            <span class="table-value">847</span>
+          </div>
+          <div class="table-row">
+            <span class="table-label">/ai Ask Jamey</span>
+            <span class="table-value">234</span>
+          </div>
+          <div class="table-row">
+            <span class="table-label">/resume</span>
+            <span class="table-value">156</span>
+          </div>
+          <div class="table-row">
+            <span class="table-label">/dashboard</span>
+            <span class="table-value">10</span>
+          </div>
+        </div>
+        <div>
+          <div class="card-label" style="margin-bottom:12px">Referrers</div>
+          <div class="table-row">
+            <span class="table-label">Direct</span>
+            <span class="table-value">45%</span>
+          </div>
+          <div class="table-row">
+            <span class="table-label">LinkedIn</span>
+            <span class="table-value">28%</span>
+          </div>
+          <div class="table-row">
+            <span class="table-label">Google</span>
+            <span class="table-value">18%</span>
+          </div>
+          <div class="table-row">
+            <span class="table-label">GitHub</span>
+            <span class="table-value">9%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIVE FEED -->
+  <div class="full-row">
+    <div class="card">
+      <h3>Recent Ask Jamey Questions <span style="font-weight:400;color:var(--text-muted);font-size:0.85rem">· live</span></h3>
+      <p class="card-desc">What recruiters and visitors are asking right now</p>
+      <div class="feed-item">
+        <span class="feed-time">2 min ago</span>
+        <span class="feed-q">Walk me through your career</span>
+        <span class="feed-location">🇺🇸 United States</span>
+      </div>
+      <div class="feed-item">
+        <span class="feed-time">8 min ago</span>
+        <span class="feed-q">Tell me about your HIPAA experience at McLeod</span>
+        <span class="feed-location">🇺🇸 United States</span>
+      </div>
+      <div class="feed-item">
+        <span class="feed-time">34 min ago</span>
+        <span class="feed-q">What are you currently building?</span>
+        <span class="feed-location">🇬🇧 United Kingdom</span>
+      </div>
+      <div class="feed-item">
+        <span class="feed-time">1 hr ago</span>
+        <span class="feed-q">How do you handle multi-tenant SaaS at scale?</span>
+        <span class="feed-location">🇨🇦 Canada</span>
+      </div>
+      <div class="feed-item">
+        <span class="feed-time">2 hrs ago</span>
+        <span class="feed-q">Tell me about your Node.js experience</span>
+        <span class="feed-location">🇺🇸 United States</span>
+      </div>
+      <div class="feed-item">
+        <span class="feed-time">3 hrs ago</span>
+        <span class="feed-q">Where did you go to school?</span>
+        <span class="feed-location">🇦🇺 Australia</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- PRIVACY -->
+<p class="privacy">
+  Privacy: approximate location (country/region from IP — raw IP not stored), page paths, referrers (hostname only),
+  device class, Ask Jamey questions, and resume activity. No cookies. No cross-site tracking.
+</p>
+
+<script>
+  // ── VISITS CHART ──
+  const days = [];
+  const now = new Date();
+  for (let i = 29; i >= 0; i--) {
+    const d = new Date(now);
+    d.setDate(d.getDate() - i);
+    days.push(d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }));
+  }
+
+  const visitData = [12,8,15,22,18,9,11,25,31,28,19,14,22,17,8,12,35,42,38,29,
+                     16,21,18,24,33,27,19,31,28,22];
+
+  new Chart(document.getElementById('visitsChart'), {
+    type: 'line',
+    data: {
+      labels: days,
+      datasets: [{
+        data: visitData,
+        borderColor: '#522D80',
+        backgroundColor: 'rgba(82,45,128,0.08)',
+        borderWidth: 2,
+        fill: true,
+        tension: 0.4,
+        pointRadius: 0,
+        pointHoverRadius: 4,
+        pointHoverBackgroundColor: '#522D80',
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false }, tooltip: {
+        callbacks: {
+          title: (items) => items[0].label,
+          label: (item) => ` ${item.raw} visits`
+        }
+      }},
+      scales: {
+        x: {
+          grid: { display: false },
+          ticks: {
+            font: { family: 'IBM Plex Mono', size: 10 },
+            color: '#9ca3af',
+            maxTicksLimit: 6,
+          },
+          border: { display: false }
+        },
+        y: {
+          grid: { color: 'rgba(0,0,0,0.05)' },
+          ticks: {
+            font: { family: 'IBM Plex Mono', size: 10 },
+            color: '#9ca3af',
+          },
+          border: { display: false }
+        }
+      }
+    }
+  });
+
+  // ── SOURCES CHART ──
+  new Chart(document.getElementById('sourcesChart'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Direct', 'LinkedIn', 'Google', 'GitHub', 'Other'],
+      datasets: [{
+        data: [45, 28, 18, 9, 2],
+        backgroundColor: ['#522D80','#F56600','#0ea5e9','#22c55e','#d1d5db'],
+        borderWidth: 0,
+        hoverOffset: 4
+      }]
+    },
+    options: {
+      responsive: true,
+      cutout: '65%',
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: {
+            font: { family: 'DM Sans', size: 12 },
+            color: '#6b6b6b',
+            padding: 16,
+            usePointStyle: true,
+            pointStyleWidth: 8,
+          }
+        },
+        tooltip: {
+          callbacks: {
+            label: (item) => ` ${item.label}: ${item.raw}%`
+          }
+        }
+      }
+    }
+  });
+</script>
+</body>
+</html>

@@ -1,10 +1,14 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
+  Area,
+  AreaChart,
   CartesianGrid,
-  Line,
-  LineChart,
+  Cell,
+  Legend,
+  Pie,
+  PieChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -13,6 +17,8 @@ import {
 import { VisitorMap } from '@/components/dashboard/VisitorMap';
 
 const nf = new Intl.NumberFormat();
+
+const PIE_COLORS = ['#522d80', '#f56600', '#0ea5e9', '#22c55e', '#d1d5db'];
 
 function formatBytes(n: number): string {
   if (!Number.isFinite(n) || n <= 0) return '0 B';
@@ -49,6 +55,15 @@ function trafficLabel(source: string): string {
   return source.length > 32 ? `${source.slice(0, 30)}…` : source;
 }
 
+function iso2ToFlag(iso: string | null | undefined): string {
+  if (!iso || iso.length < 2) return '';
+  const c = iso.toUpperCase();
+  if (c.length !== 2 || /[^A-Z]/.test(c)) return '';
+  const A = 0x1f1e6;
+  const cp = (ch: string) => A + (ch.charCodeAt(0) - 65);
+  return String.fromCodePoint(cp(c[0]), cp(c[1]));
+}
+
 type SummaryPayload = {
   connected: boolean;
   stats: {
@@ -67,26 +82,48 @@ type SummaryPayload = {
 };
 
 type QuestionsPayload = { connected: boolean; items: { question: string; count: number }[] };
-type FeedPayload = { connected: boolean; items: { question: string; createdAt: string }[] };
+type FeedPayload = {
+  connected: boolean;
+  items: { question: string; createdAt: string; country?: string | null }[];
+};
 
-function StatCard({
-  label,
-  value,
-  sub,
-}: {
-  label: string;
-  value: string;
-  sub: string;
-}) {
+function DashCard({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   return (
-    <div
-      className="glass-card rounded-[var(--radius-card)] border border-[var(--glass-border)] p-5 sm:p-6"
-      style={{ willChange: 'transform' }}
-    >
-      <p className="text-[var(--text-muted)] font-mono text-[10px] tracking-[0.2em] uppercase">{label}</p>
-      <p className="text-foreground mt-2 font-mono text-3xl font-semibold tracking-tight sm:text-4xl">{value}</p>
-      <p className="text-[var(--text-secondary)] mt-1 text-xs">{sub}</p>
+    <div className={`glass-card rounded-[var(--radius-card)] p-5 sm:p-6 ${className}`} style={{ willChange: 'transform' }}>
+      {children}
     </div>
+  );
+}
+
+function StatBlock({ label, value, sub }: { label: string; value: string; sub: string }) {
+  return (
+    <DashCard>
+      <p className="text-[var(--text-muted)] font-mono text-[0.68rem] tracking-[0.12em] uppercase">{label}</p>
+      <p className="text-foreground mt-2.5 text-[2.1rem] font-semibold leading-none tracking-tight sm:text-[2.4rem]">
+        {value}
+      </p>
+      <p className="text-[var(--text-secondary)] mt-1.5 text-[0.78rem] leading-snug">{sub}</p>
+    </DashCard>
+  );
+}
+
+function FeedLocation({ iso }: { iso: string | null | undefined }) {
+  const name = useMemo(() => {
+    if (!iso || iso.length !== 2) return '';
+    try {
+      return new Intl.DisplayNames(['en'], { type: 'region' }).of(iso.toUpperCase()) ?? iso;
+    } catch {
+      return iso;
+    }
+  }, [iso]);
+  if (!iso || !name) return <span className="text-[var(--text-muted)] shrink-0 text-[0.75rem]">—</span>;
+  return (
+    <span className="text-[var(--text-muted)] shrink-0 text-[0.75rem] whitespace-nowrap">
+      <span className="mr-1" aria-hidden>
+        {iso2ToFlag(iso)}
+      </span>
+      {name}
+    </span>
   );
 }
 
@@ -132,44 +169,55 @@ export default function DashboardPage() {
 
   const connected = summary?.connected ?? false;
 
+  const topQ = questions?.items ?? [];
+  const maxQ = useMemo(() => Math.max(1, ...topQ.map((r) => r.count)), [topQ]);
+
+  const pieData = useMemo(
+    () =>
+      (summary?.trafficSources ?? []).map((row) => ({
+        name: trafficLabel(row.source),
+        value: row.count,
+        percent: row.percent,
+      })),
+    [summary?.trafficSources]
+  );
+
+  const feedSlice = (feed?.items ?? []).slice(0, 6);
+
   return (
-    <div className="mx-auto w-full max-w-6xl px-4 py-10 pb-16 sm:px-6 sm:py-14">
-      <header className="mb-10 text-left">
-        <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <h1 className="text-foreground text-2xl font-semibold tracking-tight sm:text-3xl">Site Insights</h1>
-            <p className="text-[var(--text-secondary)] mt-1 max-w-xl text-sm leading-relaxed">
-              jameymcelveen.com analytics — built in-house. No third-party page analytics required to tell this story.
-            </p>
-          </div>
-          <p className="text-accent font-mono text-xs tracking-wide">
-            Live · Updated every 60s
-            {summary?.updatedAt ? (
-              <span className="text-[var(--text-muted)] block text-[10px] font-normal">
-                Last fetch {new Date(summary.updatedAt).toLocaleTimeString()}
-              </span>
-            ) : null}
+    <div className="mx-auto w-full max-w-[1100px] px-4 py-8 pb-16 sm:px-6 sm:py-10">
+      {/* Header */}
+      <header className="mb-8 flex flex-col items-start justify-between gap-3 sm:mb-10 sm:flex-row sm:items-end">
+        <div>
+          <h1 className="text-foreground text-[1.75rem] font-semibold tracking-tight">Site Insights</h1>
+          <p className="text-[var(--text-secondary)] mt-1 text-sm leading-relaxed">
+            jameymcelveen.com · built in-house · no third-party trackers
           </p>
+        </div>
+        <div className="btn-glass btn-glass--sm text-[var(--text-muted)] flex items-center gap-1.5 font-mono text-[0.72rem] tracking-wide">
+          <span className="dash-live-dot h-1.5 w-1.5 shrink-0 rounded-full bg-[#22c55e]" aria-hidden />
+          LIVE · updates every 60s
+          {summary?.updatedAt ? (
+            <span className="text-[var(--text-muted)]/80 ml-1 hidden font-normal sm:inline">
+              · {new Date(summary.updatedAt).toLocaleTimeString()}
+            </span>
+          ) : null}
         </div>
       </header>
 
       {!connected ? (
-        <div
-          className="glass-card mb-8 rounded-[var(--radius-card)] border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-100/90"
-          style={{ willChange: 'transform' }}
-        >
-          <strong className="font-medium">Database not connected.</strong> Set{' '}
-          <code className="font-mono text-xs">DATABASE_URL</code> on the host and run{' '}
-          <code className="font-mono text-xs">migrations/001_analytics_events.sql</code>. Until then, counts stay at
-          zero — the UI is the portfolio piece.
-        </div>
+        <DashCard className="mb-6 border border-amber-500/25 bg-amber-500/[0.07]">
+          <p className="text-sm text-amber-900/90 dark:text-amber-100/90">
+            <strong className="font-medium">Database not connected.</strong> Set{' '}
+            <code className="font-mono text-xs">DATABASE_URL</code> on the host and run{' '}
+            <code className="font-mono text-xs">migrations/001_analytics_events.sql</code>. Until then, counts stay at
+            zero — the UI is the portfolio piece.
+          </p>
+        </DashCard>
       ) : null}
 
       {connected && summary?.database ? (
-        <section
-          className="glass-card mb-8 rounded-[var(--radius-card)] border border-[var(--glass-border)] p-4 sm:p-5"
-          style={{ willChange: 'transform' }}
-        >
+        <DashCard className="mb-6">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <h2 className="text-[var(--text-muted)] font-mono text-[10px] tracking-[0.22em] uppercase">
@@ -183,14 +231,14 @@ export default function DashboardPage() {
                 </span>
               </p>
               <p className="text-[var(--text-secondary)] mt-1 text-xs leading-relaxed">
-                Current database on Neon. Free tier storage is about 0.5&nbsp;GiB — set{' '}
-                <code className="font-mono text-[10px]">ANALYTICS_DB_LIMIT_BYTES</code> if your plan differs.
+                Neon storage — set <code className="font-mono text-[10px]">ANALYTICS_DB_LIMIT_BYTES</code> if your plan
+                differs.
               </p>
             </div>
             <div className="w-full sm:max-w-xs sm:shrink-0">
               <div className="bg-foreground/10 h-2 overflow-hidden rounded-full">
                 <div
-                  className="bg-accent h-full rounded-full transition-[width] duration-500"
+                  className="bg-[var(--accent-blue)] h-full rounded-full transition-[width] duration-500"
                   style={{
                     width: `${Math.min(
                       100,
@@ -208,168 +256,277 @@ export default function DashboardPage() {
               </p>
             </div>
           </div>
-        </section>
+        </DashCard>
       ) : null}
 
       {error ? (
-        <p className="text-red-300 mb-6 text-sm" role="alert">
+        <p className="text-red-500 mb-6 text-sm" role="alert">
           {error}
         </p>
       ) : null}
 
-      <section className="mb-10 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
-        <StatCard
-          label="Total visits"
-          value={nf.format(summary?.stats.totalVisits ?? 0)}
-          sub="All time · page views"
-        />
-        <StatCard
+      {/* Stat row */}
+      <section className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:mb-6 lg:grid-cols-4 lg:gap-4">
+        <StatBlock label="Total visits" value={nf.format(summary?.stats.totalVisits ?? 0)} sub="All time · page views" />
+        <StatBlock
           label="Ask Jamey chats"
           value={nf.format(summary?.stats.askJameyChats ?? 0)}
           sub="All time · questions sent"
         />
-        <StatCard
+        <StatBlock
           label="Countries"
           value={nf.format(summary?.stats.countries ?? 0)}
-          sub="Reached · from IP → country"
+          sub="Unique countries reached"
         />
-        <StatCard
+        <StatBlock
           label="Resume views"
           value={nf.format(summary?.stats.resumeViews ?? 0)}
-          sub="Views + PDF downloads"
+          sub="Views + preview & print"
         />
       </section>
 
-      <section className="mb-10 grid gap-6 lg:grid-cols-2">
+      {/* Visits chart + Top questions */}
+      <section className="mb-6 grid gap-4 lg:grid-cols-2 lg:gap-4">
+        <DashCard>
+          <h3 className="text-foreground text-[0.95rem] font-semibold">Visits · last 30 days</h3>
+          <p className="text-[var(--text-secondary)] mt-1 text-[0.8rem] leading-snug">
+            Daily page views across all routes
+          </p>
+          <div className="mt-5 h-[220px] w-full min-h-[200px] min-w-0 sm:h-[240px]">
+            {chartReady ? (
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={summary?.timeline ?? []} margin={{ top: 4, right: 4, left: -8, bottom: 0 }}>
+                  <defs>
+                    <linearGradient id="dashVisitFill" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="rgba(82,45,128,0.14)" />
+                      <stop offset="100%" stopColor="rgba(82,45,128,0)" />
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid stroke="rgba(0,0,0,0.06)" vertical={false} />
+                  <XAxis
+                    dataKey="day"
+                    tick={{ fill: 'var(--text-muted)', fontSize: 10, fontFamily: 'var(--font-mono)' }}
+                    tickFormatter={(v) => {
+                      const d = String(v).slice(5);
+                      const [m, day] = d.split('-');
+                      const months = [
+                        'Jan',
+                        'Feb',
+                        'Mar',
+                        'Apr',
+                        'May',
+                        'Jun',
+                        'Jul',
+                        'Aug',
+                        'Sep',
+                        'Oct',
+                        'Nov',
+                        'Dec',
+                      ];
+                      const mi = Number(m) - 1;
+                      return mi >= 0 && mi < 12 ? `${months[mi]} ${Number(day)}` : d;
+                    }}
+                    interval="preserveStartEnd"
+                    minTickGap={28}
+                    axisLine={false}
+                    tickLine={false}
+                  />
+                  <YAxis
+                    tick={{ fill: 'var(--text-muted)', fontSize: 10, fontFamily: 'var(--font-mono)' }}
+                    width={36}
+                    allowDecimals={false}
+                    axisLine={false}
+                    tickLine={false}
+                  />
+                  <Tooltip
+                    contentStyle={{
+                      background: 'rgba(255,255,255,0.92)',
+                      border: '1px solid rgba(0,0,0,0.08)',
+                      borderRadius: 10,
+                      fontSize: 12,
+                    }}
+                    labelStyle={{ color: 'var(--foreground)' }}
+                    formatter={(v) => [`${nf.format(Number(v ?? 0))} visits`, '']}
+                  />
+                  <Area
+                    type="monotone"
+                    dataKey="visits"
+                    stroke="var(--accent-blue)"
+                    strokeWidth={2}
+                    fill="url(#dashVisitFill)"
+                    dot={false}
+                    activeDot={{ r: 4, fill: 'var(--accent-blue)' }}
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
+            ) : (
+              <div className="bg-foreground/5 h-full w-full animate-pulse rounded-lg" aria-hidden />
+            )}
+          </div>
+        </DashCard>
+
+        <DashCard>
+          <h3 className="text-foreground text-[0.95rem] font-semibold">Top Ask Jamey Questions</h3>
+          <p className="text-[var(--text-secondary)] mt-1 text-[0.8rem] leading-snug">
+            Most asked by recruiters and visitors
+          </p>
+          <ul className="mt-5 list-none">
+            {topQ.length ? (
+              topQ.slice(0, 6).map((row, i) => (
+                <li key={`${row.question}-${i}`} className="border-b border-[var(--steel)]/80 py-3 last:border-0">
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="text-foreground min-w-0 flex-1 text-[0.88rem] leading-snug">{row.question}</span>
+                    <div className="bg-foreground/8 h-1.5 w-[120px] max-w-[30%] shrink-0 overflow-hidden rounded-full sm:max-w-[120px]">
+                      <div
+                        className="bg-[var(--accent-blue)] h-full rounded-full"
+                        style={{ width: `${Math.round((row.count / maxQ) * 100)}%` }}
+                      />
+                    </div>
+                    <span className="text-[var(--text-muted)] w-7 shrink-0 text-right font-mono text-[0.75rem]">
+                      {nf.format(row.count)}
+                    </span>
+                  </div>
+                </li>
+              ))
+            ) : (
+              <li className="text-[var(--text-muted)] py-4 text-sm">No questions recorded yet.</li>
+            )}
+          </ul>
+        </DashCard>
+      </section>
+
+      {/* Traffic doughnut + Pages / Referrers */}
+      <section className="mb-6 grid gap-4 lg:grid-cols-2 lg:gap-4">
+        <DashCard>
+          <h3 className="text-foreground text-[0.95rem] font-semibold">Traffic Sources</h3>
+          <p className="text-[var(--text-secondary)] mt-1 text-[0.8rem] leading-snug">Where visitors are coming from</p>
+          <div className="relative mx-auto mt-2 h-[220px] w-full max-w-[280px] sm:h-[240px]">
+            {chartReady && pieData.length ? (
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={pieData}
+                    dataKey="value"
+                    nameKey="name"
+                    cx="50%"
+                    cy="46%"
+                    innerRadius={72}
+                    outerRadius={108}
+                    paddingAngle={1}
+                  >
+                    {pieData.map((_, i) => (
+                      <Cell key={i} fill={PIE_COLORS[i % PIE_COLORS.length]} stroke="transparent" />
+                    ))}
+                  </Pie>
+                  <Tooltip
+                    formatter={(value, _name, item) => {
+                      const p = item?.payload as { percent?: number; name?: string } | undefined;
+                      return [`${p?.percent ?? 0}% · ${nf.format(Number(value ?? 0))}`, p?.name ?? ''];
+                    }}
+                    contentStyle={{
+                      background: 'rgba(255,255,255,0.94)',
+                      border: '1px solid rgba(0,0,0,0.08)',
+                      borderRadius: 10,
+                      fontSize: 12,
+                    }}
+                  />
+                  <Legend
+                    verticalAlign="bottom"
+                    height={44}
+                    formatter={(value) => <span className="text-[var(--text-secondary)] text-xs">{value}</span>}
+                  />
+                </PieChart>
+              </ResponsiveContainer>
+            ) : (
+              <p className="text-[var(--text-muted)] flex h-full items-center justify-center text-sm">
+                No referrer data yet.
+              </p>
+            )}
+          </div>
+        </DashCard>
+
+        <DashCard>
+          <h3 className="text-foreground text-[0.95rem] font-semibold">Top Pages + Sources</h3>
+          <p className="text-[var(--text-secondary)] mt-1 text-[0.8rem] leading-snug">Most visited routes and referrers</p>
+          <div className="mt-5 grid gap-8 sm:grid-cols-2">
+            <div>
+              <p className="text-[var(--text-muted)] mb-3 font-mono text-[0.68rem] tracking-[0.12em] uppercase">Pages</p>
+              <ul>
+                {(summary?.topPages.length ? summary.topPages : []).slice(0, 6).map((row) => (
+                  <li key={row.path} className="flex items-center justify-between gap-3 border-b border-[var(--steel)]/80 py-2.5 text-[0.87rem] last:border-0">
+                    <span className="text-foreground truncate">{row.path}</span>
+                    <span className="text-[var(--accent-blue)] shrink-0 font-mono text-[0.78rem] font-semibold">
+                      {nf.format(row.views)}
+                    </span>
+                  </li>
+                ))}
+                {!summary?.topPages.length ? (
+                  <li className="text-[var(--text-muted)] text-sm">No page views yet.</li>
+                ) : null}
+              </ul>
+            </div>
+            <div>
+              <p className="text-[var(--text-muted)] mb-3 font-mono text-[0.68rem] tracking-[0.12em] uppercase">
+                Referrers
+              </p>
+              <ul>
+                {(summary?.trafficSources.length ? summary.trafficSources : []).slice(0, 6).map((row) => (
+                  <li key={row.source} className="flex items-center justify-between gap-3 border-b border-[var(--steel)]/80 py-2.5 text-[0.87rem] last:border-0">
+                    <span className="text-foreground truncate">{trafficLabel(row.source)}</span>
+                    <span className="text-[var(--accent-blue)] shrink-0 font-mono text-[0.78rem] font-semibold">
+                      {row.percent}%
+                    </span>
+                  </li>
+                ))}
+                {!summary?.trafficSources.length ? (
+                  <li className="text-[var(--text-muted)] text-sm">No referrer data yet.</li>
+                ) : null}
+              </ul>
+            </div>
+          </div>
+        </DashCard>
+      </section>
+
+      {/* Visitor map — full width */}
+      <section className="mb-6">
         <VisitorMap countryCounts={summary?.countryCounts ?? []} />
-        <div
-          className="glass-card rounded-[var(--radius-card)] border border-[var(--glass-border)] p-4 sm:p-6"
-          style={{ willChange: 'transform' }}
-        >
-          <h2 className="text-[var(--text-muted)] mb-4 font-mono text-[10px] tracking-[0.22em] uppercase">
-            Top Ask Jamey questions
-          </h2>
-          <ul className="max-h-[320px] space-y-3 overflow-y-auto pr-1">
-            {(questions?.items.length ? questions.items : []).map((row, i) => (
-              <li
-                key={`${row.question}-${i}`}
-                className="border-b border-[var(--glass-border)] pb-3 last:border-0 last:pb-0"
-              >
-                <p className="text-foreground text-sm leading-snug">&ldquo;{row.question}&rdquo;</p>
-                <p className="text-[var(--text-muted)] mt-1 font-mono text-xs">{nf.format(row.count)}×</p>
-              </li>
-            ))}
-            {!questions?.items.length ? (
-              <li className="text-[var(--text-muted)] text-sm">No questions recorded yet.</li>
-            ) : null}
-          </ul>
-        </div>
       </section>
 
-      <section
-        className="glass-card mb-10 rounded-[var(--radius-card)] border border-[var(--glass-border)] p-4 sm:p-6"
-        style={{ willChange: 'transform' }}
-      >
-        <h2 className="text-[var(--text-muted)] mb-4 font-mono text-[10px] tracking-[0.22em] uppercase">
-          Visits per day · last 30 days
-        </h2>
-        <div className="h-[240px] w-full min-h-[220px] min-w-0 sm:h-[260px]">
-          {chartReady ? (
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={summary?.timeline ?? []} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
-                <CartesianGrid stroke="rgba(255,255,255,0.06)" vertical={false} />
-                <XAxis
-                  dataKey="day"
-                  tick={{ fill: 'rgba(255,255,255,0.45)', fontSize: 10 }}
-                  tickFormatter={(v) => String(v).slice(5)}
-                  interval="preserveStartEnd"
-                  minTickGap={24}
-                />
-                <YAxis tick={{ fill: 'rgba(255,255,255,0.45)', fontSize: 10 }} width={32} allowDecimals={false} />
-                <Tooltip
-                  contentStyle={{
-                    background: 'rgba(15,20,35,0.95)',
-                    border: '1px solid rgba(255,255,255,0.12)',
-                    borderRadius: 8,
-                  }}
-                  labelStyle={{ color: '#e6edf3' }}
-                  itemStyle={{ color: '#4ec9b0' }}
-                />
-                <Line type="monotone" dataKey="visits" stroke="var(--accent-blue)" strokeWidth={2} dot={false} />
-              </LineChart>
-            </ResponsiveContainer>
-          ) : (
-            <div className="bg-foreground/5 h-full w-full animate-pulse rounded-lg" aria-hidden />
-          )}
-        </div>
+      {/* Live feed */}
+      <section className="mb-6">
+        <DashCard>
+          <h3 className="text-foreground text-[0.95rem] font-semibold">
+            Recent Ask Jamey Questions{' '}
+            <span className="text-[var(--text-muted)] font-normal text-[0.85rem]">· live</span>
+          </h3>
+          <p className="text-[var(--text-secondary)] mt-1 text-[0.8rem] leading-snug">
+            What recruiters and visitors are asking right now
+          </p>
+          <div className="mt-4">
+            {feedSlice.length ? (
+              feedSlice.map((row, i) => (
+                <div
+                  key={`${row.createdAt}-${i}`}
+                  className="flex flex-col gap-1 border-b border-[var(--steel)]/80 py-3 last:border-0 sm:flex-row sm:items-start sm:gap-3.5"
+                >
+                  <span className="text-[var(--text-muted)] w-[4.5rem] shrink-0 font-mono text-[0.72rem] tracking-tight">
+                    {formatAgo(row.createdAt)}
+                  </span>
+                  <span className="text-foreground min-w-0 flex-1 text-[0.87rem] leading-relaxed">{row.question}</span>
+                  <FeedLocation iso={row.country} />
+                </div>
+              ))
+            ) : (
+              <p className="text-[var(--text-muted)] py-4 text-sm">No recent questions yet.</p>
+            )}
+          </div>
+        </DashCard>
       </section>
 
-      <section className="mb-10 grid gap-6 lg:grid-cols-2">
-        <div
-          className="glass-card rounded-[var(--radius-card)] border border-[var(--glass-border)] p-4 sm:p-6"
-          style={{ willChange: 'transform' }}
-        >
-          <h2 className="text-[var(--text-muted)] mb-4 font-mono text-[10px] tracking-[0.22em] uppercase">Top pages</h2>
-          <ul className="space-y-2">
-            {(summary?.topPages.length ? summary.topPages : []).map((row) => (
-              <li key={row.path} className="flex items-center justify-between gap-3 text-sm">
-                <span className="text-foreground truncate font-mono">{row.path}</span>
-                <span className="text-[var(--text-muted)] shrink-0 font-mono text-xs">{nf.format(row.views)}</span>
-              </li>
-            ))}
-            {!summary?.topPages.length ? (
-              <li className="text-[var(--text-muted)] text-sm">No page views yet.</li>
-            ) : null}
-          </ul>
-        </div>
-        <div
-          className="glass-card rounded-[var(--radius-card)] border border-[var(--glass-border)] p-4 sm:p-6"
-          style={{ willChange: 'transform' }}
-        >
-          <h2 className="text-[var(--text-muted)] mb-4 font-mono text-[10px] tracking-[0.22em] uppercase">
-            Traffic sources
-          </h2>
-          <ul className="space-y-2">
-            {(summary?.trafficSources.length ? summary.trafficSources : []).map((row) => (
-              <li key={row.source} className="flex items-center justify-between gap-3 text-sm">
-                <span className="text-foreground truncate">{trafficLabel(row.source)}</span>
-                <span className="text-[var(--text-muted)] shrink-0 font-mono text-xs">
-                  {row.percent}% · {nf.format(row.count)}
-                </span>
-              </li>
-            ))}
-            {!summary?.trafficSources.length ? (
-              <li className="text-[var(--text-muted)] text-sm">No referrer data yet.</li>
-            ) : null}
-          </ul>
-        </div>
-      </section>
-
-      <section
-        className="glass-card rounded-[var(--radius-card)] border border-[var(--glass-border)] p-4 sm:p-6"
-        style={{ willChange: 'transform' }}
-      >
-        <h2 className="text-[var(--text-muted)] mb-4 font-mono text-[10px] tracking-[0.22em] uppercase">
-          Recent Ask Jamey questions
-        </h2>
-        <ul className="divide-y divide-[var(--glass-border)]">
-          {(feed?.items.length ? feed.items : []).map((row, i) => (
-            <li key={`${row.createdAt}-${i}`} className="flex flex-col gap-1 py-3 sm:flex-row sm:items-baseline sm:gap-4">
-              <span className="text-[var(--text-muted)] w-28 shrink-0 font-mono text-xs">{formatAgo(row.createdAt)}</span>
-              <span className="text-foreground text-sm leading-relaxed">&ldquo;{row.question}&rdquo;</span>
-            </li>
-          ))}
-          {!feed?.items.length ? (
-            <li className="text-[var(--text-muted)] py-4 text-sm">No recent questions yet.</li>
-          ) : null}
-        </ul>
-      </section>
-
-      <footer className="text-[var(--text-muted)] mt-12 max-w-3xl border-t border-[var(--glass-border)] pt-8 text-center text-xs leading-relaxed sm:text-left">
-        <strong className="text-[var(--text-secondary)]">Privacy:</strong> We collect approximate location (country /
-        region from IP on the server — raw IP is not stored), page paths, referrers (hostname only), device class
-        (mobile/desktop), Ask Jamey questions, starter chip clicks, and resume activity. This pipeline does not set
-        cookies. No cross-site tracking.
+      <footer className="text-[var(--text-muted)] mx-auto mt-8 max-w-[1100px] text-center text-[0.78rem] leading-relaxed">
+        <strong className="text-[var(--text-secondary)]">Privacy:</strong> approximate location (country/region from IP
+        — raw IP not stored), page paths, referrers (hostname only), device class, Ask Jamey questions, and resume
+        activity. No cookies. No cross-site tracking.
         <span className="mt-3 block text-[10px]">
           Starter chip clicks (all time): {nf.format(summary?.stats.chipClicks ?? 0)}
         </span>
