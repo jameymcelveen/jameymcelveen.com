@@ -1,0 +1,194 @@
+name: Jamey McElveen
+title: Principal Systems Architect · O'Reilly Author
+contact:
+  location: Florence, SC
+  phone: '(843) 618-8078'
+  email: jamey@mcelveen.us
+  website: jameymcelveen.com
+  availability: Remote · Full-Time or Contract
+
+summary: >
+  Principal Systems Architect with 30+ years delivering enterprise .NET
+  platforms across SaaS, FinTech, and Healthcare. Designed and sustained
+  multi-tenant systems serving 50,000+ organizations; led teams of 20+
+  engineers through complete platform generational shifts. Expert in
+  AI-Augmented Engineering — leveraging LLM-driven tooling (Cursor/Claude)
+  to accelerate legacy modernization and reduce friction on complex
+  refactoring work. Published O'Reilly author. Currently architecting an
+  open-source mission clinic EMR (Christ Medical) with offline-first sync
+  for field clinics in low-connectivity environments.
+
+competencies:
+  languages: [C#, .NET 9/Core, T-SQL, TypeScript, C++, Java]
+  apis: [REST, WCF/SOAP, WS-Security, OpenAPI]
+  architecture: [N-Tier, MDD, Strangler, Shard Routing, Offline-First, SOA, Event-Driven]
+  data: [MS SQL, PostgreSQL, Snowflake, Oracle, Redis]
+  sql_performance: [Covering Indexes, RowVersion, RLS, Resource Governor]
+  cloud_devops: [Kubernetes, EKS, Docker, Railway, Vercel, CI/CD]
+  frontend: [Next.js 15, React, Angular 8-15, Storybook, Tailwind, Vue.js]
+  observability: [ELK Stack, Structured Logging, OpenTelemetry]
+  compliance: [HIPAA, PHI Masking, BAA, TLS 1.2+, FinTech Audit]
+  ai_tooling: [Cursor, Claude, LLM Workflows, Clean-Room PII Protocol]
+  integration: [Epic EMR, Oracle Cloud, Dotmim Sync, GIS/ESRI]
+  leadership: [R&D Mgmt, Mentoring, ADRs, Technical Writing, Scrum Master, Product Owner]
+
+experience:
+  - title: Principal Architect — Pro Bono / Kingdom Work
+    company: Christ Medical Mission System
+    domain: Healthcare / Missions
+    url: github.com/christmedical
+    start: 2024
+    end: Present
+    highlights:
+      - Architected offline-first sync layer using Dotmim Sync — field laptops
+        operate independently and reconcile with central hub on reconnect.
+        Zero data loss, no paper fallback required.
+      - Implemented Double Metaphone phonetic patient search via PostgreSQL
+        fuzzystrmatch — solving name romanization inconsistency across
+        multilingual mission contexts.
+      - Unified spiritual and medical outcome tracking in a single data model
+        (spiritual=heard|hope|none) — treating the whole person as the patient.
+      - Enforced CI parity via single gate running ESLint, Vitest, React Testing
+        Library, and production Next.js build locally and in GitHub Actions.
+
+  - title: Senior Solutions Architect
+    company: SecureGive
+    domain: FinTech / Donation Processing
+    start: 2023
+    end: 2025
+    highlights:
+      - Architected high-concurrency public APIs in .NET Core on Kubernetes (EKS)
+        with elastic scale to absorb Giving Tuesday traffic spikes — zero downtime
+        during peak donation surges.
+      - Designed anti-fraud heuristics to detect and shut down credit-card
+        validation attacks (carding), protecting platform integrity and donor funds.
+      - Engineered idempotent ETL pipelines for PostgreSQL to Snowflake migrations;
+        pipelines restart mid-stream without duplicating financial records.
+      - Leveraged Snowflake Time Travel for financial audit trails and
+        year-over-year trend reporting without loading production transactional DB.
+      - Created, maintained, and documented Angular components using Storybook
+        across the full frontend component library.
+      - Applied FinTech-grade security including immutable audit trails,
+        TLS 1.2+ enforcement, and least-privilege access across all data surfaces.
+
+  - title: Senior Software Developer / Modernization Lead
+    company: McLeod Health
+    domain: Enterprise Healthcare / HIPAA
+    start: 2021
+    end: 2023
+    highlights:
+      - Migrated entire development organization from file-share-based storage
+        to Git and GitHub — cleaning 100,000+ commits with BFG Repo-Cleaner,
+        reducing repo size by 80%.
+      - Implemented CI pipelines for HIPAA-compliant clinical systems, replacing
+        manual deployments with automated, auditable release processes.
+      - Mentored developers and interns on Git workflows, branching strategy,
+        and pull request culture.
+      - Introduced ELK stack with Golden Record PHI scrubbing service — replacing
+        real names and SSNs with synthetic identities in non-production environments.
+        Zero BAA exposure risk.
+      - Enforced TLS 1.2+ across all WCF and REST endpoints.
+      - Managed data integration bridges between .NET applications and Oracle
+        Cloud / Epic EMR platforms serving thousands of clinical staff.
+
+  - title: Programming Manager / R&D Architect
+    company: ACS Technologies
+    domain: Enterprise SaaS
+    start: 1996
+    end: 2021
+    note: Except May 2005 – May 2006 (see Lyle's Data Systems)
+    highlights:
+      - Strategic architectural lead for flagship SaaS suite serving 50,000+
+        organizations worldwide; directed distributed R&D team of 20+ engineers.
+      - Scrum Master for Realm for several years; served as Product Owner during
+        management chapter — ran backlog grooming, story points, standups.
+      - Pioneered Model-Driven Development (MDD) for large-scale C# codebases.
+      - Used actor pattern for async debit card hardware feedback coordination
+        in payment processing flows.
+      - Departed following strategic leadership transition that altered the
+        organization's technical vision and direction.
+    products:
+      realm:
+        name: Realm — Multi-Tenant SaaS Platform
+        highlights:
+          - Architected multi-tenancy using RLS and SQL Resource Governor to
+            prevent Noisy Neighbor degradation across 50,000+ tenants.
+          - Built shard-aware routing layer enabling live zero-downtime tenant
+            migration when organizations exceeded resource thresholds.
+      facility_scheduler:
+        name: Facility Scheduler — N-Tier Scheduling Engine
+        highlights:
+          - Designed N-tier C# / WCF / SOAP architecture with custom WS-Security
+            header processing in the WCF message pipeline.
+          - Eliminated high-concurrency booking conflicts using RowVersion
+            optimistic locking; reduced scheduling query overhead 70% via
+            covering index eliminating a bookmark lookup.
+      headmaster:
+        name: HeadMaster — School Management Ecosystem
+        highlights:
+          - Modeled non-linear Student-Guardian-Representative hierarchies using
+            M:N relational tables with bitmask permission flags.
+          - Architecture maps directly to SC DSS / CAPSS child placement and
+            voucher eligibility workflows — transferable to behavioral health
+            or child-services SaaS domains.
+
+  - title: Programming Manager
+    company: Lyle's Data Systems
+    domain: Civic Tech / Government SaaS
+    start: '2005-05'
+    end: '2006-05'
+    highlights:
+      - Managed three developers delivering Java / Struts MVC government services
+        platforms to municipal clients across the Southeast.
+      - Architected multi-jurisdiction online property tax payment system
+        enabling citizens and banks to pay home, vehicle, and boat taxes online.
+      - Designed and built @ Your Request — citizen issue-reporting platform
+        with photo uploads and real-time progress tracking.
+      - Performed GIS / ESRI geospatial data conversion migrating legacy systems
+        into MS SQL Server.
+
+community:
+  - organization: FIRST Robotics — Technomancers
+    role: Technical Mentor — IB Baccalaureate STEM Program
+    url: technomancers.github.io
+    highlights:
+      - Mentored high school students in Kotlin software development and
+        circuit/sensor integration for competitive robotics.
+      - Translated complex engineering concepts into accessible instruction
+        for students with no prior programming background.
+
+  - organization: AI Development — Peer Mentoring
+    role: Informal Mentor
+    highlights:
+      - Mentors peers in AI-augmented engineering workflows — Cursor, Claude,
+        prompt engineering, and clean-room PII protocols for regulated environments.
+      - Extensive self-directed study applied directly to active production
+        projects — not theoretical.
+
+education:
+  degree: B.S. Computer Engineering
+  institution: Clemson University
+  notes: C++ / OpenGL background applied to .NET GC optimization and
+    performance-sensitive system design.
+
+publications:
+  - title: iPhone Game Development
+    publisher: O'Reilly Media
+    notes: Technical writing clarity applied daily — Swagger/OpenAPI specs,
+      architecture decision records, and deep-dive team documentation.
+
+active_projects:
+  - name: Christ Medical Mission System
+    url: github.com/christmedical
+    stack: [.NET 9, Next.js 15, PostgreSQL, Dotmim Sync, Docker, Railway, Vercel]
+    description: Open-source EMR for field clinics in low-connectivity environments.
+
+  - name: QikLog
+    url: github.com/jameymcelveen/qiklog
+    stack: [Fastify, Node.js, TypeScript, Drizzle ORM, PostgreSQL, Redis, SSE]
+    description: Multi-tenant log-tailing SaaS with real-time SSE streaming.
+
+  - name: jameymcelveen.com
+    url: jameymcelveen.com
+    stack: [Next.js 15, Node.js, TypeScript, Railway, Vercel]
+    description: Personal site with AI-powered interview twin (Ask Jamey).
