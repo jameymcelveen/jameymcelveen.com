@@ -99,7 +99,7 @@ export function PinGate({ children }: { children: React.ReactNode }) {
           <button
             type="submit"
             disabled={pin.length < 6}
-            className="bg-accent hover:bg-accent/90 w-full rounded-lg py-3 font-medium text-white transition-colors disabled:cursor-not-allowed disabled:opacity-50"
+            className="btn-glass btn-glass--accent btn-glass--wide py-3 font-medium disabled:cursor-not-allowed"
           >
             Unlock
           </button>
@@ -211,7 +211,7 @@ export function SecretLock({ onUnlock, onLock }: { onUnlock: () => void; onLock?
               <button
                 type="submit"
                 disabled={pin.length < 6}
-                className="bg-accent text-background hover:brightness-110 w-full rounded-md py-2 text-sm font-medium transition-all disabled:opacity-50"
+                className="btn-glass btn-glass--accent btn-glass--wide py-2 text-sm font-medium"
               >
                 {isUnlocked ? 'Hide' : 'Unlock'}
               </button>

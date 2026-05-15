@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { ObfuscatedEmail, ObfuscatedPhone } from '@/components/ObfuscatedContact';
-import { FileText, MapPin, Printer } from 'lucide-react';
+import { Eye, FileText, MapPin } from 'lucide-react';
 import {
   getResumeData,
   getWorkExperience,
@@ -47,7 +47,7 @@ export default function ResumePage() {
   const branding = getBranding();
   const personal = getPersonalInfo();
 
-  const printResumeHref = '/resume/index.html';
+  const previewResumeHref = '/resume/index.html';
 
   useEffect(() => {
     if (pathname !== '/resume') return;
@@ -72,14 +72,16 @@ export default function ResumePage() {
     <>
       <div className="fixed top-14 right-4 z-50 flex items-center sm:right-6 sm:top-14">
         <a
-          href={printResumeHref}
-          aria-label="Open printable résumé"
-          className="glass-card text-foreground hover:border-accent/40 flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium sm:px-6"
+          href={previewResumeHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Open résumé preview in a new tab"
+          className="btn-glass text-foreground gap-2 px-4 py-2 sm:px-6"
           onClick={() => {
             const from =
               typeof sessionStorage !== 'undefined' ? sessionStorage.getItem('jm_resume_from') : null;
             postInsightEvent({
-              event: 'resume_print',
+              event: 'resume_preview',
               page: '/resume',
               from_page: from || null,
               referrer: typeof document !== 'undefined' ? document.referrer || null : null,
@@ -87,8 +89,8 @@ export default function ResumePage() {
             });
           }}
         >
-          <Printer className="h-4 w-4" aria-hidden />
-          <span>Print</span>
+          <Eye className="h-4 w-4 shrink-0" aria-hidden />
+          <span>Preview</span>
         </a>
       </div>
 

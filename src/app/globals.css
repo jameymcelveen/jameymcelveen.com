@@ -231,11 +231,12 @@ body {
 
 .nav-ask-jamey-pill {
   border-radius: 9999px;
-  border: 1px solid rgba(82, 45, 128, 0.22);
-  background: rgba(82, 45, 128, 0.1);
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
   color: var(--clemson-purple);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glass-shadow), 0 1px 0 rgba(255, 255, 255, 0.55) inset;
   padding: 0.35rem 0.95rem;
   font-size: 0.875rem;
   font-weight: 600;
@@ -243,12 +244,13 @@ body {
   transition:
     background-color 0.15s ease,
     border-color 0.15s ease,
+    box-shadow 0.15s ease,
     color 0.15s ease;
 }
 
 .nav-ask-jamey-pill:hover {
-  background: rgba(82, 45, 128, 0.14);
-  border-color: rgba(82, 45, 128, 0.32);
+  background: rgba(255, 255, 255, 0.78);
+  border-color: color-mix(in oklch, var(--clemson-purple) 25%, var(--glass-border));
 }
 
 .chat-bubble-assistant {
@@ -263,10 +265,11 @@ body {
 
 /* Ask Jamey widget + shared chat bubbles */
 .ask-jamey-fab {
-  background: rgba(82, 45, 128, 0.08);
+  background: var(--glass-bg);
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
-  border: 1px solid rgba(82, 45, 128, 0.18);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow), 0 1px 0 rgba(255, 255, 255, 0.55) inset;
   will-change: transform;
 }
 
@@ -293,15 +296,32 @@ body {
   border-radius: 20px;
   padding: 10px 18px;
   font-size: 0.9rem;
-  background: rgba(82, 45, 128, 0.07);
-  border: 1px solid rgba(82, 45, 128, 0.15);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
   color: var(--ask-jamey-fg, var(--foreground));
-  transition: background 0.15s ease, border-color 0.15s ease;
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(255, 255, 255, 0.45) inset;
+  transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
   will-change: transform;
 }
 
 .ask-jamey-chip:hover:not(:disabled) {
-  background: rgba(82, 45, 128, 0.11);
+  background: rgba(255, 255, 255, 0.78);
+  border-color: rgba(255, 255, 255, 0.9);
+}
+
+.ask-jamey-send {
+  border: 1px solid rgba(255, 255, 255, 0.38);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.14), 0 0 0 1px rgba(255, 255, 255, 0.22) inset;
+  transition: box-shadow 0.15s ease, filter 0.15s ease;
+}
+
+.ask-jamey-send:hover:not(:disabled) {
+  filter: brightness(1.06);
+  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.18), 0 0 0 1px rgba(255, 255, 255, 0.32) inset;
 }
 
 .ask-jamey-input {
@@ -401,26 +421,118 @@ body {
   will-change: transform;
 }
 
-.btn-resume-outline {
-  border: 1.5px solid rgba(82, 45, 128, 0.28);
-  background: transparent;
+/* Frosted controls — full SVG displacement (liquid-glass) is Chrome-heavy; we use
+   strong backdrop blur + specular rim. Demo reference: https://github.com/archisvaze/liquid-glass */
+.btn-glass {
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1.15rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  line-height: 1.2;
   color: var(--foreground);
-  border-radius: 10px;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glass-shadow), 0 1px 0 rgba(255, 255, 255, 0.55) inset;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.12s ease,
+    color 0.15s ease;
+  will-change: transform;
+}
+
+.btn-glass:hover {
+  background: rgba(255, 255, 255, 0.78);
+  border-color: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(255, 255, 255, 0.55) inset;
+}
+
+.btn-glass:active {
+  transform: translateY(1px);
+}
+
+.btn-glass:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btn-glass--sm {
+  padding: 0.4rem 0.85rem;
+  font-size: 0.8125rem;
+}
+
+.btn-glass--icon {
+  padding: 0.45rem;
+  border-radius: 12px;
+}
+
+.btn-glass--wide {
+  width: 100%;
+}
+
+.btn-glass--accent {
+  color: var(--clemson-purple);
+  border-color: color-mix(in oklch, var(--clemson-purple) 22%, var(--glass-border));
+  background: color-mix(in oklch, var(--glass-bg) 82%, rgba(82, 45, 128, 0.08));
+}
+
+.btn-glass--accent:hover {
+  background: color-mix(in oklch, var(--glass-bg) 72%, rgba(82, 45, 128, 0.12));
+  border-color: color-mix(in oklch, var(--clemson-purple) 35%, var(--glass-border));
+}
+
+.btn-glass--home-link {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  color: var(--accent-blue);
+}
+
+.btn-glass--home-link:hover {
+  color: color-mix(in oklch, var(--accent-blue) 88%, white);
+}
+
+.btn-resume-outline {
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  color: var(--foreground);
+  border-radius: 14px;
   padding: 14px 32px;
   font-weight: 600;
   letter-spacing: 0.02em;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glass-shadow), 0 1px 0 rgba(255, 255, 255, 0.55) inset;
+  text-decoration: none;
   transition:
     background 0.15s ease,
-    border-color 0.15s ease;
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.12s ease;
   will-change: transform;
 }
 
 .btn-resume-outline:hover {
-  background: rgba(82, 45, 128, 0.06);
-  border-color: rgba(82, 45, 128, 0.45);
+  background: rgba(255, 255, 255, 0.78);
+  border-color: color-mix(in oklch, var(--clemson-purple) 28%, var(--glass-border));
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07), 0 0 0 1px rgba(255, 255, 255, 0.55) inset;
+}
+
+.btn-resume-outline:active {
+  transform: translateY(1px);
 }
 
 .surface-card {

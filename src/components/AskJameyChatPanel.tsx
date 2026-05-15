@@ -54,7 +54,7 @@ function CodeBlock({ children }: { children?: ReactNode }) {
     <div className="group relative my-3">
       <button
         type="button"
-        className="absolute top-2 right-2 z-10 rounded-md px-2 py-1 text-[11px] font-medium text-[var(--text-muted)] opacity-0 transition-none group-hover:opacity-100 hover:bg-[var(--glass-hover-bg)] hover:text-[var(--ask-jamey-fg)]"
+        className="btn-glass btn-glass--sm absolute top-2 right-2 z-10 px-2 py-1 text-[11px] font-medium text-[var(--text-muted)] opacity-0 transition-none group-hover:opacity-100"
         onClick={() => {
           void navigator.clipboard.writeText(text).then(() => {
             setCopied(true);
@@ -419,7 +419,7 @@ export function AskJameyChatPanel({ onClose }: { onClose: () => void }) {
         <button
           type="button"
           onClick={onClose}
-          className="text-[var(--text-muted)] hover:text-[var(--ask-jamey-fg)] shrink-0 rounded-lg p-2 transition-colors"
+          className="btn-glass btn-glass--icon text-[var(--text-muted)] hover:text-[var(--ask-jamey-fg)] shrink-0"
           aria-label="Close"
         >
           <X className="h-5 w-5" strokeWidth={1.75} />
@@ -526,7 +526,7 @@ export function AskJameyChatPanel({ onClose }: { onClose: () => void }) {
         <button
           type="button"
           onClick={resetChat}
-          className="text-[var(--text-muted)] hover:text-[var(--ask-jamey-fg)] mx-auto mt-2 block text-[11px] underline-offset-2 hover:underline"
+          className="btn-glass btn-glass--sm text-[var(--text-muted)] hover:text-[var(--ask-jamey-fg)] mx-auto mt-2"
         >
           Start over
         </button>

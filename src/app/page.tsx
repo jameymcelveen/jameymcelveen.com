@@ -212,11 +212,7 @@ export default function Home() {
               <p className="text-foreground-muted mb-2 text-sm sm:text-base">{askJameyCtaLine}</p>
             ) : null}
             {askJameyCta?.trim() ? (
-              <button
-                type="button"
-                onClick={openAskJamey}
-                className="text-[var(--accent-blue)] hover:text-[color-mix(in_oklch,var(--accent-blue)_88%,white)] font-mono text-sm font-medium tracking-wide underline-offset-4 transition-colors hover:underline"
-              >
+              <button type="button" onClick={openAskJamey} className="btn-glass btn-glass--home-link text-sm">
                 {askJameyCta}
               </button>
             ) : null}
@@ -258,10 +254,7 @@ export default function Home() {
               transition={{ duration: 0.3 }}
               className="inline-block"
             >
-              <Link
-                href="/cover-letters"
-                className="glass-card text-foreground hover:border-accent/40 rounded-md px-6 py-2.5 font-medium hover:bg-surface sm:px-8 sm:py-3"
-              >
+              <Link href="/cover-letters" className="btn-glass text-foreground px-6 py-2.5 sm:px-8 sm:py-3">
                 Cover Letters
               </Link>
             </motion.div>

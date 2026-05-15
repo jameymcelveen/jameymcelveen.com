@@ -167,8 +167,35 @@
         .pub strong { font-weight: 500; display: block; margin-bottom: 2px; }
         .pub em { color: #1a5c8e; font-style: italic; }
 
+        /* ── Screen-only print launcher (hidden when printing) ── */
+        .print-actions {
+            position: fixed;
+            bottom: 1.25rem;
+            right: 1.25rem;
+            z-index: 9999;
+        }
+        .no-print { }
+        .btn-glass-print {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 0.55rem 1.2rem;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.68);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(255, 255, 255, 0.55) inset;
+            cursor: pointer;
+            color: #1a1a2e;
+        }
+        .btn-glass-print:hover {
+            background: rgba(255, 255, 255, 0.82);
+        }
+
         /* ── Print ── */
         @media print {
+            .no-print { display: none !important; }
             body { margin: 0; padding: 0; background: white; }
             .page { margin: 0; padding: 0; box-shadow: none; max-width: 100%; width: 100%; }
             a { color: #1a5c8e !important; }
@@ -176,6 +203,9 @@
     </style>
 </head>
 <body>
+<div class="print-actions no-print">
+    <button type="button" class="btn-glass-print" onclick="window.print()">Print</button>
+</div>
 <div class="page">
 
     <!-- HEADER -->

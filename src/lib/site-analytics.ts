@@ -42,7 +42,8 @@ export type InsightClientEvent = {
     | 'chip_click'
     | 'resume_view'
     | 'resume_download'
-    | 'resume_print';
+    | 'resume_print'
+    | 'resume_preview';
   page?: string | null;
   question?: string | null;
   chip_label?: string | null;

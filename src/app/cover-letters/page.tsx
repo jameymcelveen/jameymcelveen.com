@@ -119,11 +119,10 @@ function CoverLettersContent() {
                   {activeTemplate.icon} {activeTemplate.title} Template
                 </h3>
                 <button
+                  type="button"
                   onClick={copyToClipboard}
-                  className={`rounded-full px-3 py-1 text-xs font-medium transition-colors sm:px-4 sm:py-1.5 sm:text-sm ${
-                    copied
-                      ? 'bg-emerald-500/20 text-emerald-400'
-                      : 'bg-accent/10 text-accent hover:bg-accent/20'
+                  className={`btn-glass btn-glass--sm ${
+                    copied ? 'border-emerald-400/45 text-emerald-600' : ''
                   }`}
                 >
                   {copied ? '✓ Copied!' : '📋 Copy'}

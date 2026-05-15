@@ -34,7 +34,8 @@ export type InsightEventType =
   | 'chip_click'
   | 'resume_view'
   | 'resume_download'
-  | 'resume_print';
+  | 'resume_print'
+  | 'resume_preview';
 
 export async function insertAnalyticsEvent(row: {
   eventType: InsightEventType;
@@ -125,7 +126,7 @@ export async function queryDashboardSummary(): Promise<{
       `SELECT COUNT(DISTINCT country)::text AS c FROM analytics_events WHERE country IS NOT NULL AND country <> ''`
     ),
     pool.query<{ c: string }>(
-      `SELECT COUNT(*)::text AS c FROM analytics_events WHERE event_type IN ('resume_view','resume_download','resume_print')`
+      `SELECT COUNT(*)::text AS c FROM analytics_events WHERE event_type IN ('resume_view','resume_download','resume_print','resume_preview')`
     ),
     pool.query<{ day: string; visits: string }>(
       `SELECT to_char(date_trunc('day', created_at AT TIME ZONE 'UTC'), 'YYYY-MM-DD') AS day,

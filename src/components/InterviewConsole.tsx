@@ -44,7 +44,7 @@ function CodeBlock({ children }: { children?: ReactNode }) {
     <div className="group relative my-4">
       <button
         type="button"
-        className="absolute top-2 right-2 z-10 rounded-md px-2 py-1 text-[11px] font-medium text-[var(--ai-text-muted)] opacity-0 transition-none group-hover:opacity-100 hover:bg-[var(--ai-user-pill)] hover:text-[var(--ai-text)]"
+        className="btn-glass btn-glass--sm absolute top-2 right-2 z-10 px-2 py-1 text-[11px] font-medium text-[var(--ai-text-muted)] opacity-0 transition-none group-hover:opacity-100"
         onClick={() => {
           void navigator.clipboard.writeText(text).then(() => {
             setCopied(true);
@@ -398,7 +398,7 @@ export function InterviewConsole({ fillContainer = false }: InterviewConsoleProp
           <button
             type="button"
             onClick={newChat}
-            className="text-[var(--ai-text-muted)] hover:text-[var(--ai-text)] text-xs font-medium tracking-wide"
+            className="btn-glass btn-glass--sm text-[var(--ai-text-muted)] hover:text-[var(--ai-text)] text-xs font-medium tracking-wide"
           >
             Clear conversation
           </button>
