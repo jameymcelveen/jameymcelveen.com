@@ -78,6 +78,7 @@ export const INSIGHT_EVENT_TYPES = [
   'chip_click',
   'resume_view',
   'resume_download',
+  'resume_print',
 ] as const;
 
 export type InsightEventTypeName = (typeof INSIGHT_EVENT_TYPES)[number];

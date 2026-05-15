@@ -4,13 +4,12 @@ import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { ObfuscatedEmail, ObfuscatedPhone } from '@/components/ObfuscatedContact';
-import { Sparkles, FileText, MapPin, Download } from 'lucide-react';
+import { FileText, MapPin, Printer } from 'lucide-react';
 import {
   getResumeData,
   getWorkExperience,
   getSkills,
   getEngineering,
-  getAIDevelopment,
   getContactInfo,
   getBranding,
   getPersonalInfo,
@@ -38,20 +37,17 @@ const itemVariants = {
   },
 };
 
-
 export default function ResumePage() {
   const pathname = usePathname();
   const resume = getResumeData();
   const jobs = getWorkExperience();
   const skills = getSkills();
   const engineering = getEngineering();
-  const aiDev = getAIDevelopment();
   const contact = getContactInfo();
   const branding = getBranding();
   const personal = getPersonalInfo();
 
-  const resumePdfHref = '/Resume_Jamey_McElveen.pdf';
-  const resumePdfName = 'Resume_Jamey_McElveen.pdf';
+  const printResumeHref = '/resume/index.html';
 
   useEffect(() => {
     if (pathname !== '/resume') return;
@@ -66,20 +62,24 @@ export default function ResumePage() {
     });
   }, [pathname]);
 
+  const publication = resume.publication as {
+    title: string;
+    description: string;
+    publisher?: string;
+  };
+
   return (
     <>
-      {/* Sticky PDF download */}
       <div className="fixed top-14 right-4 z-50 flex items-center sm:right-6 sm:top-14">
         <a
-          href={resumePdfHref}
-          download={resumePdfName}
-          aria-label="Download resume as PDF"
+          href={printResumeHref}
+          aria-label="Open printable résumé"
           className="glass-card text-foreground hover:border-accent/40 flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium sm:px-6"
           onClick={() => {
             const from =
               typeof sessionStorage !== 'undefined' ? sessionStorage.getItem('jm_resume_from') : null;
             postInsightEvent({
-              event: 'resume_download',
+              event: 'resume_print',
               page: '/resume',
               from_page: from || null,
               referrer: typeof document !== 'undefined' ? document.referrer || null : null,
@@ -87,29 +87,25 @@ export default function ResumePage() {
             });
           }}
         >
-          <Download className="h-4 w-4" aria-hidden />
-          <span className="hidden sm:inline">Download PDF</span>
-          <span className="sm:hidden">PDF</span>
+          <Printer className="h-4 w-4" aria-hidden />
+          <span>Print</span>
         </a>
       </div>
 
       <div className="w-full px-0 py-8 sm:py-12">
         <motion.div variants={containerVariants} initial="hidden" animate="visible">
-          {/* Header — technical spec */}
           <motion.div variants={itemVariants} className="mb-8 border-b border-steel pb-6 text-left sm:mb-10">
             <p className="text-accent mb-1 font-mono text-[10px] tracking-[0.2em] uppercase sm:text-xs">
-              Document / résumé
+              Résumé
             </p>
             <h1 className="text-foreground mb-2 font-mono text-2xl font-semibold tracking-tight sm:text-3xl md:text-4xl">
-              Technical specification — experience &amp; stack
+              {personal.name}
             </h1>
-            <p className="text-foreground-muted font-mono text-xs sm:text-sm">
-              {resume.subtitle}
-            </p>
+            <p className="text-foreground mb-1 text-base font-medium sm:text-lg">{personal.title}</p>
+            <p className="text-foreground-muted font-mono text-xs sm:text-sm">{resume.subtitle}</p>
           </motion.div>
 
           <div className="grid gap-3 sm:gap-4 md:grid-cols-2">
-            {/* Summary - spans 2 cols */}
             <motion.div
               variants={itemVariants}
               className="liquid-glass-resume glass-card p-4 sm:p-6 md:col-span-2"
@@ -160,7 +156,6 @@ export default function ResumePage() {
               </p>
             </motion.div>
 
-            {/* Education */}
             <motion.div
               variants={itemVariants}
               className="liquid-glass-resume glass-card p-4 sm:p-6"
@@ -172,19 +167,20 @@ export default function ResumePage() {
                 {resume.education.degree}
               </p>
               <p className="text-foreground-muted text-sm">{resume.education.school}</p>
-              <div className="no-print mt-1 space-y-0.5">
-                <p className="text-foreground-muted text-xs tracking-wide">
-                  {'alumniNote' in personal && typeof personal.alumniNote === 'string'
-                    ? personal.alumniNote
-                    : 'Clemson Engineering Alumni'}
+              {'notes' in resume.education &&
+              typeof (resume.education as { notes?: string }).notes === 'string' &&
+              (resume.education as { notes: string }).notes.trim() ? (
+                <p className="text-foreground-muted mt-2 text-xs leading-relaxed sm:text-sm">
+                  {(resume.education as { notes: string }).notes}
                 </p>
+              ) : null}
+              <div className="no-print mt-1 space-y-0.5">
                 <p className="text-xs" style={{ color: branding.highlight }}>
                   {resume.education.schoolMotto}
                 </p>
               </div>
             </motion.div>
 
-            {/* Contact - obfuscated */}
             <motion.div
               variants={itemVariants}
               className="liquid-glass-resume glass-card p-4 sm:p-6"
@@ -202,7 +198,6 @@ export default function ResumePage() {
               </div>
             </motion.div>
 
-            {/* Technical Skills - spans full width */}
             <motion.div
               variants={itemVariants}
               className="glass-card p-4 sm:p-6 md:col-span-2"
@@ -272,7 +267,6 @@ export default function ResumePage() {
               </div>
             </motion.div>
 
-            {/* Engineering & IoT Prototyping Section */}
             <motion.div
               variants={itemVariants}
               className="glass-card p-4 sm:p-6 md:col-span-2"
@@ -297,66 +291,6 @@ export default function ResumePage() {
               </ul>
             </motion.div>
 
-            {/* AI/Cursor Skills Section - Liquid Glass */}
-            <motion.div
-              variants={itemVariants}
-              className="liquid-glass p-4 sm:p-6 md:col-span-2"
-            >
-              <div className="mb-4 flex items-center gap-2">
-                <Sparkles className="h-5 w-5" style={{ color: branding.highlight }} />
-                <h2 className="text-accent font-mono text-[10px] tracking-[0.18em] uppercase">
-                  {aiDev.title}
-                </h2>
-              </div>
-              <div className="space-y-3">
-                <p className="text-foreground-muted text-sm leading-relaxed sm:text-base">
-                  {aiDev.description
-                    .replace(aiDev.toolName, `__TOOL__${aiDev.toolName}__TOOL__`)
-                    .replace(aiDev.velocityIncrease, `__VEL__${aiDev.velocityIncrease}__VEL__`)
-                    .split('__TOOL__')
-                    .map((part, i) => {
-                      if (part.includes('__VEL__')) {
-                        return part.split('__VEL__').map((p, j) =>
-                          j % 2 === 1 ? (
-                            <span
-                              key={`${i}-${j}`}
-                              style={{ color: branding.highlight }}
-                              className="font-semibold"
-                            >
-                              {p}
-                            </span>
-                          ) : (
-                            p
-                          )
-                        );
-                      }
-                      return i % 2 === 1 ? (
-                        <span key={i} style={{ color: branding.highlight }} className="font-medium">
-                          {part}
-                        </span>
-                      ) : (
-                        part
-                      );
-                    })}
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {aiDev.badges.map((badge) => (
-                    <span
-                      key={badge}
-                      className="rounded-md px-2 py-1 font-mono text-xs"
-                      style={{
-                        backgroundColor: `${branding.highlight}1a`,
-                        color: branding.highlight,
-                      }}
-                    >
-                      {badge}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Work Experience - individual cards */}
             <motion.div
               variants={itemVariants}
               className="glass-card p-4 sm:p-6 md:col-span-2"
@@ -417,7 +351,6 @@ export default function ResumePage() {
               </div>
             </motion.div>
 
-            {/* Publication - expanded to full width */}
             <motion.div
               variants={itemVariants}
               className="liquid-glass-resume glass-card p-4 sm:p-6 md:col-span-2"
@@ -429,10 +362,13 @@ export default function ResumePage() {
                 </h2>
               </div>
               <p className="text-foreground text-sm font-medium sm:text-base">
-                {resume.publication.title}
+                {publication.title}
               </p>
-              <p className="text-foreground-muted text-xs sm:text-sm">
-                {resume.publication.description}
+              {publication.publisher ? (
+                <p className="text-foreground-muted text-xs sm:text-sm">{publication.publisher}</p>
+              ) : null}
+              <p className="text-foreground-muted mt-1 text-xs sm:text-sm">
+                {publication.description}
               </p>
             </motion.div>
           </div>

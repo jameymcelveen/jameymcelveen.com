@@ -36,7 +36,13 @@ export function readAnalyticsIds(): { visitorKey: string | null; sessionId: stri
 }
 
 export type InsightClientEvent = {
-  event: 'page_view' | 'ask_jamey_question' | 'chip_click' | 'resume_view' | 'resume_download';
+  event:
+    | 'page_view'
+    | 'ask_jamey_question'
+    | 'chip_click'
+    | 'resume_view'
+    | 'resume_download'
+    | 'resume_print';
   page?: string | null;
   question?: string | null;
   chip_label?: string | null;

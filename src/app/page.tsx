@@ -164,13 +164,14 @@ export default function Home() {
           <HomePolaroidPhoto alt={images.photoAlt} />
         </motion.div>
 
-        {/* Greeting */}
-        <motion.p
-          variants={itemVariants}
-          className="text-[var(--text-muted)] mb-4 font-mono text-xs tracking-widest uppercase sm:text-sm"
-        >
-          {personal.greeting}
-        </motion.p>
+        {personal.greeting?.trim() ? (
+          <motion.p
+            variants={itemVariants}
+            className="text-[var(--text-muted)] mb-4 font-mono text-xs tracking-widest uppercase sm:text-sm"
+          >
+            {personal.greeting}
+          </motion.p>
+        ) : null}
 
         {/* Name with kinetic typography */}
         <h1 className="hero-name-display hero-name-h1 mb-4 sm:mb-6">
@@ -205,18 +206,22 @@ export default function Home() {
         )}
 
         {/* Ask Jamey CTA — directly under tagline */}
-        <motion.div variants={itemVariants} className="mb-8 text-center sm:mb-10">
-          <p className="text-foreground-muted mb-2 text-sm sm:text-base">
-            {askJameyCtaLine ?? 'Have a question about my experience?'}
-          </p>
-          <button
-            type="button"
-            onClick={openAskJamey}
-            className="text-[var(--accent-blue)] hover:text-[color-mix(in_oklch,var(--accent-blue)_88%,white)] font-mono text-sm font-medium tracking-wide underline-offset-4 transition-colors hover:underline"
-          >
-            {askJameyCta ?? 'Ask Jamey →'}
-          </button>
-        </motion.div>
+        {askJameyCtaLine?.trim() || askJameyCta?.trim() ? (
+          <motion.div variants={itemVariants} className="mb-8 text-center sm:mb-10">
+            {askJameyCtaLine?.trim() ? (
+              <p className="text-foreground-muted mb-2 text-sm sm:text-base">{askJameyCtaLine}</p>
+            ) : null}
+            {askJameyCta?.trim() ? (
+              <button
+                type="button"
+                onClick={openAskJamey}
+                className="text-[var(--accent-blue)] hover:text-[color-mix(in_oklch,var(--accent-blue)_88%,white)] font-mono text-sm font-medium tracking-wide underline-offset-4 transition-colors hover:underline"
+              >
+                {askJameyCta}
+              </button>
+            ) : null}
+          </motion.div>
+        ) : null}
 
         {/* Summary */}
         <motion.div

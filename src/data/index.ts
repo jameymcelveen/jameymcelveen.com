@@ -14,7 +14,6 @@ export const getResumeData = () => profile.resume;
 export const getWorkExperience = () => profile.workExperience;
 export const getSkills = () => profile.skills;
 export const getEngineering = () => profile.engineering;
-export const getAIDevelopment = () => profile.aiDevelopment;
 export const getCoverLetters = () => profile.coverLetters;
 export const getSiteMetadata = () => profile.site.metadata;
 export const getSiteDomain = () => profile.site.domain;

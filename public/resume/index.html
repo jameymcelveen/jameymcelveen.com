@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jamey McElveen — Principal Systems Architect</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        @page {
+            size: letter;
+            margin: 0.5in;
+            padding: 0.5in;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            color: #1a1a1a;
+            font-size: 13px;
+            line-height: 1.6;
+            background: #f0ece4;
+            padding: 2rem 1rem;
+        }
+
+        .page {
+            background: #fff;
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 2.8rem 3rem;
+            box-shadow: 0 4px 32px rgba(0,0,0,0.10);
+        }
+
+        /* ── Header ── */
+        .rh {
+            border-bottom: 2.5px solid #1a3a5c;
+            padding-bottom: 1rem;
+            margin-bottom: 1.3rem;
+        }
+        .rh h1 {
+            font-family: 'EB Garamond', serif;
+            font-size: 32px;
+            font-weight: 400;
+            letter-spacing: 0.02em;
+            color: #111;
+            margin-bottom: 3px;
+        }
+        .rh .sub {
+            font-size: 10.5px;
+            font-weight: 500;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: #1a5c8e;
+            margin-bottom: 9px;
+        }
+        .contacts {
+            font-size: 12px;
+            color: #555;
+        }
+        .contacts a { color: #1a5c8e; text-decoration: none; }
+
+        /* ── Section ── */
+        .sec { margin-bottom: 1.3rem; }
+        .sec-title {
+            font-size: 9.5px;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: #1a5c8e;
+            border-bottom: 0.5px solid rgba(26,92,142,0.35);
+            padding-bottom: 3px;
+            margin-bottom: 0.75rem;
+            page-break-after: avoid;
+        }
+
+        /* ── Summary ── */
+        .summary { font-size: 13px; line-height: 1.75; color: #222; }
+        .summary strong { font-weight: 500; }
+
+        /* ── Skills — TABLE for print reliability ── */
+        .skills-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .skills-table td {
+            font-size: 12px;
+            color: #444;
+            padding: 4px 0;
+            border-bottom: 0.5px solid #e8e4de;
+            vertical-align: top;
+            width: 33.33%;
+            padding-right: 1rem;
+        }
+        .skills-table td span {
+            font-weight: 500;
+            color: #1a1a1a;
+        }
+
+        /* ── Jobs ── */
+        .job {
+            margin-bottom: 1.3rem;
+            page-break-inside: avoid;
+        }
+        .jh {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 2px;
+            page-break-after: avoid;
+        }
+        .jt { font-weight: 500; font-size: 13.5px; color: #111; }
+        .jd { font-size: 11.5px; color: #777; white-space: nowrap; }
+        .jc {
+            font-size: 12px;
+            color: #1a5c8e;
+            margin: 2px 0 7px;
+            font-style: italic;
+            page-break-after: avoid;
+        }
+        .job ul { padding-left: 1rem; }
+        .job ul li { margin-bottom: 3px; font-size: 12.5px; color: #222; }
+        .job ul li strong { font-weight: 500; }
+
+        /* ── Product label ── */
+        .pl {
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #999;
+            margin: 9px 0 3px;
+            page-break-after: avoid;
+        }
+
+        /* ── Asterisk note ── */
+        .an { font-size: 11px; color: #999; font-style: italic; margin: 2px 0 7px; }
+
+        /* ── Community ── */
+        .community-item { margin-bottom: 0.9rem; page-break-inside: avoid; }
+        .community-title { font-weight: 500; font-size: 13px; color: #111; page-break-after: avoid; }
+        .community-sub { font-size: 12px; color: #1a5c8e; font-style: italic; margin: 2px 0 5px; }
+
+        /* ── Education ── */
+        .edu-row {
+            display: table;
+            width: 100%;
+        }
+        .edu-cell {
+            display: table-cell;
+            width: 50%;
+            vertical-align: top;
+            padding-right: 2rem;
+        }
+        .edu-cell:last-child { padding-right: 0; }
+        .edu-label { font-weight: 500; font-size: 13px; color: #111; }
+        .edu-sub { font-size: 12px; color: #666; }
+        .pub {
+            background: #eef4fb;
+            border-left: 3px solid #1a5c8e;
+            padding: 8px 12px;
+            border-radius: 0 5px 5px 0;
+            font-size: 12.5px;
+            color: #222;
+        }
+        .pub strong { font-weight: 500; display: block; margin-bottom: 2px; }
+        .pub em { color: #1a5c8e; font-style: italic; }
+
+        /* ── Print ── */
+        @media print {
+            body { margin: 0; padding: 0; background: white; }
+            .page { margin: 0; padding: 0; box-shadow: none; max-width: 100%; width: 100%; }
+            a { color: #1a5c8e !important; }
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+
+    <!-- HEADER -->
+    <div class="rh">
+        <h1>Jamey McElveen</h1>
+        <div class="sub">Principal Systems Architect · O'Reilly Author</div>
+        <div class="contacts">
+            Florence, SC &nbsp;·&nbsp; (843) 618-8078 &nbsp;·&nbsp;
+            <a href="mailto:jamey@mcelveen.us">jamey@mcelveen.us</a> &nbsp;·&nbsp;
+            <a href="https://jameymcelveen.com">jameymcelveen.com</a> &nbsp;·&nbsp;
+            Remote · Full-Time or Contract
+        </div>
+    </div>
+
+    <!-- SUMMARY -->
+    <div class="sec">
+        <div class="sec-title">Executive Summary</div>
+        <p class="summary">
+            Principal Systems Architect with 30+ years delivering enterprise .NET platforms across SaaS, FinTech, and Healthcare. Designed and sustained multi-tenant systems serving 50,000+ organizations; led teams of 20+ engineers through complete platform generational shifts. Expert in AI-Augmented Engineering — leveraging LLM-driven tooling (Cursor/Claude) to accelerate legacy modernization and reduce friction on complex refactoring work. Published O'Reilly author. Currently architecting an open-source mission clinic EMR (Christ Medical) with offline-first sync for field clinics in low-connectivity environments.
+        </p>
+    </div>
+
+    <!-- SKILLS — table-based for print reliability -->
+    <div class="sec">
+        <div class="sec-title">Core Competencies</div>
+        <table class="skills-table">
+            <tr>
+                <td><span>Languages</span> — C#, .NET 9/Core, T-SQL, TypeScript, C++, Java</td>
+                <td><span>APIs &amp; Protocols</span> — REST, WCF/SOAP, WS-Security, OpenAPI</td>
+                <td><span>Architecture</span> — N-Tier, MDD, Strangler, Shard Routing, Offline-First, SOA, Event-Driven</td>
+            </tr>
+            <tr>
+                <td><span>Data</span> — MS SQL, PostgreSQL, Snowflake, Oracle, Redis</td>
+                <td><span>SQL Performance</span> — Covering Indexes, RowVersion, RLS, Resource Governor</td>
+                <td><span>Cloud &amp; DevOps</span> — Kubernetes, EKS, Docker, Railway, Vercel, CI/CD</td>
+            </tr>
+            <tr>
+                <td><span>Frontend</span> — Next.js 15, React, Angular 8-15, Storybook, Tailwind, Vue.js</td>
+                <td><span>Observability</span> — ELK Stack, Structured Logging, OpenTelemetry</td>
+                <td><span>Compliance</span> — HIPAA, PHI Masking, BAA, TLS 1.2+, FinTech Audit</td>
+            </tr>
+            <tr>
+                <td><span>AI Tooling</span> — Cursor, Claude, LLM Workflows, Clean-Room PII Protocol</td>
+                <td><span>Integration</span> — Epic EMR, Oracle Cloud, Dotmim Sync, GIS/ESRI</td>
+                <td><span>Leadership</span> — R&amp;D Mgmt, Mentoring, ADRs, Technical Writing, Scrum Master, Product Owner</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- EXPERIENCE -->
+    <div class="sec">
+        <div class="sec-title">Professional Experience</div>
+
+        <!-- Christ Medical -->
+        <div class="job">
+            <div class="jh">
+                <span class="jt">Principal Architect — Pro Bono / Kingdom Work</span>
+                <span class="jd">2024 – Present</span>
+            </div>
+            <div class="jc">Christ Medical Mission System &nbsp;·&nbsp; Healthcare / Missions &nbsp;·&nbsp; <a href="https://github.com/christmedical">github.com/christmedical</a></div>
+            <ul>
+                <li>Architected offline-first sync layer using Dotmim Sync — field laptops operate independently and reconcile with central hub on reconnect. Zero data loss, no paper fallback required.</li>
+                <li>Implemented Double Metaphone phonetic patient search via PostgreSQL fuzzystrmatch — solving name romanization inconsistency across multilingual mission contexts.</li>
+                <li>Unified spiritual and medical outcome tracking in a single data model (spiritual=heard|hope|none) — treating the whole person as the patient.</li>
+                <li>Enforced CI parity via single gate running ESLint, Vitest, React Testing Library, and production Next.js build locally and in GitHub Actions.</li>
+            </ul>
+        </div>
+
+        <!-- SecureGive -->
+        <div class="job">
+            <div class="jh">
+                <span class="jt">Senior Solutions Architect</span>
+                <span class="jd">2023 – 2025</span>
+            </div>
+            <div class="jc">SecureGive &nbsp;·&nbsp; FinTech / Donation Processing</div>
+            <ul>
+                <li>Architected high-concurrency public APIs in .NET Core on Kubernetes (EKS) with elastic scale to absorb Giving Tuesday traffic spikes — zero downtime during peak donation surges.</li>
+                <li>Designed anti-fraud heuristics to detect and shut down credit-card validation attacks (carding), protecting platform integrity and donor funds.</li>
+                <li>Engineered idempotent ETL pipelines for PostgreSQL to Snowflake migrations; pipelines restart mid-stream without duplicating financial records.</li>
+                <li>Leveraged Snowflake Time Travel for financial audit trails and year-over-year trend reporting without loading production transactional DB.</li>
+                <li>Created, maintained, and documented Angular components using Storybook across the full frontend component library.</li>
+                <li>Applied FinTech-grade security including immutable audit trails, TLS 1.2+ enforcement, and least-privilege access across all data surfaces.</li>
+            </ul>
+        </div>
+
+        <!-- McLeod -->
+        <div class="job">
+            <div class="jh">
+                <span class="jt">Senior Software Developer / Modernization Lead</span>
+                <span class="jd">2021 – 2023</span>
+            </div>
+            <div class="jc">McLeod Health &nbsp;·&nbsp; Enterprise Healthcare / HIPAA</div>
+            <ul>
+                <li>Migrated entire development organization from file-share-based storage to Git and GitHub — cleaning 100,000+ commits with BFG Repo-Cleaner, reducing repo size by 80%.</li>
+                <li>Implemented CI pipelines for HIPAA-compliant clinical systems, replacing manual deployments with automated, auditable release processes.</li>
+                <li>Mentored developers and interns on Git workflows, branching strategy, and pull request culture.</li>
+                <li>Introduced ELK stack with Golden Record PHI scrubbing service — replacing real names and SSNs with synthetic identities in non-production environments. Zero BAA exposure risk.</li>
+                <li>Enforced TLS 1.2+ across all WCF and REST endpoints.</li>
+                <li>Managed data integration bridges between .NET applications and Oracle Cloud / Epic EMR platforms serving thousands of clinical staff.</li>
+            </ul>
+        </div>
+
+        <!-- ACS -->
+        <div class="job">
+            <div class="jh">
+                <span class="jt">Programming Manager / R&amp;D Architect</span>
+                <span class="jd">1996 – 2021 *</span>
+            </div>
+            <div class="jc">ACS Technologies &nbsp;·&nbsp; Enterprise SaaS</div>
+            <p class="an">* Except May 2005 – May 2006 (see Lyle's Data Systems)</p>
+            <ul>
+                <li>Strategic architectural lead for flagship SaaS suite serving 50,000+ organizations worldwide; directed distributed R&amp;D team of 20+ engineers.</li>
+                <li>Scrum Master for Realm for several years; served as Product Owner during management chapter — ran backlog grooming, story points, standups.</li>
+                <li>Pioneered Model-Driven Development (MDD) for large-scale C# codebases.</li>
+                <li>Used actor pattern for async debit card hardware feedback coordination in payment processing flows.</li>
+                <li>Departed following strategic leadership transition that altered the organization's technical vision and direction.</li>
+            </ul>
+
+            <div class="pl">Realm &nbsp;—&nbsp; Multi-Tenant SaaS Platform</div>
+            <ul>
+                <li>Architected multi-tenancy using RLS and SQL Resource Governor to prevent Noisy Neighbor degradation across 50,000+ tenants.</li>
+                <li>Built shard-aware routing layer enabling live zero-downtime tenant migration when organizations exceeded resource thresholds.</li>
+            </ul>
+
+            <div class="pl">Facility Scheduler &nbsp;—&nbsp; N-Tier Scheduling Engine</div>
+            <ul>
+                <li>Designed N-tier C# / WCF / SOAP architecture with custom WS-Security header processing in the WCF message pipeline.</li>
+                <li>Eliminated high-concurrency booking conflicts using RowVersion optimistic locking; reduced scheduling query overhead 70% via covering index eliminating a bookmark lookup.</li>
+            </ul>
+
+            <div class="pl">HeadMaster &nbsp;—&nbsp; School Management Ecosystem</div>
+            <ul>
+                <li>Modeled non-linear Student-Guardian-Representative hierarchies using M:N relational tables with bitmask permission flags.</li>
+                <li>Architecture maps directly to SC DSS / CAPSS child placement and voucher eligibility workflows — transferable to behavioral health or child-services SaaS domains.</li>
+            </ul>
+        </div>
+
+        <!-- LDS -->
+        <div class="job">
+            <div class="jh">
+                <span class="jt">Programming Manager</span>
+                <span class="jd">May 2005 – May 2006</span>
+            </div>
+            <div class="jc">Lyle's Data Systems &nbsp;·&nbsp; Civic Tech / Government SaaS</div>
+            <ul>
+                <li>Managed three developers delivering Java / Struts MVC government services platforms to municipal clients across the Southeast.</li>
+                <li>Architected multi-jurisdiction online property tax payment system enabling citizens and banks to pay home, vehicle, and boat taxes online.</li>
+                <li>Designed and built @ Your Request — citizen issue-reporting platform with photo uploads and real-time progress tracking.</li>
+                <li>Performed GIS / ESRI geospatial data conversion migrating legacy systems into MS SQL Server.</li>
+            </ul>
+        </div>
+
+    </div>
+
+    <!-- COMMUNITY & MENTORING -->
+    <div class="sec">
+        <div class="sec-title">Community</div>
+
+        <div class="community-item">
+            <div class="community-title">FIRST Robotics — Technomancers &nbsp;<a href="https://technomancers.github.io" style="font-size:11px;color:#1a5c8e;font-weight:400;">technomancers.github.io</a></div>
+            <div class="community-sub">Technical Mentor — IB Baccalaureate STEM Program</div>
+            <ul style="padding-left:1rem;">
+                <li style="font-size:12.5px;margin-bottom:3px;">Mentored high school students in Kotlin software development and circuit/sensor integration for competitive robotics.</li>
+                <li style="font-size:12.5px;">Translated complex engineering concepts into accessible instruction for students with no prior programming background.</li>
+            </ul>
+        </div>
+
+        <div class="community-item" style="margin-top:0.7rem;">
+            <div class="community-title">AI Development — Peer Mentoring</div>
+            <div class="community-sub">Informal Mentor</div>
+            <ul style="padding-left:1rem;">
+                <li style="font-size:12.5px;margin-bottom:3px;">Mentors peers in AI-augmented engineering workflows — Cursor, Claude, prompt engineering, and clean-room PII protocols for regulated environments.</li>
+                <li style="font-size:12.5px;">Extensive self-directed study applied directly to active production projects — not theoretical.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- EDUCATION & PUBLICATIONS -->
+    <div class="sec">
+        <div class="sec-title">Education &amp; Publications</div>
+        <div class="edu-row">
+            <div class="edu-cell">
+                <div class="edu-label">B.S. Computer Engineering</div>
+                <div class="edu-sub">Clemson University</div>
+                <div style="margin-top:7px;font-size:12px;color:#555;">C++ / OpenGL background applied to .NET GC optimization and performance-sensitive system design.</div>
+                <div style="margin-top:8px;font-size:12px;color:#522d80;font-weight:500;">Go Tigers!</div>
+            </div>
+            <div class="edu-cell">
+                <div class="pub">
+                    <strong>O'Reilly Media</strong>
+                    <em>iPhone Game Development</em>
+                    <div style="margin-top:5px;font-size:11.5px;color:#666;font-style:normal;">Technical writing clarity applied daily — Swagger/OpenAPI specs, architecture decision records, and deep-dive team documentation.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

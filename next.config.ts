@@ -1,4 +1,5 @@
 import type { NextConfig } from 'next';
+import type { Redirect } from 'next/dist/lib/load-custom-routes';
 import profileData from './src/data/profile.json';
 
 const nextConfig: NextConfig = {
@@ -12,21 +13,22 @@ const nextConfig: NextConfig = {
     '/api/analytics/event': ['./vendor/geoip-data/**/*'],
   },
 
-  async redirects() {
+  async redirects(): Promise<Redirect[]> {
     const { domain } = profileData.site;
+    const list: Redirect[] = [
+      { source: '/resume/print', destination: '/resume/index.html', permanent: false },
+    ];
 
     if (domain.www && domain.canonical && domain.www !== domain.canonical) {
-      return [
-        {
-          source: '/:path*',
-          has: [{ type: 'host', value: domain.www }],
-          destination: `https://${domain.canonical}/:path*`,
-          permanent: true,
-        },
-      ];
+      list.unshift({
+        source: '/:path*',
+        has: [{ type: 'host', value: domain.www }],
+        destination: `https://${domain.canonical}/:path*`,
+        permanent: true,
+      });
     }
 
-    return [];
+    return list;
   },
 };
 

@@ -3,13 +3,12 @@
     "name": "Jamey McElveen",
     "firstName": "Jamey",
     "lastName": "McElveen",
-    "title": "Principal Systems Architect & Engineering Leader",
+    "title": "Principal Systems Architect · O'Reilly Author",
     "headlinePrimary": "Principal Systems Architect",
-    "headlineSecondary": " · 30+ years Enterprise Architecture · O'Reilly Author",
+    "headlineSecondary": " · O'Reilly Author",
     "subtitle": "",
     "location": "Florence, SC",
-    "greeting": "Hello, I'm",
-    "alumniNote": "Clemson Engineering Alumni"
+    "greeting": ""
   },
   "contact": {
     "email": "jamey@mcelveen.us",
@@ -30,19 +29,26 @@
     "accentHighlight": "#f56600"
   },
   "home": {
-    "summary": "30+ years crafting scalable solutions in Christian tech and fintech. Architecting platforms that serve 50,000+ organizations. Applying AI tooling daily in engineering workflows—judgment first, tooling as a force multiplier.",
-    "summaryHighlight1": "Christian tech",
-    "summaryHighlight2": "fintech",
-    "summaryHighlight3": "Applying AI tooling daily",
+    "summary": "Principal Systems Architect with 30+ years delivering enterprise .NET platforms across SaaS, FinTech, and Healthcare. Designed and sustained multi-tenant systems serving 50,000+ organizations; led teams of 20+ engineers through complete platform generational shifts. Expert in AI-Augmented Engineering — leveraging LLM-driven tooling (Cursor/Claude) to accelerate legacy modernization and reduce friction on complex refactoring work. Published O'Reilly author. Currently architecting an open-source mission clinic EMR (Christ Medical) with offline-first sync for field clinics in low-connectivity environments.",
+    "summaryHighlight1": "50,000+ organizations",
+    "summaryHighlight2": "AI-Augmented Engineering",
+    "summaryHighlight3": "Christ Medical",
     "techStack": [
+      ".NET 9",
+      "Next.js 15",
+      "PostgreSQL",
+      "Dotmim Sync",
+      "Docker",
+      "Railway",
+      "Vercel",
+      "Fastify",
       "Node.js",
       "TypeScript",
-      ".NET 9",
-      "React",
-      "PostgreSQL",
-      "Cursor AI"
+      "Drizzle ORM",
+      "Redis",
+      "SSE"
     ],
-    "askJameyCtaLine": "Have a question about my experience?",
+    "askJameyCtaLine": "Personal site with AI-powered interview twin.",
     "askJameyCta": "Ask Jamey →",
     "projects": [
       {
@@ -50,100 +56,202 @@
         "title": "Christ Medical Mission System",
         "shortTitle": "Christ Medical",
         "description": "Open-source EMR for field clinics in low-connectivity environments.",
-        "stack": [".NET 9", "Next.js 15", "PostgreSQL", "Offline-First"],
-        "href": "https://github.com/christmedical/christmedical.com",
+        "stack": [".NET 9", "Next.js 15", "PostgreSQL", "Dotmim Sync", "Docker", "Railway", "Vercel"],
+        "href": "https://github.com/christmedical",
         "icon": "cross"
+      },
+      {
+        "id": "qiklog",
+        "title": "QikLog",
+        "shortTitle": "QikLog",
+        "description": "Multi-tenant log-tailing SaaS with real-time SSE streaming.",
+        "stack": ["Fastify", "Node.js", "TypeScript", "Drizzle ORM", "PostgreSQL", "Redis", "SSE"],
+        "href": "https://github.com/jameymcelveen/qiklog",
+        "icon": "terminal"
+      },
+      {
+        "id": "jameymcelveen-com",
+        "title": "jameymcelveen.com",
+        "shortTitle": "jameymcelveen.com",
+        "description": "Personal site with AI-powered interview twin (Ask Jamey).",
+        "stack": ["Next.js 15", "Node.js", "TypeScript", "Railway", "Vercel"],
+        "href": "https://jameymcelveen.com",
+        "icon": "terminal"
       }
     ]
   },
   "resume": {
-    "summary": "Principal Systems Architect with 30+ years of experience in Christian tech and fintech. Expert in architecting scalable solutions for platforms serving 50,000+ organizations. Applies AI tooling daily to maximize developer velocity and code quality, with judgment-first guardrails.",
-    "summaryHighlight1": "Christian tech",
-    "summaryHighlight2": "fintech",
-    "summaryHighlight3": "Applies AI tooling daily",
-    "subtitle": "30+ years of engineering excellence",
+    "summary": "Principal Systems Architect with 30+ years delivering enterprise .NET platforms across SaaS, FinTech, and Healthcare. Designed and sustained multi-tenant systems serving 50,000+ organizations; led teams of 20+ engineers through complete platform generational shifts. Expert in AI-Augmented Engineering — leveraging LLM-driven tooling (Cursor/Claude) to accelerate legacy modernization and reduce friction on complex refactoring work. Published O'Reilly author. Currently architecting an open-source mission clinic EMR (Christ Medical) with offline-first sync for field clinics in low-connectivity environments.",
+    "summaryHighlight1": "50,000+ organizations",
+    "summaryHighlight2": "AI-Augmented Engineering",
+    "summaryHighlight3": "Christ Medical",
+    "subtitle": "Remote · Full-Time or Contract",
     "education": {
       "degree": "B.S. Computer Engineering",
       "school": "Clemson University",
-      "schoolMotto": "Go Tigers!"
+      "schoolMotto": "Go Tigers!",
+      "notes": "C++ / OpenGL background applied to .NET GC optimization and performance-sensitive system design."
     },
     "publication": {
       "title": "iPhone Game Development",
-      "description": "A technical and business guide to creating and selling iPhone games"
-    },
-    "printSummary": "Principal Systems Architect with 30+ years of experience specializing in high-scale platforms and modern development workflows. Proven track record of leading teams of 20+ and architecting solutions for over 50,000 organizations. Applies AI tooling daily to maximize delivery velocity, with architecture-first judgment."
+      "publisher": "O'Reilly Media",
+      "description": "Technical writing clarity applied daily — Swagger/OpenAPI specs, architecture decision records, and deep-dive team documentation."
+    }
   },
   "workExperience": [
     {
-      "title": "Senior Software Engineer",
-      "company": "SecureGive.com",
-      "period": "Sept 2023 – July 2025",
+      "title": "Principal Architect — Pro Bono / Kingdom Work",
+      "company": "Christ Medical Mission System",
+      "period": "2024 – Present",
       "bullets": [
-        "Architected high-performance client-facing API using Snowflake and .NET Core API Gateway",
-        "Developed full-stack features using Scala, Angular, and React Native",
-        "Collaborated on technical design, code review, and iterative delivery within FinTech security and compliance expectations"
+        "Architected offline-first sync layer using Dotmim Sync — field laptops operate independently and reconcile with central hub on reconnect. Zero data loss, no paper fallback required.",
+        "Implemented Double Metaphone phonetic patient search via PostgreSQL fuzzystrmatch — solving name romanization inconsistency across multilingual mission contexts.",
+        "Unified spiritual and medical outcome tracking in a single data model (spiritual=heard|hope|none) — treating the whole person as the patient.",
+        "Enforced CI parity via single gate running ESLint, Vitest, React Testing Library, and production Next.js build locally and in GitHub Actions."
       ],
-      "highlight": "FinTech delivery: Snowflake-backed APIs and full-stack shipping across web and mobile",
+      "highlight": "Healthcare / Missions — github.com/christmedical",
       "isLongTenure": false
     },
     {
-      "title": "Senior Software Developer",
-      "company": "McLeod Health",
-      "period": "Sept 2021 – July 2023",
+      "title": "Senior Solutions Architect",
+      "company": "SecureGive",
+      "period": "2023 – 2025",
       "bullets": [
-        "Modernized legacy C# codebases to .NET Core standards for critical HR and healthcare infrastructure",
-        "Introduced Git SCM and CI/CD to the organization for the first time",
-        "Mentored interns using Agile methodologies to ensure seamless integration and quality code output"
+        "Architected high-concurrency public APIs in .NET Core on Kubernetes (EKS) with elastic scale to absorb Giving Tuesday traffic spikes — zero downtime during peak donation surges.",
+        "Designed anti-fraud heuristics to detect and shut down credit-card validation attacks (carding), protecting platform integrity and donor funds.",
+        "Engineered idempotent ETL pipelines for PostgreSQL to Snowflake migrations; pipelines restart mid-stream without duplicating financial records.",
+        "Leveraged Snowflake Time Travel for financial audit trails and year-over-year trend reporting without loading production transactional DB.",
+        "Created, maintained, and documented Angular components using Storybook across the full frontend component library.",
+        "Applied FinTech-grade security including immutable audit trails, TLS 1.2+ enforcement, and least-privilege access across all data surfaces."
       ],
-      "highlight": null,
+      "highlight": "FinTech / Donation Processing",
       "isLongTenure": false
+    },
+    {
+      "title": "Senior Software Developer / Modernization Lead",
+      "company": "McLeod Health",
+      "period": "2021 – 2023",
+      "bullets": [
+        "Migrated entire development organization from file-share-based storage to Git and GitHub — cleaning 100,000+ commits with BFG Repo-Cleaner, reducing repo size by 80%.",
+        "Implemented CI pipelines for HIPAA-compliant clinical systems, replacing manual deployments with automated, auditable release processes.",
+        "Mentored developers and interns on Git workflows, branching strategy, and pull request culture.",
+        "Introduced ELK stack with Golden Record PHI scrubbing service — replacing real names and SSNs with synthetic identities in non-production environments. Zero BAA exposure risk.",
+        "Enforced TLS 1.2+ across all WCF and REST endpoints.",
+        "Managed data integration bridges between .NET applications and Oracle Cloud / Epic EMR platforms serving thousands of clinical staff."
+      ],
+      "highlight": "Enterprise Healthcare / HIPAA",
+      "isLongTenure": false
+    },
+    {
+      "title": "Programming Manager / R&D Architect",
+      "company": "ACS Technologies",
+      "period": "1996 – 2021",
+      "bullets": [
+        "Except May 2005 – May 2006 (see Lyle's Data Systems)",
+        "Strategic architectural lead for flagship SaaS suite serving 50,000+ organizations worldwide; directed distributed R&D team of 20+ engineers.",
+        "Scrum Master for Realm for several years; served as Product Owner during management chapter — ran backlog grooming, story points, standups.",
+        "Pioneered Model-Driven Development (MDD) for large-scale C# codebases.",
+        "Used actor pattern for async debit card hardware feedback coordination in payment processing flows.",
+        "Departed following strategic leadership transition that altered the organization's technical vision and direction.",
+        "Realm — Multi-Tenant SaaS Platform — Architected multi-tenancy using RLS and SQL Resource Governor to prevent Noisy Neighbor degradation across 50,000+ tenants.",
+        "Realm — Multi-Tenant SaaS Platform — Built shard-aware routing layer enabling live zero-downtime tenant migration when organizations exceeded resource thresholds.",
+        "Facility Scheduler — N-Tier Scheduling Engine — Designed N-tier C# / WCF / SOAP architecture with custom WS-Security header processing in the WCF message pipeline.",
+        "Facility Scheduler — N-Tier Scheduling Engine — Eliminated high-concurrency booking conflicts using RowVersion optimistic locking; reduced scheduling query overhead 70% via covering index eliminating a bookmark lookup.",
+        "HeadMaster — School Management Ecosystem — Modeled non-linear Student-Guardian-Representative hierarchies using M:N relational tables with bitmask permission flags.",
+        "HeadMaster — School Management Ecosystem — Architecture maps directly to SC DSS / CAPSS child placement and voucher eligibility workflows — transferable to behavioral health or child-services SaaS domains."
+      ],
+      "highlight": "Enterprise SaaS",
+      "isLongTenure": true
     },
     {
       "title": "Programming Manager",
-      "company": "ACS Technologies",
-      "period": "May 1996 – Feb 2021",
+      "company": "Lyle's Data Systems",
+      "period": "May 2005 – May 2006",
       "bullets": [
-        "Directed an R&D department of 20+ developers, managing hiring, mentorship, and product roadmaps",
-        "Led the engineering of Realm, a flagship C# .NET MVC application serving 50,000+ churches",
-        "Launched ChurchLife in 2008, one of the first 100 apps on the Apple App Store"
+        "Managed three developers delivering Java / Struts MVC government services platforms to municipal clients across the Southeast.",
+        "Architected multi-jurisdiction online property tax payment system enabling citizens and banks to pay home, vehicle, and boat taxes online.",
+        "Designed and built @ Your Request — citizen issue-reporting platform with photo uploads and real-time progress tracking.",
+        "Performed GIS / ESRI geospatial data conversion migrating legacy systems into MS SQL Server."
       ],
-      "highlight": null,
-      "isLongTenure": true
+      "highlight": "Civic Tech / Government SaaS",
+      "isLongTenure": false
     }
   ],
   "skills": {
-    "frameworks": [".NET Core", "ASP.NET MVC", "Next.js", "Fastify", "React", "React Native", "Angular", "Vue.js"],
-    "languages": ["C#", "TypeScript", "JavaScript", "Node.js", "HTML", "Scala"],
-    "data": ["Snowflake", "PostgreSQL", "MSSQL", "Oracle Cloud"],
-    "tools": ["Cursor AI", "Git", "CI/CD", "Agile/Scrum"]
-  },
-  "engineering": {
-    "title": "Engineering & IoT Prototyping",
-    "items": [
-      {
-        "label": "Industrial IoT",
-        "description": "Prototyping sensor-to-cloud pipelines using Raspberry Pi, Arduino, and ESP32."
-      },
-      {
-        "label": "Robotics Leadership",
-        "description": "Long-term mentor for FIRST Robotics, specializing in autonomous navigation."
-      },
-      {
-        "label": "Hardware Integration",
-        "description": "Experienced in custom UAV (quadcopter) architecture, PID tuning, and telemetry systems."
-      },
-      {
-        "label": "The Hardware-Software Bridge",
-        "description": "Skilled at translating low-level hardware protocols into high-level C#/.NET APIs."
-      }
+    "languages": ["C#", ".NET 9/Core", "T-SQL", "TypeScript", "C++", "Java"],
+    "frameworks": [
+      "REST",
+      "WCF/SOAP",
+      "WS-Security",
+      "OpenAPI",
+      "Next.js 15",
+      "React",
+      "Angular 8-15",
+      "Storybook",
+      "Tailwind",
+      "Vue.js",
+      "N-Tier",
+      "MDD",
+      "Strangler",
+      "Shard Routing",
+      "Offline-First",
+      "SOA",
+      "Event-Driven"
+    ],
+    "data": [
+      "MS SQL",
+      "PostgreSQL",
+      "Snowflake",
+      "Oracle",
+      "Redis",
+      "Covering Indexes",
+      "RowVersion",
+      "RLS",
+      "Resource Governor"
+    ],
+    "tools": [
+      "Kubernetes",
+      "EKS",
+      "Docker",
+      "Railway",
+      "Vercel",
+      "CI/CD",
+      "ELK Stack",
+      "Structured Logging",
+      "OpenTelemetry",
+      "HIPAA",
+      "PHI Masking",
+      "BAA",
+      "TLS 1.2+",
+      "FinTech Audit",
+      "Cursor",
+      "Claude",
+      "LLM Workflows",
+      "Clean-Room PII Protocol",
+      "Epic EMR",
+      "Oracle Cloud",
+      "Dotmim Sync",
+      "GIS/ESRI",
+      "R&D Mgmt",
+      "Mentoring",
+      "ADRs",
+      "Technical Writing",
+      "Scrum Master",
+      "Product Owner"
     ]
   },
-  "aiDevelopment": {
-    "title": "AI-Augmented Development",
-    "description": "Using AI tools like Cursor to speed design exploration, boilerplate, and refactoring—always with manual review and strict guardrails when architecture, FinTech, or HIPAA boundaries apply.",
-    "toolName": "Cursor",
-    "velocityIncrease": "strict guardrails",
-    "badges": ["Cursor AI", "AI Code Generation", "Automated Testing", "Code Review AI"]
+  "engineering": {
+    "title": "Community",
+    "items": [
+      {
+        "label": "FIRST Robotics — Technomancers",
+        "description": "Technical Mentor — IB Baccalaureate STEM Program. Mentored high school students in Kotlin software development and circuit/sensor integration for competitive robotics. Translated complex engineering concepts into accessible instruction for students with no prior programming background."
+      },
+      {
+        "label": "AI Development — Peer Mentoring",
+        "description": "Informal Mentor. Mentors peers in AI-augmented engineering workflows — Cursor, Claude, prompt engineering, and clean-room PII protocols for regulated environments. Extensive self-directed study applied directly to active production projects — not theoretical."
+      }
+    ]
   },
   "coverLetters": {
     "pin": "072995",
@@ -211,29 +319,23 @@
       "www": "www.jameymcelveen.com"
     },
     "metadata": {
-      "title": "Jamey McElveen | Principal Systems Architect",
-      "description": "Principal Systems Architect with 30+ years in enterprise .NET, Node.js, and full-stack development. Applying AI tooling daily across active production projects. O'Reilly author. Remote.",
+      "title": "Jamey McElveen | Principal Systems Architect · O'Reilly Author",
+      "description": "Principal Systems Architect with 30+ years delivering enterprise .NET platforms across SaaS, FinTech, and Healthcare. Published O'Reilly author. Remote · Full-Time or Contract.",
       "keywords": [
         "Principal Systems Architect",
-        ".NET Architect",
-        "Node.js",
-        "TypeScript",
-        "Fastify",
-        "Next.js",
-        "C#",
-        "Enterprise SaaS",
-        "HIPAA",
-        "FinTech",
-        "Remote Architect",
-        "Florence, SC",
-        "Clemson Engineer",
         "O'Reilly Author",
-        "AI Engineering"
+        "Enterprise .NET",
+        "SaaS",
+        "FinTech",
+        "Healthcare",
+        "Remote",
+        "Florence, SC",
+        "Clemson University"
       ],
       "author": "Jamey McElveen",
       "openGraph": {
-        "title": "Jamey McElveen | Principal Systems Architect",
-        "description": "30+ years enterprise architecture. O'Reilly author. Currently building Christ Medical. Ask Jamey anything.",
+        "title": "Jamey McElveen | Principal Systems Architect · O'Reilly Author",
+        "description": "Principal Systems Architect with 30+ years delivering enterprise .NET platforms across SaaS, FinTech, and Healthcare. Christ Medical. Ask Jamey.",
         "type": "website"
       }
     },
