@@ -49,6 +49,21 @@
   --gradient-mesh: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(82, 45, 128, 0.14) 0%, transparent 55%),
     radial-gradient(ellipse 70% 50% at 100% 40%, rgba(245, 102, 0, 0.1) 0%, transparent 50%),
     radial-gradient(ellipse 60% 45% at 0% 80%, rgba(82, 45, 128, 0.08) 0%, transparent 45%);
+
+  /* Slow base wash behind paper noise — makes frosted panels read richer */
+  --bg-motion-gradient: linear-gradient(-45deg, #f5f4f0, #f0ede8, #f5f2f0, #ede8f0);
+  /* Hairline diagonals over glass tint (very subtle brushed spec) */
+  --glass-brush-layer: repeating-linear-gradient(
+    118deg,
+    transparent 0 5px,
+    rgba(255, 255, 255, 0.05) 5px 6px
+  );
+  --glass-sheen-layer: linear-gradient(
+    168deg,
+    rgba(255, 255, 255, 0.11) 0%,
+    transparent 48%,
+    rgba(0, 0, 0, 0.028) 100%
+  );
 }
 
 @theme inline {
@@ -102,11 +117,38 @@
 
 body {
   background-color: var(--background);
-  background-image: var(--paper-noise);
+  background-image: var(--paper-noise), var(--bg-motion-gradient);
+  background-size: 300px 300px, 400% 400%;
+  background-position: 0 0, 0% 50%;
+  background-repeat: repeat, no-repeat;
+  animation: gradientShift 15s ease infinite;
   color: var(--foreground);
   font-family: var(--font-sans), system-ui, sans-serif;
   font-size: 1rem;
   line-height: 1.65;
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0 0, 0% 50%;
+  }
+  50% {
+    background-position: 0 0, 100% 50%;
+  }
+  100% {
+    background-position: 0 0, 0% 50%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body {
+    animation: none;
+    background-position: 0 0, 50% 50%;
+  }
+
+  .gradient-mesh::before {
+    animation: none;
+  }
 }
 
 .hero-name-display {
@@ -126,8 +168,8 @@ body {
   position: fixed;
   inset: 0;
   z-index: -1;
-  background-color: var(--background);
-  background-image: var(--paper-noise);
+  /* Body carries paper noise + animated wash; this layer only adds the soft purple mesh */
+  background: transparent;
   overflow: hidden;
 }
 
@@ -158,7 +200,10 @@ body {
 
 /* Command-center surfaces — frosted glass (no purple card borders) */
 .glass-card {
-  background: var(--glass-bg);
+  background-color: var(--glass-bg);
+  background-image: var(--glass-brush-layer), var(--glass-sheen-layer);
+  background-repeat: repeat, no-repeat;
+  background-size: auto, 100% 100%;
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
   border: 1px solid var(--glass-border);
@@ -168,7 +213,10 @@ body {
 }
 
 .glass-panel-strong {
-  background: var(--glass-bg);
+  background-color: var(--glass-bg);
+  background-image: var(--glass-brush-layer), var(--glass-sheen-layer);
+  background-repeat: repeat, no-repeat;
+  background-size: auto, 100% 100%;
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
   border: 1px solid var(--glass-border);
@@ -184,7 +232,10 @@ body {
 }
 
 .glass-callout {
-  background: var(--glass-bg);
+  background-color: var(--glass-bg);
+  background-image: var(--glass-brush-layer), var(--glass-sheen-layer);
+  background-repeat: repeat, no-repeat;
+  background-size: auto, 100% 100%;
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
   border: 1px solid var(--glass-border);
@@ -774,6 +825,7 @@ html {
 
   body {
     background: white !important;
+    animation: none !important;
     padding: 0 !important;
     margin: 0.5in !important;
     font-size: 11pt;
