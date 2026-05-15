@@ -515,8 +515,8 @@ export function InterviewConsole({ fillContainer = false }: InterviewConsoleProp
       <div
         className={
           fillContainer
-            ? 'shrink-0 border-t border-[var(--ai-border)] bg-[var(--ai-bar-elevated)] px-3 pt-3 pb-3 backdrop-blur-md supports-[backdrop-filter]:bg-[color-mix(in_oklch,var(--ai-page-bg)_90%,transparent)]'
-            : 'fixed inset-x-0 bottom-0 z-40 border-t border-[var(--ai-border)] bg-[var(--ai-bar-elevated)] px-4 pt-3 pb-4 backdrop-blur-md supports-[backdrop-filter]:bg-[color-mix(in_oklch,var(--ai-page-bg)_88%,transparent)]'
+            ? 'shrink-0 border-t border-[var(--ai-border)] bg-[color-mix(in_oklch,var(--ai-bar-elevated)_100%,transparent)] px-3 pt-3 pb-3'
+            : 'fixed inset-x-0 bottom-0 z-40 border-t border-[var(--ai-border)] bg-[color-mix(in_oklch,var(--ai-bar-elevated)_100%,transparent)] px-4 pt-3 pb-4'
         }
       >
         <div className="mx-auto max-w-[720px]">

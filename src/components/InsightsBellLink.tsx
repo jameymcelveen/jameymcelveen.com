@@ -16,7 +16,7 @@ export function InsightsBellLink({ className = '' }: Props) {
   return (
     <Link
       href="/dashboard"
-      className={`text-foreground-muted hover:text-accent hover:border-accent/40 inline-flex shrink-0 items-center justify-center rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] p-2 backdrop-blur-sm transition-colors ${active ? 'text-accent border-accent/50' : ''} ${className}`}
+      className={`text-foreground-muted hover:text-accent hover:border-accent/40 inline-flex shrink-0 items-center justify-center rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] p-2 transition-colors ${active ? 'text-accent border-accent/50' : ''} ${className}`}
       aria-label="Site insights dashboard"
       title="Site insights"
     >

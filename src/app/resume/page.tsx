@@ -70,7 +70,7 @@ export default function ResumePage() {
 
   return (
     <>
-      <div className="fixed top-14 right-4 z-50 flex items-center sm:right-6 sm:top-14">
+      <div className="fixed right-4 top-[calc(var(--nav-bar-height)_+_0.35rem)] z-50 flex items-center sm:right-6">
         <a
           href={previewResumeHref}
           target="_blank"
@@ -110,7 +110,7 @@ export default function ResumePage() {
           <div className="grid gap-3 sm:gap-4 md:grid-cols-2">
             <motion.div
               variants={itemVariants}
-              className="liquid-glass-resume glass-card p-4 sm:p-6 md:col-span-2"
+              className="glass-card p-4 sm:p-6 md:col-span-2"
             >
               <h2 className="text-accent mb-3 font-mono text-[10px] tracking-[0.18em] uppercase">
                 Summary
@@ -160,7 +160,7 @@ export default function ResumePage() {
 
             <motion.div
               variants={itemVariants}
-              className="liquid-glass-resume glass-card p-4 sm:p-6"
+              className="glass-card p-4 sm:p-6"
             >
               <h2 className="text-accent mb-3 font-mono text-[10px] tracking-[0.18em] uppercase">
                 Education
@@ -185,7 +185,7 @@ export default function ResumePage() {
 
             <motion.div
               variants={itemVariants}
-              className="liquid-glass-resume glass-card p-4 sm:p-6"
+              className="glass-card p-4 sm:p-6"
             >
               <h2 className="text-accent mb-3 font-mono text-[10px] tracking-[0.18em] uppercase">
                 Contact
@@ -348,7 +348,7 @@ export default function ResumePage() {
 
             <motion.div
               variants={itemVariants}
-              className="liquid-glass-resume glass-card p-4 sm:p-6 md:col-span-2"
+              className="glass-card p-4 sm:p-6 md:col-span-2"
             >
               <div className="mb-3 flex items-center gap-2">
                 <FileText className="text-accent h-4 w-4" />

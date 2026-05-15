@@ -68,7 +68,7 @@ function AskJameyBubbleHost({
       <>
         <button
           type="button"
-          className="fixed inset-0 z-[49] bg-black/45 backdrop-blur-[2px] sm:hidden"
+          className="fixed inset-0 z-[49] bg-black/50 sm:hidden"
           onClick={onClose}
           aria-label="Close chat"
         />

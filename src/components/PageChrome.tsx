@@ -12,15 +12,21 @@ export function PageChrome({ children }: { children: React.ReactNode }) {
     return (
       <div className="flex min-h-dvh flex-col">
         <div className="min-h-0 flex-1">{children}</div>
-        <SiteFooter />
+        <SiteFooter wide={false} />
       </div>
     );
   }
 
+  const wideLayout = pathname === '/dashboard' || pathname === '/components';
+
   return (
-    <div className="flex min-h-screen flex-col pt-12">
-      <main className="mx-auto w-full max-w-4xl flex-1 px-4 pb-20 sm:px-6">{children}</main>
-      <SiteFooter />
+    <div className="flex min-h-screen flex-col pt-[var(--nav-bar-height,4.25rem)]">
+      <main
+        className={`mx-auto w-full flex-1 px-4 pb-20 sm:px-6 ${wideLayout ? 'max-w-[1100px]' : 'max-w-4xl'}`}
+      >
+        {children}
+      </main>
+      <SiteFooter wide={wideLayout} />
     </div>
   );
 }

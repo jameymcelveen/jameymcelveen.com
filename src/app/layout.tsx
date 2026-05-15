@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Caveat, Geist, Geist_Mono, JetBrains_Mono, Space_Grotesk } from 'next/font/google';
 import { AnalyticsTracker } from '@/components/AnalyticsTracker';
-import { GradientMesh } from '@/components/GradientMesh';
+import { Background } from '@/components/Background';
 import { Navigation } from '@/components/Navigation';
 import { PageChrome } from '@/components/PageChrome';
 import { AskJameyPanelProvider } from '@/context/AskJameyPanelContext';
@@ -68,7 +68,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${jetbrainsMono.variable} ${spaceGrotesk.variable} ${caveat.variable} antialiased`}
       >
         <AnalyticsTracker />
-        <GradientMesh />
+        <Background />
         <Analytics />
         <AskJameyPanelProvider>
           <Navigation />

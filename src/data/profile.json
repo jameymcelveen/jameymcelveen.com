@@ -346,6 +346,7 @@
     "footer": {
       "tagline": "Built with Next.js · Deployed on Vercel",
       "linkedinUrl": "https://www.linkedin.com/in/jameymcelveen/",
+      "githubUrl": "https://github.com/jameymcelveen",
       "copyrightName": "Jamey McElveen"
     }
   }

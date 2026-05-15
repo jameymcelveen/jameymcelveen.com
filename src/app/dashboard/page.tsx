@@ -89,7 +89,7 @@ type FeedPayload = {
 
 function DashCard({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={`glass-card rounded-[var(--radius-card)] p-5 sm:p-6 ${className}`} style={{ willChange: 'transform' }}>
+    <div className={`glass-card rounded-[var(--radius-card)] p-5 sm:p-6 ${className}`}>
       {children}
     </div>
   );
@@ -185,7 +185,7 @@ export default function DashboardPage() {
   const feedSlice = (feed?.items ?? []).slice(0, 6);
 
   return (
-    <div className="mx-auto w-full max-w-[1100px] px-4 py-8 pb-16 sm:px-6 sm:py-10">
+    <div className="page-studio">
       {/* Header */}
       <header className="mb-8 flex flex-col items-start justify-between gap-3 sm:mb-10 sm:flex-row sm:items-end">
         <div>
@@ -376,7 +376,7 @@ export default function DashboardPage() {
                 <li key={`${row.question}-${i}`} className="border-b border-[var(--steel)]/80 py-3 last:border-0">
                   <div className="flex items-center justify-between gap-3">
                     <span className="text-foreground min-w-0 flex-1 text-[0.88rem] leading-snug">{row.question}</span>
-                    <div className="bg-foreground/8 h-1.5 w-[120px] max-w-[30%] shrink-0 overflow-hidden rounded-full sm:max-w-[120px]">
+                    <div className="bg-[var(--surface-2)] h-1.5 w-[120px] max-w-[30%] shrink-0 overflow-hidden rounded-full sm:max-w-[120px]">
                       <div
                         className="bg-[var(--accent-blue)] h-full rounded-full"
                         style={{ width: `${Math.round((row.count / maxQ) * 100)}%` }}
@@ -523,7 +523,7 @@ export default function DashboardPage() {
         </DashCard>
       </section>
 
-      <footer className="text-[var(--text-muted)] mx-auto mt-8 max-w-[1100px] text-center text-[0.78rem] leading-relaxed">
+      <footer className="text-[var(--text-muted)] relative z-[1] mt-8 text-center text-[0.78rem] leading-relaxed">
         <strong className="text-[var(--text-secondary)]">Privacy:</strong> approximate location (country/region from IP
         — raw IP not stored), page paths, referrers (hostname only), device class, Ask Jamey questions, and resume
         activity. No cookies. No cross-site tracking.

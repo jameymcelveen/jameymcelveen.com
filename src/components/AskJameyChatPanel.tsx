@@ -390,17 +390,13 @@ export function AskJameyChatPanel({ onClose }: { onClose: () => void }) {
   return (
     <div
       className={`ask-jamey-panel-host fixed inset-x-0 bottom-0 z-50 flex w-full max-h-[90vh] flex-col sm:inset-x-auto sm:bottom-6 sm:left-auto sm:right-6 sm:w-[480px] ${expanded ? 'h-[min(85dvh,90vh)]' : 'h-[min(70dvh,90vh)]'} transition-[height] duration-300 ease-out`}
-      style={{ willChange: 'transform' }}
     >
       <div
         className="ask-jamey-panel-inner flex min-h-0 flex-1 flex-col overflow-hidden rounded-t-[20px] sm:rounded-[20px] sm:rounded-b-none"
         style={{
-        willChange: 'transform',
-        background: 'rgba(250, 250, 250, 0.94)',
-        backdropFilter: 'blur(20px)',
-        WebkitBackdropFilter: 'blur(20px)',
-        boxShadow: '0 -8px 40px rgba(82, 45, 128, 0.12)',
-        border: '1px solid rgba(82, 45, 128, 0.15)',
+        background: 'rgba(26, 28, 32, 0.96)',
+        boxShadow: '0 -8px 40px rgba(0, 0, 0, 0.45)',
+        border: '1px solid rgba(255, 255, 255, 0.1)',
       }}
     >
       <header className="flex shrink-0 items-center gap-3 border-b border-[var(--glass-border)] px-4 py-3">

@@ -28,7 +28,7 @@ export const VisitorMap = memo(function VisitorMap({
       <p className="text-[var(--text-muted)] mb-2 px-1 font-mono text-[10px] tracking-[0.18em] uppercase">
         Visitor map
       </p>
-      <div className="relative h-[220px] w-full sm:h-[300px]" style={{ willChange: 'transform' }}>
+      <div className="relative h-[220px] w-full sm:h-[300px]">
         <ComposableMap
           projection="geoMercator"
           projectionConfig={{ scale: 118, center: [0, 18] }}

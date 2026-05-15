@@ -178,7 +178,7 @@ export function SecretLock({ onUnlock, onLock }: { onUnlock: () => void; onLock?
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-6 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/65 px-6"
           onClick={() => setShowModal(false)}
         >
           <motion.div
