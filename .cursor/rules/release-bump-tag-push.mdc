@@ -1,0 +1,20 @@
+---
+description: >-
+  When the user says "make it so bump tag and push" (or clearly means bump
+  version, tag, and push), run the release workflow without asking them to run
+  git commands themselves.
+alwaysApply: true
+---
+
+# Phrase — bump, tag, push
+
+When the user says **make it so bump tag and push**, **bump tag and push**, or **make it so** right after asking for that workflow (same intent as bump + tag + push):
+
+1. **Commit** all changes they intend to ship (split commits if two unrelated areas are large).
+2. **Bump** `package.json` `version` using semver: default **patch** unless they asked for minor/major.
+3. **Commit** the version line if it is not already part of the last commit (message like `vX.Y.Z: bump package version for release.`).
+4. Create an **annotated** tag `vX.Y.Z` with a short release note.
+5. Run **`pnpm run build`** when code or styles changed materially.
+6. **`git push`** the current branch to `origin` and **`git push origin vX.Y.Z`**.
+
+If they say only **make it so** with **no** release language, treat it as “finish the task” — **do not** bump or tag unless they also asked for a release.
