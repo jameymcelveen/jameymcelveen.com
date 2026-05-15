@@ -2,7 +2,8 @@
 
 /* Site — light theme (Clemson purple / warm off-white) */
 :root {
-  --background: #fafafa;
+  --paper-noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  --background: #f5f4f0;
   --surface: #ffffff;
   --foreground: #1a1a2e;
   --foreground-muted: #6b7280;
@@ -100,7 +101,8 @@
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
+  background-image: var(--paper-noise);
   color: var(--foreground);
   font-family: var(--font-sans), system-ui, sans-serif;
   font-size: 1rem;
@@ -124,7 +126,8 @@ body {
   position: fixed;
   inset: 0;
   z-index: -1;
-  background: var(--background);
+  background-color: var(--background);
+  background-image: var(--paper-noise);
   overflow: hidden;
 }
 
@@ -565,7 +568,7 @@ html {
   --clemson-orange: #f56600;
   --surface-2: rgba(82, 45, 128, 0.06);
   --accent-blue: #522d80;
-  --ai-page-bg: #fafafa;
+  --ai-page-bg: #f5f4f0;
   --ai-text: #1a1a2e;
   --ai-text-muted: #6b7280;
   --ai-assistant: #1a1a2e;
