@@ -267,14 +267,7 @@ export default function ResumePage() {
               </div>
             </motion.div>
 
-            <motion.div
-              variants={itemVariants}
-              className="glass-card p-4 sm:p-6 md:col-span-2"
-              style={{
-                borderLeft: `4px solid ${branding.primary}`,
-                backgroundColor: `${branding.primary}0d`,
-              }}
-            >
+            <motion.div variants={itemVariants} className="glass-card p-4 sm:p-6 md:col-span-2">
               <h3
                 className="text-xl font-bold mb-2 sm:text-2xl"
                 style={{ color: branding.secondary }}

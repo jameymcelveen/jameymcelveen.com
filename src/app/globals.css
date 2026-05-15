@@ -26,14 +26,14 @@
   --brand-secondary: #522d80;
   --brand-tertiary: #6b7280;
 
-  --glass-bg: rgba(82, 45, 128, 0.06);
-  --glass-border: rgba(82, 45, 128, 0.15);
-  --glass-blur: blur(14px);
-  --glass-shadow: 0 8px 28px rgba(82, 45, 128, 0.08);
-  --glass-hover-bg: rgba(82, 45, 128, 0.1);
-  --surface-accent: rgba(82, 45, 128, 0.09);
-  --surface-1: rgba(82, 45, 128, 0.06);
-  --surface-2: rgba(82, 45, 128, 0.04);
+  --glass-bg: rgba(255, 255, 255, 0.65);
+  --glass-border: rgba(255, 255, 255, 0.8);
+  --glass-blur: blur(12px);
+  --glass-shadow: 0 2px 8px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+  --glass-hover-bg: rgba(255, 255, 255, 0.78);
+  --surface-accent: rgba(0, 0, 0, 0.04);
+  --surface-1: rgba(255, 255, 255, 0.55);
+  --surface-2: rgba(255, 255, 255, 0.42);
   --radius-card: 16px;
   --radius-chip: 20px;
   --text-muted: #6b7280;
@@ -41,9 +41,9 @@
   --accent-blue: #522d80;
   --ask-jamey-fg: #1a1a2e;
 
-  --liquid-glass-bg: rgba(255, 255, 255, 0.82);
-  --liquid-glass-border: rgba(82, 45, 128, 0.12);
-  --liquid-glass-shadow: 0 8px 32px rgba(82, 45, 128, 0.1);
+  --liquid-glass-bg: rgba(255, 255, 255, 0.65);
+  --liquid-glass-border: rgba(255, 255, 255, 0.8);
+  --liquid-glass-shadow: 0 2px 8px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
 
   --gradient-primary: linear-gradient(135deg, #522d80 0%, #6b4594 42%, #f56600 100%);
   --gradient-mesh: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(82, 45, 128, 0.14) 0%, transparent 55%),
@@ -156,7 +156,7 @@ body {
   }
 }
 
-/* Command-center surfaces */
+/* Command-center surfaces — frosted glass (no purple card borders) */
 .glass-card {
   background: var(--glass-bg);
   backdrop-filter: var(--glass-blur);
@@ -168,25 +168,27 @@ body {
 }
 
 .glass-panel-strong {
-  background: color-mix(in oklch, var(--glass-bg) 88%, var(--surface));
+  background: var(--glass-bg);
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
   border: 1px solid var(--glass-border);
+  border-radius: var(--radius-card);
   box-shadow: var(--glass-shadow);
   will-change: transform;
 }
 
 .glass-panel-header {
-  background: color-mix(in oklch, var(--glass-bg) 70%, transparent);
+  background: rgba(255, 255, 255, 0.5);
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
 }
 
 .glass-callout {
-  background: var(--surface-1);
+  background: var(--glass-bg);
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
   border: 1px solid var(--glass-border);
+  border-radius: var(--radius-card);
   box-shadow: var(--glass-shadow);
   will-change: transform;
 }
@@ -373,7 +375,6 @@ body {
 .project-card-v3 {
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
-  border-left: 3px solid var(--clemson-purple);
   border-radius: var(--radius-card);
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
@@ -386,7 +387,7 @@ body {
 
 .project-card-v3:hover {
   transform: translateY(-3px);
-  box-shadow: 0 12px 40px rgba(82, 45, 128, 0.14);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(255, 255, 255, 0.45) inset;
 }
 
 .tech-stack-pill-v3 {
@@ -430,10 +431,10 @@ body {
 
 .liquid-glass {
   background: var(--liquid-glass-bg);
-  backdrop-filter: blur(16px) saturate(140%);
-  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
   border: 1px solid var(--liquid-glass-border);
-  border-radius: 8px;
+  border-radius: var(--radius-card);
   box-shadow: var(--liquid-glass-shadow);
   position: relative;
   overflow: hidden;
@@ -446,7 +447,7 @@ body {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(82, 45, 128, 0.06), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
   animation: shimmer-single 1.5s ease-in-out;
   pointer-events: none;
 }
@@ -467,7 +468,7 @@ body {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(82, 45, 128, 0.08), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
   pointer-events: none;
   animation: shimmer-single 1.5s ease-in-out;
 }

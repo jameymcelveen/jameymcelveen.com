@@ -68,7 +68,7 @@ function CoverLettersContent() {
         {/* AI Tip */}
         <motion.div
           variants={itemVariants}
-          className="glass-card border-accent mb-6 border-l-4 p-3 sm:mb-8 sm:p-4"
+          className="glass-card mb-6 p-3 sm:mb-8 sm:p-4"
         >
           <p className="text-foreground-muted text-xs sm:text-sm">
             <span className="text-accent font-medium">💡 Pro Tip:</span> {coverLetters.proTip}
