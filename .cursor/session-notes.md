@@ -1,6 +1,6 @@
 # Portfolio Site - Session Notes
 
-**Last Updated:** 2026-01-20  
+**Last Updated:** 2026-06-02  
 **Project:** jameymcelveen.com - Personal Portfolio Site
 
 ---
@@ -217,3 +217,22 @@ pnpm lint         # Run linter
 ---
 
 **Last Session Focus:** Removed shimmer effects, updated Clemson logo placement, fixed domain references, added photo and GitHub link.
+
+---
+
+## Garfield session — 2026-06-02 (Ask Jamey / Bill chat fix)
+
+**Version / tag:** `v1.4.3` (package `1.4.3`)
+
+**Shipped (Homer story — answer breadth + no trailing suggestions):**
+- `career-validator.ts`: safety-only (empty, length, injection snippets, blocked topics). Removed `CAREER_HINTS` / `INTERVIEW_SHAPE` hard reject.
+- `system-prompt.md`: removed Rule 8 (Hand-off), stripped all KB `FOLLOW_UP` lines, added Rule 10 (stop when complete — no trailing questions). Rule 9 = expansion logic without suggestion hand-off.
+- `AskJameyChatPanel.tsx`: starter chips already gated on `userMessageCount === 0` (no code change).
+
+**Verify:** `POST /api/chat` with "Would Jamey be a good fit for an early-stage startup?" → 200 streamed answer (not canned rejection). Injection / NSFW → 400.
+
+**Also on main (prior Garfield):** gunmetal glass UI (`v1.4.2`), `scripts/seed-analytics-events.mjs` + `pnpm run db:seed` for dashboard demo data.
+
+**PO / ops:** Run `DATABASE_URL=... pnpm run db:seed -- --reset` locally if dashboard should show seed traffic.
+
+**Build:** `pnpm run build` passes. `pnpm run lint` has pre-existing react-hooks errors (dashboard, Background) — not introduced by this story.
