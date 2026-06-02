@@ -12,6 +12,7 @@
     "dev": "next dev --turbopack",
     "build": "node scripts/sync-geoip-data.mjs && node scripts/run-analytics-migration.mjs && next build --webpack",
     "db:migrate": "node scripts/run-analytics-migration.mjs",
+    "db:seed": "node scripts/seed-analytics-events.mjs",
     "start": "next start",
     "lint": "eslint",
     "format": "prettier --write .",

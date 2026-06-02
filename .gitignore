@@ -37,7 +37,17 @@ backend/**/*.db-wal
 # misc
 .DS_Store
 *.pem
-.idea/
+
+# Editor — ignore local state; allow shared team configs
+.vscode/*
+!.vscode/extensions.json
+!.vscode/launch.json
+
+.idea/*
+!.idea/codeStyles/
+!.idea/inspectionProfiles/
+!.idea/runConfigurations/
+!.idea/scopes/
 
 # debug
 npm-debug.log*
