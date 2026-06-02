@@ -1,6 +1,6 @@
 # Portfolio Site - Session Notes
 
-**Last Updated:** 2026-06-02 (Gemini 2.5 upgrade)  
+**Last Updated:** 2026-06-02 (project stacks + Azure)  
 **Project:** jameymcelveen.com - Personal Portfolio Site
 
 ---
@@ -252,3 +252,15 @@ pnpm lint         # Run linter
 - System prompt ≈ **5,325 tokens** (21.4 KB markdown) — **above** Gemini 2.5 Flash **1,024-token** minimum ([caching docs](https://ai.google.dev/gemini-api/docs/caching)).
 - **Implicit caching** applies automatically on 2.5+ (same `systemInstruction` prefix every call).
 - **Explicit `CachedContent` not wired:** `@google/generative-ai` SDK has no cache API; portfolio/serverless traffic does not justify REST cache lifecycle + TTL storage vs implicit hits. Revisit if traffic grows or SDK migrates to `@google/genai`.
+
+---
+
+## Garfield session — 2026-06-02 (job-hunt project content refresh)
+
+**Version / tag:** `v1.4.5` (package `1.4.5`)
+
+**Shipped (Homer — stack accuracy + Azure):**
+- `profile.json`: QikLog → .NET 9 / Blazor Server / SignalR / PostgreSQL / Redis / **Azure Container Apps** / Zitadel; Christ Medical → Dapper+Npgsql / Next.js 15 PWA / IndexedDB offline (no Dotmim); home summary + skills surface Azure; resume CM bullet updated.
+- `system-prompt.md`: new **QIKLOG** KB module; **CHRIST_MEDICAL** updated (IndexedDB PWA, no Dotmim); tone/guardrail routing for QikLog/Azure questions.
+
+**Verify:** Bill answers "What is QikLog built on?" with .NET 9 + Azure Container Apps stack (fresh dev server smoke test).

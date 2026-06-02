@@ -29,24 +29,23 @@
     "accentHighlight": "#f56600"
   },
   "home": {
-    "summary": "Principal Systems Architect with 30+ years delivering enterprise .NET platforms across SaaS, FinTech, and Healthcare. Designed and sustained multi-tenant systems serving 50,000+ organizations; led teams of 20+ engineers through complete platform generational shifts. Expert in AI-Augmented Engineering — leveraging LLM-driven tooling (Cursor/Claude) to accelerate legacy modernization and reduce friction on complex refactoring work. Published O'Reilly author. Currently architecting an open-source mission clinic EMR (Christ Medical) with offline-first sync for field clinics in low-connectivity environments.",
+    "summary": "Principal Systems Architect with 30+ years delivering enterprise .NET platforms across SaaS, FinTech, and Healthcare. Designed and sustained multi-tenant systems serving 50,000+ organizations; led teams of 20+ engineers through complete platform generational shifts. Expert in AI-Augmented Engineering — leveraging LLM-driven tooling (Cursor/Claude) to accelerate legacy modernization and reduce friction on complex refactoring work. Published O'Reilly author. Currently shipping QikLog, a multi-tenant log-tailing SaaS on Azure Container Apps, and architecting Christ Medical, an open-source mission clinic EMR with offline-capable IndexedDB PWA sync for field clinics.",
     "summaryHighlight1": "50,000+ organizations",
     "summaryHighlight2": "AI-Augmented Engineering",
     "summaryHighlight3": "Christ Medical",
     "techStack": [
       ".NET 9",
-      "Next.js 15",
+      "Blazor Server",
+      "SignalR",
+      "Azure Container Apps",
       "PostgreSQL",
-      "Dotmim Sync",
+      "Redis",
+      "Next.js 15 PWA",
+      "Dapper",
       "Docker",
       "Railway",
       "Vercel",
-      "Fastify",
-      "Node.js",
-      "TypeScript",
-      "Drizzle ORM",
-      "Redis",
-      "SSE"
+      "Zitadel"
     ],
     "askJameyCtaLine": "Personal site with AI-powered interview twin.",
     "askJameyCta": "Ask Jamey →",
@@ -55,8 +54,8 @@
         "id": "christ-medical",
         "title": "Christ Medical Mission System",
         "shortTitle": "Christ Medical",
-        "description": "Open-source EMR for field clinics in low-connectivity environments.",
-        "stack": [".NET 9", "Next.js 15", "PostgreSQL", "Dotmim Sync", "Docker", "Railway", "Vercel"],
+        "description": "Open-source EMR for field clinics — offline-capable via IndexedDB PWA sync.",
+        "stack": [".NET 9 (Dapper + Npgsql)", "Next.js 15 PWA", "PostgreSQL", "Docker", "Railway", "Vercel"],
         "href": "https://github.com/christmedical",
         "icon": "cross"
       },
@@ -64,8 +63,8 @@
         "id": "qiklog",
         "title": "QikLog",
         "shortTitle": "QikLog",
-        "description": "Multi-tenant log-tailing SaaS with real-time SSE streaming.",
-        "stack": ["Fastify", "Node.js", "TypeScript", "Drizzle ORM", "PostgreSQL", "Redis", "SSE"],
+        "description": "Multi-tenant log-tailing SaaS with real-time SignalR streaming, deployed on Azure Container Apps.",
+        "stack": [".NET 9", "Blazor Server", "SignalR", "PostgreSQL", "Redis", "Azure Container Apps", "Zitadel"],
         "href": "https://github.com/jameymcelveen/qiklog",
         "icon": "terminal"
       },
@@ -81,7 +80,7 @@
     ]
   },
   "resume": {
-    "summary": "Principal Systems Architect with 30+ years delivering enterprise .NET platforms across SaaS, FinTech, and Healthcare. Designed and sustained multi-tenant systems serving 50,000+ organizations; led teams of 20+ engineers through complete platform generational shifts. Expert in AI-Augmented Engineering — leveraging LLM-driven tooling (Cursor/Claude) to accelerate legacy modernization and reduce friction on complex refactoring work. Published O'Reilly author. Currently architecting an open-source mission clinic EMR (Christ Medical) with offline-first sync for field clinics in low-connectivity environments.",
+    "summary": "Principal Systems Architect with 30+ years delivering enterprise .NET platforms across SaaS, FinTech, and Healthcare. Designed and sustained multi-tenant systems serving 50,000+ organizations; led teams of 20+ engineers through complete platform generational shifts. Expert in AI-Augmented Engineering — leveraging LLM-driven tooling (Cursor/Claude) to accelerate legacy modernization and reduce friction on complex refactoring work. Published O'Reilly author. Currently shipping QikLog, a multi-tenant log-tailing SaaS on Azure Container Apps, and architecting Christ Medical, an open-source mission clinic EMR with offline-capable IndexedDB PWA sync for field clinics.",
     "summaryHighlight1": "50,000+ organizations",
     "summaryHighlight2": "AI-Augmented Engineering",
     "summaryHighlight3": "Christ Medical",
@@ -104,7 +103,7 @@
       "company": "Christ Medical Mission System",
       "period": "2024 – Present",
       "bullets": [
-        "Architected offline-first sync layer using Dotmim Sync — field laptops operate independently and reconcile with central hub on reconnect. Zero data loss, no paper fallback required.",
+        "Architected offline-capable field workflows via Next.js 15 PWA with IndexedDB — clinics operate independently and sync when connectivity returns. Zero data loss, no paper fallback required.",
         "Implemented Double Metaphone phonetic patient search via PostgreSQL fuzzystrmatch — solving name romanization inconsistency across multilingual mission contexts.",
         "Unified spiritual and medical outcome tracking in a single data model (spiritual=heard|hope|none) — treating the whole person as the patient.",
         "Enforced CI parity via single gate running ESLint, Vitest, React Testing Library, and production Next.js build locally and in GitHub Actions."
@@ -184,6 +183,8 @@
       "WCF/SOAP",
       "WS-Security",
       "OpenAPI",
+      "Blazor Server",
+      "SignalR",
       "Next.js 15",
       "React",
       "Angular 8-15",
@@ -210,6 +211,7 @@
       "Resource Governor"
     ],
     "tools": [
+      "Azure Container Apps",
       "Kubernetes",
       "EKS",
       "Docker",
@@ -230,7 +232,6 @@
       "Clean-Room PII Protocol",
       "Epic EMR",
       "Oracle Cloud",
-      "Dotmim Sync",
       "GIS/ESRI",
       "R&D Mgmt",
       "Mentoring",
