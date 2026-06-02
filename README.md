@@ -190,7 +190,7 @@ Use **pnpm** for installs (`pnpm install`). The repo tracks **`pnpm-lock.yaml`**
 | Variable | Required | Purpose |
 |----------|----------|---------|
 | `GEMINI_API_KEY` | Yes (for chat) | Google Gemini API key |
-| `GEMINI_MODEL` | No | Model override (default: `gemini-2.0-flash`) |
+| `GEMINI_MODEL` | No | Model override (default: `gemini-2.5-flash`; see `.env.example`) |
 | `STATS_API_KEY` | No | Protects `GET /api/stats` and powers `/stats` page |
 
 ### URLs

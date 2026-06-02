@@ -1,6 +1,6 @@
 # Portfolio Site - Session Notes
 
-**Last Updated:** 2026-06-02  
+**Last Updated:** 2026-06-02 (Gemini 2.5 upgrade)  
 **Project:** jameymcelveen.com - Personal Portfolio Site
 
 ---
@@ -236,3 +236,19 @@ pnpm lint         # Run linter
 **PO / ops:** Run `DATABASE_URL=... pnpm run db:seed -- --reset` locally if dashboard should show seed traffic.
 
 **Build:** `pnpm run build` passes. `pnpm run lint` has pre-existing react-hooks errors (dashboard, Background) — not introduced by this story.
+
+---
+
+## Garfield session — 2026-06-02 (Gemini 2.5 Flash + caching decision)
+
+**Version / tag:** `v1.4.4` (package `1.4.4`)
+
+**Shipped:**
+- Default chat model `gemini-2.5-flash` via `resolveGeminiModel()`; legacy `gemini-2.0-flash` env aliases upgraded.
+- Cost estimator: `GEMINI_25_FLASH_COST` ($0.30 / $2.50 per 1M in/out), `GEMINI_25_FLASH_LITE_COST` ($0.10 / $0.40) when model id contains `flash-lite`.
+- Analytics `logChatTurn` uses resolved model + matching rates.
+
+**Context caching (deliberate decision — NOT explicit):**
+- System prompt ≈ **5,325 tokens** (21.4 KB markdown) — **above** Gemini 2.5 Flash **1,024-token** minimum ([caching docs](https://ai.google.dev/gemini-api/docs/caching)).
+- **Implicit caching** applies automatically on 2.5+ (same `systemInstruction` prefix every call).
+- **Explicit `CachedContent` not wired:** `@google/generative-ai` SDK has no cache API; portfolio/serverless traffic does not justify REST cache lifecycle + TTL storage vs implicit hits. Revisit if traffic grows or SDK migrates to `@google/genai`.

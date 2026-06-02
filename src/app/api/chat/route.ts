@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { validateCareerQuestion } from '@/lib/api/career-validator';
 import { checkRateLimit, resolveClientIp } from '@/lib/api/rate-limiter';
-import { estimateCostUsd, streamChat } from '@/lib/api/gemini';
+import { estimateCostUsd, resolveGeminiModel, streamChat } from '@/lib/api/gemini';
 import { logChatTurn } from '@/lib/api/analytics-store';
 
 interface ChatBody {
@@ -81,15 +81,16 @@ export async function POST(request: Request) {
         // Client disconnected or abort — normal
       }
 
+      const modelName = resolveGeminiModel();
       logChatTurn({
         visitSessionId: body.sessionId,
         visitorKey: body.visitorKey,
         userMessage: body.message!,
         assistantExcerpt: fullText || null,
-        modelName: process.env.GEMINI_MODEL?.trim() || 'gemini-2.0-flash',
+        modelName,
         promptTokens,
         outputTokens,
-        estimatedCostUsd: errorOccurred ? 0 : estimateCostUsd(promptTokens, outputTokens),
+        estimatedCostUsd: errorOccurred ? 0 : estimateCostUsd(promptTokens, outputTokens, modelName),
         httpStatus: errorOccurred ? 502 : 200,
         errorSummary: errorOccurred ? 'stream error' : null,
       });
