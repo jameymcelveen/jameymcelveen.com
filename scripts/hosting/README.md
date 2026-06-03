@@ -74,7 +74,7 @@ RAILWAY_UP_EXTRA_ARGS='--detach' bash scripts/hosting/40-railway-deploy.sh
 1. **DNS** (registrar): point apex/`www` for both sites to **Vercel**. You do **not** need a public **`api.`** DNS record for the app; **`/api`** is rewritten in Next (see `next.config.ts`). Optionally keep **`api.`** pointed at Railway only for direct API/Scalar access.
 2. **Vercel** → project → Domains: attach `jameymcelveen.com`, `www.jameymcelveen.com`, `jamey.co`, `www.jamey.co`.
 3. **Vercel** env: **`INTERVIEW_API_PROXY_ORIGIN`** = Railway Interview.Api **`https://…up.railway.app`** (required — evaluated at **build** time). **`STATS_API_KEY`** (must match API).
-4. **Railway** env: `GEMINI_API_KEY`, `STATS_API_KEY`, SQLite path via volume + `ConnectionStrings__DefaultConnection`, `ASPNETCORE_ENVIRONMENT=Production`.
+4. **Railway** env: `ANTHROPIC_API_KEY`, `STATS_API_KEY`, SQLite path via volume + `ConnectionStrings__DefaultConnection`, `ASPNETCORE_ENVIRONMENT=Production`.
 5. **CORS** on the API includes both sites — see `backend/appsettings.json` (`Cors:Origins`); adjust if you add more hosts.
 
 ## Tokens and CI

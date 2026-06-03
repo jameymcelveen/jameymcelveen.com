@@ -14,7 +14,7 @@ import {
 } from 'recharts';
 
 export type StatsDashboardData = {
-  gemini: {
+  llm: {
     totalEstimatedUsd: number;
     totalTurns: number;
     successfulTurns: number;
@@ -42,7 +42,7 @@ export type StatsDashboardData = {
     day: string;
     pageViews: number;
     sessions: number;
-    geminiUsd: number;
+    llmUsd: number;
   }[];
 };
 
@@ -113,10 +113,10 @@ function ChartCard({
 }
 
 export function StatsDashboard({ data }: { data: StatsDashboardData }) {
-  const { gemini, visits, recentChats, last14Days } = data;
+  const { llm, visits, recentChats, last14Days } = data;
   const trendData = last14Days.map((d) => ({
     ...d,
-    geminiUsd: Number(d.geminiUsd),
+    llmUsd: Number(d.llmUsd),
   }));
 
   const gridShell =
@@ -134,7 +134,7 @@ export function StatsDashboard({ data }: { data: StatsDashboardData }) {
           </h1>
           <p className="text-foreground-muted mt-3 max-w-2xl font-mono text-xs leading-relaxed sm:text-sm">
             Estimates use API token pricing configuration. Visit and session counts are success-path signals;
-            Gemini spend is flagged as a cost signal (amber).
+            Ask Jamey (Claude) spend is flagged as a cost signal (amber).
           </p>
         </header>
 
@@ -150,28 +150,28 @@ export function StatsDashboard({ data }: { data: StatsDashboardData }) {
               ? '—'
               : `${Math.round(visits.avgSessionDurationSeconds)}s`}
           </MetricCard>
-          <MetricCard label="Gemini spend (est.)" variant="warning">
-            {usd.format(gemini.totalEstimatedUsd)}
+          <MetricCard label="Bill / Claude spend (est.)" variant="warning">
+            {usd.format(llm.totalEstimatedUsd)}
           </MetricCard>
         </div>
 
         <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <MetricCard label="Avg / successful turn" variant="warning">
-            {usd.format(gemini.avgCostPerTurnUsd)}
+            {usd.format(llm.avgCostPerTurnUsd)}
           </MetricCard>
           <MetricCard label="Avg / AI session" variant="warning">
-            {usd.format(gemini.avgCostPerAiSessionUsd)}
+            {usd.format(llm.avgCostPerAiSessionUsd)}
           </MetricCard>
           <MetricCard label="Successful turns" variant="neutral">
-            <span className="text-metric-success">{gemini.successfulTurns}</span>
-            <span className="text-foreground-muted text-lg"> / {gemini.totalTurns}</span>
+            <span className="text-metric-success">{llm.successfulTurns}</span>
+            <span className="text-foreground-muted text-lg"> / {llm.totalTurns}</span>
           </MetricCard>
           <div className={`${panel} border-steel`}>
             <p className="text-foreground-muted font-mono text-[10px] tracking-widest uppercase">Tokens (in / out)</p>
             <div className="mt-2 font-mono text-lg font-semibold tabular-nums tracking-tight sm:text-xl">
-              <span className="text-metric-success">{gemini.totalPromptTokens.toLocaleString()}</span>
+              <span className="text-metric-success">{llm.totalPromptTokens.toLocaleString()}</span>
               <span className="text-foreground-muted"> · </span>
-              <span className="text-accent-csharp">{gemini.totalOutputTokens.toLocaleString()}</span>
+              <span className="text-accent-csharp">{llm.totalOutputTokens.toLocaleString()}</span>
             </div>
           </div>
         </div>
@@ -221,8 +221,8 @@ export function StatsDashboard({ data }: { data: StatsDashboardData }) {
                   <Line
                     yAxisId="right"
                     type="monotone"
-                    dataKey="geminiUsd"
-                    name="Gemini USD"
+                    dataKey="llmUsd"
+                    name="Claude USD"
                     stroke="#d4a72c"
                     strokeWidth={2}
                     dot={false}

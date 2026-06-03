@@ -53,7 +53,7 @@ Do not add a catch-all **`app/api`** Route Handler for the same paths — it wou
 
 - **Project:** `backend/Interview.Api.csproj`, **.NET 9**, minimal APIs.
 - **Docker:** `backend/Dockerfile`; Railway should use **`backend`** as service root in a monorepo.
-- **Features:** `POST /api/chat` (Gemini + system prompt from `backend/Prompts/system_prompt.md`), analytics routes, `GET /api/stats` (API key), `GET /health`, OpenAPI + Scalar at `/` when deployed.
+- **Features:** `POST /api/chat` (Claude Haiku + system prompt from `src/lib/api/system-prompt.md`), analytics routes, `GET /api/stats` (API key), `GET /health`, OpenAPI + Scalar at `/` when deployed.
 - **Packages:** EF Core SQLite, Google Generative AI SDK, `Microsoft.AspNetCore.OpenApi`, `Scalar.AspNetCore`.
 - **CORS:** Configured in `backend/appsettings.json` (`Cors:Origins`) for the real site origins.
 - **Forwarded headers:** Used so Railway sees correct scheme/client IP behind proxies.
@@ -73,7 +73,7 @@ Do not add a catch-all **`app/api`** Route Handler for the same paths — it wou
 
 | Variable | Purpose |
 |----------|---------|
-| `GEMINI_API_KEY` | Gemini |
+| `ANTHROPIC_API_KEY` | Claude (Bill / Ask Jamey) |
 | `STATS_API_KEY` | Protects `GET /api/stats` |
 | `PORT` | Set by Railway |
 | `ConnectionStrings__DefaultConnection` | SQLite path (often under `/app/data` with a volume) |

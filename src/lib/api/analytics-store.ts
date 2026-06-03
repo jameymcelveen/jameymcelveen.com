@@ -247,11 +247,11 @@ export function getStatsDashboard() {
     const usd = chatTurns
       .filter((t) => t.httpStatus === 200 && t.createdAtUtc.slice(0, 10) === dayStr)
       .reduce((sum, t) => sum + t.estimatedCostUsd, 0);
-    last14.push({ day: dayStr, pageViews: pv, sessions: ss, geminiUsd: usd });
+    last14.push({ day: dayStr, pageViews: pv, sessions: ss, llmUsd: usd });
   }
 
   return {
-    gemini: {
+    llm: {
       totalEstimatedUsd: totalUsd,
       totalTurns: chatTurns.length,
       successfulTurns: successTurns.length,

@@ -82,7 +82,7 @@ clean:
 	@rm -rf dist
 	@echo "Clean complete!"
 
-# Docker: full local stack (see docker-compose.yaml; set GEMINI_API_KEY in .env)
+# Docker: full local stack (see docker-compose.yaml; set ANTHROPIC_API_KEY in .env)
 up:
 	@echo "Starting Docker stack in background (API :8080, web :3000)…"
 	@docker compose up --build -d

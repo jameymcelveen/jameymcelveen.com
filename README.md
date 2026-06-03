@@ -64,7 +64,7 @@ All you need to do is:
 - **Language:** TypeScript 5.9
 - **Styling:** Tailwind CSS 4
 - **Animations:** Framer Motion
-- **AI:** Google Gemini (via `@google/generative-ai`)
+- **AI:** Anthropic Claude Haiku 4.5 (via `@anthropic-ai/sdk`, Ask Jamey / Bill)
 - **Icons:** Lucide React
 - **Package Manager:** pnpm
 - **Deployment:** Vercel (frontend + API)
@@ -122,13 +122,13 @@ pnpm format:check # Check code formatting
 │   │   ├── cover-letters/     # Cover letter templates
 │   │   ├── stats/             # Analytics dashboard
 │   │   └── api/               # API routes (Vercel serverless)
-│   │       ├── chat/          # POST - Gemini streaming chat (SSE)
+│   │       ├── chat/          # POST - Claude streaming chat (SSE)
 │   │       ├── health/        # GET  - Health check
 │   │       ├── stats/         # GET  - Analytics dashboard data
 │   │       └── analytics/     # POST - Session/pageview tracking
 │   ├── lib/
 │   │   └── api/               # Server-side API logic
-│   │       ├── gemini.ts      # Gemini AI streaming
+│   │       ├── claude.ts      # Anthropic Claude streaming (Bill)
 │   │       ├── career-validator.ts
 │   │       ├── rate-limiter.ts
 │   │       ├── analytics-store.ts
@@ -189,8 +189,8 @@ Use **pnpm** for installs (`pnpm install`). The repo tracks **`pnpm-lock.yaml`**
 
 | Variable | Required | Purpose |
 |----------|----------|---------|
-| `GEMINI_API_KEY` | Yes (for chat) | Google Gemini API key |
-| `GEMINI_MODEL` | No | Model override (default: `gemini-2.5-flash`; see `.env.example`) |
+| `ANTHROPIC_API_KEY` | Yes (for chat) | Anthropic API key (Bill / Ask Jamey) |
+| `ANTHROPIC_MODEL` | No | Model override (default: `claude-haiku-4-5`; see `.env.example`) |
 | `STATS_API_KEY` | No | Protects `GET /api/stats` and powers `/stats` page |
 
 ### URLs

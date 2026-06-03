@@ -1,6 +1,6 @@
 {
   "name": "jameymcelveen.com",
-  "version": "1.4.5",
+  "version": "1.4.6",
   "private": true,
   "packageManager": "pnpm@10.33.0",
   "engines": {
@@ -22,7 +22,7 @@
     "hosting:print-env": "bash scripts/hosting/30-print-env-commands.sh"
   },
   "dependencies": {
-    "@google/generative-ai": "^0.24.1",
+    "@anthropic-ai/sdk": "^0.100.1",
     "@vercel/analytics": "^2.0.1",
     "framer-motion": "^12.27.5",
     "geoip-lite": "^2.0.2",

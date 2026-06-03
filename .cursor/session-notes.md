@@ -1,6 +1,6 @@
 # Portfolio Site - Session Notes
 
-**Last Updated:** 2026-06-02 (project stacks + Azure)  
+**Last Updated:** 2026-06-02 (Bill → Claude Haiku)  
 **Project:** jameymcelveen.com - Personal Portfolio Site
 
 ---
@@ -264,3 +264,19 @@ pnpm lint         # Run linter
 - `system-prompt.md`: new **QIKLOG** KB module; **CHRIST_MEDICAL** updated (IndexedDB PWA, no Dotmim); tone/guardrail routing for QikLog/Azure questions.
 
 **Verify:** Bill answers "What is QikLog built on?" with .NET 9 + Azure Container Apps stack (fresh dev server smoke test).
+
+---
+
+## Garfield session — 2026-06-02 (Bill: Gemini → Claude Haiku)
+
+**Version / tag:** `v1.4.6` (package `1.4.6`)
+
+**Shipped:**
+- Replaced `@google/generative-ai` with `@anthropic-ai/sdk`; deleted `gemini.ts`; new `claude.ts`.
+- Model: `claude-haiku-4-5` (`ANTHROPIC_MODEL` override). `max_tokens` 1024, temperature 0.65.
+- **Prompt caching:** system prompt block uses `cache_control: { type: 'ephemeral' }` (~5.3k tokens, above 4,096 min for Haiku 4.5).
+- Cost estimator: `CLAUDE_HAIKU_45_COST` — $1/1M in, $5/1M out, $0.10/1M cache read, $1.25/1M cache write (5m).
+- Stats dashboard: `gemini` → `llm` in analytics payload; UI labels "Bill / Claude".
+- Env/docs: `ANTHROPIC_API_KEY` only; all `GEMINI_*` references removed from repo.
+
+**Railway/Vercel:** Set `ANTHROPIC_API_KEY` in deployment env (Jamey reports already on Railway). Remove obsolete `GEMINI_API_KEY` from hosting dashboards.

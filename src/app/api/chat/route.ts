@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { validateCareerQuestion } from '@/lib/api/career-validator';
 import { checkRateLimit, resolveClientIp } from '@/lib/api/rate-limiter';
-import { estimateCostUsd, resolveGeminiModel, streamChat } from '@/lib/api/gemini';
+import { estimateCostUsd, resolveAnthropicModel, streamChat } from '@/lib/api/claude';
 import { logChatTurn } from '@/lib/api/analytics-store';
 
 interface ChatBody {
@@ -53,6 +53,7 @@ export async function POST(request: Request) {
       let outputTokens = 0;
       let fullText = '';
       let errorOccurred = false;
+      let usageForCost: Parameters<typeof estimateCostUsd>[0] | null = null;
 
       try {
         for await (const event of streamChat(body.message!, request.signal)) {
@@ -66,6 +67,7 @@ export async function POST(request: Request) {
             case 'done': {
               promptTokens = event.promptTokens;
               outputTokens = event.outputTokens;
+              usageForCost = event.usage;
               controller.enqueue(encoder.encode('data: [DONE]\n\n'));
               break;
             }
@@ -81,7 +83,7 @@ export async function POST(request: Request) {
         // Client disconnected or abort — normal
       }
 
-      const modelName = resolveGeminiModel();
+      const modelName = resolveAnthropicModel();
       logChatTurn({
         visitSessionId: body.sessionId,
         visitorKey: body.visitorKey,
@@ -90,7 +92,8 @@ export async function POST(request: Request) {
         modelName,
         promptTokens,
         outputTokens,
-        estimatedCostUsd: errorOccurred ? 0 : estimateCostUsd(promptTokens, outputTokens, modelName),
+        estimatedCostUsd:
+          errorOccurred || !usageForCost ? 0 : estimateCostUsd(usageForCost),
         httpStatus: errorOccurred ? 502 : 200,
         errorSummary: errorOccurred ? 'stream error' : null,
       });
