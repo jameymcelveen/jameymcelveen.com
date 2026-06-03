@@ -306,3 +306,11 @@ pnpm lint         # Run linter
 - Background: 48px woven tile + grain + 135° gradient overlay (static parallax for glass).
 - Glass: thinner sheet shadows/insets; hero **Geist Sans** — **Jamey** bold, raised **c** in McElveen.
 - Polaroid caption: `Florence · SC` (no wrap). Résumé publication links to book URL.
+
+---
+
+## Garfield session — 2026-06-03 (sand.jpg tiled background)
+
+**Version / tag:** `v1.4.9` (package `1.4.9`)
+
+**Shipped:** Tiled **`assets/sand.jpg`** → `public/textures/sand.jpg` (418px repeat) replaces SVG weave; lighter gradient for glass parallax.
