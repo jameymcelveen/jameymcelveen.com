@@ -66,6 +66,7 @@ export default function ResumePage() {
     title: string;
     description: string;
     publisher?: string;
+    url?: string;
   };
 
   return (
@@ -357,7 +358,18 @@ export default function ResumePage() {
                 </h2>
               </div>
               <p className="text-foreground text-sm font-medium sm:text-base">
-                {publication.title}
+                {publication.url ? (
+                  <a
+                    href={publication.url}
+                    className="text-accent hover:underline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {publication.title}
+                  </a>
+                ) : (
+                  publication.title
+                )}
               </p>
               {publication.publisher ? (
                 <p className="text-foreground-muted text-xs sm:text-sm">{publication.publisher}</p>

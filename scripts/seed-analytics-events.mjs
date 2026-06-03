@@ -89,7 +89,7 @@ const QUESTIONS = [
   'Have you worked with healthcare compliance before?',
   'What projects are on your GitHub right now?',
   'How do you handle legacy system modernization?',
-  'Tell me about the O\'Reilly book you wrote',
+  'Tell me about the Wiley book you wrote',
   'What is your experience with PostgreSQL at scale?',
   'How do you balance speed and quality in delivery?',
   'Describe a difficult production incident you resolved',

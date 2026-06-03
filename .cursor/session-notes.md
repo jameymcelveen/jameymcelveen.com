@@ -1,6 +1,6 @@
 # Portfolio Site - Session Notes
 
-**Last Updated:** 2026-06-02 (light textured theme + glass + Claude thinking)  
+**Last Updated:** 2026-06-02 (Wiley author, tiled bg, hero typography)  
 **Project:** jameymcelveen.com - Personal Portfolio Site
 
 ---

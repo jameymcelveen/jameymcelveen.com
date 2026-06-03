@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-const CAPTION = 'Principal Architect · Florence, SC';
+const CAPTION = 'Florence · SC';
 
 type Props = {
   alt: string;
@@ -30,7 +30,7 @@ export function HomePolaroidPhoto({ alt }: Props) {
           </div>
         </div>
         <p
-          className="text-[#3a3a45] px-3 pt-2 pb-1 text-center text-[1.35rem] leading-snug sm:text-[1.45rem]"
+          className="text-[#3a3a45] px-3 pt-2 pb-1 text-center text-[1.35rem] leading-none whitespace-nowrap sm:text-[1.45rem]"
           style={{ fontFamily: 'var(--font-caveat), cursive' }}
         >
           {CAPTION}

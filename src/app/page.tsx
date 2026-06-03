@@ -7,6 +7,7 @@ import { ObfuscatedEmail, ObfuscatedPhone } from '@/components/ObfuscatedContact
 import { SecretLock } from '@/components/PinGate';
 import { CurrentlyBuilding, type HomeProjectCard } from '@/components/home/CurrentlyBuilding';
 import { HomeHeroBackdrop } from '@/components/home/HomeHeroBackdrop';
+import { HomeHeroName } from '@/components/home/HomeHeroName';
 import { HomePolaroidPhoto } from '@/components/home/HomePolaroidPhoto';
 import { useAskJameyPanel } from '@/context/AskJameyPanelContext';
 import { MapPin } from 'lucide-react';
@@ -31,39 +32,6 @@ const itemVariants = {
     transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] as const },
   },
 };
-
-const letterVariants = {
-  hidden: { opacity: 0, y: 50 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      delay: i * 0.03,
-      duration: 0.5,
-      ease: [0.25, 0.46, 0.45, 0.94] as const,
-    },
-  }),
-};
-
-function AnimatedText({ text, className }: { text: string; className?: string }) {
-  return (
-    <span className={className}>
-      {text.split('').map((char, i) => (
-        <motion.span
-          key={i}
-          custom={i}
-          variants={letterVariants}
-          initial="hidden"
-          animate="visible"
-          className="inline-block"
-          style={{ whiteSpace: char === ' ' ? 'pre' : 'normal' }}
-        >
-          {char}
-        </motion.span>
-      ))}
-    </span>
-  );
-}
 
 function renderSummaryWithHighlights(
   text: string,
@@ -174,8 +142,8 @@ export default function Home() {
         ) : null}
 
         {/* Name with kinetic typography */}
-        <h1 className="hero-name-display hero-name-h1 mb-4 sm:mb-6">
-          <AnimatedText text={personal.name} className="text-gradient" />
+        <h1 className="mb-4 sm:mb-6">
+          <HomeHeroName />
         </h1>
 
         {/* Title + tagline */}
@@ -191,7 +159,7 @@ export default function Home() {
           <span className="text-foreground-muted font-normal">
             {'headlineSecondary' in personal && typeof personal.headlineSecondary === 'string'
               ? personal.headlineSecondary
-              : ' · 30+ years Enterprise Architecture · O\'Reilly Author'}
+              : ' · Wiley Author'}
           </span>
         </motion.h2>
         {personal.subtitle ? (

@@ -1,5 +1,5 @@
 name: Jamey McElveen
-title: Principal Systems Architect · O'Reilly Author
+title: Principal Systems Architect · Wiley Author
 contact:
   location: Florence, SC
   phone: '(843) 618-8078'
@@ -14,7 +14,7 @@ summary: >
   engineers through complete platform generational shifts. Expert in
   AI-Augmented Engineering — leveraging LLM-driven tooling (Cursor/Claude)
   to accelerate legacy modernization and reduce friction on complex
-  refactoring work. Published O'Reilly author. Currently architecting an
+  refactoring work. Published Wiley author. Currently architecting an
   open-source mission clinic EMR (Christ Medical) with offline-first sync
   for field clinics in low-connectivity environments.
 
@@ -173,7 +173,7 @@ education:
 
 publications:
   - title: iPhone Game Development
-    publisher: O'Reilly Media
+    publisher: Wiley
     notes: Technical writing clarity applied daily — Swagger/OpenAPI specs,
       architecture decision records, and deep-dive team documentation.
 
