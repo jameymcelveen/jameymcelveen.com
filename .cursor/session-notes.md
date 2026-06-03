@@ -314,3 +314,14 @@ pnpm lint         # Run linter
 **Version / tag:** `v1.4.9` (package `1.4.9`)
 
 **Shipped:** Tiled **`assets/sand.jpg`** → `public/textures/sand.jpg` (418px repeat) replaces SVG weave; lighter gradient for glass parallax.
+
+---
+
+## Garfield session — 2026-06-03 (Bill logistics + age guardrails)
+
+**Version / tag:** `v1.4.10` (package `1.4.10`)
+
+**Shipped (Homer — system prompt only):**
+- Response rules 11–12: engagement questions lead with interest + role/stack first; warm remote-first preference; relocation only firm no; never lead with decline lists.
+- Age guardrail: never state number/range; redirect to ~30 years + desktop → web → cloud shifts.
+- Identity reframed: remote-first availability, no "Not a fit" bullet wall.
