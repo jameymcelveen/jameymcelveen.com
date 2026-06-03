@@ -293,3 +293,16 @@ pnpm lint         # Run linter
 - `AskJameyChatPanel.tsx`, `InterviewConsole.tsx`: thinking indicator during empty stream state.
 
 **Verify:** `pnpm run build` passes. Body text `#1c1e24` on `#f8f5f0` ≈ 12.5:1 (AA). Reduced-motion: dots/cursor animations off.
+
+---
+
+## Garfield session — 2026-06-02 (Wiley, /book, tiled bg, hero name)
+
+**Version / tag:** `v1.4.8` (package `1.4.8`)
+
+**Shipped:**
+- O'Reilly → **Wiley** author across profile, metadata, system prompt (`WILEY_AUTHOR`), print résumé.
+- `/book` → redirect to Amazon short link `https://a.co/d/0bzHt9QF`.
+- Background: 48px woven tile + grain + 135° gradient overlay (static parallax for glass).
+- Glass: thinner sheet shadows/insets; hero **Geist Sans** — **Jamey** bold, raised **c** in McElveen.
+- Polaroid caption: `Florence · SC` (no wrap). Résumé publication links to book URL.
