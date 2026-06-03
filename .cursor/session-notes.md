@@ -1,6 +1,6 @@
 # Portfolio Site - Session Notes
 
-**Last Updated:** 2026-06-02 (Wiley author, tiled bg, hero typography)  
+**Last Updated:** 2026-06-03 (Bill logistics + age guardrails)  
 **Project:** jameymcelveen.com - Personal Portfolio Site
 
 ---
