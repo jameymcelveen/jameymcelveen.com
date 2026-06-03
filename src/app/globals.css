@@ -5,8 +5,7 @@
   --nav-bar-height: 4.25rem;
   --nav-bar-fill: rgba(255, 255, 255, 0.62);
 
-  --tobacco-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.38' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23g)'/%3E%3C/svg%3E");
-  --paper-tile: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cg fill='none' stroke='%23b8aea3' stroke-width='0.45' opacity='0.55'%3E%3Cpath d='M0 24h48M24 0v48'/%3E%3Cpath d='M0 0l48 48M48 0L0 48' stroke-width='0.3' opacity='0.45'/%3E%3C/g%3E%3Ccircle cx='24' cy='24' r='0.6' fill='%23c4bab0' opacity='0.35'/%3E%3C/svg%3E");
+  --sand-tile: url('/textures/sand.jpg');
 
   --background: #e8e2da;
   --background-secondary: #f3efe8;
@@ -168,7 +167,7 @@ body {
   letter-spacing: 0;
 }
 
-/* Fixed viewport backdrop — tiled weave + grain + gradient (scroll parallax for glass) */
+/* Fixed viewport backdrop — sand tile (assets/sand.jpg) + gradient (scroll parallax for glass) */
 .site-bg {
   position: fixed;
   inset: 0;
@@ -178,13 +177,13 @@ body {
   background-color: var(--background);
 }
 
-.site-bg__tile {
+.site-bg__sand {
   position: absolute;
   inset: 0;
-  opacity: 0.55;
-  background-image: var(--paper-tile);
-  background-size: 48px 48px;
+  background-image: var(--sand-tile);
+  background-size: 418px 418px;
   background-repeat: repeat;
+  background-position: 0 0;
 }
 
 .site-bg__gradient {
@@ -192,21 +191,11 @@ body {
   inset: 0;
   background: linear-gradient(
     135deg,
-    rgba(252, 250, 247, 0.72) 0%,
-    rgba(241, 235, 227, 0.58) 28%,
-    rgba(228, 220, 210, 0.62) 58%,
-    rgba(214, 204, 192, 0.78) 100%
+    rgba(252, 250, 247, 0.55) 0%,
+    rgba(241, 235, 227, 0.42) 28%,
+    rgba(228, 220, 210, 0.48) 58%,
+    rgba(214, 204, 192, 0.62) 100%
   );
-}
-
-.site-bg__grain {
-  position: absolute;
-  inset: 0;
-  opacity: 0.1;
-  mix-blend-mode: multiply;
-  background-image: var(--tobacco-grain);
-  background-size: 256px 256px;
-  background-repeat: repeat;
 }
 
 @keyframes nav-steel-enter {
