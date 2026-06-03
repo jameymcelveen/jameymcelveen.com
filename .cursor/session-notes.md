@@ -1,6 +1,6 @@
 # Portfolio Site - Session Notes
 
-**Last Updated:** 2026-06-02 (Bill → Claude Haiku)  
+**Last Updated:** 2026-06-02 (light textured theme + glass + Claude thinking)  
 **Project:** jameymcelveen.com - Personal Portfolio Site
 
 ---
@@ -18,20 +18,19 @@ A modern, professional portfolio site built with Next.js 16, TypeScript, and Tai
 ## 🎨 Design Decisions
 
 ### Color Palette
-- **Primary Accent:** Purple `#8b6cb5` (soft, professional)
-- **Secondary:** Clemson Regalia `#522d80`
-- **Highlights:** Clemson Orange `#f56600` (used sparingly for emphasis)
-- **Background:** Dark purple-tinted `#0c0a10`
+- **Background:** Light warm paper (`#ebe6df` base) + fixed tobacco-grain SVG tile + 135° gradient layer
+- **Text:** `#1c1e24` body, `#5c6370` muted — WCAG AA on lightest gradient stop `#f8f5f0`
+- **Accents only:** Clemson Regalia `#522d80`, Orange `#f56600` (links, buttons, chips — not large fills)
 
 ### Typography
 - **Sans:** Geist Sans (via Next.js)
 - **Mono:** Geist Mono (for code/tech terms)
 
 ### Visual Effects
-- **Gradient Mesh:** Subtle animated background with orange hint
-- **Liquid Glass:** Enhanced glassmorphism on resume cards (single pass on load, then on hover)
-- **No Shimmer:** Removed from text and buttons (looked bad)
-- **Animations:** Framer Motion for smooth transitions
+- **Fixed backdrop:** `.site-bg` grain + gradient (`position: fixed`, not `background-attachment: fixed` — iOS-safe)
+- **Frosted glass:** Single `.glass` utility (alias `.glass-card`); `blur(10px)` for scroll perf
+- **Claude thinking:** `ClaudeThinkingIndicator` — pulsing accent dots + “Powered by Claude”; `prefers-reduced-motion` disables animation
+- **Animations:** Framer Motion for page transitions; no GIF loaders
 
 ---
 
@@ -280,3 +279,17 @@ pnpm lint         # Run linter
 - Env/docs: `ANTHROPIC_API_KEY` only; all `GEMINI_*` references removed from repo.
 
 **Railway/Vercel:** Set `ANTHROPIC_API_KEY` in deployment env (Jamey reports already on Railway). Remove obsolete `GEMINI_API_KEY` from hosting dashboards.
+
+---
+
+## Garfield session — 2026-06-02 (light theme + glass + Claude thinking)
+
+**Version / tag:** `v1.4.7` (package `1.4.7`)
+
+**Shipped (Homer story):**
+- `Background.tsx`: fixed `.site-bg` — tileable `feTurbulence` grain + 135° light gradient (scroll parallax for glass).
+- `globals.css`: light `:root` palette; unified `.glass` / `.glass-card`; light nav/chat/AI shell; `ClaudeThinkingIndicator` CSS + reduced-motion.
+- `GlassCard.tsx`, `ClaudeThinkingIndicator.tsx`: reusable glass surface + streaming wait UI.
+- `AskJameyChatPanel.tsx`, `InterviewConsole.tsx`: thinking indicator during empty stream state.
+
+**Verify:** `pnpm run build` passes. Body text `#1c1e24` on `#f8f5f0` ≈ 12.5:1 (AA). Reduced-motion: dots/cursor animations off.

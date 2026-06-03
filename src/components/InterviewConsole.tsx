@@ -14,6 +14,7 @@ import { usePathname } from 'next/navigation';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { ArrowUp } from 'lucide-react';
+import { ClaudeThinkingIndicator } from '@/components/ClaudeThinkingIndicator';
 import { readAnalyticsIds, postInsightEvent } from '@/lib/site-analytics';
 
 type ChatRole = 'user' | 'assistant';
@@ -481,11 +482,7 @@ export function InterviewConsole({ fillContainer = false }: InterviewConsoleProp
                           <span className="streaming-cursor" aria-hidden />
                         </>
                       ) : (
-                        <span className="inline-flex gap-1">
-                          <span className="ask-jamey-dot bg-[var(--ai-assistant)]/70 h-1.5 w-1.5 rounded-full" />
-                          <span className="ask-jamey-dot bg-[var(--ai-assistant)]/70 h-1.5 w-1.5 rounded-full [animation-delay:0.15s]" />
-                          <span className="ask-jamey-dot bg-[var(--ai-assistant)]/70 h-1.5 w-1.5 rounded-full [animation-delay:0.3s]" />
-                        </span>
+                        <ClaudeThinkingIndicator />
                       )}
                     </div>
                   ) : (

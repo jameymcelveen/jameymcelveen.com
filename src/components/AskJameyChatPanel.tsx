@@ -5,6 +5,7 @@ import { type ReactNode, isValidElement, useCallback, useEffect, useMemo, useRef
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { ArrowUp, X } from 'lucide-react';
+import { ClaudeThinkingIndicator } from '@/components/ClaudeThinkingIndicator';
 import { readAnalyticsIds, postInsightEvent } from '@/lib/site-analytics';
 
 const ASK_JAMEY_AVATAR = '/images/ask-jamey.webp';
@@ -68,16 +69,6 @@ function CodeBlock({ children }: { children?: ReactNode }) {
         {children}
       </pre>
     </div>
-  );
-}
-
-function LoadingDots() {
-  return (
-    <span className="inline-flex gap-1 px-1" aria-hidden>
-      <span className="ask-jamey-dot bg-[var(--ask-jamey-fg)]/70 h-1.5 w-1.5 rounded-full" />
-      <span className="ask-jamey-dot bg-[var(--ask-jamey-fg)]/70 h-1.5 w-1.5 rounded-full [animation-delay:0.15s]" />
-      <span className="ask-jamey-dot bg-[var(--ask-jamey-fg)]/70 h-1.5 w-1.5 rounded-full [animation-delay:0.3s]" />
-    </span>
   );
 }
 
@@ -472,7 +463,7 @@ export function AskJameyChatPanel({ onClose }: { onClose: () => void }) {
                       <span className="streaming-cursor" aria-hidden />
                     </>
                   ) : (
-                    <LoadingDots />
+                    <ClaudeThinkingIndicator />
                   )}
                 </div>
               ) : (
