@@ -33,7 +33,7 @@ export function SiteFooter({ wide = false }: { wide?: boolean }) {
       >
         <nav
           aria-label="Footer"
-          className="flex w-full max-w-3xl flex-col items-center gap-3 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-x-0 sm:gap-y-2"
+          className="flex w-full max-w-3xl flex-col items-center gap-3 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-x-4 sm:gap-y-2"
         >
           <div className="flex flex-wrap items-center justify-center gap-x-1 gap-y-2">
             {internalNav.map((item, i) => {
