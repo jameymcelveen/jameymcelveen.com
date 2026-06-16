@@ -1,6 +1,6 @@
 # Portfolio Site - Session Notes
 
-**Last Updated:** 2026-06-03 (Bill logistics + age guardrails)  
+**Last Updated:** 2026-06-16 (Bobiverse easter egg + static registry)  
 **Project:** jameymcelveen.com - Personal Portfolio Site
 
 ---
@@ -325,3 +325,14 @@ pnpm lint         # Run linter
 - Response rules 11–12: engagement questions lead with interest + role/stack first; warm remote-first preference; relocation only firm no; never lead with decline lists.
 - Age guardrail: never state number/range; redirect to ~30 years + desktop → web → cloud shifts.
 - Identity reframed: remote-first availability, no "Not a fit" bullet wall.
+
+---
+
+## Garfield session — 2026-06-16 (Bobiverse registry)
+
+**Version / tag:** `v1.4.11` (package `1.4.11`)
+
+**Shipped:**
+- `public/bobiverse/` — static Replicant Registry (`index.html`, `style.css`, `replicants.json`); `/bobiverse` redirect.
+- Home footer easter egg: translucent 🚀 → `/bobiverse` (`aria-label`: "😎 Just for fun...").
+- `public/Jamey_McElveen_Resume.pdf` added.

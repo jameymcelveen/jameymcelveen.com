@@ -92,6 +92,16 @@ export function SiteFooter({ wide = false }: { wide?: boolean }) {
         <p className="text-foreground-muted/80 font-mono text-[11px] tracking-wide">
           © {year} {footer.copyrightName}
         </p>
+        {pathname === '/' ? (
+          <Link
+            href="/bobiverse"
+            className="footer-easter-egg"
+            aria-label="😎 Just for fun..."
+            title="😎 Just for fun..."
+          >
+            🚀
+          </Link>
+        ) : null}
       </div>
     </footer>
   );

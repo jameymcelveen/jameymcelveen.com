@@ -18,6 +18,7 @@ const nextConfig: NextConfig = {
     const list: Redirect[] = [
       { source: '/resume/print', destination: '/resume/index.html', permanent: false },
       { source: '/book', destination: 'https://a.co/d/0bzHt9QF', permanent: false },
+      { source: '/bobiverse', destination: '/bobiverse/index.html', permanent: false },
     ];
 
     if (domain.www && domain.canonical && domain.www !== domain.canonical) {

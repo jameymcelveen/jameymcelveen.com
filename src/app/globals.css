@@ -308,6 +308,24 @@ body {
   -webkit-backdrop-filter: var(--glass-backdrop);
 }
 
+.footer-easter-egg {
+  display: inline-block;
+  margin-top: 0.15rem;
+  font-size: 0.65rem;
+  line-height: 1;
+  opacity: 0.22;
+  text-decoration: none;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+  transform: scale(1);
+}
+
+.footer-easter-egg:hover {
+  opacity: 1;
+  transform: scale(1.35);
+}
+
 .page-studio {
   position: relative;
   isolation: isolate;
