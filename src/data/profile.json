@@ -56,7 +56,7 @@
         "shortTitle": "Christ Medical",
         "description": "Open-source EMR for field clinics — offline-capable via IndexedDB PWA sync.",
         "stack": [".NET 9 (Dapper + Npgsql)", "Next.js 15 PWA", "PostgreSQL", "Docker", "Railway", "Vercel"],
-        "href": "https://github.com/christmedical",
+        "href": "https://github.com/christmedical/christmedical.com",
         "icon": "cross"
       },
       {
