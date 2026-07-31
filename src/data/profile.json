@@ -65,7 +65,7 @@
         "shortTitle": "QikLog",
         "description": "Multi-tenant log-tailing SaaS with real-time SignalR streaming, deployed on Azure Container Apps.",
         "stack": [".NET 9", "Blazor Server", "SignalR", "PostgreSQL", "Redis", "Azure Container Apps", "Zitadel"],
-        "href": "https://github.com/jameymcelveen/qiklog",
+        "href": "https://qiklog.up.railway.app/tail/demo",
         "icon": "terminal"
       },
       {
