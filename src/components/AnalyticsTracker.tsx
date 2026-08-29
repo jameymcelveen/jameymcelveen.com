@@ -9,6 +9,7 @@ import {
   getOrCreateVisitorKey,
   postInsightEvent,
 } from '@/lib/site-analytics';
+import { isObscuredLabPath } from '@/lib/fit-filter/path';
 
 async function postJson(url: string, body: unknown) {
   await fetch(url, {
@@ -27,6 +28,8 @@ export function AnalyticsTracker() {
   useEffect(() => {
     const base = analyticsApiBase();
     if (!base || typeof window === 'undefined') return;
+
+    if (isObscuredLabPath(pathname)) return;
 
     const ensureSession = () => {
       if (registerOnce.current) return registerOnce.current;

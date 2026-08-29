@@ -15,6 +15,7 @@
     "db:seed": "node scripts/seed-analytics-events.mjs",
     "start": "next start",
     "lint": "eslint",
+    "test": "node --experimental-strip-types --test src/lib/fit-filter/schema.test.ts",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "hosting:env": "bash scripts/hosting/00-ensure-env.sh",
@@ -34,7 +35,8 @@
     "react-markdown": "^10.1.0",
     "react-simple-maps": "^3.0.0",
     "recharts": "^3.8.1",
-    "remark-gfm": "^4.0.1"
+    "remark-gfm": "^4.0.1",
+    "zod": "^4.5.2"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

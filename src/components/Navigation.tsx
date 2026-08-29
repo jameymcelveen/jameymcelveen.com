@@ -3,12 +3,13 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAskJameyPanel } from '@/context/AskJameyPanelContext';
+import { isObscuredLabPath } from '@/lib/fit-filter/path';
 
 export function Navigation() {
   const pathname = usePathname();
   const { openAskJamey } = useAskJameyPanel();
 
-  if (pathname === '/ai') {
+  if (pathname === '/ai' || isObscuredLabPath(pathname)) {
     return null;
   }
 

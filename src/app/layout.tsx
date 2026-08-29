@@ -4,9 +4,9 @@ import { AnalyticsTracker } from '@/components/AnalyticsTracker';
 import { Background } from '@/components/Background';
 import { Navigation } from '@/components/Navigation';
 import { PageChrome } from '@/components/PageChrome';
+import { SiteAnalytics } from '@/components/SiteAnalytics';
 import { AskJameyPanelProvider } from '@/context/AskJameyPanelContext';
 import { getSiteDomain, getSiteMetadata } from '@/data';
-import { Analytics } from '@vercel/analytics/next';
 import './globals.css';
 
 const geistSans = Geist({
@@ -69,7 +69,7 @@ export default function RootLayout({
       >
         <AnalyticsTracker />
         <Background />
-        <Analytics />
+        <SiteAnalytics />
         <AskJameyPanelProvider>
           <Navigation />
           <PageChrome>{children}</PageChrome>

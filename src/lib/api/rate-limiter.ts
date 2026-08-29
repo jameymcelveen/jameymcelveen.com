@@ -1,4 +1,5 @@
 const MAX_REQUESTS_PER_HOUR = 10;
+const FIT_FILTER_MAX_PER_HOUR = 5;
 
 const counters = new Map<string, { count: number; expiresAt: number }>();
 
@@ -9,7 +10,9 @@ function utcHourKey(): string {
 
 function nextHourMs(): number {
   const now = new Date();
-  const next = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours() + 1));
+  const next = new Date(
+    Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours() + 1)
+  );
   return next.getTime();
 }
 
@@ -22,12 +25,17 @@ export function resolveClientIp(request: Request): string {
   return 'unknown';
 }
 
-export function checkRateLimit(ip: string): {
+export function checkRateLimit(
+  ip: string,
+  options?: { namespace?: string; maxPerHour?: number }
+): {
   allowed: boolean;
   limit: number;
   remaining: number;
 } {
-  const key = `chat-rl:${ip}:${utcHourKey()}`;
+  const namespace = options?.namespace ?? 'chat-rl';
+  const maxPerHour = options?.maxPerHour ?? MAX_REQUESTS_PER_HOUR;
+  const key = `${namespace}:${ip}:${utcHourKey()}`;
   const now = Date.now();
 
   let entry = counters.get(key);
@@ -46,8 +54,12 @@ export function checkRateLimit(ip: string): {
   }
 
   return {
-    allowed: entry.count <= MAX_REQUESTS_PER_HOUR,
-    limit: MAX_REQUESTS_PER_HOUR,
-    remaining: Math.max(0, MAX_REQUESTS_PER_HOUR - entry.count),
+    allowed: entry.count <= maxPerHour,
+    limit: maxPerHour,
+    remaining: Math.max(0, maxPerHour - entry.count),
   };
+}
+
+export function checkFitFilterRateLimit(ip: string) {
+  return checkRateLimit(ip, { namespace: 'fit-filter-rl', maxPerHour: FIT_FILTER_MAX_PER_HOUR });
 }

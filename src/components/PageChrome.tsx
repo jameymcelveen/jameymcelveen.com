@@ -2,12 +2,16 @@
 
 import { usePathname } from 'next/navigation';
 import { SiteFooter } from '@/components/SiteFooter';
+import { isObscuredLabPath } from '@/lib/fit-filter/path';
 
 /**
  * Full-bleed /ai chat; other routes use centered max-width main.
  */
 export function PageChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  if (isObscuredLabPath(pathname)) {
+    return <div className="min-h-dvh">{children}</div>;
+  }
   if (pathname === '/ai') {
     return (
       <div className="flex min-h-dvh flex-col">

@@ -12,6 +12,7 @@ import {
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
+import { isObscuredLabPath } from '@/lib/fit-filter/path';
 
 const AskJameyChatPanelLazy = dynamic(
   () => import('@/components/AskJameyChatPanel').then((m) => ({ default: m.AskJameyChatPanel })),
@@ -61,7 +62,7 @@ function AskJameyBubbleHost({
     return () => window.removeEventListener('keydown', onKey);
   }, [open, onClose]);
 
-  if (pathname === '/ai') return null;
+  if (pathname === '/ai' || isObscuredLabPath(pathname)) return null;
 
   if (open) {
     return (
@@ -82,7 +83,7 @@ function AskJameyBubbleHost({
       className="group fixed right-6 bottom-6 z-50 flex flex-col items-end gap-1"
       style={{ willChange: 'transform' }}
     >
-      <span className="text-[var(--text-muted)] pointer-events-none max-w-[7rem] text-right font-mono text-[10px] tracking-wide opacity-0 transition-opacity duration-200 sm:opacity-100 group-hover:opacity-100">
+      <span className="pointer-events-none max-w-[7rem] text-right font-mono text-[10px] tracking-wide text-[var(--text-muted)] opacity-0 transition-opacity duration-200 group-hover:opacity-100 sm:opacity-100">
         Ask Jamey
       </span>
       <button

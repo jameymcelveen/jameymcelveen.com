@@ -12,6 +12,7 @@ import { HomePolaroidPhoto } from '@/components/home/HomePolaroidPhoto';
 import { useAskJameyPanel } from '@/context/AskJameyPanelContext';
 import { MapPin } from 'lucide-react';
 import { getPersonalInfo, getHomeData, getImages, getBranding } from '@/data';
+import { FIT_FILTER_PATH } from '@/lib/fit-filter/path';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -104,8 +105,7 @@ export default function Home() {
   const branding = getBranding();
   const projects = (home as { projects?: HomeProjectCard[] }).projects ?? [];
   const askJameyCtaLine = (home as { askJameyCtaLine?: string }).askJameyCtaLine;
-  const askJameyCta =
-    (home as { askJameyCta?: string }).askJameyCta;
+  const askJameyCta = (home as { askJameyCta?: string }).askJameyCta;
 
   // Check if already unlocked on mount
   useEffect(() => {
@@ -135,7 +135,7 @@ export default function Home() {
         {personal.greeting?.trim() ? (
           <motion.p
             variants={itemVariants}
-            className="text-[var(--text-muted)] mb-4 font-mono text-xs tracking-widest uppercase sm:text-sm"
+            className="mb-4 font-mono text-xs tracking-widest text-[var(--text-muted)] uppercase sm:text-sm"
           >
             {personal.greeting}
           </motion.p>
@@ -180,7 +180,11 @@ export default function Home() {
               <p className="text-foreground-muted mb-2 text-sm sm:text-base">{askJameyCtaLine}</p>
             ) : null}
             {askJameyCta?.trim() ? (
-              <button type="button" onClick={openAskJamey} className="btn-glass btn-glass--home-link text-sm">
+              <button
+                type="button"
+                onClick={openAskJamey}
+                className="btn-glass btn-glass--home-link text-sm"
+              >
                 {askJameyCta}
               </button>
             ) : null}
@@ -208,7 +212,10 @@ export default function Home() {
         ) : null}
 
         {/* CTA Buttons */}
-        <motion.div variants={itemVariants} className="mt-12 flex flex-wrap justify-center gap-3 sm:gap-4">
+        <motion.div
+          variants={itemVariants}
+          className="mt-12 flex flex-wrap justify-center gap-3 sm:gap-4"
+        >
           <Link href="/resume" className="btn-resume-outline">
             <span>View resume</span>
           </Link>
@@ -222,8 +229,29 @@ export default function Home() {
               transition={{ duration: 0.3 }}
               className="inline-block"
             >
-              <Link href="/cover-letters" className="btn-glass text-foreground px-6 py-2.5 sm:px-8 sm:py-3">
+              <Link
+                href="/cover-letters"
+                className="btn-glass text-foreground px-6 py-2.5 sm:px-8 sm:py-3"
+              >
                 Cover Letters
+              </Link>
+            </motion.div>
+          )}
+
+          {showCoverLetters && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{ duration: 0.3 }}
+              className="inline-block"
+            >
+              <Link
+                href={FIT_FILTER_PATH}
+                prefetch={false}
+                className="btn-glass text-foreground px-6 py-2.5 sm:px-8 sm:py-3"
+              >
+                Fit Filter
               </Link>
             </motion.div>
           )}
@@ -235,10 +263,7 @@ export default function Home() {
           className="mt-12 flex flex-wrap justify-center gap-2 sm:mt-16 sm:gap-3"
         >
           {home.techStack.map((tech) => (
-            <span
-              key={tech}
-              className="tech-stack-pill-v3"
-            >
+            <span key={tech} className="tech-stack-pill-v3">
               {tech}
             </span>
           ))}
