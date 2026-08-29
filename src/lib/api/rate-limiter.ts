@@ -1,5 +1,5 @@
 const MAX_REQUESTS_PER_HOUR = 10;
-const FIT_FILTER_MAX_PER_HOUR = 5;
+const FIT_FILTER_MAX_PER_HOUR = 25;
 
 const counters = new Map<string, { count: number; expiresAt: number }>();
 
