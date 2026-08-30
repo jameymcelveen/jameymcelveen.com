@@ -2,6 +2,7 @@ import 'server-only';
 
 import { getAnalyticsPool } from '@/lib/api/analytics-events-db';
 import { readBoardCache } from './cache';
+import { hydrateHitFromFeeds } from './hydrate';
 import { formatLastScan, parseBoardHit, viewFromPayload } from './parse';
 import type { BoardHit, BoardViewModel } from './types';
 
@@ -27,9 +28,25 @@ export async function loadBoard(): Promise<BoardViewModel> {
 
 export async function loadBoardHit(id: string): Promise<BoardHit | null> {
   const board = await loadBoard();
-  const live = board.hits.find((hit) => hit.id === id);
-  if (live) return live;
+  const live = board.hits.find((hit) => hit.id === id) ?? null;
+  const stored = live ? null : await loadStoredHit(id);
+  const hit = live ?? stored;
+  if (!hit) return null;
+  if (hit.body) return hit;
 
+  const fromJobs = live ? await loadStoredHit(id) : null;
+  if (fromJobs?.body) {
+    return {
+      ...hit,
+      body: fromJobs.body,
+      location: hit.location || fromJobs.location,
+    };
+  }
+
+  return hydrateHitFromFeeds(hit);
+}
+
+async function loadStoredHit(id: string): Promise<BoardHit | null> {
   const pool = getAnalyticsPool();
   if (!pool) return null;
   try {

@@ -36,7 +36,7 @@ export const JAMEY_FEEDS: CompanyEntry[] = [
   {
     name: 'Christian Tech Jobs',
     board: 'rss',
-    token: 'https://christiantechjobs.io/api/rss',
+    token: 'https://www.christiantechjobs.io/api/rss',
     active: true,
     domain: 'mission',
   },

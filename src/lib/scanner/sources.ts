@@ -1,9 +1,10 @@
 import 'server-only';
 
-import { stripHtml } from './html';
+import { htmlToMarkdown } from './html';
 import { BROWSER_UA, getText, jsonStr, parseDate, withinDays, type FetchStat } from './http';
 import { FRESHNESS_MAX_DAYS, SEARCH_QUERIES } from './profile';
 import type { Posting } from './posting';
+import { parseRssItems, rssCacheKey } from './rss';
 import { JAMEY_COMPANIES, JAMEY_FEEDS, type CompanyEntry } from './watchlist';
 
 type SourceResult = { postings: Posting[]; stat: FetchStat };
@@ -47,7 +48,7 @@ async function greenhouse(c: CompanyEntry): Promise<SourceResult> {
       title: jsonStr(j, 'title'),
       url: jsonStr(j, 'absolute_url'),
       location: loc ? jsonStr(loc, 'name') : '',
-      body: stripHtml(jsonStr(j, 'content')),
+      body: htmlToMarkdown(jsonStr(j, 'content')),
       postedAt: parseDate(jsonStr(j, 'updated_at')) ?? parseDate(jsonStr(j, 'first_published')),
       domain: c.domain,
       compRaw: comp.trim(),
@@ -76,12 +77,12 @@ async function lever(c: CompanyEntry): Promise<SourceResult> {
   for (const raw of rows) {
     const j = asObj(raw);
     if (!j) continue;
-    let body = stripHtml(jsonStr(j, 'descriptionPlain') || jsonStr(j, 'description'));
+    let body = htmlToMarkdown(jsonStr(j, 'descriptionPlain') || jsonStr(j, 'description'));
     const lists = Array.isArray(j.lists) ? j.lists : [];
     for (const item of lists) {
       const l = asObj(item);
       if (!l) continue;
-      body += `\n\n${stripHtml(jsonStr(l, 'text'))}\n${stripHtml(jsonStr(l, 'content'))}`;
+      body += `\n\n${htmlToMarkdown(jsonStr(l, 'text'))}\n${htmlToMarkdown(jsonStr(l, 'content'))}`;
     }
     let postedAt: Date | null = null;
     if (typeof j.createdAt === 'number') postedAt = new Date(j.createdAt);
@@ -103,29 +104,21 @@ async function lever(c: CompanyEntry): Promise<SourceResult> {
 
 async function rss(c: CompanyEntry): Promise<SourceResult> {
   const url = c.token ?? '';
-  const { text, cached, error } = await getText(url, { cacheKey: `rss:${c.name}` });
+  const { text, cached, error } = await getText(url, { cacheKey: rssCacheKey(c.name) });
   if (!text) {
     return { postings: [], stat: { source: `rss:${c.name}`, ok: false, count: 0, cached, error } };
   }
-  const items = [...text.matchAll(/<item\b[^>]*>([\s\S]*?)<\/item>/gi)];
-  const postings: Posting[] = items.map((m) => {
-    const block = m[1] ?? '';
-    const tag = (name: string) => {
-      const hit = new RegExp(`<${name}[^>]*>([\\s\\S]*?)</${name}>`, 'i').exec(block);
-      return stripHtml(hit?.[1] ?? '');
-    };
-    return {
-      source: 'rss',
-      company: tag('author') || c.name,
-      title: tag('title'),
-      url: tag('link'),
-      location: '',
-      body: tag('description'),
-      postedAt: parseDate(tag('pubDate')),
-      domain: c.domain,
-      compRaw: '',
-    };
-  });
+  const postings: Posting[] = parseRssItems(text, c.name).map((item) => ({
+    source: 'rss',
+    company: item.company,
+    title: item.title,
+    url: item.url,
+    location: item.location,
+    body: item.body,
+    postedAt: item.postedAt,
+    domain: c.domain,
+    compRaw: '',
+  }));
   return { postings, stat: { source: `rss:${c.name}`, ok: true, count: postings.length, cached } };
 }
 
@@ -157,7 +150,7 @@ async function remotiveQuery(query: string | null, category: string | null): Pro
       title: jsonStr(j, 'title'),
       url: jsonStr(j, 'url'),
       location: jsonStr(j, 'candidate_required_location') || 'Remote',
-      body: stripHtml(jsonStr(j, 'description')),
+      body: htmlToMarkdown(jsonStr(j, 'description')),
       postedAt,
       domain: 'saas',
       compRaw: jsonStr(j, 'salary'),
@@ -202,7 +195,7 @@ async function remoteOk(): Promise<SourceResult> {
       title,
       url: jsonStr(j, 'url'),
       location: jsonStr(j, 'location') || 'Remote',
-      body: stripHtml(jsonStr(j, 'description')),
+      body: htmlToMarkdown(jsonStr(j, 'description')),
       postedAt,
       domain: 'saas',
       compRaw: sal,
@@ -273,7 +266,7 @@ async function adzunaQuery(query: string): Promise<SourceResult> {
       title: jsonStr(j, 'title'),
       url: jsonStr(j, 'redirect_url') || jsonStr(j, 'adref'),
       location: location ? jsonStr(location, 'display_name') : 'US',
-      body: stripHtml(jsonStr(j, 'description')),
+      body: htmlToMarkdown(jsonStr(j, 'description')),
       postedAt,
       domain: 'saas',
       compRaw: sal,

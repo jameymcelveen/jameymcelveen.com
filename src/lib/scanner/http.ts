@@ -75,6 +75,9 @@ export async function getText(
       return { text: null, cached: false, error: `${response.status}` };
     }
     const text = await response.text();
+    if (text.length < 80 && /^redirecting/i.test(text.trim())) {
+      return { text: null, cached: false, error: 'redirect body' };
+    }
     await putCached(cacheKey, text);
     return { text, cached: false };
   } catch (err) {
