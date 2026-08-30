@@ -1,0 +1,57 @@
+.fit-filter-root {
+  box-sizing: border-box;
+  min-height: 100dvh;
+  background: #fcfaf5;
+  color: #2e2a26;
+  font-family: var(--font-fit-body), 'Segoe UI', system-ui, sans-serif;
+}
+
+.fit-filter-root *,
+.fit-filter-root *::before,
+.fit-filter-root *::after {
+  box-sizing: border-box;
+}
+
+.fit-filter-display {
+  font-family: var(--font-fit-display), 'Segoe UI', sans-serif;
+}
+
+.fit-filter-root textarea:focus,
+.fit-filter-root button:focus-visible,
+.fit-filter-root a:focus-visible {
+  outline: 2px solid #b94700;
+  outline-offset: 2px;
+}
+
+.lab-link-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px 14px;
+  min-height: 44px;
+  padding: 12px 0;
+  border-bottom: 1px solid #d9d3ca;
+  text-decoration: none;
+  color: inherit;
+}
+
+.lab-link-row:hover .lab-link-row__name {
+  color: #b94700;
+}
+
+.lab-link-card {
+  display: block;
+  margin-top: 16px;
+  padding: 16px 18px;
+  min-height: 44px;
+  background: #ffffff;
+  border: 1px solid #d9d3ca;
+  border-left: 4px solid #b94700;
+  border-radius: 4px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.lab-link-card:hover .lab-link-card__title {
+  color: #b94700;
+}
