@@ -7,6 +7,7 @@ import { normalizeTitle, normalizeUrl, postingId, type Posting } from './posting
 import { JAMEY_PROFILE, NEAR_MISS_BAND } from './profile';
 import { score, weakestWhy } from './score';
 import { fetchAllSources } from './sources';
+import { clipHitBody } from '@/lib/the-board/markdown';
 import type { BoardHit, BoardPayload } from '@/lib/the-board/types';
 
 export type ScanReject = { reason: string; count: number };
@@ -84,6 +85,9 @@ export async function runJameyScan(): Promise<ScanReport> {
       source: p.source,
       nearMiss,
       deduction: nearMiss ? weakestWhy(s.why) : null,
+      location: p.location.trim() || null,
+      body: clipHitBody(p.body),
+      why: s.why,
     });
   }
 

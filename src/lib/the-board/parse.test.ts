@@ -30,6 +30,23 @@ describe('parseJameyBacklog', () => {
     assert.equal(parsed.hits[0]?.remote, true);
     assert.equal(parsed.hits[0]?.freshness, '29d old');
     assert.equal(parsed.hits[0]?.nearMiss, false);
+    assert.equal(parsed.hits[0]?.body, null);
+  });
+
+  it('keeps posting body location and rubric lines', () => {
+    const parsed = parseJameyBacklog({
+      profile: 'jamey',
+      hits: [
+        {
+          ...jameyHit,
+          location: 'Remote US',
+          body: 'Ship .NET APIs.',
+        },
+      ],
+    });
+    assert.equal(parsed.hits[0]?.location, 'Remote US');
+    assert.equal(parsed.hits[0]?.body, 'Ship .NET APIs.');
+    assert.equal(parsed.hits[0]?.why[0], 'stack 35/35: architect');
   });
 
   it('keeps source fetch counts and reject buckets', () => {

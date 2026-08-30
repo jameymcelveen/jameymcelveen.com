@@ -372,6 +372,13 @@
   border-radius: 2px;
 }
 
+.board-row__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 16px;
+}
+
 .board-row__gates {
   display: inline-flex;
   align-items: center;
@@ -386,6 +393,44 @@
 .board-row__gates:hover {
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+.board-md {
+  padding: 24px 0 8px;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.board-md h1 {
+  display: none;
+}
+
+.board-md h2 {
+  margin: 28px 0 10px;
+  font-family: var(--font-fit-display), 'Segoe UI', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #8a8378;
+}
+
+.board-md p,
+.board-md li {
+  color: #2e2a26;
+}
+
+.board-md ul {
+  margin: 0 0 16px;
+  padding-left: 1.2rem;
+}
+
+.board-md a {
+  color: #b94700;
+}
+
+.board-md strong {
+  font-weight: 600;
 }
 
 @media (max-width: 380px) {

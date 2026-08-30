@@ -60,28 +60,7 @@ export function parseJameyBacklog(raw: unknown): BoardPayload {
 
   const hitsIn = Array.isArray(doc.hits) ? doc.hits : [];
   const hits: BoardHit[] = hitsIn
-    .map((row) => {
-      if (!row || typeof row !== 'object') return null;
-      const hit = row as Record<string, unknown>;
-      const why = asWhy(hit.why);
-      const id = asString(hit.id).trim();
-      const title = asString(hit.title).trim();
-      const url = asString(hit.url).trim();
-      if (!id || !title || !url) return null;
-      return {
-        id,
-        score: asNumber(hit.score),
-        title,
-        company: asString(hit.company).trim() || 'Unknown company',
-        url,
-        comp: displayComp(hit.comp),
-        remote: typeof hit.remote === 'boolean' ? hit.remote : isRemoteFromWhy(why),
-        freshness: asString(hit.freshness) || freshnessFromWhy(why),
-        source: asString(hit.source).trim() || 'source',
-        nearMiss: hit.nearMiss === true,
-        deduction: asString(hit.deduction) || null,
-      };
-    })
+    .map((row) => parseBoardHit(row))
     .filter((hit): hit is BoardHit => hit !== null)
     .sort((a, b) => b.score - a.score);
 
@@ -96,6 +75,32 @@ export function parseJameyBacklog(raw: unknown): BoardPayload {
     ...(stats ? { stats } : {}),
     ...(sources.length ? { sources } : {}),
     ...(rejectedByReason.length ? { rejectedByReason } : {}),
+  };
+}
+
+export function parseBoardHit(raw: unknown): BoardHit | null {
+  if (!raw || typeof raw !== 'object') return null;
+  const hit = raw as Record<string, unknown>;
+  const why = asWhy(hit.why);
+  const id = asString(hit.id).trim();
+  const title = asString(hit.title).trim();
+  const url = asString(hit.url).trim();
+  if (!id || !title || !url) return null;
+  return {
+    id,
+    score: asNumber(hit.score),
+    title,
+    company: asString(hit.company).trim() || 'Unknown company',
+    url,
+    comp: displayComp(hit.comp),
+    remote: typeof hit.remote === 'boolean' ? hit.remote : isRemoteFromWhy(why),
+    freshness: asString(hit.freshness) || freshnessFromWhy(why),
+    source: asString(hit.source).trim() || 'source',
+    nearMiss: hit.nearMiss === true,
+    deduction: asString(hit.deduction) || null,
+    location: asString(hit.location).trim() || null,
+    body: asString(hit.body).trim() || null,
+    why,
   };
 }
 

@@ -10,6 +10,9 @@ export type BoardHit = {
   source: string;
   nearMiss: boolean;
   deduction: string | null;
+  location: string | null;
+  body: string | null;
+  why: string[];
 };
 
 export type BoardSourceStat = {

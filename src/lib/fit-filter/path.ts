@@ -4,6 +4,12 @@ export const THE_SEARCH_PATH = '/lab/the-search';
 export const THE_BOARD_PATH = '/lab/the-board';
 export const THE_BOARD_SOURCES_PATH = '/lab/the-board/sources';
 
+export function boardJobPath(id: string): string {
+  return `/lab/the-board/jobs/${id}`;
+}
+
+export const BOARD_JOB_ID = /^[a-f0-9]{12}$/;
+
 export function isObscuredLabPath(pathname: string | null | undefined): boolean {
   if (!pathname) return false;
   return pathname === '/lab' || pathname.startsWith('/lab/');

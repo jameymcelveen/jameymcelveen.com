@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { FIT_FILTER_PATH } from '@/lib/fit-filter/path';
+import { FIT_FILTER_PATH, boardJobPath } from '@/lib/fit-filter/path';
 import { BoardDetailLinks } from '@/components/the-board/BoardDetailLinks';
 import type { BoardHit, BoardViewModel } from '@/lib/the-board/types';
 
@@ -174,9 +174,19 @@ function BoardRow({ hit }: { hit: BoardHit }) {
         {hit.nearMiss && hit.deduction ? (
           <div className="board-row__deduction">{hit.deduction}</div>
         ) : null}
-        <a href={FIT_FILTER_PATH} className="board-row__gates">
-          Run the gates
-        </a>
+        <div className="board-row__actions">
+          <a
+            href={boardJobPath(hit.id)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="board-row__gates"
+          >
+            Details
+          </a>
+          <a href={FIT_FILTER_PATH} className="board-row__gates">
+            Run the gates
+          </a>
+        </div>
       </div>
     </li>
   );
