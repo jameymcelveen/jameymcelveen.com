@@ -1,5 +1,5 @@
 import { BoardDetailLinks } from '@/components/the-board/BoardDetailLinks';
-import { FIT_FILTER_PATH } from '@/lib/fit-filter/path';
+import { FIT_FILTER_PATH, THE_BOARD_PATH } from '@/lib/fit-filter/path';
 import { FRESHNESS_MAX_DAYS, JAMEY_PROFILE, SEARCH_QUERIES } from '@/lib/scanner/profile';
 import { loadBoard } from '@/lib/the-board/load';
 import type { BoardViewModel } from '@/lib/the-board/types';
@@ -292,6 +292,93 @@ export default async function TheSearchPage() {
               detail={`On the board at ${JAMEY_PROFILE.thresholds.backlogMinScore}+. Near miss band is 15 points below that.`}
             />
           </dl>
+        </section>
+
+        <section style={{ padding: '8px 0 28px' }}>
+          <SectionLabel>WHAT THIS IS</SectionLabel>
+          <p style={{ margin: '0 0 14px', fontSize: 15, lineHeight: 1.55 }}>
+            Three small tools, one loop. THE BOARD scans the wild job market daily and ranks what it
+            finds by my own rubric. THE FIT FILTER runs any posting, from the Board or pasted from
+            anywhere, through the three gates that decide APPLY or SKIP. THE SEARCH, this page, is my
+            own req, built the same way I would build anyone else&apos;s. Click through: start on the
+            Board, open a listing, run it through the filter, see the verdict. That is not a metaphor.
+            It is what actually happens when I decide where to apply.
+          </p>
+          <div
+            style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}
+            aria-label="Lab tools"
+          >
+            <a
+              href={THE_BOARD_PATH}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                minHeight: 36,
+                padding: '0 12px',
+                fontSize: 12,
+                fontWeight: 600,
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                textDecoration: 'none',
+                color: '#B94700',
+                border: '1px solid #D9D3CA',
+                borderRadius: 4,
+                background: '#FFFFFF',
+              }}
+            >
+              The Board
+            </a>
+            <a
+              href={FIT_FILTER_PATH}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                minHeight: 36,
+                padding: '0 12px',
+                fontSize: 12,
+                fontWeight: 600,
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                textDecoration: 'none',
+                color: '#B94700',
+                border: '1px solid #D9D3CA',
+                borderRadius: 4,
+                background: '#FFFFFF',
+              }}
+            >
+              Fit Filter
+            </a>
+            <span
+              aria-current="page"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 6,
+                minHeight: 36,
+                padding: '0 12px',
+                fontSize: 12,
+                fontWeight: 600,
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                color: '#2E2A26',
+                border: '1px solid #B94700',
+                borderRadius: 4,
+                background: '#FFFFFF',
+              }}
+            >
+              The Search
+              <span
+                style={{
+                  fontWeight: 500,
+                  letterSpacing: '0.04em',
+                  textTransform: 'none',
+                  color: '#8A8378',
+                }}
+              >
+                you are here
+              </span>
+            </span>
+          </div>
         </section>
 
         <section style={{ padding: '8px 0 28px' }}>
