@@ -1,6 +1,7 @@
-/** Unguessable-enough showcase paths. Not listed in nav or sitemap. */
+/** Unguessable-enough showcase paths. Not listed in public nav or sitemap. */
 export const FIT_FILTER_PATH = '/lab/fit-filter';
 export const THE_SEARCH_PATH = '/lab/the-search';
+export const THE_BOARD_PATH = '/lab/the-board';
 
 export function isObscuredLabPath(pathname: string | null | undefined): boolean {
   if (!pathname) return false;

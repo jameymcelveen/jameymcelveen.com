@@ -139,3 +139,144 @@
 .lab-nav__home {
   color: #8a8378;
 }
+
+.board-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid #d9d3ca;
+}
+
+.board-toolbar__scan {
+  margin: 0;
+  font-size: 13px;
+  color: #8a8378;
+}
+
+.board-refresh {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 14px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #b94700;
+  background: #fcfaf5;
+  border: 1px solid #d9d3ca;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.board-refresh:hover:not(:disabled) {
+  border-color: #b94700;
+}
+
+.board-refresh:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.board-notice {
+  margin: 12px 0 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #b94700;
+}
+
+.board-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.board-row {
+  display: flex;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid #d9d3ca;
+  align-items: flex-start;
+}
+
+.board-row__score {
+  flex-shrink: 0;
+  min-width: 48px;
+  font-weight: 800;
+  font-size: 28px;
+  line-height: 1;
+  color: #2e2a26;
+}
+
+.board-row__body {
+  min-width: 0;
+  flex: 1;
+}
+
+.board-row__title {
+  display: inline-block;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.35;
+  color: #2e2a26;
+  text-decoration: none;
+}
+
+.board-row__title:hover {
+  color: #b94700;
+}
+
+.board-row__company {
+  margin-top: 4px;
+  font-size: 14px;
+  color: #57504a;
+}
+
+.board-row__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  align-items: center;
+  margin-top: 8px;
+  font-size: 13px;
+  color: #8a8378;
+}
+
+.board-badge {
+  display: inline-block;
+  padding: 2px 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #546223;
+  border: 1px solid #546223;
+  border-radius: 2px;
+}
+
+.board-row__gates {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-top: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #b94700;
+  text-decoration: none;
+}
+
+.board-row__gates:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@media (max-width: 380px) {
+  .board-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+}

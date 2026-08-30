@@ -15,7 +15,7 @@
     "db:seed": "node scripts/seed-analytics-events.mjs",
     "start": "next start",
     "lint": "eslint",
-    "test": "node --experimental-strip-types --test src/lib/fit-filter/schema.test.ts",
+    "test": "node --experimental-strip-types --test src/lib/fit-filter/schema.test.ts src/lib/the-board/parse.test.ts",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "hosting:env": "bash scripts/hosting/00-ensure-env.sh",
