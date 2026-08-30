@@ -1,4 +1,4 @@
-.PHONY: help setup install dev build start lint format format-check clean up down watch hosting-bootstrap
+.PHONY: help setup install dev build start lint format format-check clean up down watch hosting-bootstrap linkedin linkedin-import linkedin-push
 
 # Detect OS
 UNAME_S := $(shell uname -s)
@@ -20,6 +20,10 @@ help:
 	@echo "  make format-check 			- Check code formatting"
 	@echo "  make clean       			- Clean build artifacts"
 	@echo "  make hosting-bootstrap - Bootstrap hosting environment"
+	@echo "  make linkedin          - Import clipped LinkedIn JSON and push to The Board"
+	@echo "  make linkedin-import   - Merge ~/Downloads/linkedin-clip-*.json into data/linkedin-clips.json"
+	@echo "  make linkedin-push     - POST merged clips to /api/the-board/clips (BOARD_ADMIN_KEY)"
+	@echo "  Load clipper: chrome://extensions → Developer mode → Load unpacked → extensions/linkedin-job-clip"
 
 # Platform-specific setup
 setup:
@@ -98,3 +102,15 @@ watch:
 hosting-bootstrap:
 	@echo "Bootstrapping hosting environment..."
 	@bash scripts/hosting/run-all.sh
+
+ROOT_DIR := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
+
+linkedin-import:
+	@echo "Importing LinkedIn clips..."
+	@node "$(ROOT_DIR)/scripts/linkedin-import.mjs"
+
+linkedin-push:
+	@echo "Pushing LinkedIn clips to The Board..."
+	@node "$(ROOT_DIR)/scripts/linkedin-push.mjs"
+
+linkedin: linkedin-import linkedin-push

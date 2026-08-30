@@ -3,6 +3,7 @@ import 'server-only';
 import { persistBoardJobs } from '@/lib/scanner/persist';
 import { runJameyScan, type ScanReport } from '@/lib/scanner/run-scan';
 import { writeBoardCache } from './cache';
+import { mergeLinkedInIntoPayload } from './linkedin-hit';
 import { viewFromPayload } from './parse';
 import type { BoardViewModel } from './types';
 
@@ -14,6 +15,7 @@ export async function executeScan(client?: import('pg').PoolClient | null): Prom
 }> {
   const report = await runJameyScan();
   await persistBoardJobs(report.payload.hits, client);
-  const fetchedAt = await writeBoardCache(report.payload, client ?? undefined);
-  return { board: viewFromPayload(report.payload, fetchedAt), report };
+  const payload = await mergeLinkedInIntoPayload(report.payload, client);
+  const fetchedAt = await writeBoardCache(payload, client ?? undefined);
+  return { board: viewFromPayload(payload, fetchedAt), report };
 }

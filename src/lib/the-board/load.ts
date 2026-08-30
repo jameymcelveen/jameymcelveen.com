@@ -3,13 +3,23 @@ import 'server-only';
 import { getAnalyticsPool } from '@/lib/api/analytics-events-db';
 import { readBoardCache } from './cache';
 import { hydrateHitFromFeeds } from './hydrate';
+import { mergeLinkedInIntoPayload } from './linkedin-hit';
 import { formatLastScan, parseBoardHit, viewFromPayload } from './parse';
 import type { BoardHit, BoardViewModel } from './types';
 
 export async function loadBoard(): Promise<BoardViewModel> {
   const cached = await readBoardCache();
   if (cached) {
-    return viewFromPayload(cached.payload, cached.fetchedAt);
+    const payload = await mergeLinkedInIntoPayload(cached.payload);
+    return viewFromPayload(payload, cached.fetchedAt);
+  }
+  const linkedinOnly = await mergeLinkedInIntoPayload({
+    profile: 'jamey',
+    generated: new Date().toISOString(),
+    hits: [],
+  });
+  if (linkedinOnly.hits.length > 0) {
+    return viewFromPayload(linkedinOnly, new Date());
   }
   return {
     hits: [],

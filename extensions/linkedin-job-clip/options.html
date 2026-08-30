@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Clip LinkedIn job</title>
+    <style>
+      body {
+        font: 15px/1.5 system-ui, sans-serif;
+        max-width: 40rem;
+        margin: 2rem auto;
+        color: #2e2a26;
+      }
+      label {
+        display: block;
+        margin: 1rem 0 0.3rem;
+        font-weight: 600;
+      }
+      input[type='url'],
+      input[type='password'] {
+        width: 100%;
+        padding: 0.5rem;
+      }
+      button {
+        margin-top: 1.25rem;
+        padding: 0.6rem 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Clip LinkedIn job</h1>
+    <p>One posting per click. JSON downloads as <code>linkedin-clip-*.json</code>. Then run <code>make linkedin</code>.</p>
+    <label for="apiBase">Board origin</label>
+    <input id="apiBase" type="url" placeholder="https://jameymcelveen.com" />
+    <label for="adminKey">BOARD_ADMIN_KEY (optional, posts clip to The Board)</label>
+    <input id="adminKey" type="password" autocomplete="off" />
+    <label>
+      <input id="openFitFilter" type="checkbox" checked />
+      Open Fit Filter after clip
+    </label>
+    <button type="button" id="save">Save</button>
+    <p id="status"></p>
+    <script src="options.js"></script>
+  </body>
+</html>

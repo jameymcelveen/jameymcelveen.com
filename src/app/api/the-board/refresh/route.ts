@@ -4,6 +4,7 @@ import { runJameyScan } from '@/lib/scanner/run-scan';
 import { adminKeyMatches } from '@/lib/the-board/admin';
 import { readBoardCache, withBoardLock, writeBoardCache } from '@/lib/the-board/cache';
 import { BOARD_REFRESH_MIN_MS } from '@/lib/the-board/constants';
+import { mergeLinkedInIntoPayload } from '@/lib/the-board/linkedin-hit';
 import { viewFromPayload } from '@/lib/the-board/parse';
 
 export const runtime = 'nodejs';
@@ -31,9 +32,10 @@ export async function POST(request: Request) {
     try {
       const report = await runJameyScan();
       await persistBoardJobs(report.payload.hits, client);
-      const fetchedAt = await writeBoardCache(report.payload, client ?? undefined);
+      const payload = await mergeLinkedInIntoPayload(report.payload, client);
+      const fetchedAt = await writeBoardCache(payload, client ?? undefined);
       return NextResponse.json({
-        board: viewFromPayload(report.payload, fetchedAt),
+        board: viewFromPayload(payload, fetchedAt),
         report: {
           fetched: report.fetched,
           fetchedBySource: report.fetchedBySource.map((s) => ({

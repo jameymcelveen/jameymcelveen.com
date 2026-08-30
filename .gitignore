@@ -66,6 +66,10 @@ scripts/hosting/.env
 # vercel
 .vercel
 
+# LinkedIn clips (local inbox; do not commit job postings)
+data/linkedin-clips.json
+data/linkedin-clips/inbox/*.json
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

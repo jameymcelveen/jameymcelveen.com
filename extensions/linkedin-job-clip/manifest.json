@@ -1,0 +1,35 @@
+{
+  "manifest_version": 3,
+  "name": "Clip LinkedIn job",
+  "version": "1.0.0",
+  "description": "Clip the open LinkedIn job to JSON and Fit Filter markdown. Manual, one posting per click.",
+  "action": {
+    "default_title": "Clip this LinkedIn job"
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
+  "permissions": ["activeTab", "scripting", "storage", "downloads", "clipboardWrite"],
+  "host_permissions": [
+    "https://www.linkedin.com/*",
+    "https://linkedin.com/*",
+    "https://jameymcelveen.com/*",
+    "http://localhost:3000/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.linkedin.com/jobs/*", "https://linkedin.com/jobs/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://jameymcelveen.com/lab/fit-filter*", "http://localhost:3000/lab/fit-filter*"],
+      "js": ["fit-filter-draft.js"],
+      "run_at": "document_start"
+    }
+  ]
+}
