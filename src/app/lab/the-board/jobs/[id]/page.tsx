@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
 import { CopyMarkdownButton } from '@/components/the-board/CopyMarkdownButton';
-import { BOARD_JOB_ID, FIT_FILTER_PATH, THE_BOARD_PATH } from '@/lib/fit-filter/path';
+import { RunTheGatesLink } from '@/components/the-board/RunTheGatesLink';
+import { BOARD_JOB_ID, THE_BOARD_PATH } from '@/lib/fit-filter/path';
 import { loadBoardHit } from '@/lib/the-board/load';
 import { hitToMarkdown } from '@/lib/the-board/markdown';
+import { markdownToSafeHtml } from '@/lib/the-board/marked-html';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -88,17 +88,16 @@ export default async function BoardJobPage({ params }: PageProps) {
               <span className="board-details__dot" aria-hidden="true">
                 ·
               </span>
-              <a href={FIT_FILTER_PATH} className="board-details__link">
-                Run the gates
-              </a>
+              <RunTheGatesLink markdown={markdown} />
             </nav>
             <CopyMarkdownButton markdown={markdown} />
           </div>
         </div>
 
-        <article className="board-md">
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>{markdown}</ReactMarkdown>
-        </article>
+        <article
+          className="board-md"
+          dangerouslySetInnerHTML={{ __html: markdownToSafeHtml(markdown) }}
+        />
       </div>
     </div>
   );

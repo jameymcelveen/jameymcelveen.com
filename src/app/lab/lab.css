@@ -405,7 +405,8 @@
   display: none;
 }
 
-.board-md h2 {
+.board-md h2,
+.board-md h3 {
   margin: 28px 0 10px;
   font-family: var(--font-fit-display), 'Segoe UI', sans-serif;
   font-size: 12px;
@@ -420,7 +421,8 @@
   color: #2e2a26;
 }
 
-.board-md ul {
+.board-md ul,
+.board-md ol {
   margin: 0 0 16px;
   padding-left: 1.2rem;
 }

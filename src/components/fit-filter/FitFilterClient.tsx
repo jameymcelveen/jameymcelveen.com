@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { takeFitFilterDraft } from '@/lib/fit-filter/draft';
 import { FIT_FILTER_PARSE_ERROR, FIT_FILTER_UNAVAILABLE_ERROR } from '@/lib/fit-filter/messages';
 import type { FitFilterResult } from '@/lib/fit-filter/types';
 
@@ -23,6 +24,11 @@ export function FitFilterClient() {
   const [state, setState] = useState<FilterState>('idle');
   const [result, setResult] = useState<FitFilterResult | null>(null);
   const [errMsg, setErrMsg] = useState('');
+
+  useEffect(() => {
+    const draft = takeFitFilterDraft();
+    if (draft) setJd(draft);
+  }, []);
 
   const runFilter = async () => {
     if (!jd.trim() || state === 'running') return;
