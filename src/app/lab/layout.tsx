@@ -1,4 +1,5 @@
 import { Bricolage_Grotesque, Public_Sans } from 'next/font/google';
+import { LabNav } from './LabNav';
 import './lab.css';
 
 const bricolage = Bricolage_Grotesque({
@@ -17,6 +18,9 @@ const publicSans = Public_Sans({
 
 export default function LabLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className={`fit-filter-root ${bricolage.variable} ${publicSans.variable}`}>{children}</div>
+    <div className={`fit-filter-root ${bricolage.variable} ${publicSans.variable}`}>
+      <LabNav />
+      {children}
+    </div>
   );
 }

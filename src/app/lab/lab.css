@@ -55,3 +55,87 @@
 .lab-link-card:hover .lab-link-card__title {
   color: #b94700;
 }
+
+.lab-nav {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: #fcfaf5;
+  border-bottom: 1px solid #d9d3ca;
+}
+
+.lab-nav__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0 16px;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+@media (max-width: 640px) {
+  .lab-nav__inner {
+    flex-direction: column;
+    align-items: flex-start;
+    padding-top: 4px;
+    padding-bottom: 2px;
+  }
+
+  .lab-nav__links {
+    width: 100%;
+    justify-content: flex-start;
+    gap: 0 18px;
+  }
+}
+
+.lab-nav__lockup {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-family: var(--font-fit-display), 'Segoe UI', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #2e2a26;
+}
+
+.lab-nav__lockup:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.lab-nav__links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 16px;
+}
+
+.lab-nav__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #2e2a26;
+}
+
+.lab-nav__link:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.lab-nav__link--active {
+  color: #b94700;
+}
+
+.lab-nav__home {
+  color: #8a8378;
+}

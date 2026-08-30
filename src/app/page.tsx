@@ -12,7 +12,6 @@ import { HomePolaroidPhoto } from '@/components/home/HomePolaroidPhoto';
 import { useAskJameyPanel } from '@/context/AskJameyPanelContext';
 import { MapPin } from 'lucide-react';
 import { getPersonalInfo, getHomeData, getImages, getBranding } from '@/data';
-import { FIT_FILTER_PATH } from '@/lib/fit-filter/path';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -234,24 +233,6 @@ export default function Home() {
                 className="btn-glass text-foreground px-6 py-2.5 sm:px-8 sm:py-3"
               >
                 Cover Letters
-              </Link>
-            </motion.div>
-          )}
-
-          {showCoverLetters && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              transition={{ duration: 0.3 }}
-              className="inline-block"
-            >
-              <Link
-                href={FIT_FILTER_PATH}
-                prefetch={false}
-                className="btn-glass text-foreground px-6 py-2.5 sm:px-8 sm:py-3"
-              >
-                Fit Filter
               </Link>
             </motion.div>
           )}
