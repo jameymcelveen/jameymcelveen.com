@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { FIT_FILTER_PATH } from '@/lib/fit-filter/path';
+import { BoardDetailLinks } from '@/components/the-board/BoardDetailLinks';
 import type { BoardHit, BoardViewModel } from '@/lib/the-board/types';
 
 type RefreshBody = {
@@ -95,9 +96,12 @@ export function BoardClient({ initial }: { initial: BoardViewModel }) {
           <p className="board-toolbar__scan">
             <time dateTime={board.fetchedAt ?? undefined}>{board.lastScanLabel}</time>
           </p>
-          <button type="button" className="board-refresh" onClick={onRefresh} disabled={busy}>
-            {busy ? 'Refreshing' : 'Refresh'}
-          </button>
+          <div className="board-toolbar__actions">
+            <BoardDetailLinks />
+            <button type="button" className="board-refresh" onClick={onRefresh} disabled={busy}>
+              {busy ? 'Refreshing' : 'Refresh'}
+            </button>
+          </div>
         </div>
         {notice ? <p className="board-notice">{notice}</p> : null}
 
@@ -114,10 +118,24 @@ export function BoardClient({ initial }: { initial: BoardViewModel }) {
         ) : null}
 
         <ol className="board-list">
-          {board.hits.map((hit) => (
-            <BoardRow key={hit.id} hit={hit} />
-          ))}
+          {board.hits
+            .filter((hit) => !hit.nearMiss)
+            .map((hit) => (
+              <BoardRow key={hit.id} hit={hit} />
+            ))}
         </ol>
+        {board.hits.some((hit) => hit.nearMiss) ? (
+          <>
+            <p className="board-near-label">Near misses</p>
+            <ol className="board-list">
+              {board.hits
+                .filter((hit) => hit.nearMiss)
+                .map((hit) => (
+                  <BoardRow key={hit.id} hit={hit} />
+                ))}
+            </ol>
+          </>
+        ) : null}
 
         <footer
           style={{
@@ -140,7 +158,7 @@ export function BoardClient({ initial }: { initial: BoardViewModel }) {
 
 function BoardRow({ hit }: { hit: BoardHit }) {
   return (
-    <li className="board-row">
+    <li className={hit.nearMiss ? 'board-row board-row--near' : 'board-row'}>
       <div className="board-row__score fit-filter-display">{hit.score}</div>
       <div className="board-row__body">
         <a href={hit.url} target="_blank" rel="noopener noreferrer" className="board-row__title">
@@ -153,6 +171,9 @@ function BoardRow({ hit }: { hit: BoardHit }) {
           {hit.freshness ? <span>{hit.freshness}</span> : null}
           <span>{hit.source}</span>
         </div>
+        {hit.nearMiss && hit.deduction ? (
+          <div className="board-row__deduction">{hit.deduction}</div>
+        ) : null}
         <a href={FIT_FILTER_PATH} className="board-row__gates">
           Run the gates
         </a>

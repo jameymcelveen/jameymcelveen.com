@@ -1,4 +1,11 @@
+import { BoardDetailLinks } from '@/components/the-board/BoardDetailLinks';
 import { FIT_FILTER_PATH } from '@/lib/fit-filter/path';
+import { FRESHNESS_MAX_DAYS, JAMEY_PROFILE, SEARCH_QUERIES } from '@/lib/scanner/profile';
+import { loadBoard } from '@/lib/the-board/load';
+import type { BoardViewModel } from '@/lib/the-board/types';
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 const MAILTO = 'mailto:jamey@mcelveen.us?subject=' + encodeURIComponent('Found you via The Search');
 
@@ -87,7 +94,79 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default function TheSearchPage() {
+function CriteriaRow({ term, detail }: { term: string; detail: string }) {
+  return (
+    <div
+      style={{
+        display: 'flex',
+        gap: 14,
+        padding: '16px 0',
+        borderBottom: '1px solid #D9D3CA',
+        alignItems: 'baseline',
+      }}
+    >
+      <dt
+        className="fit-filter-display"
+        style={{
+          fontWeight: 800,
+          fontSize: 13,
+          letterSpacing: '0.08em',
+          color: '#B94700',
+          minWidth: 88,
+          flexShrink: 0,
+        }}
+      >
+        {term}
+      </dt>
+      <dd style={{ margin: 0, fontSize: 14, lineHeight: 1.55, color: '#57504A' }}>{detail}</dd>
+    </div>
+  );
+}
+
+function ScanResults({ board }: { board: BoardViewModel }) {
+  const stats = board.stats;
+  if (!stats) {
+    return (
+      <p style={{ margin: 0, fontSize: 15, lineHeight: 1.55, color: '#57504A' }}>
+        No scan on file yet. Counts land here after the scanner runs.
+      </p>
+    );
+  }
+  const rows = [
+    { term: 'Fetched', detail: `${stats.fetched} postings pulled from sources` },
+    { term: 'On board', detail: `${stats.displayed} ranked hits` },
+    { term: 'Near miss', detail: `${stats.nearMisses} just under the cut` },
+    { term: 'Rejected', detail: `${stats.rejected} failed a gate or the score floor` },
+  ];
+  return (
+    <>
+      <dl style={{ margin: 0, borderTop: '1px solid #D9D3CA' }}>
+        {rows.map((row) => (
+          <CriteriaRow key={row.term} term={row.term} detail={row.detail} />
+        ))}
+      </dl>
+      {board.rejectedByReason.length ? (
+        <div style={{ marginTop: 18 }}>
+          <SectionLabel>REJECTED BY</SectionLabel>
+          <ul className="board-stat-list">
+            {board.rejectedByReason.map((row) => (
+              <li key={row.reason} className="board-stat-row">
+                <div className="board-stat-row__count fit-filter-display">{row.count}</div>
+                <div className="board-stat-row__body">
+                  <div className="board-stat-row__detail">{row.reason}</div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
+    </>
+  );
+}
+
+export default async function TheSearchPage() {
+  const board = await loadBoard();
+  const salaryK = Math.round(JAMEY_PROFILE.comp.salaryFloor / 1000);
   return (
     <div
       style={{
@@ -126,6 +205,13 @@ export default function TheSearchPage() {
             build, what I am hunting, and how I decide. Recruiters welcome.
           </p>
         </header>
+
+        <div className="board-toolbar">
+          <p className="board-toolbar__scan">
+            <time dateTime={board.fetchedAt ?? undefined}>{board.lastScanLabel}</time>
+          </p>
+          <BoardDetailLinks current="search" />
+        </div>
 
         <section style={{ padding: '28px 0', borderBottom: '1px solid #D9D3CA' }}>
           <SectionLabel>THE CANDIDATE</SectionLabel>
@@ -175,6 +261,36 @@ export default function TheSearchPage() {
                 </dd>
               </div>
             ))}
+          </dl>
+        </section>
+
+        <section style={{ padding: '8px 0 28px' }}>
+          <SectionLabel>SCANNER CRITERIA</SectionLabel>
+          <p style={{ margin: '0 0 14px', fontSize: 15, lineHeight: 1.55, color: '#57504A' }}>
+            What the board actually queries and cuts on. Human gates above still win.
+          </p>
+          <dl style={{ margin: 0, borderTop: '1px solid #D9D3CA' }}>
+            <CriteriaRow term="Queries" detail={SEARCH_QUERIES.join(' · ')} />
+            <CriteriaRow
+              term="Comp floor"
+              detail={`$${salaryK}K salary or $${JAMEY_PROFILE.comp.hourlyFloor}/hr. Below that, rejected.`}
+            />
+            <CriteriaRow
+              term="Location"
+              detail={`Remote US (Eastern), or onsite near ${JAMEY_PROFILE.location.home}.`}
+            />
+            <CriteriaRow
+              term="Level"
+              detail={`${JAMEY_PROFILE.level.accept.join(', ')}. Not ${JAMEY_PROFILE.level.reject.join(', ')}.`}
+            />
+            <CriteriaRow
+              term="Freshness"
+              detail={`Posted within ${FRESHNESS_MAX_DAYS} days.`}
+            />
+            <CriteriaRow
+              term="Score cut"
+              detail={`On the board at ${JAMEY_PROFILE.thresholds.backlogMinScore}+. Near miss band is 15 points below that.`}
+            />
           </dl>
         </section>
 
@@ -235,6 +351,11 @@ export default function TheSearchPage() {
               Run your req through the Fit Filter
             </div>
           </a>
+        </section>
+
+        <section style={{ padding: '8px 0 28px' }}>
+          <SectionLabel>LAST SCAN</SectionLabel>
+          <ScanResults board={board} />
         </section>
 
         <section style={{ padding: '8px 0 28px' }}>

@@ -1,30 +1,14 @@
 import { NextResponse } from 'next/server';
+import { persistBoardJobs } from '@/lib/scanner/persist';
+import { runJameyScan } from '@/lib/scanner/run-scan';
 import { adminKeyMatches } from '@/lib/the-board/admin';
 import { readBoardCache, withBoardLock, writeBoardCache } from '@/lib/the-board/cache';
-import { fetchJameyBacklog } from '@/lib/the-board/jobscan';
-import { formatLastScan } from '@/lib/the-board/parse';
 import { BOARD_REFRESH_MIN_MS } from '@/lib/the-board/constants';
-import type { BoardViewModel } from '@/lib/the-board/types';
+import { viewFromPayload } from '@/lib/the-board/parse';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
-
-function asView(
-  hits: BoardViewModel['hits'],
-  fetchedAt: Date,
-  stale: boolean,
-  scannerUnreachable: boolean
-): BoardViewModel {
-  return {
-    hits,
-    fetchedAt: fetchedAt.toISOString(),
-    lastScanLabel: formatLastScan(fetchedAt),
-    stale,
-    scannerUnreachable,
-    empty: hits.length === 0,
-    error: null,
-  };
-}
+export const maxDuration = 60;
 
 export async function POST(request: Request) {
   const key = request.headers.get('x-admin-key');
@@ -38,20 +22,39 @@ export async function POST(request: Request) {
       return NextResponse.json(
         {
           error: 'refresh is limited to once per 10 minutes',
-          board: asView(cached.payload.hits, cached.fetchedAt, false, false),
+          board: viewFromPayload(cached.payload, cached.fetchedAt),
         },
         { status: 429 }
       );
     }
 
     try {
-      const payload = await fetchJameyBacklog();
-      const fetchedAt = await writeBoardCache(payload, client ?? undefined);
-      return NextResponse.json({ board: asView(payload.hits, fetchedAt, false, false) });
+      const report = await runJameyScan();
+      await persistBoardJobs(report.payload.hits, client);
+      const fetchedAt = await writeBoardCache(report.payload, client ?? undefined);
+      return NextResponse.json({
+        board: viewFromPayload(report.payload, fetchedAt),
+        report: {
+          fetched: report.fetched,
+          fetchedBySource: report.fetchedBySource.map((s) => ({
+            source: s.source,
+            ok: s.ok,
+            count: s.count,
+            cached: s.cached,
+            blocked: s.blocked ?? null,
+          })),
+          rejected: report.rejected,
+          rejectedByReason: report.rejectedByReason,
+          scored: report.scored,
+          displayed: report.displayed,
+          nearMisses: report.nearMisses,
+          blocked: report.blocked,
+        },
+      });
     } catch {
       if (cached) {
         return NextResponse.json({
-          board: asView(cached.payload.hits, cached.fetchedAt, true, true),
+          board: viewFromPayload(cached.payload, cached.fetchedAt, true),
           error: 'scanner unreachable, showing last good scan',
         });
       }

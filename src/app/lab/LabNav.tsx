@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { FIT_FILTER_PATH, THE_BOARD_PATH, THE_SEARCH_PATH } from '@/lib/fit-filter/path';
+import { FIT_FILTER_PATH, THE_BOARD_PATH } from '@/lib/fit-filter/path';
 
 function linkClass(active: boolean, quiet = false): string {
   const classes = ['lab-nav__link'];
@@ -13,24 +13,16 @@ function linkClass(active: boolean, quiet = false): string {
 
 export function LabNav() {
   const pathname = usePathname();
-  const onSearch = pathname === THE_SEARCH_PATH;
   const onFilter = pathname === FIT_FILTER_PATH;
-  const onBoard = pathname === THE_BOARD_PATH;
+  const onBoard = pathname === THE_BOARD_PATH || pathname.startsWith(`${THE_BOARD_PATH}/`);
 
   return (
     <header className="lab-nav">
       <div className="lab-nav__inner">
-        <Link href={THE_SEARCH_PATH} className="lab-nav__lockup">
+        <Link href={THE_BOARD_PATH} className="lab-nav__lockup">
           JAMEY-McELVEEN
         </Link>
         <nav className="lab-nav__links" aria-label="Lab">
-          <Link
-            href={THE_SEARCH_PATH}
-            className={linkClass(onSearch)}
-            aria-current={onSearch ? 'page' : undefined}
-          >
-            The Search
-          </Link>
           <Link
             href={FIT_FILTER_PATH}
             className={linkClass(onFilter)}

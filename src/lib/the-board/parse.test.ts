@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-import { freshnessFromWhy, isRemoteFromWhy, parseJameyBacklog } from './parse.ts';
+import { freshnessFromWhy, isRemoteFromWhy, parseJameyBacklog, splitSourceLabel } from './parse.ts';
 
 const jameyHit = {
   id: 'abc',
@@ -29,6 +29,31 @@ describe('parseJameyBacklog', () => {
     assert.equal(parsed.hits[0]?.comp, '$101K-$146K');
     assert.equal(parsed.hits[0]?.remote, true);
     assert.equal(parsed.hits[0]?.freshness, '29d old');
+    assert.equal(parsed.hits[0]?.nearMiss, false);
+  });
+
+  it('keeps source fetch counts and reject buckets', () => {
+    const parsed = parseJameyBacklog({
+      profile: 'jamey',
+      generated: '2026-08-30T00:00:00Z',
+      hits: [jameyHit],
+      stats: { fetched: 40, displayed: 12, nearMisses: 3, rejected: 25 },
+      sources: [
+        { source: 'rss:Christian Tech Jobs', fetched: 18, ok: true, cached: true },
+        { source: 'greenhouse:Called', count: 4, ok: true },
+        { source: 'adzuna:.NET', ok: false, fetched: 0, blocked: 'missing key' },
+      ],
+      rejectedByReason: [
+        { reason: 'level', count: 10 },
+        { reason: 'comp', count: 8 },
+      ],
+    });
+    assert.equal(parsed.stats?.fetched, 40);
+    assert.equal(parsed.sources?.length, 3);
+    assert.equal(parsed.sources?.[0]?.source, 'rss:Christian Tech Jobs');
+    assert.equal(parsed.sources?.[1]?.fetched, 4);
+    assert.equal(parsed.sources?.[2]?.blocked, 'missing key');
+    assert.equal(parsed.rejectedByReason?.[0]?.reason, 'level');
   });
 
   it('rejects seth slater and connie profiles', () => {
@@ -59,5 +84,12 @@ describe('why helpers', () => {
     assert.equal(freshnessFromWhy(['freshness 7/10: 8d old']), '8d old');
     assert.equal(isRemoteFromWhy(['remote 8/10: remote']), true);
     assert.equal(isRemoteFromWhy(['remote 2/10: unclear']), false);
+  });
+});
+
+describe('splitSourceLabel', () => {
+  it('splits family and detail on the first colon', () => {
+    assert.deepEqual(splitSourceLabel('greenhouse:Called'), { family: 'greenhouse', detail: 'Called' });
+    assert.deepEqual(splitSourceLabel('remoteok'), { family: 'remoteok', detail: null });
   });
 });

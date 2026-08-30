@@ -2,6 +2,7 @@
 export const FIT_FILTER_PATH = '/lab/fit-filter';
 export const THE_SEARCH_PATH = '/lab/the-search';
 export const THE_BOARD_PATH = '/lab/the-board';
+export const THE_BOARD_SOURCES_PATH = '/lab/the-board/sources';
 
 export function isObscuredLabPath(pathname: string | null | undefined): boolean {
   if (!pathname) return false;

@@ -1,4 +1,11 @@
-import type { BoardHit, BoardPayload } from './types';
+import type {
+  BoardHit,
+  BoardPayload,
+  BoardReject,
+  BoardScanStats,
+  BoardSourceStat,
+  BoardViewModel,
+} from './types';
 
 const FORBIDDEN_PROFILES = new Set(['seth', 'slater', 'connie']);
 
@@ -68,18 +75,126 @@ export function parseJameyBacklog(raw: unknown): BoardPayload {
         company: asString(hit.company).trim() || 'Unknown company',
         url,
         comp: displayComp(hit.comp),
-        remote: isRemoteFromWhy(why),
-        freshness: freshnessFromWhy(why),
+        remote: typeof hit.remote === 'boolean' ? hit.remote : isRemoteFromWhy(why),
+        freshness: asString(hit.freshness) || freshnessFromWhy(why),
         source: asString(hit.source).trim() || 'source',
+        nearMiss: hit.nearMiss === true,
+        deduction: asString(hit.deduction) || null,
       };
     })
     .filter((hit): hit is BoardHit => hit !== null)
     .sort((a, b) => b.score - a.score);
 
+  const stats = parseStats(doc.stats);
+  const sources = parseSources(doc.sources);
+  const rejectedByReason = parseRejects(doc.rejectedByReason);
+
   return {
     profile: 'jamey',
     generated: asString(doc.generated) || new Date().toISOString(),
     hits,
+    ...(stats ? { stats } : {}),
+    ...(sources.length ? { sources } : {}),
+    ...(rejectedByReason.length ? { rejectedByReason } : {}),
+  };
+}
+
+function parseStats(raw: unknown): BoardScanStats | undefined {
+  if (!raw || typeof raw !== 'object') return undefined;
+  const row = raw as Record<string, unknown>;
+  return {
+    fetched: asNumber(row.fetched),
+    displayed: asNumber(row.displayed),
+    nearMisses: asNumber(row.nearMisses),
+    rejected: asNumber(row.rejected),
+  };
+}
+
+function parseSources(raw: unknown): BoardSourceStat[] {
+  if (!Array.isArray(raw)) return [];
+  const out: BoardSourceStat[] = [];
+  for (const item of raw) {
+    if (!item || typeof item !== 'object') continue;
+    const row = item as Record<string, unknown>;
+    const source = asString(row.source).trim();
+    if (!source) continue;
+    const fetched = typeof row.fetched === 'number' ? row.fetched : asNumber(row.count);
+    out.push({
+      source,
+      fetched,
+      ok: row.ok !== false,
+      cached: row.cached === true,
+      blocked: asString(row.blocked) || null,
+      error: asString(row.error) || null,
+    });
+  }
+  return out.sort((a, b) => b.fetched - a.fetched || a.source.localeCompare(b.source));
+}
+
+function parseRejects(raw: unknown): BoardReject[] {
+  if (!Array.isArray(raw)) return [];
+  const out: BoardReject[] = [];
+  for (const item of raw) {
+    if (!item || typeof item !== 'object') continue;
+    const row = item as Record<string, unknown>;
+    const reason = asString(row.reason).trim();
+    if (!reason) continue;
+    out.push({ reason, count: asNumber(row.count) });
+  }
+  return out.sort((a, b) => b.count - a.count || a.reason.localeCompare(b.reason));
+}
+
+export function sourcesFromHits(hits: BoardHit[]): BoardSourceStat[] {
+  const map = new Map<string, number>();
+  for (const hit of hits) {
+    map.set(hit.source, (map.get(hit.source) ?? 0) + 1);
+  }
+  return [...map.entries()]
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+    .map(([source, fetched]) => ({
+      source,
+      fetched,
+      ok: true,
+      cached: false,
+      blocked: null,
+      error: null,
+    }));
+}
+
+export function statsFromHits(hits: BoardHit[]): BoardScanStats {
+  const displayed = hits.filter((hit) => !hit.nearMiss).length;
+  return {
+    fetched: hits.length,
+    displayed,
+    nearMisses: hits.length - displayed,
+    rejected: 0,
+  };
+}
+
+export function splitSourceLabel(source: string): { family: string; detail: string | null } {
+  const colon = source.indexOf(':');
+  if (colon <= 0) return { family: source, detail: null };
+  return { family: source.slice(0, colon), detail: source.slice(colon + 1) };
+}
+
+export function viewFromPayload(
+  payload: BoardPayload,
+  fetchedAt: Date,
+  stale = false
+): BoardViewModel {
+  const hasSources = Boolean(payload.sources?.length);
+  return {
+    hits: payload.hits,
+    fetchedAt: fetchedAt.toISOString(),
+    lastScanLabel: formatLastScan(fetchedAt),
+    stale,
+    scannerUnreachable: stale,
+    empty: payload.hits.length === 0,
+    error: null,
+    stats: payload.stats ?? (payload.hits.length ? statsFromHits(payload.hits) : null),
+    sources: hasSources ? payload.sources! : sourcesFromHits(payload.hits),
+    sourceCountsFromHits: !hasSources,
+    rejectedByReason: payload.rejectedByReason ?? [],
   };
 }
 
