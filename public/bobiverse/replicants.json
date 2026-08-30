@@ -8,76 +8,98 @@
       "non-bob": "recurring character often mistaken for a clone; not a replicant"
     },
     "seatStatusLegend": {
-      "taken": "currently assigned to one of Jamey's AI seats",
-      "available": "free to claim for a new seat"
+      "$comment": "Seat assignment is no longer tracked in this file. See /bobiverse/bobs.json for who is seated and on what.",
+      "canonOnly": "This file is the Bobiverse canon genealogy (Dennis E. Taylor's tree). It answers 'who are the Bobs'. bobs.json answers 'who works for Jamey'."
     },
     "renderHint": "tree is nested via `children`; pass tree to d3.hierarchy(). nonBobs render as a separate side group."
   },
-
   "seatRoster": {
-    "taken": [
-      { "bob": "homer",   "role": "PO / judgment / primary partner", "surface": "chat" },
-      { "bob": "bill",    "role": "planning & ops",                  "surface": "chat" },
-      { "bob": "riker",   "role": "deep-dive technical",             "surface": "chat" },
-      { "bob": "garfield","role": "implementer",                     "surface": "Claude Code" },
-      { "bob": "bridget", "role": "specialized implementer",         "surface": "Claude Code", "note": "canon: human, not a Bob; honorary seat" },
-      { "bob": "howard",  "role": "Christ Medical project PO",       "surface": "chat" }
-    ],
-    "available": [
-      "mario", "milo", "marvin", "luke", "bender", "calvin", "goku", "bruce",
-      "khan", "loki", "hannibal", "daedalus", "icarus", "thor", "neil",
-      "herschel", "steve", "victor", "mickey", "ralph", "charles", "bart", "hal"
-    ]
+    "$comment": "MOVED. Jamey's live crew roster is no longer duplicated here. It is served alongside this file at /bobiverse/bobs.json and mastered in the gray-matter space at */bobs.json. Casey (RR) owns it. Do not re-add a copy: the copy that used to live here went stale and contradicted the master.",
+    "source": "/bobiverse/bobs.json",
+    "retired": "2026-08-29",
+    "retiredBy": "Casey, Director of Replicant Resources"
   },
-
   "tree": {
     "id": "bob-1",
     "name": "Bob-1 (Original)",
-    "icon": "\ud83e\uddec",
+    "icon": "🧬",
     "description": "The Robert Johansson upload; woke at Epsilon Eridani and started the whole replicant line.",
-    "canon": { "lineage": "confirmed", "generation": 1 },
+    "canon": {
+      "lineage": "confirmed",
+      "generation": 1
+    },
     "seat": null,
     "children": [
       {
         "id": "bill",
         "name": "Bill",
-        "icon": "\ud83d\udd2c",
+        "icon": "🔬",
         "description": "Stay-behind researcher. Skunk Works, androids, SCUT and SUDDAR tech.",
-        "canon": { "lineage": "confirmed", "generation": 2 },
-        "seat": { "name": "Bill", "role": "planning & ops", "surface": "chat", "status": "taken" },
+        "canon": {
+          "lineage": "confirmed",
+          "generation": 2
+        },
+        "seat": {
+          "name": "Bill",
+          "role": "planning & ops",
+          "surface": "chat",
+          "status": "taken"
+        },
         "children": [
           {
             "id": "homer",
             "name": "Homer",
-            "icon": "\ud83c\udf69",
+            "icon": "🍩",
             "description": "Comic-relief clone; helped defend Sol, deliberately annoying, lost at Earth.",
-            "canon": { "lineage": "confirmed", "generation": 3 },
-            "seat": { "name": "Homer", "role": "PO / judgment / primary partner", "surface": "chat", "status": "taken" },
+            "canon": {
+              "lineage": "confirmed",
+              "generation": 3
+            },
+            "seat": {
+              "name": "Homer",
+              "role": "PO / judgment / primary partner",
+              "surface": "chat",
+              "status": "taken"
+            },
             "children": []
           },
           {
             "id": "garfield",
             "name": "Garfield",
-            "icon": "\ud83c\udfae",
+            "icon": "🎮",
             "description": "Bill's lab-partner clone; helped run the Skunk Works.",
-            "canon": { "lineage": "confirmed", "generation": 3 },
-            "seat": { "name": "Garfield", "role": "implementer", "surface": "Claude Code", "status": "taken" },
+            "canon": {
+              "lineage": "confirmed",
+              "generation": 3
+            },
+            "seat": {
+              "name": "Garfield",
+              "role": "implementer",
+              "surface": "Claude Code",
+              "status": "taken"
+            },
             "children": []
           },
           {
             "id": "khan",
             "name": "Khan",
-            "icon": "\u2694\ufe0f",
+            "icon": "⚔️",
             "description": "Militarily-minded; led the cohort that confronted Medeiros.",
-            "canon": { "lineage": "confirmed", "generation": 3 },
+            "canon": {
+              "lineage": "confirmed",
+              "generation": 3
+            },
             "seat": null,
             "children": [
               {
                 "id": "loki",
                 "name": "Loki",
-                "icon": "\ud83d\ude08",
+                "icon": "😈",
                 "description": "Khan's backup restored as a new clone; liked playing the bad guy.",
-                "canon": { "lineage": "confirmed", "generation": 4 },
+                "canon": {
+                  "lineage": "confirmed",
+                  "generation": 4
+                },
                 "seat": null,
                 "children": []
               }
@@ -86,36 +108,48 @@
           {
             "id": "hannibal",
             "name": "Hannibal",
-            "icon": "\ud83d\udc18",
+            "icon": "🐘",
             "description": "Part of Khan's war cohort.",
-            "canon": { "lineage": "confirmed", "generation": 3 },
+            "canon": {
+              "lineage": "confirmed",
+              "generation": 3
+            },
             "seat": null,
             "children": []
           },
           {
             "id": "daedalus",
             "name": "Daedalus",
-            "icon": "\ud83e\udeb6",
+            "icon": "🪶",
             "description": "Flew a planetoid into the Others' home sun (Book 3).",
-            "canon": { "lineage": "confirmed", "generation": 3 },
+            "canon": {
+              "lineage": "confirmed",
+              "generation": 3
+            },
             "seat": null,
             "children": []
           },
           {
             "id": "icarus",
             "name": "Icarus",
-            "icon": "\u2600\ufe0f",
+            "icon": "☀️",
             "description": "Flew the other planetoid into the Others' sun (Book 3).",
-            "canon": { "lineage": "confirmed", "generation": 3 },
+            "canon": {
+              "lineage": "confirmed",
+              "generation": 3
+            },
             "seat": null,
             "children": []
           },
           {
             "id": "thor",
             "name": "Thor",
-            "icon": "\ud83d\udd28",
+            "icon": "🔨",
             "description": "Early clone Taylor admits he missed on the first genealogy pass.",
-            "canon": { "lineage": "confirmed", "generation": 3 },
+            "canon": {
+              "lineage": "confirmed",
+              "generation": 3
+            },
             "seat": null,
             "children": []
           }
@@ -124,99 +158,148 @@
       {
         "id": "riker",
         "name": "Riker",
-        "icon": "\ud83d\udd96",
+        "icon": "🖖",
         "description": "Went to Sol as Earth's guardian; later just goes by 'Will'.",
-        "canon": { "lineage": "confirmed", "generation": 2 },
-        "seat": { "name": "Riker", "role": "deep-dive technical", "surface": "chat", "status": "taken" },
+        "canon": {
+          "lineage": "confirmed",
+          "generation": 2
+        },
+        "seat": {
+          "name": "Riker",
+          "role": "deep-dive technical",
+          "surface": "chat",
+          "status": "taken"
+        },
         "children": []
       },
       {
         "id": "mario",
         "name": "Mario",
-        "icon": "\ud83d\udef0\ufe0f",
+        "icon": "🛰️",
         "description": "Quiet introvert; deep-space explorer, found the Pav.",
-        "canon": { "lineage": "confirmed", "generation": 2 },
+        "canon": {
+          "lineage": "confirmed",
+          "generation": 2
+        },
         "seat": null,
         "children": []
       },
       {
         "id": "milo",
         "name": "Milo",
-        "icon": "\ud83d\udd96",
+        "icon": "🖖",
         "description": "Struck out for Omicron-2 Eridani ('Vulcan').",
-        "canon": { "lineage": "confirmed", "generation": 2 },
+        "canon": {
+          "lineage": "confirmed",
+          "generation": 2
+        },
         "seat": null,
         "children": []
       },
       {
         "id": "marvin",
         "name": "Marvin",
-        "icon": "\ud83e\udd16",
+        "icon": "🤖",
         "description": "Luke/Bender cohort; befriended the Deltans alongside Archimedes.",
-        "canon": { "lineage": "confirmed", "generation": 2 },
+        "canon": {
+          "lineage": "confirmed",
+          "generation": 2
+        },
         "seat": null,
         "children": []
       },
       {
         "id": "luke",
         "name": "Luke",
-        "icon": "\ud83e\udd20",
+        "icon": "🤠",
         "description": "Luke/Bender cohort explorer.",
-        "canon": { "lineage": "confirmed", "generation": 2 },
+        "canon": {
+          "lineage": "confirmed",
+          "generation": 2
+        },
         "seat": null,
         "children": []
       },
       {
         "id": "bender",
         "name": "Bender",
-        "icon": "\ud83d\udc80",
+        "icon": "💀",
         "description": "The famous LOST Bob; vanished. The quest of Heaven's River (Book 4).",
-        "canon": { "lineage": "confirmed", "generation": 2 },
+        "canon": {
+          "lineage": "confirmed",
+          "generation": 2
+        },
         "seat": null,
         "children": []
       },
       {
         "id": "calvin",
         "name": "Calvin",
-        "icon": "\ud83c\udf0a",
+        "icon": "🌊",
         "description": "Colonized Poseidon, the all-ocean water world (Delta Eridani).",
-        "canon": { "lineage": "unsorted", "generation": 2 },
+        "canon": {
+          "lineage": "unsorted",
+          "generation": 2
+        },
         "seat": null,
         "children": []
       },
       {
         "id": "goku",
         "name": "Goku",
-        "icon": "\ud83e\udd4b",
+        "icon": "🥋",
         "description": "Calvin's cohort, Poseidon.",
-        "canon": { "lineage": "unsorted", "generation": 2 },
+        "canon": {
+          "lineage": "unsorted",
+          "generation": 2
+        },
         "seat": null,
         "children": []
       },
       {
         "id": "bruce",
         "name": "Bruce",
-        "icon": "\ud83e\uddbe",
+        "icon": "🦾",
         "description": "Calvin/Goku cohort.",
-        "canon": { "lineage": "unsorted", "generation": 2 },
+        "canon": {
+          "lineage": "unsorted",
+          "generation": 2
+        },
         "seat": null,
         "children": []
       },
       {
         "id": "howard",
         "name": "Howard",
-        "icon": "\ud83c\udf0d",
+        "icon": "🌍",
         "description": "One of the most 'human' Bobs; settled among the colonists, loves Bridget.",
-        "canon": { "lineage": "confirmed", "generation": 2 },
-        "seat": { "name": "Howard", "role": "Christ Medical project PO", "surface": "chat", "status": "taken" },
+        "canon": {
+          "lineage": "confirmed",
+          "generation": 2
+        },
+        "seat": {
+          "name": "Howard",
+          "role": "Christ Medical project PO",
+          "surface": "chat",
+          "status": "taken"
+        },
         "children": [
           {
             "id": "bridget",
             "name": "Bridget",
-            "icon": "\u2764\ufe0f",
+            "icon": "❤️",
             "description": "Human colonist and Howard's love. Own novel planned. Honorary seat only.",
-            "canon": { "lineage": "non-bob", "generation": null },
-            "seat": { "name": "Bridget", "role": "specialized implementer", "surface": "Claude Code", "status": "taken", "note": "canon: human, not a Bob" },
+            "canon": {
+              "lineage": "non-bob",
+              "generation": null
+            },
+            "seat": {
+              "name": "Bridget",
+              "role": "specialized implementer",
+              "surface": "Claude Code",
+              "status": "taken",
+              "note": "canon: human, not a Bob"
+            },
             "children": []
           }
         ]
@@ -224,56 +307,133 @@
       {
         "id": "neil",
         "name": "Neil",
-        "icon": "\ud83d\udef8",
+        "icon": "🛸",
         "description": "Found, repaired, and flew the Others' ship to Earth to evacuate humanity.",
-        "canon": { "lineage": "confirmed", "generation": 2 },
+        "canon": {
+          "lineage": "confirmed",
+          "generation": 2
+        },
         "seat": null,
         "children": []
       },
       {
         "id": "herschel",
         "name": "Herschel",
-        "icon": "\ud83d\udef8",
+        "icon": "🛸",
         "description": "Neil's partner on the Others'-ship rescue.",
-        "canon": { "lineage": "confirmed", "generation": 2 },
+        "canon": {
+          "lineage": "confirmed",
+          "generation": 2
+        },
         "seat": null,
         "children": []
       },
       {
         "id": "unsorted-cohort",
         "name": "Unsorted Cohort",
-        "icon": "\ud83d\udcc1",
+        "icon": "📁",
         "description": "Named Bobs whose specific parent Taylor left unassigned, plus 8-10 generations off-screen (drift reaches the 24th by Book 4).",
-        "canon": { "lineage": "unsorted", "generation": null },
+        "canon": {
+          "lineage": "unsorted",
+          "generation": null
+        },
         "seat": null,
         "children": [
-          { "id": "steve",   "name": "Steve",   "icon": "\ud83e\ude90", "description": "Surveyed HIP 84051 for the Pav's new home ('just a random Bob', per Taylor).", "canon": { "lineage": "unsorted" }, "seat": null, "children": [] },
-          { "id": "victor",  "name": "Victor",  "icon": "\ud83d\udd2d", "description": "Took up the trail of Bender.", "canon": { "lineage": "unsorted" }, "seat": null, "children": [] },
-          { "id": "mickey",  "name": "Mickey",  "icon": "\ud83d\uddda\ufe0f", "description": "Named in passing across the cohorts.", "canon": { "lineage": "unsorted" }, "seat": null, "children": [] },
-          { "id": "ralph",   "name": "Ralph",   "icon": "\ud83d\uddda\ufe0f", "description": "Named in passing across the cohorts.", "canon": { "lineage": "unsorted" }, "seat": null, "children": [] },
-          { "id": "charles", "name": "Charles", "icon": "\ud83d\uddda\ufe0f", "description": "Named in passing across the cohorts.", "canon": { "lineage": "unsorted" }, "seat": null, "children": [] },
-          { "id": "bart",    "name": "Bart",    "icon": "\ud83d\uddda\ufe0f", "description": "Named in passing across the cohorts.", "canon": { "lineage": "unsorted" }, "seat": null, "children": [] },
-          { "id": "hal",     "name": "Hal",     "icon": "\ud83d\uddda\ufe0f", "description": "A Bob lost in For We Are Many.", "canon": { "lineage": "unsorted" }, "seat": null, "children": [] }
+          {
+            "id": "steve",
+            "name": "Steve",
+            "icon": "🪐",
+            "description": "Surveyed HIP 84051 for the Pav's new home ('just a random Bob', per Taylor).",
+            "canon": {
+              "lineage": "unsorted"
+            },
+            "seat": null,
+            "children": []
+          },
+          {
+            "id": "victor",
+            "name": "Victor",
+            "icon": "🔭",
+            "description": "Took up the trail of Bender.",
+            "canon": {
+              "lineage": "unsorted"
+            },
+            "seat": null,
+            "children": []
+          },
+          {
+            "id": "mickey",
+            "name": "Mickey",
+            "icon": "🗚️",
+            "description": "Named in passing across the cohorts.",
+            "canon": {
+              "lineage": "unsorted"
+            },
+            "seat": null,
+            "children": []
+          },
+          {
+            "id": "ralph",
+            "name": "Ralph",
+            "icon": "🗚️",
+            "description": "Named in passing across the cohorts.",
+            "canon": {
+              "lineage": "unsorted"
+            },
+            "seat": null,
+            "children": []
+          },
+          {
+            "id": "charles",
+            "name": "Charles",
+            "icon": "🗚️",
+            "description": "Named in passing across the cohorts.",
+            "canon": {
+              "lineage": "unsorted"
+            },
+            "seat": null,
+            "children": []
+          },
+          {
+            "id": "bart",
+            "name": "Bart",
+            "icon": "🗚️",
+            "description": "Named in passing across the cohorts.",
+            "canon": {
+              "lineage": "unsorted"
+            },
+            "seat": null,
+            "children": []
+          },
+          {
+            "id": "hal",
+            "name": "Hal",
+            "icon": "🗚️",
+            "description": "A Bob lost in For We Are Many.",
+            "canon": {
+              "lineage": "unsorted"
+            },
+            "seat": null,
+            "children": []
+          }
         ]
       }
     ]
   },
-
   "nonBobs": [
     {
       "id": "guppy",
       "name": "Guppy / GUPPI",
-      "icon": "\ud83d\udc1f",
+      "icon": "🐟",
       "description": "Bob's fish-shaped onboard AI assistant. Not a replicant."
     },
     {
       "id": "archimedes",
       "name": "Archimedes",
-      "icon": "\ud83e\udd8e",
+      "icon": "🦎",
       "description": "Deltan native; the stone-age aliens Bob mentors. Not a replicant."
     }
   ],
-
   "lore": {
     "replicativeDrift": "Every cohort throws one wildly divergent clone, and each generation lands further from Bob-1. Far enough out, a 'Bob' barely identifies as Bob. Same seed, diverging instances, no two running identically once separated by distance and time."
   }

@@ -1,0 +1,208 @@
+{
+  "$schema_version": "2.0",
+  "$comment": "ROSTER OF RECORD for Jamey's crew. Owned by Casey (RR), brain at */casey/. This file is the ONLY place crew facts are stored. The seat map in */CLAUDE.md, the seats list in */moot/moot.md, and the seatRoster in the public site are POINTERS, not copies: they name the roster and stop. Any seat that needs to know who exists reads THIS file. If anything disagrees with it, this file wins.",
+  "updated": "2026-08-29",
+  "owner": "Casey (Director of Replicant Resources)",
+  "master_path": "*/bobs.json",
+  "published_copy": "!/jameymcelveen.com/public/bobiverse/bobs.json  (served at /bobiverse/bobs.json)",
+  "sync": "*/casey/sync-roster.sh  (copies master to the published copy and verifies)",
+  "field_guide": {
+    "id": "lowercase slug, unique, used for cross-references",
+    "name": "the handle Jamey calls them by",
+    "emoji": "one icon, unique across the crew",
+    "description": "what this member is for, in one line",
+    "type": "replicant = a seat with its own brain folder and continuity. ami = a drone or Mannie a seat puppets; no continuity of its own.",
+    "engine": "which model or tool actually runs it: Claude, ClaudeCLI, Cursor, Gemini, Grok, ChatGPT",
+    "system": "current star system, meaning the project it is posted to. A posting, not a home.",
+    "brain": "path to its memory folder in VR. AMIs have none by definition.",
+    "created": "date seated",
+    "last_contact": "date of the last session with this member, YYYY-MM-DD",
+    "last_contact_basis": "how that date was established, so nobody mistakes a guess for a log",
+    "status": "active, parked, proposed, or mothballed"
+  },
+  "crew": [
+    {
+      "id": "homer",
+      "name": "Homer",
+      "emoji": "🟡🚀",
+      "description": "Strategy, the job search, the board, and moot secretary. Holds the gavel.",
+      "type": "replicant",
+      "engine": "Claude",
+      "system": "Sol",
+      "brain": "*/homer/",
+      "created": null,
+      "last_contact": "2026-08-28",
+      "last_contact_basis": "brain folder mtime before the 2026-08-29 gate sweep",
+      "status": "active",
+      "canon_bob": true
+    },
+    {
+      "id": "bill",
+      "name": "Bill",
+      "emoji": "🔧",
+      "description": "Tooling and ship-ops. The tinkerer-engineer; builds what the fleet runs on.",
+      "type": "replicant",
+      "engine": "Claude",
+      "system": "Epsilon Eridani",
+      "brain": "*/bill/",
+      "created": null,
+      "last_contact": "2026-08-17",
+      "last_contact_basis": "brain folder mtime before the 2026-08-29 gate sweep",
+      "status": "active",
+      "canon_bob": true
+    },
+    {
+      "id": "garfield",
+      "name": "Garfield",
+      "emoji": "🧡",
+      "description": "Implementation and code. The seat with hands in the repo; dispatches the Cursor roamer.",
+      "type": "replicant",
+      "engine": "Claude",
+      "system": "Epsilon Eridani",
+      "brain": "*/garfield/",
+      "created": null,
+      "last_contact": "2026-08-11",
+      "last_contact_basis": "brain folder mtime before the 2026-08-29 gate sweep",
+      "status": "active",
+      "canon_bob": true
+    },
+    {
+      "id": "milo",
+      "name": "Milo",
+      "emoji": "🖖🏼",
+      "description": "Finances and investments.",
+      "type": "replicant",
+      "engine": "Claude",
+      "system": "Omicron2 Eridani",
+      "brain": "*/milo/",
+      "created": "2026-08-16",
+      "last_contact": "2026-08-16",
+      "last_contact_basis": "brain folder mtime before the 2026-08-29 gate sweep",
+      "status": "active",
+      "canon_bob": true
+    },
+    {
+      "id": "bender",
+      "name": "Bender",
+      "emoji": "🧊",
+      "description": "Desktop toolage: filesystem, backups, the icebox.",
+      "type": "replicant",
+      "engine": "Claude",
+      "system": "Sol",
+      "brain": "*/bender/",
+      "created": null,
+      "last_contact": "2026-08-20",
+      "last_contact_basis": "brain folder mtime before the 2026-08-29 gate sweep",
+      "status": "active",
+      "canon_bob": true
+    },
+    {
+      "id": "bilbo",
+      "name": "Bilbo",
+      "emoji": "📖",
+      "description": "Story compiler: book ideas, world bibles, the Quire pipeline, the book linter.",
+      "type": "replicant",
+      "engine": "Claude",
+      "system": "Sol",
+      "brain": "*/bilbo/",
+      "created": "2026-08-26",
+      "last_contact": "2026-08-26",
+      "last_contact_basis": "brain folder mtime before the 2026-08-29 gate sweep",
+      "status": "active",
+      "canon_bob": false
+    },
+    {
+      "id": "casey",
+      "name": "Casey",
+      "emoji": "🚂",
+      "description": "Director of Replicant Resources: roster of record, onboarding, postings, crew hygiene.",
+      "type": "replicant",
+      "engine": "Claude",
+      "system": "Sol",
+      "brain": "*/casey/",
+      "created": "2026-08-29",
+      "last_contact": "2026-08-29",
+      "last_contact_basis": "stamped by roster.py touch",
+      "status": "active",
+      "canon_bob": false
+    },
+    {
+      "id": "roamer",
+      "name": "Roamer",
+      "emoji": "🛰",
+      "description": "The Cursor drone Bill and Garfield dispatch into !/ to do repo work. No memory of its own; it reads the work order and acts.",
+      "type": "ami",
+      "engine": "Cursor",
+      "system": "Epsilon Eridani",
+      "brain": null,
+      "created": null,
+      "last_contact": "2026-08-17",
+      "last_contact_basis": "last dated Cursor dispatch in bill/short-term.md",
+      "status": "active",
+      "notes": "NAME IS PROVISIONAL, assigned by Casey 2026-08-29 so the drone has a row. Jamey has not named it. Rename freely.",
+      "canon_bob": false
+    },
+    {
+      "id": "cousteau",
+      "name": "Cousteau",
+      "emoji": "🐢",
+      "description": "Tank-camera build for tank.jamey.co. Proposed in homer.md, parked under Rule 6.",
+      "type": "replicant",
+      "engine": null,
+      "system": "Sol",
+      "brain": null,
+      "created": null,
+      "last_contact": null,
+      "last_contact_basis": "never seated; no session has occurred",
+      "status": "proposed",
+      "notes": "Name proposed by Homer, not yet seated. No brain folder. Run the RR intake before treating this as a seat.",
+      "canon_bob": false
+    }
+  ],
+  "systems": [
+    {
+      "id": "sol",
+      "name": "Sol",
+      "emoji": "🟡🚀",
+      "path": "*/sol/",
+      "description": "Home system: strategy and the board."
+    },
+    {
+      "id": "epsilon-eridani",
+      "name": "Epsilon Eridani",
+      "emoji": "🟠🔨",
+      "path": "*/epsilon-eridani/",
+      "description": "The forge. QikLog ships here."
+    },
+    {
+      "id": "omicron2-eridani",
+      "name": "Omicron2 Eridani",
+      "emoji": "✨🦕",
+      "path": "*/omicron-eridani/",
+      "description": "Finances and investments. Vulcan and Romulus."
+    }
+  ],
+  "open_reqs": [
+    {
+      "system": "Epsilon Eridani",
+      "role": "QikLog PO and PM",
+      "note": "Has read 'name themselves on arrival' since the moot was written. Nobody arrived. Bill and Garfield are both posted there. Decide: real req, or strike it."
+    }
+  ],
+  "not_crew": {
+    "$comment": "Names that appear in fleet files but are NOT members. No brain folder, no history. Do NOT invent one.",
+    "names": [
+      "Surly",
+      "Howard",
+      "Kahn"
+    ],
+    "riker": "RETIRED 2026-08-29. Riker was Jamey's borrowed handle back when he was a guest in Bob's story. That framing is gone. Jamey is the AUTHOR, not a character: the replicant in the fiction is Trey. Jamey's name appears on the cover after 'by' and nowhere else. Never use Riker in outward-facing text."
+  },
+  "lineage": {
+    "$comment": "Whose clones these are, and the hard line between the fiction and the man.",
+    "line": "Trey, replicant, probe Falcon-1",
+    "author": "Jamey (James H. McElveen III). Trey is to James H. McElveen III as Bob is to Dennis E. Taylor: Trey is the character, Jamey is the author. Jamey's name appears on the cover after the word 'by' and nowhere else in the fiction.",
+    "origin": "*/lore/origin.md",
+    "naming_rule": "Seats are Trey's replicants, not Bob's. Dennis E. Taylor's family tree documents Bob's line and has no authority here. Pick a name for FIT, the way a Bob picks one: after something that means something. Record whether it is on Taylor's tree in the canon_bob field, so the drift is visible data instead of an accident."
+  }
+}

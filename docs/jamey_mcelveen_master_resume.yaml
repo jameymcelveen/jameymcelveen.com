@@ -39,7 +39,7 @@ summary:
     AI-assisted tooling (e.g. Cursor/Claude) selectively to accelerate bounded
     modernization work while keeping architectural ownership and compliance
     gates explicit.
-    Published O'Reilly author. Currently architecting an open-source mission
+    Published Wiley author. Currently architecting an open-source mission
     clinic EMR (Christ Medical) with offline-first sync for field clinics in
     low-connectivity environments. Brings rare technical depth combined with
     the operational empathy of someone who has worked in regulated, high-stakes
@@ -48,8 +48,8 @@ summary:
   short: >
     Principal Systems Architect with 30+ years in enterprise .NET, SaaS,
     FinTech, and Healthcare. Deep experience in HIPAA compliance, multi-tenant
-    architecture at scale, and selective AI-assisted engineering practices. Published O'Reilly
-    author. Remote only.
+    architecture at scale, and selective AI-assisted engineering practices. Published
+    Wiley author. Remote only.
 
   healthcare_focus: >
     Principal Systems Architect with 30+ years delivering HIPAA-compliant
@@ -354,7 +354,7 @@ education:
 
 publications:
   - title: iPhone Game Development
-    publisher: O'Reilly Media
+    publisher: Wiley
     type: Book
     tech: [C++, OpenGL]
     note: >
@@ -467,7 +467,7 @@ skills:
     - Stakeholder Communication
     - Architecture Decision Records
     - Technical Writing
-    - O'Reilly Published Author
+    - Wiley Published Author
 
   # ATS flat list — use this for Indeed, LinkedIn, job boards
   ats_flat_list:
@@ -520,7 +520,7 @@ skills:
     - R&D Leadership
     - Technical Mentoring
     - Architecture Decision Records
-    - O'Reilly Author
+    - Wiley Author
 
 references:
   note: Available upon request.
