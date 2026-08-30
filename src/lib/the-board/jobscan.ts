@@ -9,6 +9,7 @@ export async function fetchJameyBacklog(): Promise<BoardPayload> {
     method: 'GET',
     cache: 'no-store',
     headers: { Accept: 'application/json' },
+    signal: AbortSignal.timeout(8_000),
   });
 
   if (!response.ok) {

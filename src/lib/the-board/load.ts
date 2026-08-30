@@ -6,15 +6,20 @@ import { formatLastScan, isSameNyDate } from './parse';
 import type { BoardViewModel } from './types';
 
 export async function loadBoard(): Promise<BoardViewModel> {
-  return withBoardLock(async () => {
-    const cached = await readBoardCache();
+  const warm = await readBoardCache();
+  if (warm && isSameNyDate(warm.fetchedAt)) {
+    return viewFromCache(warm.payload.hits, warm.fetchedAt, false, false);
+  }
+
+  return withBoardLock(async (client) => {
+    const cached = await readBoardCache(client ?? undefined);
     if (cached && isSameNyDate(cached.fetchedAt)) {
       return viewFromCache(cached.payload.hits, cached.fetchedAt, false, false);
     }
 
     try {
       const payload = await fetchJameyBacklog();
-      const fetchedAt = await writeBoardCache(payload);
+      const fetchedAt = await writeBoardCache(payload, client ?? undefined);
       return viewFromCache(payload.hits, fetchedAt, false, false);
     } catch {
       if (cached) {
