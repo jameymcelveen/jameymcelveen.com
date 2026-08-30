@@ -11,9 +11,8 @@ export async function hydrateHitFromFeeds(hit: BoardHit): Promise<BoardHit> {
   for (const feed of JAMEY_FEEDS.filter((entry) => entry.active && entry.token)) {
     const cacheKey = rssCacheKey(feed.name);
     const cached = await getCached(cacheKey);
-    const xml =
-      usableRss(cached) ?? (await getText(feed.token as string, { cacheKey })).text;
-    if (!usableRss(xml)) continue;
+    const xml = usableRss(cached) ?? usableRss((await getText(feed.token as string, { cacheKey })).text);
+    if (!xml) continue;
 
     const item = findRssItem(xml, hit.url, feed.name);
     if (!item?.body) continue;
