@@ -15,7 +15,7 @@
     "db:seed": "node scripts/seed-analytics-events.mjs",
     "start": "next start",
     "lint": "eslint",
-    "test": "node --experimental-strip-types --test src/lib/fit-filter/schema.test.ts src/lib/fit-filter/draft.test.ts src/lib/the-board/parse.test.ts src/lib/the-board/markdown.test.ts src/lib/the-board/marked-html.test.ts src/lib/the-board/linkedin-clip.test.ts src/lib/scanner/html.test.ts src/lib/scanner/rss.test.ts src/lib/scanner/filter.test.ts",
+    "test": "node --experimental-strip-types --test src/lib/fit-filter/schema.test.ts src/lib/fit-filter/draft.test.ts src/lib/the-board/parse.test.ts src/lib/the-board/markdown.test.ts src/lib/the-board/marked-html.test.ts src/lib/the-board/linkedin-clip.test.ts src/lib/the-board/manual.test.ts src/lib/tracker/store.test.ts src/lib/scanner/html.test.ts src/lib/scanner/rss.test.ts src/lib/scanner/filter.test.ts",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "hosting:env": "bash scripts/hosting/00-ensure-env.sh",

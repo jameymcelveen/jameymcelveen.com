@@ -16,7 +16,11 @@ const nextConfig: NextConfig = {
   async redirects(): Promise<Redirect[]> {
     const { domain } = profileData.site;
     const list: Redirect[] = [
-      { source: '/lab', destination: '/lab/the-board', permanent: false },
+      { source: '/lab', destination: '/lab/board', permanent: false },
+      { source: '/lab/the-board', destination: '/lab/board', permanent: true },
+      { source: '/lab/the-search', destination: '/lab/search', permanent: true },
+      { source: '/lab/the-board/jobs/:id', destination: '/lab/board/jobs/:id', permanent: true },
+      { source: '/lab/the-board/sources', destination: '/lab/sources', permanent: true },
       { source: '/resume/print', destination: '/resume/index.html', permanent: false },
       { source: '/book', destination: 'https://a.co/d/0bzHt9QF', permanent: false },
       { source: '/bobiverse', destination: '/bobiverse/index.html', permanent: false },

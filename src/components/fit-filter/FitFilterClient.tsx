@@ -1,9 +1,14 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { LabFooter, LabPageHeader } from '@/components/lab/LabPageHeader';
+import { ManualJobForm } from '@/components/lab/ManualJobForm';
 import { takeFitFilterDraft } from '@/lib/fit-filter/draft';
 import { FIT_FILTER_PARSE_ERROR, FIT_FILTER_UNAVAILABLE_ERROR } from '@/lib/fit-filter/messages';
 import type { FitFilterResult } from '@/lib/fit-filter/types';
+import { addManualBoardJob, extractJobUrl } from '@/lib/the-board/manual';
+import { THE_BOARD_PATH, THE_TRACKER_PATH } from '@/lib/fit-filter/path';
+import { upsertFavorite } from '@/lib/tracker/store';
 
 const STATUS_META = {
   pass: { label: 'PASS', color: '#546223' },
@@ -68,44 +73,13 @@ export function FitFilterClient() {
   const vMeta = result ? (VERDICT_META[result.verdict] ?? VERDICT_META.BORDERLINE) : null;
 
   return (
-    <div
-      style={{
-        minHeight: '100vh',
-        background: '#FCFAF5',
-        color: '#2E2A26',
-        padding: '0 16px 64px',
-      }}
-    >
-      <div style={{ maxWidth: 760, margin: '0 auto' }}>
-        <header style={{ padding: '40px 0 24px', borderBottom: '1px solid #D9D3CA' }}>
-          <div
-            className="fit-filter-display"
-            style={{
-              fontSize: 13,
-              letterSpacing: '0.14em',
-              color: '#B94700',
-              fontWeight: 600,
-            }}
-          >
-            FIELD INSPECTION
-          </div>
-          <h1
-            className="fit-filter-display"
-            style={{
-              fontWeight: 800,
-              fontSize: 'clamp(30px, 6vw, 44px)',
-              margin: '6px 0 10px',
-              lineHeight: 1.05,
-            }}
-          >
-            The Fit Filter
-          </h1>
-          <p style={{ margin: 0, maxWidth: 560, fontSize: 15, lineHeight: 1.55, color: '#57504A' }}>
-            Titles lie. Requirement lists do not. Paste a job posting and this tool runs it through
-            the same three gates I apply to my own search: comp, load-bearing qualifications, and
-            day shape. Most postings should fail. That is the point.
-          </p>
-        </header>
+    <div className="lab-page">
+      <div className="lab-page__inner">
+        <LabPageHeader
+          eyebrow="FIELD INSPECTION"
+          title="The Fit Filter"
+          lede="Titles lie. Requirement lists do not. Paste a job posting and this tool runs it through the same three gates I apply to my own search: comp, load-bearing qualifications, and day shape. Most postings should fail. That is the point."
+        />
 
         {state !== 'done' && (
           <section style={{ padding: '28px 0' }}>
@@ -395,6 +369,8 @@ export function FitFilterClient() {
               </div>
             )}
 
+            <FitFilterCapture jd={jd} />
+
             <button
               type="button"
               onClick={reset}
@@ -416,22 +392,73 @@ export function FitFilterClient() {
           </section>
         )}
 
-        <footer
-          style={{
-            marginTop: 48,
-            paddingTop: 16,
-            borderTop: '1px solid #D9D3CA',
-            fontSize: 12,
-            color: '#8A8378',
-            lineHeight: 1.6,
-          }}
-        >
+        <LabFooter>
           A keyword that clears an ATS but collapses in the first technical screen is worse than not
           applying. Adjacencies get surfaced; depth never gets invented.
           <br />
           JAMEY McELVEEN | Principal Software Architect | jameymcelveen.com
-        </footer>
+        </LabFooter>
       </div>
+    </div>
+  );
+}
+
+function FitFilterCapture({ jd }: { jd: string }) {
+  const [open, setOpen] = useState<'board' | 'tracker' | null>(null);
+  const [done, setDone] = useState<'board' | 'tracker' | null>(null);
+  const defaultUrl = extractJobUrl(jd) ?? '';
+
+  if (done === 'board') {
+    return (
+      <p className="board-notice" style={{ marginTop: 24 }}>
+        Pinned to the <a href={THE_BOARD_PATH}>Board</a>. Only on this browser.
+      </p>
+    );
+  }
+  if (done === 'tracker') {
+    return (
+      <p className="board-notice" style={{ marginTop: 24 }}>
+        Saved to <a href={THE_TRACKER_PATH}>Tracker</a> as Favorite.
+      </p>
+    );
+  }
+
+  return (
+    <div style={{ marginTop: 28 }}>
+      <p className="board-section-label" style={{ marginTop: 0 }}>
+        Keep it
+      </p>
+      <div className="lab-cta-row">
+        <button type="button" className="lab-btn lab-btn--solid" onClick={() => setOpen('board')}>
+          Add to Board
+        </button>
+        <button type="button" className="lab-btn" onClick={() => setOpen('tracker')}>
+          Add to Tracker
+        </button>
+      </div>
+      {open ? (
+        <ManualJobForm
+          submitLabel={open === 'board' ? 'Pin to Board' : 'Add to Favorite'}
+          defaultUrl={defaultUrl}
+          onCancel={() => setOpen(null)}
+          onSubmit={(fields) => {
+            if (open === 'board') {
+              addManualBoardJob({ ...fields, body: jd });
+              setDone('board');
+            } else {
+              upsertFavorite({
+                title: fields.title,
+                company: fields.company,
+                sourceUrl: fields.url || undefined,
+                notes: fields.notes,
+                isManual: true,
+              });
+              setDone('tracker');
+            }
+            setOpen(null);
+          }}
+        />
+      ) : null}
     </div>
   );
 }
