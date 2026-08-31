@@ -45,4 +45,30 @@ describe('evaluate', () => {
     assert.equal(v.hardReject, true);
     assert.match(v.reason, /comp:/);
   });
+
+  it('hard-rejects an explicit DevOps title without needing 3 body run-signals', () => {
+    const v = evaluate(
+      post({
+        company: 'Compassion International',
+        title: 'Sr. DevOps Engineer',
+        body: 'Requirements: C# .NET PostgreSQL AWS Kubernetes. Design and build APIs. Fully remote.',
+      })
+    );
+    assert.equal(v.passed, false);
+    assert.equal(v.hardReject, true);
+    assert.match(v.reason, /day shape: title is a run-the-system role/);
+    assert.match(v.reason, /devops engineer/);
+  });
+
+  it('still rejects an ambiguous title when the body has 3+ run-signals', () => {
+    const v = evaluate(
+      post({
+        title: 'Senior Software Engineer',
+        body: 'Requirements: C# .NET. On-call rotation, PagerDuty, SRE runbooks, incident response.',
+      })
+    );
+    assert.equal(v.passed, false);
+    assert.equal(v.hardReject, false);
+    assert.match(v.reason, /day shape: run-the-system role/);
+  });
 });

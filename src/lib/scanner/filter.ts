@@ -1,7 +1,7 @@
-import { parseComp, type CompRange } from './comp';
-import { haystack, type Posting } from './posting';
-import { JAMEY_PROFILE, type JameyProfile } from './profile';
-import { requirementsBlock } from './requirements';
+import { parseComp, type CompRange } from './comp.ts';
+import { haystack, type Posting } from './posting.ts';
+import { JAMEY_PROFILE, type JameyProfile } from './profile.ts';
+import { requirementsBlock } from './requirements.ts';
 
 export type Verdict = {
   passed: boolean;
@@ -48,6 +48,12 @@ function checkLevel(p: Posting, prof: JameyProfile): string | null {
   return null;
 }
 
+function checkDayShapeTitle(p: Posting, prof: JameyProfile): string | null {
+  const matched = hits(prof.dayShape.runSignals, p.title.toLowerCase());
+  if (matched.length === 0) return null;
+  return `day shape: title is a run-the-system role (${matched.slice(0, 4).join(', ')})`;
+}
+
 export function evaluate(p: Posting, prof: JameyProfile = JAMEY_PROFILE): Verdict {
   const hay = haystack(p);
   const req = requirementsBlock(p.body).toLowerCase();
@@ -63,6 +69,9 @@ export function evaluate(p: Posting, prof: JameyProfile = JAMEY_PROFILE): Verdic
 
   const lvlFail = checkLevel(p, prof);
   if (lvlFail) return reject(lvlFail, true);
+
+  const titleShape = checkDayShapeTitle(p, prof);
+  if (titleShape) return reject(titleShape, true);
 
   const comp = parseComp(compText);
   if (comp.kind === 'salary' && comp.high != null && comp.high < prof.comp.salaryFloor) {
