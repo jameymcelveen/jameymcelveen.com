@@ -9,6 +9,8 @@ const nextConfig: NextConfig = {
   outputFileTracingIncludes: {
     '/api/chat': ['./src/lib/api/system-prompt.md'],
     '/api/health': ['./src/lib/api/system-prompt.md'],
+    '/resume': ['./src/data/resume.yaml'],
+    '/resume/print': ['./src/data/resume.yaml'],
     /** Real files only — never trace pnpm’s symlinked node_modules/geoip-lite/data. */
     '/api/analytics/event': ['./vendor/geoip-data/**/*'],
   },
@@ -21,7 +23,6 @@ const nextConfig: NextConfig = {
       { source: '/lab/the-search', destination: '/lab/search', permanent: true },
       { source: '/lab/the-board/jobs/:id', destination: '/lab/board/jobs/:id', permanent: true },
       { source: '/lab/the-board/sources', destination: '/lab/sources', permanent: true },
-      { source: '/resume/print', destination: '/resume/index.html', permanent: false },
       { source: '/book', destination: 'https://a.co/d/0bzHt9QF', permanent: false },
       { source: '/bobiverse', destination: '/bobiverse/index.html', permanent: false },
       { source: '/belize-arch', destination: '/belize-arch/index.html', permanent: false },

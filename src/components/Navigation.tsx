@@ -4,12 +4,13 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAskJameyPanel } from '@/context/AskJameyPanelContext';
 import { isObscuredLabPath } from '@/lib/fit-filter/path';
+import { isResumePrintPath } from '@/lib/is-resume-print';
 
 export function Navigation() {
   const pathname = usePathname();
   const { openAskJamey } = useAskJameyPanel();
 
-  if (pathname === '/ai' || isObscuredLabPath(pathname)) {
+  if (pathname === '/ai' || isObscuredLabPath(pathname) || isResumePrintPath(pathname)) {
     return null;
   }
 

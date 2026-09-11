@@ -1,22 +1,27 @@
 name: Jamey McElveen
-title: Principal Systems Architect · Wiley Author
+title: Principal Systems Architect | Wiley Author
 contact:
   location: Florence, SC
   phone: '(843) 618-8078'
   email: jamey@mcelveen.us
   website: jameymcelveen.com
-  availability: Remote · Full-Time or Contract
+  availability: Remote | Full-Time or Contract
 
 summary: >
   Principal Systems Architect with 30+ years delivering enterprise .NET
   platforms across SaaS, FinTech, and Healthcare. Designed and sustained
   multi-tenant systems serving 50,000+ organizations; led teams of 20+
   engineers through complete platform generational shifts. Expert in
-  AI-Augmented Engineering — leveraging LLM-driven tooling (Cursor/Claude)
-  to accelerate legacy modernization and reduce friction on complex
+  AI-Augmented Engineering: runs LLM-driven tooling (Cursor/Claude)
+  daily to accelerate legacy modernization and reduce friction on complex
   refactoring work. Published Wiley author. Currently architecting an
   open-source mission clinic EMR (Christ Medical) with offline-first sync
   for field clinics in low-connectivity environments.
+
+summary_highlights:
+  - '50,000+ organizations'
+  - 'AI-Augmented Engineering'
+  - 'Christ Medical'
 
 competencies:
   languages: [C#, .NET 9/Core, T-SQL, TypeScript, C++, Java]
@@ -33,21 +38,21 @@ competencies:
   leadership: [R&D Mgmt, Mentoring, ADRs, Technical Writing, Scrum Master, Product Owner]
 
 experience:
-  - title: Principal Architect — Pro Bono / Kingdom Work
+  - title: Principal Architect, Pro Bono / Kingdom Work
     company: Christ Medical Mission System
     domain: Healthcare / Missions
     url: github.com/christmedical
     start: 2024
     end: Present
     highlights:
-      - Architected offline-first sync layer using Dotmim Sync — field laptops
-        operate independently and reconcile with central hub on reconnect.
+      - Architected offline-first sync layer using Dotmim Sync. Field laptops
+        operate independently and reconcile with the central hub on reconnect.
         Zero data loss, no paper fallback required.
       - Implemented Double Metaphone phonetic patient search via PostgreSQL
-        fuzzystrmatch — solving name romanization inconsistency across
+        fuzzystrmatch, solving name romanization inconsistency across
         multilingual mission contexts.
-      - Unified spiritual and medical outcome tracking in a single data model
-        (spiritual=heard|hope|none) — treating the whole person as the patient.
+      - Unified spiritual and medical outcome tracking in a single data model,
+        treating the whole person as the patient.
       - Enforced CI parity via single gate running ESLint, Vitest, React Testing
         Library, and production Next.js build locally and in GitHub Actions.
 
@@ -57,9 +62,9 @@ experience:
     start: 2023
     end: 2025
     highlights:
-      - Architected high-concurrency public APIs in .NET Core on Kubernetes (EKS)
-        with elastic scale to absorb Giving Tuesday traffic spikes — zero downtime
-        during peak donation surges.
+      - Architected the client-facing public API in C# and .NET Core on
+        Kubernetes (EKS), documented with OpenAPI and published at
+        apidocs.securegive.com. Built an Ocelot API gateway for edge protection.
       - Designed anti-fraud heuristics to detect and shut down credit-card
         validation attacks (carding), protecting platform integrity and donor funds.
       - Engineered idempotent ETL pipelines for PostgreSQL to Snowflake migrations;
@@ -78,13 +83,13 @@ experience:
     end: 2023
     highlights:
       - Migrated entire development organization from file-share-based storage
-        to Git and GitHub — cleaning 100,000+ commits with BFG Repo-Cleaner,
+        to Git and GitHub, cleaning 100,000+ commits with BFG Repo-Cleaner and
         reducing repo size by 80%.
       - Implemented CI pipelines for HIPAA-compliant clinical systems, replacing
         manual deployments with automated, auditable release processes.
       - Mentored developers and interns on Git workflows, branching strategy,
         and pull request culture.
-      - Introduced ELK stack with Golden Record PHI scrubbing service — replacing
+      - Introduced ELK stack with a Golden Record PHI scrubbing service, replacing
         real names and SSNs with synthetic identities in non-production environments.
         Zero BAA exposure risk.
       - Enforced TLS 1.2+ across all WCF and REST endpoints.
@@ -96,27 +101,25 @@ experience:
     domain: Enterprise SaaS
     start: 1996
     end: 2021
-    note: Except May 2005 – May 2006 (see Lyle's Data Systems)
+    note: Except May 2005 to May 2006 (see Lyle's Data Systems)
     highlights:
       - Strategic architectural lead for flagship SaaS suite serving 50,000+
         organizations worldwide; directed distributed R&D team of 20+ engineers.
       - Scrum Master for Realm for several years; served as Product Owner during
-        management chapter — ran backlog grooming, story points, standups.
+        management chapter, running backlog grooming, story points, and standups.
       - Pioneered Model-Driven Development (MDD) for large-scale C# codebases.
       - Used actor pattern for async debit card hardware feedback coordination
         in payment processing flows.
-      - Departed following strategic leadership transition that altered the
-        organization's technical vision and direction.
     products:
       realm:
-        name: Realm — Multi-Tenant SaaS Platform
+        name: 'Realm: Multi-Tenant SaaS Platform'
         highlights:
           - Architected multi-tenancy using RLS and SQL Resource Governor to
             prevent Noisy Neighbor degradation across 50,000+ tenants.
           - Built shard-aware routing layer enabling live zero-downtime tenant
             migration when organizations exceeded resource thresholds.
       facility_scheduler:
-        name: Facility Scheduler — N-Tier Scheduling Engine
+        name: 'Facility Scheduler: N-Tier Scheduling Engine'
         highlights:
           - Designed N-tier C# / WCF / SOAP architecture with custom WS-Security
             header processing in the WCF message pipeline.
@@ -124,13 +127,10 @@ experience:
             optimistic locking; reduced scheduling query overhead 70% via
             covering index eliminating a bookmark lookup.
       headmaster:
-        name: HeadMaster — School Management Ecosystem
+        name: 'HeadMaster: School Management Ecosystem'
         highlights:
           - Modeled non-linear Student-Guardian-Representative hierarchies using
             M:N relational tables with bitmask permission flags.
-          - Architecture maps directly to SC DSS / CAPSS child placement and
-            voucher eligibility workflows — transferable to behavioral health
-            or child-services SaaS domains.
 
   - title: Programming Manager
     company: Lyle's Data Systems
@@ -142,14 +142,14 @@ experience:
         platforms to municipal clients across the Southeast.
       - Architected multi-jurisdiction online property tax payment system
         enabling citizens and banks to pay home, vehicle, and boat taxes online.
-      - Designed and built @ Your Request — citizen issue-reporting platform
+      - Designed and built "@ Your Request", a citizen issue-reporting platform
         with photo uploads and real-time progress tracking.
       - Performed GIS / ESRI geospatial data conversion migrating legacy systems
         into MS SQL Server.
 
 community:
-  - organization: FIRST Robotics — Technomancers
-    role: Technical Mentor — IB Baccalaureate STEM Program
+  - organization: FIRST Robotics Technomancers
+    role: Technical Mentor, International Baccalaureate (IB) STEM Program
     url: technomancers.github.io
     highlights:
       - Mentored high school students in Kotlin software development and
@@ -157,24 +157,28 @@ community:
       - Translated complex engineering concepts into accessible instruction
         for students with no prior programming background.
 
-  - organization: AI Development — Peer Mentoring
+  - organization: AI Development, Peer Mentoring
     role: Informal Mentor
     highlights:
-      - Mentors peers in AI-augmented engineering workflows — Cursor, Claude,
-        prompt engineering, and clean-room PII protocols for regulated environments.
+      - Mentors peers in AI-augmented engineering workflows (Cursor, Claude,
+        prompt engineering, and clean-room PII protocols for regulated environments).
       - Extensive self-directed study applied directly to active production
-        projects — not theoretical.
+        projects, not theoretical.
 
 education:
   degree: B.S. Computer Engineering
   institution: Clemson University
+  school_motto: Go Tigers!
   notes: C++ / OpenGL background applied to .NET GC optimization and
     performance-sensitive system design.
 
 publications:
   - title: iPhone Game Development
     publisher: Wiley
-    notes: Technical writing clarity applied daily — Swagger/OpenAPI specs,
+    year: 2009
+    coauthor: Chris Craft
+    url: https://a.co/d/0bzHt9QF
+    notes: Technical writing clarity applied daily to Swagger/OpenAPI specs,
       architecture decision records, and deep-dive team documentation.
 
 active_projects:

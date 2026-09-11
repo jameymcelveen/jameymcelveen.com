@@ -13,6 +13,7 @@ import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { isObscuredLabPath } from '@/lib/fit-filter/path';
+import { isResumePrintPath } from '@/lib/is-resume-print';
 
 const AskJameyChatPanelLazy = dynamic(
   () => import('@/components/AskJameyChatPanel').then((m) => ({ default: m.AskJameyChatPanel })),
@@ -62,7 +63,7 @@ function AskJameyBubbleHost({
     return () => window.removeEventListener('keydown', onKey);
   }, [open, onClose]);
 
-  if (pathname === '/ai' || isObscuredLabPath(pathname)) return null;
+  if (pathname === '/ai' || isObscuredLabPath(pathname) || isResumePrintPath(pathname)) return null;
 
   if (open) {
     return (

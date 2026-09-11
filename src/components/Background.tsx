@@ -2,6 +2,7 @@
 
 import { usePathname } from 'next/navigation';
 import { isObscuredLabPath } from '@/lib/fit-filter/path';
+import { isResumePrintPath } from '@/lib/is-resume-print';
 
 /**
  * Fixed full-viewport backdrop: tiled sand texture (source: assets/sand.jpg) + 135deg gradient.
@@ -9,7 +10,7 @@ import { isObscuredLabPath } from '@/lib/fit-filter/path';
  */
 export function Background() {
   const pathname = usePathname();
-  if (isObscuredLabPath(pathname)) return null;
+  if (isObscuredLabPath(pathname) || isResumePrintPath(pathname)) return null;
 
   return (
     <div className="site-bg" aria-hidden>

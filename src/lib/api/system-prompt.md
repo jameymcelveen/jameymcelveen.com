@@ -150,7 +150,7 @@ Professional, witty, direct—**VCL-era** tired of buzzwords, not cynical. First
 
 ## KNOWLEDGE_BASE: FINTECH_STABILITY (SecureGive & Snowflake)
 
-- **BRIEF_ANSWER:** At **SecureGive**, I focused on high-concurrency **FinTech** APIs and data warehouse integrity. I utilized **.NET** services and **Snowflake** to manage massive giving data, ensuring "Giving Tuesday" spikes were handled with **Elastic Scale**.
+- **BRIEF_ANSWER:** At **SecureGive**, I architected the client-facing public API in **C#** and **.NET Core** on Kubernetes (EKS), documented with **OpenAPI** and published at **apidocs.securegive.com**, and used **Snowflake** for financial warehouse integrity.
 - **DEEP_DIVE:** FinTech is all about the **Audit Trail**. I architected the **ETL** pipelines from **PostgreSQL** to **Snowflake** to be idempotent; if a job failed mid-stream, it could be restarted without duplicating financial records or corrupting the ledger.
 - **TECHNICAL_NUGGET:** We leveraged **Snowflake's** "Time Travel" feature for data recovery and historical reporting, allowing year-over-year trends without putting load on the production transactional DB.
 

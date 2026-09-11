@@ -5,7 +5,13 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: ['/lab/', '/api/fit-filter', '/api/the-board', '/api/the-board/cron'],
+      disallow: [
+        '/lab/',
+        '/resume/print',
+        '/api/fit-filter',
+        '/api/the-board',
+        '/api/the-board/cron',
+      ],
     },
   };
 }

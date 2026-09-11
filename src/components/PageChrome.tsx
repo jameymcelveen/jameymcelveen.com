@@ -3,12 +3,16 @@
 import { usePathname } from 'next/navigation';
 import { SiteFooter } from '@/components/SiteFooter';
 import { isObscuredLabPath } from '@/lib/fit-filter/path';
+import { isResumePrintPath } from '@/lib/is-resume-print';
 
 /**
  * Full-bleed /ai chat; other routes use centered max-width main.
  */
 export function PageChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  if (isResumePrintPath(pathname)) {
+    return children;
+  }
   if (isObscuredLabPath(pathname)) {
     return <div className="min-h-dvh">{children}</div>;
   }
