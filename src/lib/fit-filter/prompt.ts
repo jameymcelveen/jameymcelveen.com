@@ -7,7 +7,7 @@ import 'server-only';
  * client component.
  */
 const CANDIDATE_CONTEXT = `
-CANDIDATE: Jamey McElveen, Principal Systems Architect, Florence SC (remote-only search).
+CANDIDATE: Jamey McElveen, Principal Architect & Engineering Leader, Florence SC (remote-only search).
 30 years enterprise .NET. Career: ACS Technologies 25 yrs (R&D architect, multi-tenant SaaS for ~50,000 orgs, led 20+ engineers, RLS multi-tenancy, component library, CMS strangler migration). McLeod Health (HIPAA systems, org-wide Git migration 100k+ commits, ELK + PHI scrubbing, Epic/Oracle Cloud bridges). SecureGive (Senior Solutions Architect: .NET Core APIs on Kubernetes/EKS, public API over Snowflake, anti-fraud heuristics, Angular/React Native/Electron). Current: independent (QikLog multi-tenant SaaS: .NET, SignalR, OIDC, Stripe; Christ Medical open-source clinic EMR: ASP.NET Core, Next.js, PostgreSQL, offline-first sync). Wiley book "iPhone Game Development" 2009. BS Computer Engineering, Clemson 1996. Daily agentic-AI practice: multi-agent fleet, MCP, human-gated review.
 
 STACK: .NET/C# (deep), TypeScript/React/Angular, SQL/PostgreSQL, AWS/Azure, Scala (shipped).

@@ -40,7 +40,7 @@ Job Description:
 For faster generation without reading files:
 
 ```
-I'm Jamey McElveen, a Principal Systems Architect with 30+ years experience.
+I'm Jamey McElveen, a Principal Architect & Engineering Leader with 30+ years experience.
 
 Key highlights:
 - Programming Manager at ACS Technologies (25 years) - led 20+ developers, built Realm serving 50,000+ churches

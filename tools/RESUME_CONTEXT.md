@@ -8,7 +8,7 @@
 
 ## Summary
 
-Principal Systems Architect with 30+ years of experience in Christian tech and fintech. Expert in architecting scalable solutions for platforms serving 50,000+ organizations. Uses AI-assisted tooling (e.g. Cursor) selectively to support modernization and delivery—always with architectural judgment and quality gates.
+Principal Architect & Engineering Leader with 30+ years of experience in Christian tech and fintech. Expert in architecting scalable solutions for platforms serving 50,000+ organizations. Uses AI-assisted tooling (e.g. Cursor) selectively to support modernization and delivery—always with architectural judgment and quality gates.
 
 ---
 
