@@ -291,6 +291,7 @@ export function getWorkExperience() {
       period: job.period,
       bullets,
       highlight: highlight || undefined,
+      note: job.note,
       isLongTenure: job.isLongTenure,
     };
   });

@@ -3,7 +3,7 @@
 import { ObfuscatedEmail, ObfuscatedPhone } from '@/components/ObfuscatedContact';
 import { postInsightEvent } from '@/lib/site-analytics';
 import { motion } from 'framer-motion';
-import { Eye, FileText, MapPin } from 'lucide-react';
+import { FileDown, FileText, MapPin } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 
@@ -50,6 +50,7 @@ type WorkExperience = {
   period: string;
   bullets: string[];
   highlight?: string;
+  note?: string;
   isLongTenure: boolean;
 }[];
 
@@ -104,45 +105,48 @@ export function ResumeView({
 
   return (
     <>
-      <div className="fixed top-[calc(var(--nav-bar-height)_+_0.35rem)] right-4 z-50 flex items-center sm:right-6">
-        <a
-          href={previewResumeHref}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Open resume preview in a new tab"
-          className="btn-glass text-foreground gap-2 px-4 py-2 sm:px-6"
-          onClick={() => {
-            const from =
-              typeof sessionStorage !== 'undefined'
-                ? sessionStorage.getItem('jm_resume_from')
-                : null;
-            postInsightEvent({
-              event: 'resume_preview',
-              page: '/resume',
-              from_page: from || null,
-              referrer: typeof document !== 'undefined' ? document.referrer || null : null,
-              device:
-                typeof window !== 'undefined' && window.innerWidth < 768 ? 'mobile' : 'desktop',
-            });
-          }}
-        >
-          <Eye className="h-4 w-4 shrink-0" aria-hidden />
-          <span>Preview</span>
-        </a>
-      </div>
-
       <div className="w-full px-0 py-8 sm:py-12">
         <motion.div variants={containerVariants} initial="hidden" animate="visible">
           <motion.div
             variants={itemVariants}
             className="border-steel mb-8 border-b pb-6 text-left sm:mb-10"
           >
-            <p className="text-accent mb-1 font-mono text-[10px] tracking-[0.2em] uppercase sm:text-xs">
-              Resume
-            </p>
-            <h1 className="text-foreground mb-2 font-mono text-2xl font-semibold tracking-tight sm:text-3xl md:text-4xl">
-              {personalName}
-            </h1>
+            <div className="mb-2 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+              <div className="min-w-0">
+                <p className="text-accent mb-1 font-mono text-[10px] tracking-[0.2em] uppercase sm:text-xs">
+                  Resume
+                </p>
+                <h1 className="text-foreground font-mono text-2xl font-semibold tracking-tight sm:text-3xl md:text-4xl">
+                  {personalName}
+                </h1>
+              </div>
+              <a
+                href={previewResumeHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Download resume PDF"
+                className="btn-glass text-foreground gap-2 self-start px-4 py-2 sm:px-6"
+                onClick={() => {
+                  const from =
+                    typeof sessionStorage !== 'undefined'
+                      ? sessionStorage.getItem('jm_resume_from')
+                      : null;
+                  postInsightEvent({
+                    event: 'resume_preview',
+                    page: '/resume',
+                    from_page: from || null,
+                    referrer: typeof document !== 'undefined' ? document.referrer || null : null,
+                    device:
+                      typeof window !== 'undefined' && window.innerWidth < 768
+                        ? 'mobile'
+                        : 'desktop',
+                  });
+                }}
+              >
+                <FileDown className="h-4 w-4 shrink-0" aria-hidden />
+                <span>Download PDF</span>
+              </a>
+            </div>
             <p className="text-foreground mb-1 text-base font-medium sm:text-lg">{personalTitle}</p>
             <p className="text-foreground-muted font-mono text-xs sm:text-sm">{resume.subtitle}</p>
           </motion.div>
@@ -335,6 +339,9 @@ export function ResumeView({
                       <p className="text-foreground-muted mb-2 font-mono text-xs">
                         {job.highlight}
                       </p>
+                    ) : null}
+                    {job.note ? (
+                      <p className="text-foreground-muted mb-2 font-mono text-xs">{job.note}</p>
                     ) : null}
                     <ul className="mt-3 space-y-2">
                       {job.bullets.map((bullet, bulletIdx) => (

@@ -18,7 +18,7 @@ const publicSans = Public_Sans({
 
 export const metadata: Metadata = {
   title: 'Jamey McElveen - Resume',
-  description: 'Printable resume for Jamey McElveen, Principal Systems Architect.',
+  description: 'Printable resume for Jamey McElveen, Principal Architect & Engineering Leader.',
   robots: { index: false, follow: false, nocache: true },
 };
 

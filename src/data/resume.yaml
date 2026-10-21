@@ -1,14 +1,14 @@
 name: Jamey McElveen
-title: Principal Systems Architect | Wiley Author
+title: Principal Architect & Engineering Leader | Wiley Author
 contact:
   location: Florence, SC
   phone: '(843) 618-8078'
   email: jamey@mcelveen.us
   website: jameymcelveen.com
-  availability: Remote | Full-Time or Contract
+  availability: Remote (US) | Full-Time, Contract, or Contract-to-Hire
 
 summary: >
-  Principal Systems Architect with 30+ years delivering enterprise .NET
+  Principal Architect & Engineering Leader with 30+ years delivering enterprise .NET
   platforms across SaaS, FinTech, and Healthcare. Designed and sustained
   multi-tenant systems serving 50,000+ organizations; led teams of 20+
   engineers through complete platform generational shifts. Expert in
@@ -24,7 +24,7 @@ summary_highlights:
   - 'Christ Medical'
 
 competencies:
-  languages: [C#, .NET 9/Core, T-SQL, TypeScript, C++, Java]
+  languages: [C#, .NET 9/Core, T-SQL, TypeScript, C++]
   apis: [REST, WCF/SOAP, WS-Security, OpenAPI]
   architecture: [N-Tier, MDD, Strangler, Shard Routing, Offline-First, SOA, Event-Driven]
   data: [MS SQL, PostgreSQL, Snowflake, Oracle, Redis]
@@ -55,6 +55,19 @@ experience:
         treating the whole person as the patient.
       - Enforced CI parity via single gate running ESLint, Vitest, React Testing
         Library, and production Next.js build locally and in GitHub Actions.
+
+  - title: Principal Architect
+    company: Independent — QikLog
+    domain: SaaS / Observability
+    url: github.com/jameymcelveen/qiklog
+    start: 2024
+    end: Present
+    highlights:
+      - Building QikLog, a multi-tenant log-tailing SaaS in .NET 9 with Blazor
+        Server, SignalR real-time streaming, PostgreSQL, Redis, OIDC sign-in,
+        and Stripe billing.
+      - Daily agentic development with Claude Code and Cursor, with human
+        review and tests on every change.
 
   - title: Senior Solutions Architect
     company: SecureGive
@@ -103,6 +116,9 @@ experience:
     end: 2021
     note: Except May 2005 to May 2006 (see Lyle's Data Systems)
     highlights:
+      - Directed a distributed R&D team of 20+ engineers: hiring, coaching,
+        performance reviews, and delivery planning; founded the frontend
+        platform team and shared component library.
       - Strategic architectural lead for flagship SaaS suite serving 50,000+
         organizations worldwide; directed distributed R&D team of 20+ engineers.
       - Scrum Master for Realm for several years; served as Product Owner during
@@ -137,6 +153,7 @@ experience:
     domain: Civic Tech / Government SaaS
     start: '2005-05'
     end: '2006-05'
+    note: (brief leave from ACS Technologies)
     highlights:
       - Managed three developers delivering Java / Struts MVC government services
         platforms to municipal clients across the Southeast.
