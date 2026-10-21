@@ -116,7 +116,8 @@ experience:
     end: 2021
     note: Except May 2005 to May 2006 (see Lyle's Data Systems)
     highlights:
-      - Directed a distributed R&D team of 20+ engineers: hiring, coaching,
+      - >-
+        Directed a distributed R&D team of 20+ engineers: hiring, coaching,
         performance reviews, and delivery planning; founded the frontend
         platform team and shared component library.
       - Strategic architectural lead for flagship SaaS suite serving 50,000+
