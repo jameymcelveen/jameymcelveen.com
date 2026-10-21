@@ -23,13 +23,13 @@ interface ChatLine {
 
 const WELCOME_LINE_ID = 'ask-jamey-welcome';
 const OPENING_MESSAGE =
-  "Hi there — I'm an AI trained on Jamey McElveen's professional background.\nAsk me anything about his experience, projects, or technical approach.";
+  "Hi — I'm Ask Jamey, an AI version of Jamey built from his real background. Ask me about his experience, leadership, or fit for your role. For anything official, email jamey@mcelveen.us.";
 
 const STARTER_CHIPS = [
   'Walk me through your career',
-  'Tell me about your HIPAA experience',
-  'What are you currently building?',
-  'How do you use AI in your workflow?',
+  'Tell me about your leadership experience',
+  'Are you open to remote or contract-to-hire?',
+  'What are you building right now?',
 ] as const;
 
 function isShortAssistantReply(text: string): boolean {
@@ -380,33 +380,28 @@ export function AskJameyChatPanel({ onClose }: { onClose: () => void }) {
 
   return (
     <div
-      className={`ask-jamey-panel-host fixed inset-x-0 bottom-0 z-50 flex w-full max-h-[90vh] flex-col sm:inset-x-auto sm:bottom-6 sm:left-auto sm:right-6 sm:w-[480px] ${expanded ? 'h-[min(85dvh,90vh)]' : 'h-[min(70dvh,90vh)]'} transition-[height] duration-300 ease-out`}
+      className={`ask-jamey-panel-host fixed inset-0 z-50 flex h-dvh w-full flex-col sm:inset-x-auto sm:top-auto sm:right-6 sm:bottom-6 sm:max-h-[90vh] sm:w-[480px] ${expanded ? 'sm:h-[min(85dvh,90vh)]' : 'sm:h-[min(70dvh,90vh)]'}`}
     >
-      <div
-        className="ask-jamey-panel-inner flex min-h-0 flex-1 flex-col overflow-hidden rounded-t-[20px] sm:rounded-[20px] sm:rounded-b-none"
-        style={{
-        background: 'rgba(26, 28, 32, 0.96)',
-        boxShadow: '0 -8px 40px rgba(0, 0, 0, 0.45)',
-        border: '1px solid rgba(255, 255, 255, 0.1)',
-      }}
-    >
-      <header className="flex shrink-0 items-center gap-3 border-b border-[var(--glass-border)] px-4 py-3">
+      <div className="ask-jamey-panel-inner flex min-h-0 flex-1 flex-col overflow-hidden rounded-none sm:rounded-[20px]">
+      <header className="flex shrink-0 items-center gap-3 border-b border-white/10 px-4 py-3">
         <Image
           src={ASK_JAMEY_AVATAR}
           alt=""
           width={40}
           height={40}
-          className="h-10 w-10 shrink-0 rounded-full border border-[var(--glass-border)] object-cover"
+          className="h-10 w-10 shrink-0 rounded-full border border-white/15 object-cover"
           sizes="40px"
         />
         <div className="min-w-0 flex-1">
-          <h2 className="text-[15px] font-semibold tracking-tight text-[var(--ask-jamey-fg)]">Ask Jamey</h2>
-          <p className="text-[var(--text-muted)] text-xs leading-snug">AI trained on Jamey&apos;s professional background</p>
+          <h2 className="text-[15px] font-semibold tracking-tight text-[#f7f4ef]">Ask Jamey</h2>
+          <p className="text-xs leading-snug text-[#c4bfb6]">
+            AI interview twin · answers in Jamey&apos;s voice
+          </p>
         </div>
         <button
           type="button"
           onClick={onClose}
-          className="btn-glass btn-glass--icon text-[var(--text-muted)] hover:text-[var(--ask-jamey-fg)] shrink-0"
+          className="ask-jamey-close shrink-0 text-[#f7f4ef] hover:bg-white/10"
           aria-label="Close"
         >
           <X className="h-5 w-5" strokeWidth={1.75} />

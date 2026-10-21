@@ -21,8 +21,7 @@ export default function AiPage() {
           <p className="text-accent mb-1 font-mono text-[10px] tracking-[0.2em] uppercase">Clemson · Architect</p>
           <h1 className="text-foreground text-xl font-semibold tracking-tight sm:text-2xl">Ask Jamey</h1>
           <p className="text-foreground-muted mt-2 max-w-2xl text-sm leading-relaxed sm:text-[15px]">
-            This is an AI trained on Jamey&apos;s professional background. Ask anything about his experience, projects,
-            or technical approach.
+            AI interview twin · answers in Jamey&apos;s voice.
           </p>
         </div>
       </div>

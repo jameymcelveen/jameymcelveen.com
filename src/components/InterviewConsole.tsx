@@ -64,9 +64,9 @@ function CodeBlock({ children }: { children?: ReactNode }) {
 
 const PAGE_QUICK_STARTS = [
   'Walk me through your career',
-  'Tell me about your HIPAA experience',
-  'What are you currently building?',
-  'How do you use AI in your workflow?',
+  'Tell me about your leadership experience',
+  'Are you open to remote or contract-to-hire?',
+  'What are you building right now?',
 ] as const;
 
 function isShortAssistantReply(text: string): boolean {
@@ -411,8 +411,9 @@ export function InterviewConsole({ fillContainer = false }: InterviewConsoleProp
           {lines.length === 0 ? (
             <div className={`flex flex-col items-center justify-center px-2 text-center ${fillContainer ? 'min-h-[38vh]' : 'min-h-[45vh]'}`}>
               <p className="text-[var(--ai-text-muted)] mb-2 max-w-md text-[15px] leading-[1.65]">
-                Hi there — I&apos;m an AI trained on Jamey McElveen&apos;s professional background. Ask me anything
-                about his experience, projects, or technical approach.
+                Hi — I&apos;m Ask Jamey, an AI version of Jamey built from his real background. Ask me about
+                his experience, leadership, or fit for your role. For anything official, email
+                jamey@mcelveen.us.
               </p>
               <div className="mt-6 flex w-full max-w-md flex-col gap-2">
                 {PAGE_QUICK_STARTS.map((q) => (
