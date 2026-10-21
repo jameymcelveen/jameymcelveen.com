@@ -5,10 +5,12 @@ import { usePathname } from 'next/navigation';
 import { useAskJameyPanel } from '@/context/AskJameyPanelContext';
 import { isObscuredLabPath } from '@/lib/fit-filter/path';
 import { isResumePrintPath } from '@/lib/is-resume-print';
+import { useInsightsAvailable } from '@/hooks/useInsightsAvailable';
 
 export function Navigation() {
   const pathname = usePathname();
   const { openAskJamey } = useAskJameyPanel();
+  const showDashboard = useInsightsAvailable();
 
   if (pathname === '/ai' || isObscuredLabPath(pathname) || isResumePrintPath(pathname)) {
     return null;
@@ -33,12 +35,14 @@ export function Navigation() {
           >
             Work
           </Link>
-          <Link
-            href="/dashboard"
-            className={`btn-glass btn-glass--sm ${pathname === '/dashboard' ? 'btn-glass--accent' : ''}`}
-          >
-            Dashboard
-          </Link>
+          {showDashboard ? (
+            <Link
+              href="/dashboard"
+              className={`btn-glass btn-glass--sm ${pathname === '/dashboard' ? 'btn-glass--accent' : ''}`}
+            >
+              Dashboard
+            </Link>
+          ) : null}
           <button type="button" onClick={openAskJamey} className="nav-ask-jamey-pill">
             <span className="mr-1 inline-block opacity-90" aria-hidden>
               ✦

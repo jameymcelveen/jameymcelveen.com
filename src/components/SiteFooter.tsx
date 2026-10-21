@@ -4,17 +4,17 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Github, Linkedin } from 'lucide-react';
 import { getSiteFooter } from '@/data';
+import { useInsightsAvailable } from '@/hooks/useInsightsAvailable';
 import pkg from '../../package.json';
-
-const internalNav = [
-  { href: '/', label: 'Home' },
-  { href: '/resume', label: 'Resume' },
-  { href: '/dashboard', label: 'Dashboard' },
-  { href: '/components', label: 'Components' },
-] as const;
 
 export function SiteFooter({ wide = false }: { wide?: boolean }) {
   const pathname = usePathname();
+  const showDashboard = useInsightsAvailable();
+  const internalNav = [
+    { href: '/', label: 'Home' },
+    { href: '/resume', label: 'Resume' },
+    ...(showDashboard ? [{ href: '/dashboard', label: 'Dashboard' }] : []),
+  ];
   const footer = getSiteFooter();
   const year = new Date().getFullYear();
   const alumniLine =

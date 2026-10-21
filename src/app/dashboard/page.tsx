@@ -167,7 +167,8 @@ export default function DashboardPage() {
     setChartReady(true);
   }, []);
 
-  const connected = summary?.connected ?? false;
+  const connected = summary?.connected === true;
+  const unavailable = Boolean(error) || (summary !== null && !connected);
 
   const topQ = questions?.items ?? [];
   const maxQ = useMemo(() => Math.max(1, ...topQ.map((r) => r.count)), [topQ]);
@@ -194,24 +195,24 @@ export default function DashboardPage() {
             jameymcelveen.com · built in-house · no third-party trackers
           </p>
         </div>
-        <div className="btn-glass btn-glass--sm text-[var(--text-muted)] flex items-center gap-1.5 font-mono text-[0.72rem] tracking-wide">
-          <span className="dash-live-dot h-1.5 w-1.5 shrink-0 rounded-full bg-[#22c55e]" aria-hidden />
-          LIVE · updates every 60s
-          {summary?.updatedAt ? (
-            <span className="text-[var(--text-muted)]/80 ml-1 hidden font-normal sm:inline">
-              · {new Date(summary.updatedAt).toLocaleTimeString()}
-            </span>
-          ) : null}
-        </div>
+        {connected ? (
+          <div className="btn-glass btn-glass--sm text-[var(--text-muted)] flex items-center gap-1.5 font-mono text-[0.72rem] tracking-wide">
+            <span className="dash-live-dot h-1.5 w-1.5 shrink-0 rounded-full bg-[#22c55e]" aria-hidden />
+            LIVE · updates every 60s
+            {summary?.updatedAt ? (
+              <span className="text-[var(--text-muted)]/80 ml-1 hidden font-normal sm:inline">
+                · {new Date(summary.updatedAt).toLocaleTimeString()}
+              </span>
+            ) : null}
+          </div>
+        ) : null}
       </header>
 
-      {!connected ? (
-        <DashCard className="mb-6 border border-amber-500/25 bg-amber-500/[0.07]">
-          <p className="text-sm text-amber-900/90 dark:text-amber-100/90">
-            <strong className="font-medium">Database not connected.</strong> Set{' '}
-            <code className="font-mono text-xs">DATABASE_URL</code> on the host and run{' '}
-            <code className="font-mono text-xs">migrations/001_analytics_events.sql</code>. Until then, counts stay at
-            zero — the UI is the portfolio piece.
+      {unavailable ? (
+        <DashCard className="mb-6">
+          <h2 className="text-foreground text-lg font-semibold tracking-tight">Site insights coming soon</h2>
+          <p className="text-[var(--text-secondary)] mt-2 text-sm leading-relaxed">
+            Public visit analytics are not available right now. Check back later.
           </p>
         </DashCard>
       ) : null}
@@ -259,12 +260,8 @@ export default function DashboardPage() {
         </DashCard>
       ) : null}
 
-      {error ? (
-        <p className="text-red-500 mb-6 text-sm" role="alert">
-          {error}
-        </p>
-      ) : null}
-
+      {connected ? (
+        <>
       {/* Stat row */}
       <section className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:mb-6 lg:grid-cols-4 lg:gap-4">
         <StatBlock label="Total visits" value={nf.format(summary?.stats.totalVisits ?? 0)} sub="All time · page views" />
@@ -531,6 +528,8 @@ export default function DashboardPage() {
           Starter chip clicks (all time): {nf.format(summary?.stats.chipClicks ?? 0)}
         </span>
       </footer>
+        </>
+      ) : null}
     </div>
   );
 }
