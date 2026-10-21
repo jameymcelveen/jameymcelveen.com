@@ -30,7 +30,7 @@ export function PageChrome({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-screen flex-col pt-[var(--nav-bar-height,4.25rem)]">
       <main
-        className={`mx-auto w-full flex-1 px-4 pb-20 sm:px-6 ${wideLayout ? 'max-w-[1100px]' : 'max-w-4xl'}`}
+        className={`mx-auto w-full flex-1 px-4 pb-32 sm:px-6 sm:pb-20 ${wideLayout ? 'max-w-[1100px]' : 'max-w-4xl'}`}
       >
         {children}
       </main>

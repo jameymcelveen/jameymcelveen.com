@@ -34,7 +34,7 @@ export function CurrentlyBuilding({ projects }: { projects: HomeProjectCard[] })
         className={
           single
             ? 'grid grid-cols-1 gap-5'
-            : 'grid gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3'
+            : 'grid items-start gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3'
         }
       >
         {projects.map((p) => {
@@ -50,14 +50,16 @@ export function CurrentlyBuilding({ projects }: { projects: HomeProjectCard[] })
                   className="project-card-v3 group relative flex w-full flex-col gap-6 p-6 sm:flex-row sm:items-start sm:gap-10 sm:p-8"
                 >
                   <div className="flex min-w-0 flex-1 gap-4">
-                    <div className="text-accent flex h-11 w-11 shrink-0 items-center justify-center rounded-[var(--radius-chip)] border border-[var(--glass-border)] bg-[var(--surface-2)]">
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[var(--radius-chip)] border border-[var(--glass-border)] bg-white text-[#522d80]">
                       <Icon className="h-5 w-5" strokeWidth={1.75} aria-hidden />
                     </div>
                     <div className="min-w-0 flex-1">
                       <h3 className="text-foreground group-hover:text-accent mb-1 text-lg font-semibold tracking-tight transition-colors">
                         {p.title}
                       </h3>
-                      <p className="text-foreground-muted text-sm leading-[1.65] sm:text-base">{p.description}</p>
+                      <p className="text-[var(--text-secondary)] text-sm leading-[1.65] sm:text-base">
+                        {p.description}
+                      </p>
                     </div>
                   </div>
                   <div className="flex flex-col gap-4 sm:shrink-0 sm:items-end">
@@ -79,32 +81,32 @@ export function CurrentlyBuilding({ projects }: { projects: HomeProjectCard[] })
           }
 
           return (
-            <li key={p.id}>
+            <li key={p.id} className="self-start">
               <a
                 href={p.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="project-card-v3 group relative flex h-full flex-col p-6"
+                className="project-card-v3 group relative flex flex-col p-6"
               >
                 <div className="mb-4 flex items-start gap-3">
-                  <div className="text-accent flex h-11 w-11 shrink-0 items-center justify-center rounded-[var(--radius-chip)] border border-[var(--glass-border)] bg-[var(--surface-2)]">
-                    <Icon className="h-5 w-5" strokeWidth={1.75} aria-hidden />
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[var(--radius-chip)] border border-[var(--glass-border)] bg-white text-[#522d80]">
+                    <Icon className="h-5 w-5" strokeWidth={2} aria-hidden />
                   </div>
                   <div className="min-w-0 flex-1">
                     <h3 className="text-foreground group-hover:text-accent mb-1 text-base font-semibold tracking-tight transition-colors">
                       {p.title}
                     </h3>
-                    <p className="text-foreground-muted text-sm leading-[1.65]">{p.description}</p>
+                    <p className="text-[var(--text-secondary)] text-sm leading-[1.65]">{p.description}</p>
                   </div>
                 </div>
-                <div className="mb-6 flex flex-wrap gap-2">
+                <div className="mb-3 flex flex-wrap gap-2">
                   {p.stack.map((s) => (
                     <span key={s} className="tech-stack-pill-v3">
                       {s}
                     </span>
                   ))}
                 </div>
-                <span className="text-accent mt-auto flex items-center justify-end gap-1 text-xs font-medium opacity-0 transition-opacity group-hover:opacity-100">
+                <span className="text-accent flex items-center justify-end gap-1 text-xs font-medium opacity-0 transition-opacity group-hover:opacity-100">
                   View
                   <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2} aria-hidden />
                 </span>

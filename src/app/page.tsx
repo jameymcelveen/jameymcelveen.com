@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import Link from 'next/link';
 import { useState, useEffect, type ReactElement } from 'react';
 import { ObfuscatedEmail, ObfuscatedPhone } from '@/components/ObfuscatedContact';
@@ -97,11 +97,16 @@ function renderSummaryWithHighlights(
 
 export default function Home() {
   const [showCoverLetters, setShowCoverLetters] = useState(false);
+  const reduceMotion = useReducedMotion();
   const { openAskJamey } = useAskJameyPanel();
+  const belowFoldMotion = reduceMotion
+    ? undefined
+    : { initial: 'hidden' as const, animate: 'visible' as const };
   const personal = getPersonalInfo();
   const home = getHomeData();
   const images = getImages();
   const branding = getBranding();
+  // TODO(jamey): confirm hosting — QikLog stack pills in profile.json still say Azure Container Apps; demo is qiklog.up.railway.app
   const projects = (home as { projects?: HomeProjectCard[] }).projects ?? [];
   const askJameyCtaLine = (home as { askJameyCtaLine?: string }).askJameyCtaLine;
   const askJameyCta = (home as { askJameyCta?: string }).askJameyCta;
@@ -117,27 +122,16 @@ export default function Home() {
   return (
     <div className="relative flex min-h-[calc(100vh-5rem)] flex-col items-center justify-center py-8 sm:py-12">
       <HomeHeroBackdrop />
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-        className="relative z-0 w-full max-w-3xl text-center"
-      >
+      <div className="relative z-0 w-full max-w-3xl text-center">
         {/* Polaroid photo */}
-        <motion.div
-          variants={itemVariants}
-          className="mb-6 flex justify-center pt-8 sm:mb-8 sm:pt-12"
-        >
+        <div className="mb-6 flex justify-center pt-8 sm:mb-8 sm:pt-12">
           <HomePolaroidPhoto alt={images.photoAlt} />
-        </motion.div>
+        </div>
 
         {personal.greeting?.trim() ? (
-          <motion.p
-            variants={itemVariants}
-            className="mb-4 font-mono text-xs tracking-widest text-[var(--text-muted)] uppercase sm:text-sm"
-          >
+          <p className="mb-4 font-mono text-xs tracking-widest text-[var(--text-muted)] uppercase sm:text-sm">
             {personal.greeting}
-          </motion.p>
+          </p>
         ) : null}
 
         {/* Name with kinetic typography */}
@@ -146,35 +140,29 @@ export default function Home() {
         </h1>
 
         {/* Title + tagline */}
-        <motion.h2
-          variants={itemVariants}
-          className="text-foreground-muted mb-3 text-lg leading-snug tracking-tight sm:mb-4 sm:text-xl md:text-2xl"
-        >
+        <h2 className="text-foreground-muted mb-3 text-lg leading-snug tracking-tight sm:mb-4 sm:text-xl md:text-2xl">
           <span className="text-foreground font-semibold">
             {'headlinePrimary' in personal && typeof personal.headlinePrimary === 'string'
               ? personal.headlinePrimary
-              : 'Principal Systems Architect'}
+              : 'Principal Architect & Engineering Leader'}
           </span>
           <span className="text-foreground-muted font-normal">
             {'headlineSecondary' in personal && typeof personal.headlineSecondary === 'string'
               ? personal.headlineSecondary
               : ' · Wiley Author'}
           </span>
-        </motion.h2>
+        </h2>
         {personal.subtitle ? (
-          <motion.p
-            variants={itemVariants}
-            className="text-foreground-muted mb-6 text-sm sm:mb-8 sm:text-base"
-          >
+          <p className="text-foreground-muted mb-6 text-sm sm:mb-8 sm:text-base">
             {personal.subtitle}
-          </motion.p>
+          </p>
         ) : (
           <div className="mb-6 sm:mb-8" />
         )}
 
         {/* Ask Jamey CTA — directly under tagline */}
         {askJameyCtaLine?.trim() || askJameyCta?.trim() ? (
-          <motion.div variants={itemVariants} className="mb-8 text-center sm:mb-10">
+          <div className="mb-8 text-center sm:mb-10">
             {askJameyCtaLine?.trim() ? (
               <p className="text-foreground-muted mb-2 text-sm sm:text-base">{askJameyCtaLine}</p>
             ) : null}
@@ -187,14 +175,11 @@ export default function Home() {
                 {askJameyCta}
               </button>
             ) : null}
-          </motion.div>
+          </div>
         ) : null}
 
         {/* Summary */}
-        <motion.div
-          variants={itemVariants}
-          className="glass-callout text-foreground-muted mx-auto mb-10 max-w-2xl rounded-[var(--radius-card)] px-6 py-6 text-left text-base leading-[1.65] sm:mb-12 sm:px-8 sm:py-8 sm:text-lg"
-        >
+        <div className="glass-callout text-foreground-muted mx-auto mb-10 max-w-2xl rounded-[var(--radius-card)] px-6 py-6 text-left text-base leading-[1.65] sm:mb-12 sm:px-8 sm:py-8 sm:text-lg">
           {renderSummaryWithHighlights(
             home.summary,
             home.summaryHighlight1,
@@ -202,67 +187,60 @@ export default function Home() {
             home.summaryHighlight3,
             branding.highlight
           )}
-        </motion.div>
+        </div>
 
-        {projects.length > 0 ? (
-          <motion.div variants={itemVariants} className="mx-auto flex w-full justify-center">
-            <CurrentlyBuilding projects={projects} />
-          </motion.div>
-        ) : null}
+        <motion.div variants={containerVariants} {...belowFoldMotion}>
+          {projects.length > 0 ? (
+            <motion.div variants={itemVariants} className="mx-auto flex w-full justify-center">
+              <CurrentlyBuilding projects={projects} />
+            </motion.div>
+          ) : null}
 
-        {/* CTA Buttons */}
-        <motion.div
-          variants={itemVariants}
-          className="mt-12 flex flex-wrap justify-center gap-3 sm:gap-4"
-        >
-          <Link href="/resume" className="btn-resume-outline">
-            <span>View resume</span>
-          </Link>
+          {/* CTA Buttons */}
+          <motion.div
+            variants={itemVariants}
+            className="mt-12 flex flex-wrap justify-center gap-3 sm:gap-4"
+          >
+            <Link href="/resume" className="btn-resume-outline">
+              <span>View resume</span>
+            </Link>
 
-          {/* Cover letters button - positioned correctly */}
-          {showCoverLetters && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              transition={{ duration: 0.3 }}
-              className="inline-block"
-            >
+            {showCoverLetters && (
               <Link
                 href="/cover-letters"
                 className="btn-glass text-foreground px-6 py-2.5 sm:px-8 sm:py-3"
               >
                 Cover Letters
               </Link>
-            </motion.div>
-          )}
-        </motion.div>
+            )}
+          </motion.div>
 
-        {/* Tech stack badges */}
-        <motion.div
-          variants={itemVariants}
-          className="mt-12 flex flex-wrap justify-center gap-2 sm:mt-16 sm:gap-3"
-        >
-          {home.techStack.map((tech) => (
-            <span key={tech} className="tech-stack-pill-v3">
-              {tech}
+          {/* Tech stack badges */}
+          <motion.div
+            variants={itemVariants}
+            className="mt-12 flex flex-wrap justify-center gap-2 sm:mt-16 sm:gap-3"
+          >
+            {home.techStack.map((tech) => (
+              <span key={tech} className="tech-stack-pill-v3">
+                {tech}
+              </span>
+            ))}
+          </motion.div>
+
+          {/* Contact links - obfuscated */}
+          <motion.div
+            variants={itemVariants}
+            className="text-foreground-muted mt-8 flex flex-col items-center gap-3 text-sm sm:mt-12 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-6"
+          >
+            <ObfuscatedEmail className="hover:text-accent flex items-center transition-colors" />
+            <ObfuscatedPhone className="hover:text-accent flex items-center transition-colors" />
+            <span className="flex items-center gap-2">
+              <MapPin className="h-4 w-4" />
+              {personal.location}
             </span>
-          ))}
+          </motion.div>
         </motion.div>
-
-        {/* Contact links - obfuscated */}
-        <motion.div
-          variants={itemVariants}
-          className="text-foreground-muted mt-8 flex flex-col items-center gap-3 text-sm sm:mt-12 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-6"
-        >
-          <ObfuscatedEmail className="hover:text-accent flex items-center transition-colors" />
-          <ObfuscatedPhone className="hover:text-accent flex items-center transition-colors" />
-          <span className="flex items-center gap-2">
-            <MapPin className="h-4 w-4" />
-            {personal.location}
-          </span>
-        </motion.div>
-      </motion.div>
+      </div>
 
       {/* Secret lock icon - always visible, can hide/show cover letters */}
       <SecretLock

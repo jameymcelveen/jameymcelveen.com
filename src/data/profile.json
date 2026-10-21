@@ -3,8 +3,8 @@
     "name": "Jamey McElveen",
     "firstName": "Jamey",
     "lastName": "McElveen",
-    "title": "Principal Systems Architect · Wiley Author",
-    "headlinePrimary": "Principal Systems Architect",
+    "title": "Principal Architect & Engineering Leader · Wiley Author",
+    "headlinePrimary": "Principal Architect & Engineering Leader",
     "headlineSecondary": " · Wiley Author",
     "subtitle": "",
     "location": "Florence, SC",
@@ -29,7 +29,7 @@
     "accentHighlight": "#f56600"
   },
   "home": {
-    "summary": "Principal Systems Architect with 30+ years delivering enterprise .NET platforms across SaaS, FinTech, and Healthcare. Designed and sustained multi-tenant systems serving 50,000+ organizations; led teams of 20+ engineers through complete platform generational shifts. Expert in AI-Augmented Engineering — leveraging LLM-driven tooling (Cursor/Claude) to accelerate legacy modernization and reduce friction on complex refactoring work. Published Wiley author. Currently shipping QikLog, a multi-tenant log-tailing SaaS on Azure Container Apps, and architecting Christ Medical, an open-source mission clinic EMR with offline-capable IndexedDB PWA sync for field clinics.",
+    "summary": "Principal Architect & Engineering Leader with 30+ years delivering enterprise .NET platforms across SaaS, FinTech, and Healthcare. 10+ years managing engineers, including a distributed team of 20+. Designed and sustained multi-tenant systems serving 50,000+ organizations; led teams of 20+ engineers through complete platform generational shifts. Expert in AI-Augmented Engineering — leveraging LLM-driven tooling (Cursor/Claude) to accelerate legacy modernization and reduce friction on complex refactoring work. Published Wiley author. Currently shipping QikLog, a multi-tenant log-tailing SaaS on Azure Container Apps, and architecting Christ Medical, an open-source mission clinic EMR with offline-capable IndexedDB PWA sync for field clinics.",
     "summaryHighlight1": "50,000+ organizations",
     "summaryHighlight2": "AI-Augmented Engineering",
     "summaryHighlight3": "Christ Medical",
@@ -160,10 +160,11 @@
       "www": "www.jameymcelveen.com"
     },
     "metadata": {
-      "title": "Jamey McElveen | Principal Systems Architect · Wiley Author",
-      "description": "Principal Systems Architect with 30+ years delivering enterprise .NET platforms across SaaS, FinTech, and Healthcare. Published Wiley author. Remote · Full-Time or Contract.",
+      "title": "Jamey McElveen | Principal Architect & Engineering Leader · Wiley Author",
+      "description": "Principal architect and engineering leader with 30 years building enterprise .NET and React platforms in SaaS, payments, and healthcare. 10+ years managing engineers. Remote · Full-time or contract-to-hire.",
       "keywords": [
-        "Principal Systems Architect",
+        "Principal Architect",
+        "Engineering Leader",
         "Wiley Author",
         "Enterprise .NET",
         "SaaS",
@@ -175,8 +176,8 @@
       ],
       "author": "Jamey McElveen",
       "openGraph": {
-        "title": "Jamey McElveen | Principal Systems Architect · Wiley Author",
-        "description": "Principal Systems Architect with 30+ years delivering enterprise .NET platforms across SaaS, FinTech, and Healthcare. Christ Medical. Ask Jamey.",
+        "title": "Jamey McElveen | Principal Architect & Engineering Leader · Wiley Author",
+        "description": "Principal architect and engineering leader with 30 years building enterprise .NET and React platforms in SaaS, payments, and healthcare. 10+ years managing engineers. Remote · Full-time or contract-to-hire.",
         "type": "website"
       }
     },

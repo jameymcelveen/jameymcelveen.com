@@ -81,7 +81,7 @@ function AskJameyBubbleHost({
 
   return (
     <div
-      className="group fixed right-6 bottom-6 z-50 flex flex-col items-end gap-1"
+      className="group fixed right-4 bottom-8 z-50 flex flex-col items-end gap-1 sm:right-6 sm:bottom-6"
       style={{ willChange: 'transform' }}
     >
       <span className="pointer-events-none max-w-[7rem] text-right font-mono text-[10px] tracking-wide text-[var(--text-muted)] opacity-0 transition-opacity duration-200 group-hover:opacity-100 sm:opacity-100">
