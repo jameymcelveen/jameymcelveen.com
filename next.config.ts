@@ -26,6 +26,8 @@ const nextConfig: NextConfig = {
       { source: '/book', destination: 'https://a.co/d/0bzHt9QF', permanent: false },
       { source: '/bobiverse', destination: '/bobiverse/index.html', permanent: false },
       { source: '/belize-arch', destination: '/belize-arch/index.html', permanent: false },
+      { source: '/boxscan', destination: 'https://github.com/jameymcelveen/boxscan', permanent: false },
+      { source: '/cardscan', destination: 'https://github.com/jameymcelveen/boxscan', permanent: false },
     ];
 
     if (domain.www && domain.canonical && domain.www !== domain.canonical) {
