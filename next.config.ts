@@ -26,6 +26,7 @@ const nextConfig: NextConfig = {
       { source: '/book', destination: 'https://a.co/d/0bzHt9QF', permanent: false },
       { source: '/bobiverse', destination: '/bobiverse/index.html', permanent: false },
       { source: '/belize-arch', destination: '/belize-arch/index.html', permanent: false },
+      { source: '/3941-sardis-hwy', destination: '/3931-sardis-hwy', permanent: true },
       { source: '/3931-sardis-hwy', destination: '/3931-sardis-hwy/index.html', permanent: false },
       { source: '/boxscan', destination: 'https://github.com/jameymcelveen/boxscan', permanent: false },
       { source: '/cardscan', destination: 'https://github.com/jameymcelveen/boxscan', permanent: false },
