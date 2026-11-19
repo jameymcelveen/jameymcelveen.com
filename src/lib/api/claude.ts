@@ -48,6 +48,7 @@ const CACHED_SYSTEM: Anthropic.Messages.TextBlockParam[] = [
 export async function* streamChat(
   message: string,
   signal?: AbortSignal,
+  history: { role: 'user' | 'assistant'; content: string }[] = [],
 ): AsyncGenerator<
   | { type: 'delta'; text: string }
   | { type: 'done'; promptTokens: number; outputTokens: number; usage: AnthropicUsage }
@@ -69,7 +70,7 @@ export async function* streamChat(
         max_tokens: MAX_OUTPUT_TOKENS,
         temperature: 0.65,
         system: CACHED_SYSTEM,
-        messages: [{ role: 'user', content: message }],
+        messages: [...history, { role: 'user', content: message }],
       },
       { signal },
     );

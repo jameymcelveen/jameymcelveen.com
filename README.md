@@ -193,6 +193,9 @@ Use **pnpm** for installs (`pnpm install`). The repo tracks **`pnpm-lock.yaml`**
 | `ANTHROPIC_API_KEY` | Yes (for chat) | Anthropic API key (Bill / Ask Jamey) |
 | `ANTHROPIC_MODEL` | No | Model override (default: `claude-haiku-4-5`; see `.env.example`) |
 | `STATS_API_KEY` | No | Protects `GET /api/stats` and powers `/stats` page |
+| `RESEND_API_KEY` | For lead capture | Resend API key; Ask Jamey emails visitor contact details through it |
+| `LEAD_FROM_EMAIL` | For lead capture | Sender on a domain verified in Resend, e.g. `Ask Jamey <askjamey@jameymcelveen.com>` |
+| `LEAD_TO_EMAIL` | No | Where leads go (default `jamey@mcelveen.us`) |
 
 ### URLs
 
