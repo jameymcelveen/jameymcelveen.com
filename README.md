@@ -132,7 +132,8 @@ pnpm format:check # Check code formatting
 │   │       ├── career-validator.ts
 │   │       ├── rate-limiter.ts
 │   │       ├── analytics-store.ts
-│   │       └── system-prompt.md
+│   │       ├── system-prompt.md   # Ask Jamey persona, rules, deep dives
+│   │       └── knowledge/         # background.md + interview-qa.md (source of truth)
 │   └── components/            # React components
 ├── public/                    # Static assets
 ├── tools/                     # AI cover letter generation tools

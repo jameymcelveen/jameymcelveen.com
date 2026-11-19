@@ -7,8 +7,8 @@ const nextConfig: NextConfig = {
   serverExternalPackages: ['pg'],
 
   outputFileTracingIncludes: {
-    '/api/chat': ['./src/lib/api/system-prompt.md'],
-    '/api/health': ['./src/lib/api/system-prompt.md'],
+    '/api/chat': ['./src/lib/api/system-prompt.md', './src/lib/api/knowledge/*.md'],
+    '/api/health': ['./src/lib/api/system-prompt.md', './src/lib/api/knowledge/*.md'],
     '/resume': ['./src/data/resume.yaml'],
     '/resume/print': ['./src/data/resume.yaml'],
     /** Real files only — never trace pnpm’s symlinked node_modules/geoip-lite/data. */
