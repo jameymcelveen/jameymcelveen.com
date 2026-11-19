@@ -1,12 +1,14 @@
 'use client';
 
 import Image from 'next/image';
-import { type ReactNode, isValidElement, useCallback, useEffect, useMemo, useRef, useState, type UIEvent } from 'react';
+import { Fragment, type ReactNode, isValidElement, useCallback, useEffect, useMemo, useRef, useState, type UIEvent } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { ArrowUp, X } from 'lucide-react';
 import { ClaudeThinkingIndicator } from '@/components/ClaudeThinkingIndicator';
 import { readAnalyticsIds, postInsightEvent } from '@/lib/site-analytics';
+import { AskJameyLeadCard, type LeadFormData } from '@/components/AskJameyLeadCard';
+import { hasOffer, stripOffer } from '@/lib/ask-jamey-offer';
 
 const ASK_JAMEY_AVATAR = '/images/ask-jamey.webp';
 
@@ -84,6 +86,8 @@ export function AskJameyChatPanel({ onClose }: { onClose: () => void }) {
   ]);
   const [input, setInput] = useState('');
   const [busy, setBusy] = useState(false);
+  const [leadStatus, setLeadStatus] = useState<'idle' | 'sent' | 'dismissed'>('idle');
+  const linesRef = useRef<ChatLine[]>([]);
   const listRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const endRef = useRef<HTMLDivElement>(null);
@@ -102,6 +106,16 @@ export function AskJameyChatPanel({ onClose }: { onClose: () => void }) {
     const nearBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 50;
     userScrolledUpRef.current = !nearBottom;
   }, []);
+
+  // The card appears right after the latest reply that carried the offer marker, until it is sent or dismissed.
+  const offerLineId = useMemo(() => {
+    if (leadStatus !== 'idle') return null;
+    for (let i = lines.length - 1; i >= 0; i--) {
+      const l = lines[i];
+      if (l.role === 'assistant' && !l.streaming && hasOffer(l.text)) return l.id;
+    }
+    return null;
+  }, [lines, leadStatus]);
 
   const userMessageCount = useMemo(() => lines.filter((l) => l.role === 'user').length, [lines]);
   const hasAssistantReply = useMemo(
@@ -151,6 +165,10 @@ export function AskJameyChatPanel({ onClose }: { onClose: () => void }) {
     wasStreamingRef.current = streaming;
   }, [lines]);
 
+  useEffect(() => {
+    linesRef.current = lines;
+  }, [lines]);
+
   const send = useCallback(
     async (raw: string) => {
       const message = raw.trim();
@@ -168,6 +186,12 @@ export function AskJameyChatPanel({ onClose }: { onClose: () => void }) {
         chat_duration_sec: chatDurationSec,
       });
 
+      // Last few turns, so the model remembers what it already said. The welcome line is not history.
+      const history = linesRef.current
+        .filter((l) => !l.isWelcome && !l.streaming && l.text.trim())
+        .slice(-8)
+        .map((l) => ({ role: l.role, content: l.text }));
+
       setBusy(true);
       const userLine: ChatLine = { id: crypto.randomUUID(), role: 'user', text: message };
       setLines((prev) => [...prev, userLine]);
@@ -180,6 +204,7 @@ export function AskJameyChatPanel({ onClose }: { onClose: () => void }) {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             message,
+            history,
             ...(ids.visitorKey ? { visitorKey: ids.visitorKey } : {}),
             ...(ids.sessionId ? { sessionId: ids.sessionId } : {}),
           }),
@@ -284,7 +309,42 @@ export function AskJameyChatPanel({ onClose }: { onClose: () => void }) {
     [busy]
   );
 
+  const submitLead = useCallback(async (form: LeadFormData): Promise<string | null> => {
+    const transcript = linesRef.current
+      .filter((l) => !l.isWelcome && !l.streaming && l.text.trim())
+      .slice(-24)
+      .map((l) => ({ role: l.role, text: stripOffer(l.text) }));
+    try {
+      const res = await fetch('/api/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...form, transcript }),
+      });
+      if (!res.ok) {
+        const data: unknown = await res.json().catch(() => ({}));
+        return typeof data === 'object' && data !== null && 'error' in data
+          ? String((data as { error: unknown }).error)
+          : 'I could not send that. Please email jamey@mcelveen.us.';
+      }
+    } catch {
+      return 'Network error. Please try again, or email jamey@mcelveen.us.';
+    }
+    const first = form.name.trim().split(/\s+/)[0];
+    setLeadStatus('sent');
+    setLines((prev) => [
+      ...prev,
+      {
+        id: crypto.randomUUID(),
+        role: 'assistant',
+        text: `Thanks, ${first}. I sent that to Jamey, and he'll follow up with you.`,
+        streaming: false,
+      },
+    ]);
+    return null;
+  }, []);
+
   const resetChat = useCallback(() => {
+    setLeadStatus('idle');
     streamingScrollDoneForId.current = null;
     wasStreamingRef.current = false;
     userScrolledUpRef.current = false;
@@ -414,9 +474,11 @@ export function AskJameyChatPanel({ onClose }: { onClose: () => void }) {
         className="ask-jamey-scroll min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-4"
       >
         <ul className="flex flex-col gap-4">
-          {lines.map((line) => (
+          {lines.map((line) => {
+            const shown = line.role === 'assistant' ? stripOffer(line.text, line.streaming) : line.text;
+            return (
+            <Fragment key={line.id}>
             <li
-              key={line.id}
               className={`flex max-w-full ${line.role === 'user' ? 'justify-end' : 'justify-start'}`}
             >
               {line.role === 'user' ? (
@@ -441,7 +503,7 @@ export function AskJameyChatPanel({ onClose }: { onClose: () => void }) {
                   }}
                   className="ask-jamey-msg-assistant max-w-[90%] px-[18px] py-[14px] text-[0.95rem] leading-[1.65]"
                 >
-                  {line.streamChunks && line.streamChunks.length > 0 ? (
+                  {line.streamChunks && line.streamChunks.length > 0 && !line.text.includes('[[') ? (
                     <>
                       {line.streamChunks.map((chunk, i) => (
                         <span key={i} className="streaming-text text-[var(--ask-jamey-fg)]">
@@ -450,10 +512,10 @@ export function AskJameyChatPanel({ onClose }: { onClose: () => void }) {
                       ))}
                       <span className="streaming-cursor" aria-hidden />
                     </>
-                  ) : line.text ? (
+                  ) : shown ? (
                     <>
                       <span className="streaming-text whitespace-pre-wrap text-[var(--ask-jamey-fg)]">
-                        {line.text}
+                        {shown}
                       </span>
                       <span className="streaming-cursor" aria-hidden />
                     </>
@@ -464,12 +526,17 @@ export function AskJameyChatPanel({ onClose }: { onClose: () => void }) {
               ) : (
                 <div className="ask-jamey-msg-assistant ai-md prose-chat max-w-[90%] px-[18px] py-[14px] text-[0.95rem] leading-[1.65]">
                   <ReactMarkdown remarkPlugins={[remarkGfm]} components={mdComponents}>
-                    {line.text}
+                    {shown}
                   </ReactMarkdown>
                 </div>
               )}
             </li>
-          ))}
+            {line.id === offerLineId ? (
+              <AskJameyLeadCard onSubmit={submitLead} onDismiss={() => setLeadStatus('dismissed')} />
+            ) : null}
+            </Fragment>
+            );
+          })}
         </ul>
 
         {userMessageCount === 0 ? (

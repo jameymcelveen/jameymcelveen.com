@@ -3,11 +3,13 @@ import { validateCareerQuestion } from '@/lib/api/career-validator';
 import { checkRateLimit, resolveClientIp } from '@/lib/api/rate-limiter';
 import { estimateCostUsd, resolveAnthropicModel, streamChat } from '@/lib/api/claude';
 import { logChatTurn } from '@/lib/api/analytics-store';
+import { sanitizeHistory } from '@/lib/api/chat-history';
 
 interface ChatBody {
   message?: string;
   visitorKey?: string;
   sessionId?: string;
+  history?: unknown;
 }
 
 export async function POST(request: Request) {
@@ -46,6 +48,11 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: validationError }, { status: 400, headers: rateLimitHeaders });
   }
 
+  // Recent turns let the model remember what it already said (for example, that it already offered
+  // to pass details to Jamey). Every earlier visitor message must pass the same checks as a new one.
+  let history = sanitizeHistory(body.history);
+  if (history.some((t) => t.role === 'user' && validateCareerQuestion(t.content))) history = [];
+
   const encoder = new TextEncoder();
   const stream = new ReadableStream({
     async start(controller) {
@@ -56,7 +63,7 @@ export async function POST(request: Request) {
       let usageForCost: Parameters<typeof estimateCostUsd>[0] | null = null;
 
       try {
-        for await (const event of streamChat(body.message!, request.signal)) {
+        for await (const event of streamChat(body.message!, request.signal, history)) {
           switch (event.type) {
             case 'delta': {
               fullText += event.text;
