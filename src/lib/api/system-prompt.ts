@@ -3,30 +3,40 @@ import { join } from 'path';
 
 let systemPromptLoadLogged = false;
 
-function loadPrompt(): string {
-  const cwd = process.cwd();
-  const primary = join(cwd, 'src', 'lib', 'api', 'system-prompt.md');
-  const fallbacks = [
-    primary,
-    join(__dirname, 'system-prompt.md'),
-    join(__dirname, '..', '..', '..', 'src', 'lib', 'api', 'system-prompt.md'),
-  ];
+const PROMPT_PARTS = ['system-prompt.md', 'knowledge/background.md', 'knowledge/interview-qa.md'] as const;
 
-  for (const p of fallbacks) {
+function apiDirCandidates(): string[] {
+  const dirs = [join(process.cwd(), 'src', 'lib', 'api')];
+  try {
+    dirs.push(__dirname);
+    dirs.push(join(__dirname, '..', '..', '..', 'src', 'lib', 'api'));
+  } catch {
+    // ESM tests have no __dirname
+  }
+  return dirs;
+}
+
+function readPart(relativePath: string): string {
+  const searched: string[] = [];
+  for (const dir of apiDirCandidates()) {
+    const p = join(dir, relativePath);
+    searched.push(p);
     try {
-      const text = readFileSync(p, 'utf-8');
-      if (!systemPromptLoadLogged && process.env.NODE_ENV !== 'test') {
-        systemPromptLoadLogged = true;
-        const head = text.slice(0, 100).replace(/\s+/g, ' ');
-        console.log(`[system-prompt] loaded from ${p} first100=${head}`);
-      }
-      return text;
+      return readFileSync(p, 'utf-8');
     } catch {
-      // try next path
+      // try next
     }
   }
+  throw new Error(`Missing system prompt file. Searched: ${searched.join(', ')}`);
+}
 
-  throw new Error(`Missing system prompt file. Searched: ${fallbacks.join(', ')}`);
+function loadPrompt(): string {
+  const text = PROMPT_PARTS.map((part) => readPart(part).trimEnd()).join('\n\n');
+  if (!systemPromptLoadLogged && process.env.NODE_ENV !== 'test' && !process.env.NODE_TEST_CONTEXT) {
+    systemPromptLoadLogged = true;
+    console.log(`[system-prompt] loaded ${text.length} chars`);
+  }
+  return text;
 }
 
 export const SYSTEM_PROMPT: string = loadPrompt();
