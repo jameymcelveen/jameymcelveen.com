@@ -6,6 +6,7 @@ import {
   resolveGeoForRequest,
   trunc,
 } from '@/lib/api/analytics-insight-ingest';
+import { cleanCampaign } from '@/lib/campaign';
 import { getAnalyticsPool, insertAnalyticsEvent, type InsightEventType } from '@/lib/api/analytics-events-db';
 
 interface EventBody {
@@ -17,6 +18,7 @@ interface EventBody {
   device?: string | null;
   chat_duration_sec?: number | null;
   from_page?: string | null;
+  campaign?: string | null;
 }
 
 export async function POST(request: Request) {
@@ -52,6 +54,9 @@ export async function POST(request: Request) {
 
   const geo = resolveGeoForRequest(request);
   const refHost = referrerHostOnly(body.referrer ?? null);
+  // A tagged link is more specific than where the click came from, so it takes the referrer slot
+  // and shows up as its own row under Traffic Sources (e.g. "tag:linkedin/andrew-curana").
+  const campaign = body.event === 'page_view' ? cleanCampaign(body.campaign) : null;
   const device =
     body.device === 'mobile' || body.device === 'desktop' ? body.device : trunc(body.device, 20);
 
@@ -68,7 +73,7 @@ export async function POST(request: Request) {
       chipLabel: body.event === 'chip_click' ? trunc(body.chip_label ?? null, 255) : null,
       country: geo.country,
       region: geo.region,
-      referrer: refHost,
+      referrer: campaign ? `tag:${campaign}` : refHost,
       device,
       chatDurationSec: chatDur,
       fromPage: trunc(body.from_page ?? null, 255),

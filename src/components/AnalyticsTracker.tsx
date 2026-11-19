@@ -10,6 +10,7 @@ import {
   postInsightEvent,
 } from '@/lib/site-analytics';
 import { isObscuredLabPath } from '@/lib/fit-filter/path';
+import { campaignFromSearch } from '@/lib/campaign';
 
 async function postJson(url: string, body: unknown) {
   await fetch(url, {
@@ -27,7 +28,7 @@ export function AnalyticsTracker() {
 
   useEffect(() => {
     const base = analyticsApiBase();
-    if (!base || typeof window === 'undefined') return;
+    if (typeof window === 'undefined') return;
 
     if (isObscuredLabPath(pathname)) return;
 
@@ -83,6 +84,8 @@ export function AnalyticsTracker() {
         page: path,
         referrer: document.referrer || null,
         device: window.innerWidth < 768 ? 'mobile' : 'desktop',
+        // Only the landing view carries the tag, so one visit is one tagged row.
+        campaign: prev === null ? campaignFromSearch(window.location.search) : null,
       });
     })();
 
@@ -93,7 +96,7 @@ export function AnalyticsTracker() {
 
   useEffect(() => {
     const base = analyticsApiBase();
-    if (!base || typeof window === 'undefined') return;
+    if (typeof window === 'undefined') return;
 
     const onLeave = () => {
       const sid = sessionStorage.getItem(ANALYTICS_SESSION_KEY);

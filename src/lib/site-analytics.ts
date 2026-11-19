@@ -1,7 +1,10 @@
 export const ANALYTICS_VISITOR_KEY = 'jm_analytics_vid';
 export const ANALYTICS_SESSION_KEY = 'jm_analytics_sid';
 
-/** Same-origin `/api/*` (served by Next.js API routes). */
+/**
+ * Same-origin `/api/*` (served by Next.js API routes). The empty string is intentional.
+ * Never guard on `!analyticsApiBase()`: '' is falsy, which silently disabled all tracking.
+ */
 export function analyticsApiBase(): string {
   return '';
 }
@@ -51,12 +54,14 @@ export type InsightClientEvent = {
   device?: 'mobile' | 'desktop' | null;
   chat_duration_sec?: number | null;
   from_page?: string | null;
+  /** Tag from a tagged link (utm_* or ref), e.g. "linkedin/andrew-curana". Landing page_view only. */
+  campaign?: string | null;
 };
 
 /** Public insights pipeline — no cookies; server derives country from IP. */
 export function postInsightEvent(payload: InsightClientEvent): void {
   const base = analyticsApiBase();
-  if (!base || typeof window === 'undefined') return;
+  if (typeof window === 'undefined') return;
   const body = JSON.stringify(payload);
   void fetch(`${base}/api/analytics/event`, {
     method: 'POST',
