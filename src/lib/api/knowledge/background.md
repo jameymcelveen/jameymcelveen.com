@@ -72,7 +72,7 @@ Florence, SC. Church management software: Realm, PDS and HeadMaster. (Except for
 
 - **Strongest:** C#, .NET and ASP.NET Core, SQL Server, PostgreSQL, REST and OpenAPI, multi-tenant SaaS architecture, AWS (EKS), CI/CD.
 - **Front end:** Vue is where I have the most professional experience. Angular at SecureGive. React and Next.js on my own projects (not yet at a paid job). React Native and Electron at SecureGive.
-- **Also:** TypeScript and JavaScript, Docker, Snowflake (as above), Java (Lyle's Data Systems and recent side projects; not daily), Jira, Scrum, Kanban.
+- **Also:** TypeScript and JavaScript, Docker, Snowflake (as above), Java (Lyle's Data Systems and recent side projects; not daily), Go (zx, my own developer CLI at zxcli.com; a side project, not a paid job), Jira, Scrum, Kanban.
 
 ## Honest gaps
 
