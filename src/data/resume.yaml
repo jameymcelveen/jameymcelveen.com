@@ -8,23 +8,22 @@ contact:
   availability: Remote (US) | Full-Time, Contract, or Contract-to-Hire
 
 summary: >
-  Principal Architect & Engineering Leader with 30+ years delivering enterprise .NET
-  platforms across SaaS, FinTech, and Healthcare. Designed and sustained
-  multi-tenant systems serving 50,000+ organizations; led teams of 20+
-  engineers through complete platform generational shifts. Expert in
-  AI-Augmented Engineering: runs LLM-driven tooling (Cursor/Claude)
-  daily to accelerate legacy modernization and reduce friction on complex
-  refactoring work. Published Wiley author. Currently architecting an
-  open-source mission clinic EMR (Christ Medical) with offline-first sync
-  for field clinics in low-connectivity environments.
+  Principal Architect & Engineering Leader with 30+ years delivering .NET
+  platforms for organizations that care for people, in faith and in health.
+  Designed and sustained multi-tenant systems serving 50,000+ organizations
+  and led a distributed team of 20+ engineers. Built HIPAA clinical systems
+  with Epic integrations and a public payments API on AWS and Kubernetes.
+  Builds with fleets of AI agents daily under a human-gated process.
+  Published Wiley author. Currently leading Christ Medical, an open-source
+  mission clinic EMR with offline-first sync for low-connectivity field clinics.
 
 summary_highlights:
   - '50,000+ organizations'
-  - 'AI-Augmented Engineering'
+  - 'fleets of AI agents'
   - 'Christ Medical'
 
 competencies:
-  languages: [C#, .NET 9/Core, T-SQL, TypeScript, C++]
+  languages: [C#, .NET 9/Core, T-SQL, TypeScript, Go, Java, Node.js, C++]
   apis: [REST, WCF/SOAP, WS-Security, OpenAPI]
   architecture: [N-Tier, MDD, Strangler, Shard Routing, Offline-First, SOA, Event-Driven]
   data: [MS SQL, PostgreSQL, Snowflake, Oracle, Redis]
@@ -80,10 +79,9 @@ experience:
         apidocs.securegive.com. Built an Ocelot API gateway for edge protection.
       - Designed anti-fraud heuristics to detect and shut down credit-card
         validation attacks (carding), protecting platform integrity and donor funds.
-      - Engineered idempotent ETL pipelines for PostgreSQL to Snowflake migrations;
-        pipelines restart mid-stream without duplicating financial records.
-      - Leveraged Snowflake Time Travel for financial audit trails and
-        year-over-year trend reporting without loading production transactional DB.
+      - Collaborated on the PostgreSQL to Snowflake ETL and data model (raw copy,
+        denormalized layer, API read model) behind the public API, and built the
+        .NET Core API that served from it.
       - Created, maintained, and documented Angular components using Storybook
         across the full frontend component library.
       - Applied FinTech-grade security including immutable audit trails,
@@ -103,8 +101,8 @@ experience:
       - Mentored developers and interns on Git workflows, branching strategy,
         and pull request culture.
       - Introduced ELK stack with a Golden Record PHI scrubbing service, replacing
-        real names and SSNs with synthetic identities in non-production environments.
-        Zero BAA exposure risk.
+        real names and SSNs with synthetic identities in non-production environments,
+        keeping real patient data out of non-production systems.
       - Enforced TLS 1.2+ across all WCF and REST endpoints.
       - Managed data integration bridges between .NET applications and Oracle
         Cloud / Epic EMR platforms serving thousands of clinical staff.
@@ -118,12 +116,13 @@ experience:
     highlights:
       - >-
         Directed a distributed R&D team of 20+ engineers: hiring, coaching,
-        performance reviews, and delivery planning; founded the frontend
-        platform team and shared component library.
+        performance reviews, and delivery planning.
+      - Founded Cascade, the frontend platform team, and built AppKit, the shared
+        Vue framework and component library every product team built on.
       - Strategic architectural lead for flagship SaaS suite serving 50,000+
-        organizations worldwide; directed distributed R&D team of 20+ engineers.
-      - Scrum Master for Realm for several years; served as Product Owner during
-        management chapter, running backlog grooming, story points, and standups.
+        organizations worldwide.
+      - Helped launch Scrum at ACS as the company's first Scrum Master; later
+        Product Owner of Cascade, running backlog grooming, story points, and standups.
       - Pioneered Model-Driven Development (MDD) for large-scale C# codebases.
       - Used actor pattern for async debit card hardware feedback coordination
         in payment processing flows.
@@ -180,8 +179,7 @@ community:
     highlights:
       - Mentors peers in AI-augmented engineering workflows (Cursor, Claude,
         prompt engineering, and clean-room PII protocols for regulated environments).
-      - Extensive self-directed study applied directly to active production
-        projects, not theoretical.
+      - Applies self-directed study directly to active production projects.
 
 education:
   degree: B.S. Computer Engineering
@@ -209,6 +207,16 @@ active_projects:
     url: github.com/jameymcelveen/qiklog
     stack: [Fastify, Node.js, TypeScript, Drizzle ORM, PostgreSQL, Redis, SSE]
     description: Multi-tenant log-tailing SaaS with real-time SSE streaming.
+
+  - name: zx
+    url: zxcli.com
+    stack: [Go]
+    description: Cross-platform developer CLI; one binary, zx doctor installs what a project needs.
+
+  - name: jsctrls
+    url: jsctrls.com
+    stack: [React, TypeScript, Java 21, Spring Boot]
+    description: Open-source data-aware React controls inspired by Delphi.
 
   - name: jameymcelveen.com
     url: jameymcelveen.com

@@ -29,9 +29,9 @@
     "accentHighlight": "#f56600"
   },
   "home": {
-    "summary": "Principal Architect & Engineering Leader with 30+ years delivering enterprise .NET platforms across SaaS, FinTech, and Healthcare. 10+ years managing engineers, including a distributed team of 20+. Designed and sustained multi-tenant systems serving 50,000+ organizations; led teams of 20+ engineers through complete platform generational shifts. Expert in AI-Augmented Engineering — leveraging LLM-driven tooling (Cursor/Claude) to accelerate legacy modernization and reduce friction on complex refactoring work. Published Wiley author. Currently shipping QikLog, a multi-tenant log-tailing SaaS on Azure Container Apps, and architecting Christ Medical, an open-source mission clinic EMR with offline-capable IndexedDB PWA sync for field clinics.",
+    "summary": "Principal architect with 30 years of building software for organizations that care for people, in faith and in health. I led a distributed team of 20+ engineers on a multi-tenant platform serving 50,000+ organizations, built HIPAA clinical systems with Epic integrations, and built a public payments API on AWS and Kubernetes. Today I build with fleets of AI agents under a human-gated process. Published Wiley author. Currently leading Christ Medical, an open-source mission clinic EMR with offline sync for field clinics, and building QikLog, a real-time log-tailing SaaS.",
     "summaryHighlight1": "50,000+ organizations",
-    "summaryHighlight2": "AI-Augmented Engineering",
+    "summaryHighlight2": "fleets of AI agents",
     "summaryHighlight3": "Christ Medical",
     "techStack": [
       ".NET 9",
@@ -54,7 +54,7 @@
         "id": "christ-medical",
         "title": "Christ Medical Mission System",
         "shortTitle": "Christ Medical",
-        "description": "Open-source EMR for field clinics — offline-capable via IndexedDB PWA sync.",
+        "description": "Open-source EMR for field clinics, offline-capable via IndexedDB PWA sync.",
         "stack": [
           ".NET 9 (Dapper + Npgsql)",
           "Next.js 15 PWA",
@@ -82,6 +82,33 @@
         ],
         "href": "https://qiklog.up.railway.app/tail/demo",
         "icon": "terminal"
+      },
+      {
+        "id": "zx",
+        "title": "zx",
+        "shortTitle": "zx",
+        "description": "Cross-platform developer CLI in Go. One small binary; zx doctor finds and installs what a project needs.",
+        "stack": ["Go", "CLI", "macOS", "Windows", "Linux"],
+        "href": "https://zxcli.com",
+        "icon": "terminal"
+      },
+      {
+        "id": "jsctrls",
+        "title": "jsctrls",
+        "shortTitle": "jsctrls",
+        "description": "Open-source, data-aware React controls inspired by Delphi, with a Java demo API.",
+        "stack": ["React", "TypeScript", "Java 21", "Spring Boot"],
+        "href": "https://jsctrls.com",
+        "icon": "blocks"
+      },
+      {
+        "id": "watts",
+        "title": "WATTS",
+        "shortTitle": "WATTS",
+        "description": "Daily wiring puzzle game: connect every bulb using exactly the minimum wire. Shipped with AI in fall 2026.",
+        "stack": ["Web", "Daily puzzle", "AI-assisted"],
+        "href": "https://wattsgame.com",
+        "icon": "zap"
       },
       {
         "id": "jameymcelveen-com",
@@ -182,8 +209,14 @@
       }
     },
     "navigation": [
-      { "href": "/", "label": "Home" },
-      { "href": "/resume", "label": "Work" }
+      {
+        "href": "/",
+        "label": "Home"
+      },
+      {
+        "href": "/resume",
+        "label": "Work"
+      }
     ],
     "footer": {
       "tagline": "Built with Next.js · Deployed on Vercel",

@@ -1,10 +1,12 @@
-import { ArrowUpRight, Hospital, Shield, Terminal } from 'lucide-react';
+import { ArrowUpRight, Blocks, Hospital, Shield, Terminal, Zap } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
 const ICONS: Record<string, LucideIcon> = {
   cross: Hospital,
   terminal: Terminal,
   shield: Shield,
+  blocks: Blocks,
+  zap: Zap,
 };
 
 export type HomeProjectCard = {
@@ -57,7 +59,7 @@ export function CurrentlyBuilding({ projects }: { projects: HomeProjectCard[] })
                       <h3 className="text-foreground group-hover:text-accent mb-1 text-lg font-semibold tracking-tight transition-colors">
                         {p.title}
                       </h3>
-                      <p className="text-[var(--text-secondary)] text-sm leading-[1.65] sm:text-base">
+                      <p className="text-sm leading-[1.65] text-[var(--text-secondary)] sm:text-base">
                         {p.description}
                       </p>
                     </div>
@@ -96,7 +98,9 @@ export function CurrentlyBuilding({ projects }: { projects: HomeProjectCard[] })
                     <h3 className="text-foreground group-hover:text-accent mb-1 text-base font-semibold tracking-tight transition-colors">
                       {p.title}
                     </h3>
-                    <p className="text-[var(--text-secondary)] text-sm leading-[1.65]">{p.description}</p>
+                    <p className="text-sm leading-[1.65] text-[var(--text-secondary)]">
+                      {p.description}
+                    </p>
                   </div>
                 </div>
                 <div className="mb-3 flex flex-wrap gap-2">
