@@ -1,4 +1,4 @@
-import { ArrowUpRight, Blocks, Hospital, Shield, Terminal, Zap } from 'lucide-react';
+import { ArrowUpRight, Blocks, Gamepad2, Hospital, Shield, Terminal, Zap } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
 const ICONS: Record<string, LucideIcon> = {
@@ -7,6 +7,7 @@ const ICONS: Record<string, LucideIcon> = {
   shield: Shield,
   blocks: Blocks,
   zap: Zap,
+  game: Gamepad2,
 };
 
 export type HomeProjectCard = {

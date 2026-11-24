@@ -111,6 +111,15 @@
         "icon": "zap"
       },
       {
+        "id": "floppy-fish",
+        "title": "Floppy Fish",
+        "shortTitle": "Floppy Fish",
+        "description": "Tap-to-swim underwater game built for my son as a learn-to-code project, with a skin system you can edit.",
+        "stack": ["HTML5 Canvas", "JavaScript", "No build step"],
+        "href": "/floppy-fish",
+        "icon": "game"
+      },
+      {
         "id": "jameymcelveen-com",
         "title": "jameymcelveen.com",
         "shortTitle": "jameymcelveen.com",
