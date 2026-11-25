@@ -63,7 +63,13 @@ function AskJameyBubbleHost({
     return () => window.removeEventListener('keydown', onKey);
   }, [open, onClose]);
 
-  if (pathname === '/ai' || isObscuredLabPath(pathname) || isResumePrintPath(pathname)) return null;
+  if (
+    pathname === '/' ||
+    pathname === '/ai' ||
+    isObscuredLabPath(pathname) ||
+    isResumePrintPath(pathname)
+  )
+    return null;
 
   if (open) {
     return (

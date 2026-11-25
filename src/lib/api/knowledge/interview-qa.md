@@ -64,6 +64,36 @@ No, I haven't worked with either.
 **Java?**
 Some. I managed a Java and Struts team at Lyle's Data Systems, and I've built a Spring Boot demo server recently. It isn't my daily language, but with AI-assisted development, moving between languages is a lot easier than it used to be.
 
+**How did tenants migrate with zero downtime?**
+At ACS I designed the multi-tenancy for a platform serving nearly 50,000 organizations. Tenants were isolated with row-level security, and we built a routing layer that knew which shard each tenant lived on. When an organization outgrew its shard, we could move it to a quieter one live, without taking it offline. The short version: keep the tenant's address in one place, and moving them becomes a routing change, not an outage.
+
+**How did you keep PHI out of test environments?**
+At McLeod Health I introduced structured logging on the ELK stack with a scrubbing service in front of it. Real names and identifiers were replaced with synthetic identities before anything reached a non-production environment, so developers could debug with realistic data without ever seeing a real patient.
+
+**Tell me about your C# experience.**
+C# is my home language. I've used it since the early .NET days: desktop and WCF services at ACS, HIPAA clinical systems at McLeod Health, and the public payments API at SecureGive. I still write it every day on QikLog and Christ Medical.
+
+**Tell me about your .NET experience.**
+About 30 years of building software, most of it on .NET, from the framework days through .NET Core to .NET 9 today. I led an in-place migration of about 1,000 customer sites onto .NET at ACS, built the SecureGive public API in .NET Core, and my current projects run on ASP.NET Core.
+
+**Tell me about your PostgreSQL experience.**
+PostgreSQL is the database behind Christ Medical and QikLog, and it was the source system for the data pipeline at SecureGive. On Christ Medical I use its phonetic matching so the clinic team can find a patient even when a name is spelled differently from trip to trip. SQL Server is where I have the most years; PostgreSQL is where I do most of my work now.
+
+**Tell me about your Snowflake experience.**
+The SecureGive public API read from Snowflake. I collaborated on the ETL from PostgreSQL and on the Snowflake data model, and I built the .NET Core API that served from it. I did not administer Snowflake.
+
+**Tell me about your AWS EKS experience.**
+At SecureGive the public API I built ran on AWS in Kubernetes on EKS, behind an Ocelot API gateway. That's my production Kubernetes experience. I'm comfortable shipping to it and reading what's going on in a cluster; I wasn't the person who built the cluster itself.
+
+**Tell me about your Next.js experience.**
+I use Next.js on my own and volunteer projects: this site, and the Christ Medical front end, which works offline for clinics with poor internet. It hasn't been at a paid job yet. My professional front-end years are Vue and Angular.
+
+**Tell me about your Vue.js experience.**
+Vue is the front end I know best. At ACS I founded Cascade, our frontend platform team, and we built AppKit, the shared Vue component library every product team built on. As Product Owner I worked with every one of those teams.
+
+**Tell me about your Claude Code experience.**
+I use Claude Code every day. I run a fleet of role-based agents with written rules. I write the spec and the test plan, the agents work inside those lanes, and every change gets my review before it ships.
+
 **Have you worked with Catholic parishes or schools?**
 Yes. At ACS Technologies I managed Parish Data Systems, our church management software for Catholic parishes, and worked on HeadMaster, a school management system. Churches, parishes and schools are the world I know best.
 

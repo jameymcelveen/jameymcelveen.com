@@ -10,7 +10,7 @@ import { isResumePrintPath } from '@/lib/is-resume-print';
  */
 export function Background() {
   const pathname = usePathname();
-  if (isObscuredLabPath(pathname) || isResumePrintPath(pathname)) return null;
+  if (pathname === '/' || isObscuredLabPath(pathname) || isResumePrintPath(pathname)) return null;
 
   return (
     <div className="site-bg" aria-hidden>

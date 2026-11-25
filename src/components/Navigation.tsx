@@ -12,7 +12,12 @@ export function Navigation() {
   const { openAskJamey } = useAskJameyPanel();
   const showDashboard = useInsightsAvailable();
 
-  if (pathname === '/ai' || isObscuredLabPath(pathname) || isResumePrintPath(pathname)) {
+  if (
+    pathname === '/' ||
+    pathname === '/ai' ||
+    isObscuredLabPath(pathname) ||
+    isResumePrintPath(pathname)
+  ) {
     return null;
   }
 

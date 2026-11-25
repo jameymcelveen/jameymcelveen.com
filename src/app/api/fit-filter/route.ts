@@ -23,6 +23,8 @@ export const runtime = 'nodejs';
 
 interface FitFilterBody {
   jd?: string;
+  /** 'public' strips the private verdict, gates and angle (home page visitors). */
+  audience?: string;
 }
 
 function jsonError(message: string, status: number, extraHeaders?: HeadersInit) {
@@ -84,6 +86,14 @@ export async function POST(request: Request) {
     }
 
     const result = parseFitFilterJson(text);
+    if (body.audience === 'public') {
+      // Visitors get the keyword match and honest gaps only. The verdict, the
+      // comp gate and the apply/skip angle are Jamey's private read.
+      return NextResponse.json(
+        { result: { ats: result.ats, gaps: result.gaps } },
+        { headers: rateLimitHeaders }
+      );
+    }
     return NextResponse.json({ result }, { headers: rateLimitHeaders });
   } catch (err) {
     if (err instanceof FitFilterParseError) {
