@@ -4,17 +4,25 @@ Source of truth for Ask Jamey. Everything here is true and confirmed by Jamey. I
 
 ## The short version
 
+30-year software architect still chasing my passion.
+- Multi-tenant SaaS for 50,000 organizations
+- Payments API on AWS that stopped live fraud attacks
+- HIPAA clinical systems
+- Builds with AI every day
+
 I'm a principal-level software architect with about 30 years of building production software, most of it in .NET. I spent 25 years at ACS Technologies building church management software used by nearly 50,000 organizations, then worked on HIPAA clinical systems at McLeod Health and church giving and payments at SecureGive. I've managed engineers for at least 10 years and I still write code every day. Faith-based and healthcare software is where I'm most at home, because I like building things that help people help people.
 
 ## Work history (most recent first)
 
 ### Independent, 09/2024 to present
 Principal Software Architect, self-employed, Florence, SC.
-- **QikLog:** a multi-tenant log management SaaS I'm building solo from concept to production: .NET API, SignalR real-time streaming, OIDC sign-in, Stripe metered billing, and a fully green automated test suite.
+- **QikLog (qiklog.com):** a multi-tenant log management SaaS I'm building solo from concept to production: .NET API, SignalR real-time streaming, OIDC sign-in, Stripe metered billing, and a fully green automated test suite. Live demo at app.qiklog.com/tail/demo.
+- **Agent fleet:** I run a fleet of role-based Claude agents, each with a defined job and written rules, for code, planning and research. I write the spec and the test plan, the agents work inside those lanes, and every change gets my review before it ships. I'm also building a staged workflow "factory" to manage the fleet (in progress).
 - **Christ Medical:** I lead the volunteer build of an open-source patient records system (EMR) for medical mission clinics in Belize. My church's medical missions team goes several times a year. The app helps the team find a returning patient and track care from trip to trip, and it tracks spiritual needs as well as medical ones. ASP.NET Core, Next.js, PostgreSQL. christmedical.com, github.com/christmedical.
 - **Shipping with AI:** between late October and early November 2026 I built and launched bobsbounce.com, wattsgame.com, getbigtop.com and demo.onbigtop.com.
 - **Open source and practice projects:** jsctrls, a Delphi-inspired data layer for React with a Spring Boot demo server (github.com/jameymcelveen/jsctrls), and hello-mpc, a small MCP server in C# (github.com/jameymcelveen/hello-mpc).
-- **Ask Jamey:** this chat, built on my own site with the Anthropic API.
+- **Ask Jamey:** this chat, built on my own site with the Anthropic API: a cached system prompt and knowledge files, guardrails against invented answers and prompt injection, rate limiting, cost logging, and tests on the prompt.
+- **zx (zxcli.com):** a cross-platform developer CLI I wrote in Go, including an AI command that drafts scripts for review before anything runs.
 - In fall 2025 I also took a contract role through a staffing firm. It ran about three months, and the team delivered its project ahead of schedule.
 
 ### SecureGive, Senior Solutions Architect, 06/2023 to 07/2025
@@ -43,6 +51,7 @@ Florence, SC. Church management software: Realm, PDS and HeadMaster. (Except for
 - Led an in-place strangler migration of a CMS serving roughly 1,000 customer sites onto .NET.
 - Designed row-level-security multi-tenancy with zero-downtime tenant migration.
 - Co-invented Realm's Pathways discipleship feature.
+- Managed Parish Data Systems (PDS), church management software for Catholic parishes, and worked on HeadMaster, a school management system.
 - Helped start Scrum at ACS: trained in the in-house program, served on the first Scrum team, and was ACS's first Scrum Master. Later moved in and out of the Scrum Master role. Used Scrum and Kanban.
 - Used Jira from the start of Agile at ACS and integrated it with HipChat, Slack and GitHub.
 - **Why it ended:** laid off. ACS was trimming staff ahead of a sale, which then happened.
@@ -72,7 +81,7 @@ Florence, SC. Church management software: Realm, PDS and HeadMaster. (Except for
 
 - **Strongest:** C#, .NET and ASP.NET Core, SQL Server, PostgreSQL, REST and OpenAPI, multi-tenant SaaS architecture, AWS (EKS), CI/CD.
 - **Front end:** Vue is where I have the most professional experience. Angular at SecureGive. React and Next.js on my own projects (not yet at a paid job). React Native and Electron at SecureGive.
-- **Also:** TypeScript and JavaScript, Docker, Snowflake (as above), Java (Lyle's Data Systems and recent side projects; not daily), Go (zx, my own developer CLI at zxcli.com; a side project, not a paid job), Jira, Scrum, Kanban.
+- **Also:** TypeScript and JavaScript, Docker, Snowflake (as above), Java (Lyle's Data Systems and recent side projects; not daily), Go (zx, my own developer CLI at zxcli.com; a side project, not a paid job), Node.js (written for years, not yet shipped to production; my production back ends have been .NET), Jira, Scrum, Kanban.
 
 ## Honest gaps
 
@@ -82,6 +91,8 @@ If asked about these, say so plainly and bridge to the closest real experience:
 - No Agile or SAFe certifications (but real practice: first Scrum Master at ACS, SAFe at SecureGive).
 - No security clearance.
 - React has been personal projects only so far; Vue is my professional front end.
+- No Google Cloud, Azure or Cosmos DB; my cloud work is AWS.
+- My AI and agent work is on my own products, not yet at an employer.
 
 ## Other facts
 

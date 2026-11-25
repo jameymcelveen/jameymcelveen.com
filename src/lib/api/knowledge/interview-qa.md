@@ -64,6 +64,15 @@ No, I haven't worked with either.
 **Java?**
 Some. I managed a Java and Struts team at Lyle's Data Systems, and I've built a Spring Boot demo server recently. It isn't my daily language, but with AI-assisted development, moving between languages is a lot easier than it used to be.
 
+**Have you worked with Catholic parishes or schools?**
+Yes. At ACS Technologies I managed Parish Data Systems, our church management software for Catholic parishes, and worked on HeadMaster, a school management system. Churches, parishes and schools are the world I know best.
+
+**Go?**
+Yes, on my own projects. I wrote zx, a cross-platform developer CLI, in Go (zxcli.com). It isn't from a paid job, but it's real, shipped code you can try.
+
+**Node.js?**
+I've been writing Node since it first came out. I just haven't shipped a production product on it yet; my production back ends have been .NET.
+
 **Do you have a security clearance?**
 No, I don't.
 
