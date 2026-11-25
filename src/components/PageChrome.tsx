@@ -16,6 +16,10 @@ export function PageChrome({ children }: { children: React.ReactNode }) {
   if (isObscuredLabPath(pathname)) {
     return <div className="min-h-dvh">{children}</div>;
   }
+  if (pathname === '/') {
+    // Home is the chat-first page with its own top bar and footer bar.
+    return <div className="min-h-dvh">{children}</div>;
+  }
   if (pathname === '/ai') {
     return (
       <div className="flex min-h-dvh flex-col">
