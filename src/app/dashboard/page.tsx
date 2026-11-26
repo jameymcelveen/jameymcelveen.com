@@ -5,20 +5,15 @@ import {
   Area,
   AreaChart,
   CartesianGrid,
-  Cell,
-  Legend,
-  Pie,
-  PieChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
 } from 'recharts';
 import { VisitorMap } from '@/components/dashboard/VisitorMap';
+import { groupTrafficSources } from '@/lib/dashboard/traffic-sources';
 
 const nf = new Intl.NumberFormat();
-
-const PIE_COLORS = ['#522d80', '#f56600', '#0ea5e9', '#22c55e', '#d1d5db'];
 
 function formatBytes(n: number): string {
   if (!Number.isFinite(n) || n <= 0) return '0 B';
@@ -43,16 +38,6 @@ function formatAgo(iso: string): string {
   if (hr < 48) return `${hr} hr ago`;
   const d = Math.round(hr / 24);
   return `${d} days ago`;
-}
-
-function trafficLabel(source: string): string {
-  const s = source.toLowerCase();
-  if (s === '(direct)') return 'Direct';
-  if (s.includes('linkedin')) return 'LinkedIn';
-  if (s.includes('google.')) return 'Google';
-  if (s.includes('github')) return 'GitHub';
-  if (s.includes('bing.')) return 'Bing';
-  return source.length > 32 ? `${source.slice(0, 30)}…` : source;
 }
 
 function iso2ToFlag(iso: string | null | undefined): string {
@@ -173,15 +158,13 @@ export default function DashboardPage() {
   const topQ = questions?.items ?? [];
   const maxQ = useMemo(() => Math.max(1, ...topQ.map((r) => r.count)), [topQ]);
 
-  const pieData = useMemo(
-    () =>
-      (summary?.trafficSources ?? []).map((row) => ({
-        name: trafficLabel(row.source),
-        value: row.count,
-        percent: row.percent,
-      })),
-    [summary?.trafficSources]
-  );
+  const traffic = useMemo(() => {
+    const groups = groupTrafficSources(summary?.trafficSources ?? []);
+    const direct = groups.find((g) => g.label === 'Direct');
+    const referred = groups.filter((g) => g.label !== 'Direct');
+    const maxRef = Math.max(1, ...referred.map((g) => g.count));
+    return { direct, referred, maxRef, total: groups.reduce((n, g) => n + g.count, 0) };
+  }, [summary?.trafficSources]);
 
   const feedSlice = (feed?.items ?? []).slice(0, 6);
 
@@ -397,90 +380,61 @@ export default function DashboardPage() {
         <DashCard>
           <h3 className="text-foreground text-[0.95rem] font-semibold">Traffic Sources</h3>
           <p className="text-[var(--text-secondary)] mt-1 text-[0.8rem] leading-snug">Where visitors are coming from</p>
-          <div className="relative mx-auto mt-2 h-[220px] w-full max-w-[280px] sm:h-[240px]">
-            {chartReady && pieData.length ? (
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={pieData}
-                    dataKey="value"
-                    nameKey="name"
-                    cx="50%"
-                    cy="46%"
-                    innerRadius={72}
-                    outerRadius={108}
-                    paddingAngle={1}
-                  >
-                    {pieData.map((_, i) => (
-                      <Cell key={i} fill={PIE_COLORS[i % PIE_COLORS.length]} stroke="transparent" />
-                    ))}
-                  </Pie>
-                  <Tooltip
-                    formatter={(value, _name, item) => {
-                      const p = item?.payload as { percent?: number; name?: string } | undefined;
-                      return [`${p?.percent ?? 0}% · ${nf.format(Number(value ?? 0))}`, p?.name ?? ''];
-                    }}
-                    contentStyle={{
-                      background: 'rgba(255,255,255,0.94)',
-                      border: '1px solid rgba(0,0,0,0.08)',
-                      borderRadius: 10,
-                      fontSize: 12,
-                    }}
-                  />
-                  <Legend
-                    verticalAlign="bottom"
-                    height={44}
-                    formatter={(value) => <span className="text-[var(--text-secondary)] text-xs">{value}</span>}
-                  />
-                </PieChart>
-              </ResponsiveContainer>
-            ) : (
-              <p className="text-[var(--text-muted)] flex h-full items-center justify-center text-sm">
-                No referrer data yet.
+          {traffic.total ? (
+            <>
+              <p className="text-foreground mt-4 text-[0.87rem]">
+                <span className="text-[var(--accent-blue)] text-[1.6rem] font-semibold leading-none tracking-tight">
+                  {traffic.direct ? `${traffic.direct.percent}%` : '0%'}
+                </span>{' '}
+                <span className="text-[var(--text-secondary)]">
+                  direct (typed URL, bookmarks, apps that hide the referrer)
+                </span>
               </p>
-            )}
-          </div>
+              <p className="text-[var(--text-muted)] mt-4 mb-2 font-mono text-[0.68rem] tracking-[0.12em] uppercase">
+                Referred visits
+              </p>
+              {traffic.referred.length ? (
+                <ul className="space-y-2.5">
+                  {traffic.referred.map((g) => (
+                    <li key={g.label}>
+                      <div className="flex items-baseline justify-between gap-3 text-[0.87rem]">
+                        <span className="text-foreground truncate">{g.label}</span>
+                        <span className="text-[var(--text-secondary)] shrink-0 font-mono text-[0.78rem]">
+                          {nf.format(g.count)} · {g.percent}%
+                        </span>
+                      </div>
+                      <div className="mt-1 h-1.5 w-full overflow-hidden rounded-full bg-[var(--steel)]">
+                        <div
+                          className="h-full rounded-full bg-[var(--accent-blue)]"
+                          style={{ width: `${Math.max(4, (g.count / traffic.maxRef) * 100)}%` }}
+                        />
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-[var(--text-muted)] text-sm">Every visit so far arrived directly.</p>
+              )}
+            </>
+          ) : (
+            <p className="text-[var(--text-muted)] mt-4 text-sm">No referrer data yet.</p>
+          )}
         </DashCard>
 
         <DashCard>
-          <h3 className="text-foreground text-[0.95rem] font-semibold">Top Pages + Sources</h3>
-          <p className="text-[var(--text-secondary)] mt-1 text-[0.8rem] leading-snug">Most visited routes and referrers</p>
-          <div className="mt-5 grid gap-8 sm:grid-cols-2">
-            <div>
-              <p className="text-[var(--text-muted)] mb-3 font-mono text-[0.68rem] tracking-[0.12em] uppercase">Pages</p>
-              <ul>
-                {(summary?.topPages.length ? summary.topPages : []).slice(0, 6).map((row) => (
-                  <li key={row.path} className="flex items-center justify-between gap-3 border-b border-[var(--steel)]/80 py-2.5 text-[0.87rem] last:border-0">
-                    <span className="text-foreground truncate">{row.path}</span>
-                    <span className="text-[var(--accent-blue)] shrink-0 font-mono text-[0.78rem] font-semibold">
-                      {nf.format(row.views)}
-                    </span>
-                  </li>
-                ))}
-                {!summary?.topPages.length ? (
-                  <li className="text-[var(--text-muted)] text-sm">No page views yet.</li>
-                ) : null}
-              </ul>
-            </div>
-            <div>
-              <p className="text-[var(--text-muted)] mb-3 font-mono text-[0.68rem] tracking-[0.12em] uppercase">
-                Referrers
-              </p>
-              <ul>
-                {(summary?.trafficSources.length ? summary.trafficSources : []).slice(0, 6).map((row) => (
-                  <li key={row.source} className="flex items-center justify-between gap-3 border-b border-[var(--steel)]/80 py-2.5 text-[0.87rem] last:border-0">
-                    <span className="text-foreground truncate">{trafficLabel(row.source)}</span>
-                    <span className="text-[var(--accent-blue)] shrink-0 font-mono text-[0.78rem] font-semibold">
-                      {row.percent}%
-                    </span>
-                  </li>
-                ))}
-                {!summary?.trafficSources.length ? (
-                  <li className="text-[var(--text-muted)] text-sm">No referrer data yet.</li>
-                ) : null}
-              </ul>
-            </div>
-          </div>
+          <h3 className="text-foreground text-[0.95rem] font-semibold">Top Pages</h3>
+          <p className="text-[var(--text-secondary)] mt-1 text-[0.8rem] leading-snug">Most visited routes</p>
+          <ul className="mt-4">
+            {(summary?.topPages.length ? summary.topPages : []).slice(0, 8).map((row) => (
+              <li key={row.path} className="flex items-center justify-between gap-3 border-b border-[var(--steel)]/80 py-2.5 text-[0.87rem] last:border-0">
+                <span className="text-foreground truncate">{row.path}</span>
+                <span className="text-[var(--accent-blue)] shrink-0 font-mono text-[0.78rem] font-semibold">
+                  {nf.format(row.views)}
+                </span>
+              </li>
+            ))}
+            {!summary?.topPages.length ? <li className="text-[var(--text-muted)] text-sm">No page views yet.</li> : null}
+          </ul>
         </DashCard>
       </section>
 
