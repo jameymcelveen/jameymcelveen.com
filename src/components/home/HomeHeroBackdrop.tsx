@@ -5,10 +5,7 @@
  */
 export function HomeHeroBackdrop() {
   return (
-    <div
-      className="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
-      aria-hidden
-    >
+    <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden" aria-hidden>
       <div
         className="absolute -inset-[40%] opacity-[0.85]"
         style={{

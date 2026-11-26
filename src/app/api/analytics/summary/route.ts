@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { insightsAuthorized, insightsUnauthorized } from '@/lib/insights-auth';
 import { getAnalyticsPool, queryDashboardSummary } from '@/lib/api/analytics-events-db';
 
 export const dynamic = 'force-dynamic';
@@ -12,7 +13,8 @@ const empty = {
   database: null as { usedBytes: number; limitBytes: number } | null,
 };
 
-export async function GET() {
+export async function GET(request: Request) {
+  if (!insightsAuthorized(request)) return insightsUnauthorized();
   const updatedAt = new Date().toISOString();
   if (!getAnalyticsPool()) {
     console.error('[analytics] DATABASE_URL is not configured');

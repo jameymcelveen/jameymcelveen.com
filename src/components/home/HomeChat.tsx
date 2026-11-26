@@ -392,7 +392,9 @@ function Rich({ card, onFit }: { card: RichCard; onFit: (fit: FitResult) => void
   );
 }
 
-export function HomeChat({ skills }: { skills: string[] }) {
+export type HomePost = { slug: string; title: string; date: string };
+
+export function HomeChat({ skills, posts = [] }: { skills: string[]; posts?: HomePost[] }) {
   const [open, setOpen] = useState(false);
   const [lines, setLines] = useState<Line[]>([]);
   const [input, setInput] = useState('');
@@ -730,6 +732,27 @@ export function HomeChat({ skills }: { skills: string[] }) {
                 </button>
               ))}
             </div>
+
+            {posts.length > 0 ? (
+              <section className="hc-posts" aria-labelledby="hc-posts-title">
+                <div className="hc-sechead">
+                  <h2 id="hc-posts-title">From the blog</h2>
+                </div>
+                <ul className="hc-postlist">
+                  {posts.map((p) => (
+                    <li key={p.slug}>
+                      <Link className="hc-post" href={`/blog/${p.slug}`}>
+                        <span className="hc-post-title">{p.title}</span>
+                        <span className="hc-post-date">{p.date}</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+                <Link className="hc-posts-more" href="/blog">
+                  More posts →
+                </Link>
+              </section>
+            ) : null}
 
             <div className="hc-contact">
               <Link href="/resume">View resume</Link>

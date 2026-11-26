@@ -1,9 +1,11 @@
 import { NextResponse } from 'next/server';
+import { insightsAuthorized, insightsUnauthorized } from '@/lib/insights-auth';
 import { getAnalyticsPool, queryTopQuestions } from '@/lib/api/analytics-events-db';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET() {
+export async function GET(request: Request) {
+  if (!insightsAuthorized(request)) return insightsUnauthorized();
   if (!getAnalyticsPool()) {
     console.error('[analytics] DATABASE_URL is not configured');
     return NextResponse.json({ connected: false, items: [] });

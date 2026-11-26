@@ -7,7 +7,11 @@ import {
   trunc,
 } from '@/lib/api/analytics-insight-ingest';
 import { cleanCampaign } from '@/lib/campaign';
-import { getAnalyticsPool, insertAnalyticsEvent, type InsightEventType } from '@/lib/api/analytics-events-db';
+import {
+  getAnalyticsPool,
+  insertAnalyticsEvent,
+  type InsightEventType,
+} from '@/lib/api/analytics-events-db';
 
 interface EventBody {
   event?: string;
@@ -23,7 +27,10 @@ interface EventBody {
 
 export async function POST(request: Request) {
   if (!getAnalyticsPool()) {
-    return NextResponse.json({ ok: false, error: 'Analytics database not configured.' }, { status: 503 });
+    return NextResponse.json(
+      { ok: false, error: 'Analytics database not configured.' },
+      { status: 503 }
+    );
   }
 
   const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown';
@@ -39,7 +46,10 @@ export async function POST(request: Request) {
   }
 
   if (!isInsightEventType(body.event)) {
-    return NextResponse.json({ ok: false, error: 'Invalid or missing event type.' }, { status: 400 });
+    return NextResponse.json(
+      { ok: false, error: 'Invalid or missing event type.' },
+      { status: 400 }
+    );
   }
 
   const pagePath = trunc(body.page ?? null, 255) || (body.event === 'page_view' ? '/' : null);
@@ -49,7 +59,10 @@ export async function POST(request: Request) {
   }
 
   if (body.event === 'chip_click' && !String(body.chip_label ?? '').trim()) {
-    return NextResponse.json({ ok: false, error: 'chip_label required for chip_click.' }, { status: 400 });
+    return NextResponse.json(
+      { ok: false, error: 'chip_label required for chip_click.' },
+      { status: 400 }
+    );
   }
 
   const geo = resolveGeoForRequest(request);

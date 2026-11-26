@@ -1,14 +1,18 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { insightsHeaders, readInsightsKey } from '@/lib/insights-key';
 
 let cached: boolean | null = null;
 let inflight: Promise<boolean> | null = null;
 
 function fetchAvailable(): Promise<boolean> {
   if (cached !== null) return Promise.resolve(cached);
+  const key = readInsightsKey();
+  // The dashboard is private: only show the link to someone signed in on this tab.
+  if (!key) return Promise.resolve(false);
   if (!inflight) {
-    inflight = fetch('/api/analytics/summary', { cache: 'no-store' })
+    inflight = fetch('/api/analytics/summary', { cache: 'no-store', headers: insightsHeaders(key) })
       .then(async (res) => {
         if (!res.ok) return false;
         const data = (await res.json()) as { connected?: boolean };
@@ -24,7 +28,7 @@ function fetchAvailable(): Promise<boolean> {
   return inflight;
 }
 
-/** True only after the summary API reports a live database. Defaults false. */
+/** True only for a signed-in owner with a live database. Defaults false. */
 export function useInsightsAvailable(): boolean {
   const [show, setShow] = useState(cached === true);
   useEffect(() => {
