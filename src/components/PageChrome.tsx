@@ -3,6 +3,7 @@
 import { usePathname } from 'next/navigation';
 import { SiteFooter } from '@/components/SiteFooter';
 import { isObscuredLabPath } from '@/lib/fit-filter/path';
+import { isPaperPath } from '@/lib/is-paper-path';
 import { isResumePrintPath } from '@/lib/is-resume-print';
 
 /**
@@ -16,8 +17,8 @@ export function PageChrome({ children }: { children: React.ReactNode }) {
   if (isObscuredLabPath(pathname)) {
     return <div className="min-h-dvh">{children}</div>;
   }
-  if (pathname === '/') {
-    // Home is the chat-first page with its own top bar and footer bar.
+  if (isPaperPath(pathname)) {
+    // Home and the blog have their own top bar and footer bar.
     return <div className="min-h-dvh">{children}</div>;
   }
   if (pathname === '/ai') {

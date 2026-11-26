@@ -13,6 +13,7 @@ import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { isObscuredLabPath } from '@/lib/fit-filter/path';
+import { isPaperPath } from '@/lib/is-paper-path';
 import { isResumePrintPath } from '@/lib/is-resume-print';
 
 const AskJameyChatPanelLazy = dynamic(
@@ -64,7 +65,7 @@ function AskJameyBubbleHost({
   }, [open, onClose]);
 
   if (
-    pathname === '/' ||
+    isPaperPath(pathname) ||
     pathname === '/ai' ||
     isObscuredLabPath(pathname) ||
     isResumePrintPath(pathname)

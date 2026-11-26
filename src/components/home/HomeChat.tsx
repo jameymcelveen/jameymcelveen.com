@@ -610,6 +610,7 @@ export function HomeChat({ skills }: { skills: string[] }) {
           </span>
         </button>
         <nav className="hc-nav" aria-label="Site">
+          <Link href="/blog">Blog</Link>
           <Link href="/resume">Resume</Link>
           <a href="mailto:jamey@mcelveen.us">Contact</a>
           {showDashboard ? <Link href="/dashboard">Insights</Link> : null}

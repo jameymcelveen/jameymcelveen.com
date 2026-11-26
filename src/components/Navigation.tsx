@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { useAskJameyPanel } from '@/context/AskJameyPanelContext';
 import { isObscuredLabPath } from '@/lib/fit-filter/path';
 import { isResumePrintPath } from '@/lib/is-resume-print';
+import { isPaperPath } from '@/lib/is-paper-path';
 import { useInsightsAvailable } from '@/hooks/useInsightsAvailable';
 
 export function Navigation() {
@@ -13,7 +14,7 @@ export function Navigation() {
   const showDashboard = useInsightsAvailable();
 
   if (
-    pathname === '/' ||
+    isPaperPath(pathname) ||
     pathname === '/ai' ||
     isObscuredLabPath(pathname) ||
     isResumePrintPath(pathname)
