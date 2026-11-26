@@ -8,6 +8,8 @@ export default function robots(): MetadataRoute.Robots {
       disallow: [
         '/lab/',
         '/resume/print',
+        '/dashboard',
+        '/api/analytics',
         '/api/fit-filter',
         '/api/the-board',
         '/api/the-board/cron',

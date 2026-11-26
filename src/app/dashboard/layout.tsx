@@ -3,8 +3,8 @@ import type { ReactNode } from 'react';
 
 export const metadata: Metadata = {
   title: 'Site Insights | Jamey McElveen',
-  description:
-    'Public analytics for jameymcelveen.com — visits, Ask Jamey questions, and resume interest. Built in-house.',
+  description: 'Private analytics for jameymcelveen.com.',
+  robots: { index: false, follow: false, nocache: true },
 };
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
