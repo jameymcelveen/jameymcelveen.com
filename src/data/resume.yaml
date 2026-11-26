@@ -44,7 +44,7 @@ competencies:
   data: [MS SQL, PostgreSQL, Snowflake, Oracle, Redis]
   sql_performance: [Covering Indexes, RowVersion, RLS, Resource Governor]
   cloud_devops: [Kubernetes, EKS, Docker, Railway, Vercel, CI/CD]
-  frontend: [Next.js 15, React, Angular 8-15, Storybook, Tailwind, Vue.js]
+  frontend: [Vue.js, Angular 8-15, Next.js 15, React, Storybook, Tailwind]
   observability: [ELK Stack, Structured Logging, OpenTelemetry]
   compliance: [HIPAA, PHI Masking, BAA, TLS 1.2+, FinTech Audit]
   ai_tooling: [Cursor, Claude, LLM Workflows, Clean-Room PII Protocol]

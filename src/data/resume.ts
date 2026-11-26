@@ -329,7 +329,7 @@ export function getSkills() {
   const byKey = Object.fromEntries(getResume().competencies.map((c) => [c.key, c.items]));
   return {
     languages: byKey.languages ?? [],
-    frameworks: [...(byKey.apis ?? []), ...(byKey.architecture ?? []), ...(byKey.frontend ?? [])],
+    frameworks: [...(byKey.frontend ?? []), ...(byKey.apis ?? []), ...(byKey.architecture ?? [])],
     data: [...(byKey.data ?? []), ...(byKey.sql_performance ?? [])],
     tools: [
       ...(byKey.cloud_devops ?? []),
