@@ -22,6 +22,21 @@ summary_highlights:
   - 'fleets of AI agents'
   - 'Christ Medical'
 
+# Short summary: the headline and icon lines from the master resume.
+# Shown on /resume and on the printed resume. The long summary above stays for Ask Jamey and ATS text.
+# icon: users | card | ambulance | sparkles
+short_summary:
+  headline: 30-year software architect still chasing my passion.
+  highlights:
+    - icon: users
+      text: Multi-tenant SaaS for 50,000 organizations
+    - icon: card
+      text: Payments API on AWS that stopped live fraud attacks
+    - icon: ambulance
+      text: HIPAA clinical systems
+    - icon: sparkles
+      text: Builds with AI every day
+
 competencies:
   languages: [C#, .NET 9/Core, T-SQL, TypeScript, Go, Java, Node.js, C++]
   apis: [REST, WCF/SOAP, WS-Security, OpenAPI]

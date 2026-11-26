@@ -1,11 +1,11 @@
+/* Fallback page rules for when the paged preview does not run. Paged.js replaces them. */
 @page {
   size: letter;
   margin: 0.5in;
-  background: #fcfaf5;
 }
 
 .resume-print-root {
-  --rp-paper: #fcfaf5;
+  --rp-paper: #ffffff;
   --rp-ink: #2e2a26;
   --rp-rust: #b94700;
   --rp-hair: #d9d3ca;
@@ -15,14 +15,14 @@
 }
 
 body:has(.resume-print-root) {
-  background: #fcfaf5;
+  background: #ffffff;
 }
 
 .resume-print {
   max-width: 8.5in;
   margin: 0 auto;
   padding: 0.2in 0.3in 0.25in;
-  background: #fcfaf5;
+  background: #ffffff;
   color: #2e2a26;
   font-size: 9.5pt;
   line-height: 1.25;
@@ -90,9 +90,35 @@ body:has(.resume-print-root) {
 }
 
 .resume-print__summary {
+  margin: 0 0 0.14rem;
+  font-family: var(--font-resume-display), 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif;
+  font-size: 10.5pt;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.resume-print ul.resume-print__hl {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.06rem 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.resume-print li.resume-print__hl-item {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
   margin: 0;
   font-size: 9pt;
-  line-height: 1.28;
+}
+
+.resume-print__hl-icon {
+  width: 9pt;
+  height: 9pt;
+  flex: none;
+  color: #b94700;
 }
 
 .resume-print__skills {
@@ -244,7 +270,7 @@ body:has(.resume-print-root) {
   padding: 0.45rem 1.1rem;
   border-radius: 4px;
   border: 1px solid #d9d3ca;
-  background: #fcfaf5;
+  background: #ffffff;
   color: #2e2a26;
   cursor: pointer;
 }
@@ -255,7 +281,7 @@ body:has(.resume-print-root) {
   .resume-print-root {
     min-height: 0 !important;
     height: auto !important;
-    background: #fcfaf5;
+    background: #ffffff;
   }
 
   .no-print {
@@ -266,5 +292,108 @@ body:has(.resume-print-root) {
     max-width: none;
     margin: 0;
     padding: 0;
+  }
+}
+
+/* ---- Paged preview (Paged.js) ---- */
+
+/* Screen: a gray desk with white letter pages on it. */
+@media screen {
+  body:has(.resume-paged[data-paged='ready']) {
+    background: #e7e5e2;
+  }
+
+  .resume-paged[data-paged='ready'] .resume-print-root,
+  .resume-print-root:has(.resume-paged[data-paged='ready']) {
+    background: #e7e5e2;
+  }
+
+  .resume-paged__pages {
+    overflow-x: auto;
+  }
+
+  .resume-paged__pages .pagedjs_pages {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    padding: 32px 16px 96px;
+  }
+
+  .resume-paged__pages .pagedjs_page {
+    background: #ffffff;
+    box-shadow:
+      0 1px 3px rgba(0, 0, 0, 0.18),
+      0 10px 30px rgba(0, 0, 0, 0.12);
+  }
+}
+
+/* Until the pages are ready, show the plain resume. Once ready, show only the pages. */
+.resume-paged[data-paged='pending'] .resume-paged__pages,
+.resume-paged[data-paged='failed'] .resume-paged__pages {
+  position: absolute;
+  left: -10000px;
+  top: 0;
+}
+
+.resume-paged[data-paged='ready'] .resume-paged__source {
+  display: none;
+}
+
+/* Inside a page, the page box supplies the margins. */
+.pagedjs_page .resume-print {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+@media print {
+  .resume-paged[data-paged='ready'] .resume-paged__pages .pagedjs_pages {
+    padding: 0;
+    gap: 0;
+  }
+
+  .resume-paged[data-paged='ready'] .resume-paged__pages .pagedjs_page {
+    box-shadow: none;
+  }
+
+  /* Without this, Chrome adds a blank page after the last one. */
+  .resume-paged[data-paged='ready'] .resume-paged__pages .pagedjs_page:last-of-type {
+    break-after: auto !important;
+    page-break-after: auto !important;
+  }
+
+  next-route-announcer,
+  .resume-paged[data-paged='ready'] .resume-paged__source {
+    display: none !important;
+  }
+}
+
+/* The site-wide print rules in globals.css (body margin, heading sizes, rem size) are for
+   printing other pages. Undo them here so the printout matches the preview exactly. */
+@media print {
+  html:has(.resume-print-root) {
+    font-size: 16px !important;
+    line-height: normal !important;
+  }
+
+  body:has(.resume-print-root) {
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: inherit !important;
+    line-height: inherit !important;
+    background: #ffffff !important;
+  }
+
+  .resume-print h1.resume-print__lockup {
+    font-size: 22pt !important;
+    margin: 0 0 0.12rem !important;
+  }
+
+  .resume-print h2.resume-print__sec-title {
+    font-size: 8pt !important;
+    margin: 0 0 0.18rem !important;
+    padding-bottom: 0.08rem !important;
+    border-bottom: 1px solid #d9d3ca !important;
   }
 }
