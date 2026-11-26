@@ -2,6 +2,7 @@
 
 import { usePathname } from 'next/navigation';
 import { isObscuredLabPath } from '@/lib/fit-filter/path';
+import { isPaperPath } from '@/lib/is-paper-path';
 import { isResumePrintPath } from '@/lib/is-resume-print';
 
 /**
@@ -10,7 +11,7 @@ import { isResumePrintPath } from '@/lib/is-resume-print';
  */
 export function Background() {
   const pathname = usePathname();
-  if (pathname === '/' || isObscuredLabPath(pathname) || isResumePrintPath(pathname)) return null;
+  if (isPaperPath(pathname) || isObscuredLabPath(pathname) || isResumePrintPath(pathname)) return null;
 
   return (
     <div className="site-bg" aria-hidden>
