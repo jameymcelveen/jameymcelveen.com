@@ -29,6 +29,9 @@ const itemVariants = {
   },
 };
 
+/** Items per stack column before "More". */
+const STACK_PREVIEW = 5;
+
 type Branding = {
   primary: string;
   secondary: string;
@@ -76,7 +79,6 @@ export function ResumeView({
   resume,
   jobs,
   skills,
-  featuredSkills,
   engineering,
 }: {
   personalName: string;
@@ -86,8 +88,6 @@ export function ResumeView({
   resume: ResumePageData;
   jobs: WorkExperience;
   skills: Skills;
-  /** The short list shown before "More". */
-  featuredSkills: string[];
   engineering: Engineering;
 }) {
   const pathname = usePathname();
@@ -114,7 +114,10 @@ export function ResumeView({
     { title: 'Data', items: skills.data },
     { title: 'Tools & Methods', items: skills.tools },
   ];
-  const stackTotal = stackGroups.reduce((n, g) => n + g.items.length, 0);
+  const stackHidden = stackGroups.reduce(
+    (n, g) => n + Math.max(0, g.items.length - STACK_PREVIEW),
+    0
+  );
   const pill =
     'border-steel bg-surface text-accent-csharp rounded border px-2 py-0.5 font-mono text-xs';
 
@@ -220,45 +223,41 @@ export function ResumeView({
               <h2 className="text-accent mb-4 font-mono text-[10px] tracking-[0.18em] uppercase">
                 Technical stack
               </h2>
-              {stackOpen ? (
-                <div id="resume-stack" className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-                  {stackGroups.map((group) => (
-                    <div key={group.title}>
-                      <h3 className="text-foreground mb-2 text-xs font-medium sm:text-sm">
-                        {group.title}
-                      </h3>
-                      <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                        {group.items.map((skill) => (
+              <div id="resume-stack" className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+                {stackGroups.map((group) => (
+                  <div key={group.title}>
+                    <h3 className="text-foreground mb-2 text-xs font-medium sm:text-sm">
+                      {group.title}
+                    </h3>
+                    <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                      {(stackOpen ? group.items : group.items.slice(0, STACK_PREVIEW)).map(
+                        (skill) => (
                           <span key={skill} className={pill}>
                             {skill}
                           </span>
-                        ))}
-                      </div>
+                        )
+                      )}
                     </div>
-                  ))}
+                  </div>
+                ))}
+              </div>
+              {stackHidden > 0 ? (
+                <div className="mt-4 flex justify-end">
+                  <button
+                    type="button"
+                    className="text-accent inline-flex items-center gap-1 font-mono text-xs hover:underline"
+                    aria-expanded={stackOpen}
+                    aria-controls="resume-stack"
+                    onClick={() => setStackOpen((open) => !open)}
+                  >
+                    {stackOpen ? 'Less' : `More (+${stackHidden})`}
+                    <ChevronDown
+                      className={`h-3.5 w-3.5 transition-transform ${stackOpen ? 'rotate-180' : ''}`}
+                      aria-hidden
+                    />
+                  </button>
                 </div>
-              ) : (
-                <div id="resume-stack" className="flex flex-wrap gap-1.5 sm:gap-2">
-                  {featuredSkills.map((skill) => (
-                    <span key={skill} className={pill}>
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              )}
-              <button
-                type="button"
-                className="text-accent mt-4 inline-flex items-center gap-1 font-mono text-xs hover:underline"
-                aria-expanded={stackOpen}
-                aria-controls="resume-stack"
-                onClick={() => setStackOpen((open) => !open)}
-              >
-                {stackOpen ? 'Less' : `More (all ${stackTotal})`}
-                <ChevronDown
-                  className={`h-3.5 w-3.5 transition-transform ${stackOpen ? 'rotate-180' : ''}`}
-                  aria-hidden
-                />
-              </button>
+              ) : null}
             </motion.div>
 
             <motion.div variants={itemVariants} className="glass-card p-4 sm:p-6 md:col-span-2">
