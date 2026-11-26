@@ -61,7 +61,7 @@ export function BlogShell({ children }: { children: ReactNode }) {
         <nav className="hc-nav" aria-label="Site">
           <Link href="/blog">Blog</Link>
           <Link href="/resume">Resume</Link>
-          <a href="mailto:jamey@mcelveen.us">Contact</a>
+          <Link href="/contact">Contact</Link>
         </nav>
         <div className="hc-right">
           <Link href="/" className="hc-status bl-ask">

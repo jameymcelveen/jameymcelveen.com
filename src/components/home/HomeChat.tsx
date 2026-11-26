@@ -614,7 +614,7 @@ export function HomeChat({ skills, posts = [] }: { skills: string[]; posts?: Hom
         <nav className="hc-nav" aria-label="Site">
           <Link href="/blog">Blog</Link>
           <Link href="/resume">Resume</Link>
-          <a href="mailto:jamey@mcelveen.us">Contact</a>
+          <Link href="/contact">Contact</Link>
           {showDashboard ? <Link href="/dashboard">Insights</Link> : null}
           {showCoverLetters ? <Link href="/cover-letters">Cover Letters</Link> : null}
         </nav>
