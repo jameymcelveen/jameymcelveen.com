@@ -5,11 +5,17 @@ import { NextResponse } from 'next/server';
 
 /**
  * Password for the Site Insights dashboard and its data feeds.
- * INSIGHTS_PASSWORD wins; until it is set, the lab's BOARD_ADMIN_KEY works.
- * With neither set, the dashboard stays locked for everyone.
+ * First one set wins: INSIGHTS_PASSWORD, then ADMIN_PASSWORD (the team-wide shared
+ * variable Faith Wanted uses too), then the lab's BOARD_ADMIN_KEY.
+ * With none set, the dashboard stays locked for everyone.
  */
 function expectedPassword(): string {
-  return (process.env.INSIGHTS_PASSWORD || process.env.BOARD_ADMIN_KEY || '').trim();
+  return (
+    process.env.INSIGHTS_PASSWORD ||
+    process.env.ADMIN_PASSWORD ||
+    process.env.BOARD_ADMIN_KEY ||
+    ''
+  ).trim();
 }
 
 /** True when the request carries `Authorization: Bearer <password>`. */
