@@ -4,7 +4,7 @@ import { createHash, timingSafeEqual } from 'crypto';
 import { NextResponse } from 'next/server';
 
 /**
- * Password for the Site Insights dashboard and its data feeds.
+ * The admin password: /admin, the Site Insights dashboard and their data feeds.
  * First one set wins: INSIGHTS_PASSWORD, then ADMIN_PASSWORD (the team-wide shared
  * variable Faith Wanted uses too), then the lab's BOARD_ADMIN_KEY.
  * With none set, the dashboard stays locked for everyone.
@@ -32,7 +32,7 @@ export function insightsAuthorized(request: Request): boolean {
 
 export function insightsUnauthorized() {
   return NextResponse.json(
-    { error: 'Sign in on /dashboard first.' },
+    { error: 'Sign in on /admin first.' },
     { status: 401, headers: { 'Cache-Control': 'no-store' } }
   );
 }

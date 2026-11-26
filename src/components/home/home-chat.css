@@ -1026,6 +1026,12 @@ html[data-theme='dark']:has(.hc) {
     padding: 0 16px;
   }
 }
+/* Very narrow phones: the cube alone stands in for the name so the top bar fits. */
+@media (max-width: 440px) {
+  .hc-brand > span {
+    display: none;
+  }
+}
 @media (prefers-reduced-motion: reduce) {
   .hc *,
   .hc *::before,
