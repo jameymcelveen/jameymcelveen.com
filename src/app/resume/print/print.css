@@ -1,7 +1,8 @@
 @page {
   size: letter;
   margin: 0.5in;
-  background: #fcfaf5;
+  /* Paper is tan on screen (preview) only; printed pages are white. */
+  background: #fff;
 }
 
 .resume-print-root {
@@ -255,7 +256,20 @@ body:has(.resume-print-root) {
   .resume-print-root {
     min-height: 0 !important;
     height: auto !important;
-    background: #fcfaf5;
+    background: #fff !important;
+  }
+
+  .resume-print-root {
+    --rp-paper: #fff;
+  }
+
+  body:has(.resume-print-root),
+  .resume-print {
+    background: #fff !important;
+  }
+
+  .resume-print__print-btn {
+    background: #fff;
   }
 
   .no-print {
