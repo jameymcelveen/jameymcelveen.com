@@ -1,4 +1,4 @@
-import { getBranding } from '@/data';
+import { getBranding, getHomeData } from '@/data';
 import {
   getEngineering,
   getResume,
@@ -19,6 +19,7 @@ export default function ResumePage() {
       resume={getResumeData()}
       jobs={getWorkExperience()}
       skills={getSkills()}
+      featuredSkills={getHomeData().techStack}
       engineering={getEngineering()}
     />
   );

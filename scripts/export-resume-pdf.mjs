@@ -77,6 +77,8 @@ async function main() {
     });
     const page = await browser.newPage();
     await page.goto(`${origin}/resume/print`, { waitUntil: 'networkidle0' });
+    // The print page lays itself out as letter pages with Paged.js; wait until that is done.
+    await page.waitForSelector('.resume-paged[data-paged="ready"]', { timeout: 30_000 });
     await page.pdf({
       path: primaryPdf,
       printBackground: true,

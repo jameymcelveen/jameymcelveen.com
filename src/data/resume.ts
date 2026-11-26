@@ -195,6 +195,31 @@ function parseActiveProject(raw: unknown, path: string) {
   };
 }
 
+const SHORT_SUMMARY_ICONS = ['users', 'card', 'ambulance', 'sparkles'] as const;
+export type ShortSummaryIcon = (typeof SHORT_SUMMARY_ICONS)[number];
+
+function parseShortSummary(raw: unknown) {
+  const d = asRecord(raw, 'short_summary');
+  const list = d.highlights;
+  if (!Array.isArray(list) || list.length === 0) {
+    throw new Error('resume.yaml: short_summary.highlights must be a non-empty list');
+  }
+  return {
+    headline: asString(d.headline, 'short_summary.headline'),
+    highlights: list.map((item, i) => {
+      const path = `short_summary.highlights[${i}]`;
+      const h = asRecord(item, path);
+      const icon = asString(h.icon, `${path}.icon`);
+      if (!(SHORT_SUMMARY_ICONS as readonly string[]).includes(icon)) {
+        throw new Error(
+          `resume.yaml: ${path}.icon must be one of ${SHORT_SUMMARY_ICONS.join(', ')}`
+        );
+      }
+      return { icon: icon as ShortSummaryIcon, text: asString(h.text, `${path}.text`) };
+    }),
+  };
+}
+
 function parseResumeDocument(raw: unknown) {
   const d = asRecord(raw, 'root');
   const highlights = asStringList(d.summary_highlights, 'summary_highlights');
@@ -223,6 +248,7 @@ function parseResumeDocument(raw: unknown) {
     contact: parseContact(d.contact),
     summary: asString(d.summary, 'summary'),
     summaryHighlights: highlights as [string, string, string, ...string[]],
+    shortSummary: parseShortSummary(d.short_summary),
     competencies: parseCompetencies(d.competencies),
     experience: experienceRaw.map((item, i) => parseExperienceItem(item, `experience[${i}]`)),
     community: communityRaw.map((item, i) => parseCommunityItem(item, `community[${i}]`)),
@@ -259,6 +285,7 @@ export function getResumeData() {
     summaryHighlight1: h1,
     summaryHighlight2: h2,
     summaryHighlight3: h3,
+    shortSummary: r.shortSummary,
     subtitle: r.contact.availability,
     education: {
       degree: r.education.degree,

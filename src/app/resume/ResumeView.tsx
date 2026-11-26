@@ -1,11 +1,12 @@
 'use client';
 
 import { ObfuscatedEmail, ObfuscatedPhone } from '@/components/ObfuscatedContact';
+import { ShortSummary, type ShortSummaryData } from '@/components/ShortSummary';
 import { postInsightEvent } from '@/lib/site-analytics';
 import { motion } from 'framer-motion';
-import { FileDown, FileText, MapPin } from 'lucide-react';
+import { ChevronDown, FileDown, FileText, MapPin } from 'lucide-react';
 import { usePathname } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -39,6 +40,7 @@ type ResumePageData = {
   summaryHighlight1: string;
   summaryHighlight2: string;
   summaryHighlight3: string;
+  shortSummary: ShortSummaryData;
   subtitle: string;
   education: { degree: string; school: string; schoolMotto: string; notes: string };
   publication: { title: string; publisher: string; url?: string; description: string };
@@ -74,6 +76,7 @@ export function ResumeView({
   resume,
   jobs,
   skills,
+  featuredSkills,
   engineering,
 }: {
   personalName: string;
@@ -83,6 +86,8 @@ export function ResumeView({
   resume: ResumePageData;
   jobs: WorkExperience;
   skills: Skills;
+  /** The short list shown before "More". */
+  featuredSkills: string[];
   engineering: Engineering;
 }) {
   const pathname = usePathname();
@@ -102,6 +107,16 @@ export function ResumeView({
   }, [pathname]);
 
   const publication = resume.publication;
+  const [stackOpen, setStackOpen] = useState(false);
+  const stackGroups = [
+    { title: 'Languages', items: skills.languages },
+    { title: 'Frameworks', items: skills.frameworks },
+    { title: 'Data', items: skills.data },
+    { title: 'Tools & Methods', items: skills.tools },
+  ];
+  const stackTotal = stackGroups.reduce((n, g) => n + g.items.length, 0);
+  const pill =
+    'border-steel bg-surface text-accent-csharp rounded border px-2 py-0.5 font-mono text-xs';
 
   return (
     <>
@@ -156,44 +171,15 @@ export function ResumeView({
               <h2 className="text-accent mb-3 font-mono text-[10px] tracking-[0.18em] uppercase">
                 Summary
               </h2>
-              <p className="text-foreground-muted text-sm leading-relaxed sm:text-base">
-                {resume.summary
-                  .replace(resume.summaryHighlight1, `__H1__${resume.summaryHighlight1}__H1__`)
-                  .replace(resume.summaryHighlight2, `__H2__${resume.summaryHighlight2}__H2__`)
-                  .replace(resume.summaryHighlight3, `__H3__${resume.summaryHighlight3}__H3__`)
-                  .split('__H1__')
-                  .map((part, i) => {
-                    if (part.includes('__H2__')) {
-                      return part.split('__H2__').map((p, j) => {
-                        if (p.includes('__H3__')) {
-                          return p.split('__H3__').map((p2, k) =>
-                            k % 2 === 1 ? (
-                              <span key={`${i}-${j}-${k}`} style={{ color: branding.highlight }}>
-                                {p2}
-                              </span>
-                            ) : (
-                              p2
-                            )
-                          );
-                        }
-                        return j % 2 === 1 ? (
-                          <span key={`${i}-${j}`} className="text-foreground">
-                            {p}
-                          </span>
-                        ) : (
-                          p
-                        );
-                      });
-                    }
-                    return i % 2 === 1 ? (
-                      <span key={i} className="text-foreground">
-                        {part}
-                      </span>
-                    ) : (
-                      part
-                    );
-                  })}
-              </p>
+              <ShortSummary
+                summary={resume.shortSummary}
+                classes={{
+                  headline: 'text-foreground mb-3 text-base font-semibold sm:text-lg',
+                  list: 'grid gap-2 sm:grid-cols-2',
+                  item: 'text-foreground-muted flex items-center gap-2.5 text-sm sm:text-base',
+                  icon: 'text-accent h-4 w-4 shrink-0',
+                }}
+              />
             </motion.div>
 
             <motion.div variants={itemVariants} className="glass-card p-4 sm:p-6">
@@ -234,64 +220,45 @@ export function ResumeView({
               <h2 className="text-accent mb-4 font-mono text-[10px] tracking-[0.18em] uppercase">
                 Technical stack
               </h2>
-              <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-                <div>
-                  <h3 className="text-foreground mb-2 text-xs font-medium sm:text-sm">Languages</h3>
-                  <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                    {skills.languages.map((skill) => (
-                      <span
-                        key={skill}
-                        className="border-steel bg-surface text-accent-csharp rounded border px-2 py-0.5 font-mono text-xs"
-                      >
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
+              {stackOpen ? (
+                <div id="resume-stack" className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+                  {stackGroups.map((group) => (
+                    <div key={group.title}>
+                      <h3 className="text-foreground mb-2 text-xs font-medium sm:text-sm">
+                        {group.title}
+                      </h3>
+                      <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                        {group.items.map((skill) => (
+                          <span key={skill} className={pill}>
+                            {skill}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
                 </div>
-                <div>
-                  <h3 className="text-foreground mb-2 text-xs font-medium sm:text-sm">
-                    Frameworks
-                  </h3>
-                  <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                    {skills.frameworks.map((skill) => (
-                      <span
-                        key={skill}
-                        className="border-steel bg-surface text-accent-csharp rounded border px-2 py-0.5 font-mono text-xs"
-                      >
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
+              ) : (
+                <div id="resume-stack" className="flex flex-wrap gap-1.5 sm:gap-2">
+                  {featuredSkills.map((skill) => (
+                    <span key={skill} className={pill}>
+                      {skill}
+                    </span>
+                  ))}
                 </div>
-                <div>
-                  <h3 className="text-foreground mb-2 text-xs font-medium sm:text-sm">Data</h3>
-                  <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                    {skills.data.map((skill) => (
-                      <span
-                        key={skill}
-                        className="border-steel bg-surface text-accent-csharp rounded border px-2 py-0.5 font-mono text-xs"
-                      >
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-                <div>
-                  <h3 className="text-foreground mb-2 text-xs font-medium sm:text-sm">
-                    Tools & Methods
-                  </h3>
-                  <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                    {skills.tools.map((skill) => (
-                      <span
-                        key={skill}
-                        className="border-steel bg-surface text-accent-csharp rounded border px-2 py-0.5 font-mono text-xs"
-                      >
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
+              )}
+              <button
+                type="button"
+                className="text-accent mt-4 inline-flex items-center gap-1 font-mono text-xs hover:underline"
+                aria-expanded={stackOpen}
+                aria-controls="resume-stack"
+                onClick={() => setStackOpen((open) => !open)}
+              >
+                {stackOpen ? 'Less' : `More (all ${stackTotal})`}
+                <ChevronDown
+                  className={`h-3.5 w-3.5 transition-transform ${stackOpen ? 'rotate-180' : ''}`}
+                  aria-hidden
+                />
+              </button>
             </motion.div>
 
             <motion.div variants={itemVariants} className="glass-card p-4 sm:p-6 md:col-span-2">
