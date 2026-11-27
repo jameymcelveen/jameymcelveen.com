@@ -29,8 +29,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       url,
       publishedTime: `${post.date}T12:00:00Z`,
       authors: ['Jamey McElveen'],
+      ...(post.image
+        ? { images: [{ url: post.image, width: 1200, height: 627, alt: post.title }] }
+        : {}),
     },
-    twitter: { card: 'summary', title: post.title, description: post.summary },
+    twitter: {
+      card: post.image ? 'summary_large_image' : 'summary',
+      title: post.title,
+      description: post.summary,
+      ...(post.image ? { images: [post.image] } : {}),
+    },
   };
 }
 
@@ -49,7 +57,12 @@ export default async function BlogPostPage({ params }: Props) {
           {formatPostDate(post.date)} · {post.minutes} min read
         </div>
         <h1 className="bl-title">{post.title}</h1>
-        <hr className="bl-rule" />
+        {post.image ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img className="bl-hero" src={post.image} alt="" width={1200} height={627} />
+        ) : (
+          <hr className="bl-rule" />
+        )}
         <div className="bl-body" dangerouslySetInnerHTML={{ __html: post.html }} />
         <div className="bl-end">
           <span>Want to know more about my work?</span>

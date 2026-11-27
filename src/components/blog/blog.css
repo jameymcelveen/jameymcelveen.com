@@ -109,6 +109,15 @@
   border-top: 1.5px solid var(--line);
   margin: 24px 0 8px;
 }
+.bl-hero {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 22px 0 6px;
+  border: 1.5px solid var(--edge);
+  border-radius: 12px;
+  box-shadow: var(--pop);
+}
 .bl-body {
   font-size: 15.5px;
   line-height: 1.75;
