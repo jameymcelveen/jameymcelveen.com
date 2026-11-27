@@ -15,6 +15,8 @@ export type BlogPost = {
   draft: boolean;
   /** Optional header image, a site path such as /blog/name.png. Also used for link previews. */
   image?: string;
+  /** Optional dark-mode version of the header image, shown when the page is dark. */
+  imageDark?: string;
 };
 
 const POSTS_DIR = path.join(process.cwd(), 'src', 'content', 'blog');
@@ -30,6 +32,11 @@ function toDateString(value: unknown, fallback: string): string {
   }
   if (typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value.trim())) return value.trim();
   return fallback;
+}
+
+/** A local site path such as /blog/a.png; anything else (outside links) is ignored. */
+function sitePath(value: unknown): string | undefined {
+  return typeof value === 'string' && /^\/[\w./-]+$/.test(value.trim()) ? value.trim() : undefined;
 }
 
 /** Parse one post file. Returns null when the name or the header is not valid. */
@@ -61,10 +68,8 @@ export function parsePost(fileName: string, raw: string): BlogPost | null {
     html: md.parse(body, { async: false }),
     minutes: Math.max(1, Math.round(words / 220)),
     draft: front.draft === true,
-    image:
-      typeof front.image === 'string' && /^\/[\w./-]+$/.test(front.image.trim())
-        ? front.image.trim()
-        : undefined,
+    image: sitePath(front.image),
+    imageDark: sitePath(front.image_dark),
   };
 }
 

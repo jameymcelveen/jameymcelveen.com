@@ -3,6 +3,7 @@ title: How to stop card testers before Giving Tuesday
 date: 2026-11-27
 summary: Card testers run stolen card numbers through donation pages to see which ones work. Six simple checks that protect an online giving page without slowing down real donors.
 image: /blog/card-testers-header.png
+image_dark: /blog/card-testers-header-dark.png
 ---
 
 Giving Tuesday is next week. If you run an online giving page, here is something worth checking before then: card testers.

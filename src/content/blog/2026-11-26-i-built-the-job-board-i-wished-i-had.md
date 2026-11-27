@@ -2,6 +2,8 @@
 title: Built the job board I wished I had
 date: 2026-11-26
 summary: I have been looking for work for several months. I know I want to work where faith is part of the culture, and those jobs are hard to find. So I built a place to find them, and I need your help filling it.
+image: /blog/faith-wanted-header.png
+image_dark: /blog/faith-wanted-header-dark.png
 ---
 
 I've been looking for work for several months now. I won't dress it up. It's been hard.

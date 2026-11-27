@@ -58,8 +58,27 @@ export default async function BlogPostPage({ params }: Props) {
         </div>
         <h1 className="bl-title">{post.title}</h1>
         {post.image ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img className="bl-hero" src={post.image} alt="" width={1200} height={627} />
+          <>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              className={post.imageDark ? 'bl-hero bl-hero-light' : 'bl-hero'}
+              src={post.image}
+              alt=""
+              width={1200}
+              height={627}
+            />
+            {post.imageDark ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                className="bl-hero bl-hero-dark"
+                src={post.imageDark}
+                alt=""
+                width={1200}
+                height={627}
+                loading="lazy"
+              />
+            ) : null}
+          </>
         ) : (
           <hr className="bl-rule" />
         )}
