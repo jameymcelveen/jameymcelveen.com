@@ -13,6 +13,8 @@ export type BlogPost = {
   html: string;
   minutes: number;
   draft: boolean;
+  /** Optional header image, a site path such as /blog/name.png. Also used for link previews. */
+  image?: string;
 };
 
 const POSTS_DIR = path.join(process.cwd(), 'src', 'content', 'blog');
@@ -59,6 +61,10 @@ export function parsePost(fileName: string, raw: string): BlogPost | null {
     html: md.parse(body, { async: false }),
     minutes: Math.max(1, Math.round(words / 220)),
     draft: front.draft === true,
+    image:
+      typeof front.image === 'string' && /^\/[\w./-]+$/.test(front.image.trim())
+        ? front.image.trim()
+        : undefined,
   };
 }
 

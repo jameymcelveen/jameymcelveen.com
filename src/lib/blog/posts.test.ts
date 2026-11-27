@@ -46,6 +46,20 @@ describe('parsePost', () => {
     assert.equal(parsePost('2026-11-26-hello.md', '---\nsummary: x\n---\n\nBody.\n'), null);
   });
 
+  it('reads an optional header image and ignores outside links', () => {
+    const withImage = parsePost(
+      '2026-11-27-img.md',
+      '---\ntitle: Img\nimage: /blog/a.png\n---\n\nx\n'
+    );
+    assert.equal(withImage?.image, '/blog/a.png');
+    const outside = parsePost(
+      '2026-11-27-out.md',
+      '---\ntitle: Out\nimage: https://evil.test/a.png\n---\n\nx\n'
+    );
+    assert.equal(outside?.image, undefined);
+    assert.equal(parsePost('2026-11-26-hello-there.md', sample)?.image, undefined);
+  });
+
   it('drops raw HTML', () => {
     const post = parsePost(
       '2026-11-26-html.md',
