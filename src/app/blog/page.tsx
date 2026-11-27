@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { BlogShell } from '@/components/blog/BlogShell';
 import { formatPostDate, getAllPosts } from '@/lib/blog/posts';
@@ -33,13 +34,40 @@ export default function BlogIndexPage() {
         <ul className="bl-list">
           {posts.map((post) => (
             <li key={post.slug}>
-              <Link className="bl-card" href={`/blog/${post.slug}`}>
-                <div className="bl-meta">
-                  {formatPostDate(post.date)} · {post.minutes} min read
+              <Link
+                className={post.image ? 'bl-card bl-card-thumb' : 'bl-card'}
+                href={`/blog/${post.slug}`}
+              >
+                {post.image ? (
+                  <span className="bl-thumb" aria-hidden="true">
+                    <Image
+                      className={post.imageDark ? 'bl-thumb-light' : undefined}
+                      src={post.image}
+                      alt=""
+                      width={1200}
+                      height={627}
+                      sizes="(max-width: 600px) 100vw, 220px"
+                    />
+                    {post.imageDark ? (
+                      <Image
+                        className="bl-thumb-dark"
+                        src={post.imageDark}
+                        alt=""
+                        width={1200}
+                        height={627}
+                        sizes="(max-width: 600px) 100vw, 220px"
+                      />
+                    ) : null}
+                  </span>
+                ) : null}
+                <div className="bl-card-text">
+                  <div className="bl-meta">
+                    {formatPostDate(post.date)} · {post.minutes} min read
+                  </div>
+                  <h2>{post.title}</h2>
+                  {post.summary ? <p>{post.summary}</p> : null}
+                  <span className="bl-more">Read it</span>
                 </div>
-                <h2>{post.title}</h2>
-                {post.summary ? <p>{post.summary}</p> : null}
-                <span className="bl-more">Read it</span>
               </Link>
             </li>
           ))}
