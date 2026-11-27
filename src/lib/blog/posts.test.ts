@@ -58,6 +58,12 @@ describe('parsePost', () => {
     );
     assert.equal(outside?.image, undefined);
     assert.equal(parsePost('2026-11-26-hello-there.md', sample)?.image, undefined);
+    const both = parsePost(
+      '2026-11-27-both.md',
+      '---\ntitle: Both\nimage: /blog/a.png\nimage_dark: /blog/a-dark.png\n---\n\nx\n'
+    );
+    assert.equal(both?.imageDark, '/blog/a-dark.png');
+    assert.equal(withImage?.imageDark, undefined);
   });
 
   it('drops raw HTML', () => {

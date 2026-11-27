@@ -118,6 +118,24 @@
   border-radius: 12px;
   box-shadow: var(--pop);
 }
+/* Light and dark versions of a header image: show the one that matches the page. */
+.bl-hero-dark {
+  display: none;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .bl-hero-light {
+    display: none;
+  }
+  :root:not([data-theme='light']) .bl-hero-dark {
+    display: block;
+  }
+}
+:root[data-theme='dark'] .bl-hero-light {
+  display: none;
+}
+:root[data-theme='dark'] .bl-hero-dark {
+  display: block;
+}
 .bl-body {
   font-size: 15.5px;
   line-height: 1.75;
